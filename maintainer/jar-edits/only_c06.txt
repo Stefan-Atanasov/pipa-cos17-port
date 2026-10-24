@@ -1,0 +1,137 @@
+        hasEyeProtectEffective=
+ is not top:
+ same affinityIntent
+ startAr:
+$r8$lambda$W1R17P302TTbdBPRUro9ouvPrhA
+, dataPath=
+, dataVersion=
+, enabled=
+, firstEffective=
+, isNeedSensor=
+, systemPath=
+ACTION_WEIBO_PIC_IN_PIC
+BOOT_MONITOR_MODE_PMS_RESTORE
+BootMonitor systemui/launcher exit report failed
+DEFAULT_SPECIAL_SAFE_MODE_PACKAGE_SET
+Enabled system package for special safe mode: package=
+Failed to enable system package for special safe mode: 
+Failed to parse special safe mode packages; using defaults
+Failed to resolve special safe mode path 
+Filtered data package for special safe mode: package=
+Initialized special safe mode package snapshot: 
+Invalid special safe mode package in 
+KEEP_VISIBLE_UNDER_MULTIAPP_RESOLVER_PKGS
+Lcom/android/server/pm/PackageManagerServiceExtImpl$$ExternalSyntheticLambda10;
+Lcom/oplus/bootmonitor/BootAnomalyReporter;
+Ljava/util/ArrayList<Lcom/android/server/pm/PackageSetting;>;
+Ljava/util/Collection<Lcom/android/server/pm/PackageSetting;>;
+NEED_SKIP_FREEZE_SURFACE_ACTIVITIES
+NO_NEED_FINISH_ASSIST_LIST
+PROP_BOOT_MONITOR_MODE
+Preserving invalid data package for special safe mode: package=
+Registered special safe mode candidate: package=
+Sensors unregistered: screenOn=
+Skipped data scan file for special safe mode: package=
+Special safe mode boot snapshot: mode=
+Special safe mode candidate became ineligible: 
+Special safe mode data scan window closed
+TAG_SPECIAL_SAFE_MODE_PACKAGE
+activePackageSetting
+bootMonitorMode
+bootPackageSet
+buildSpecialSafeModeWritePackages
+canonicalDataPath
+canonicalScanFile
+canonicalSystemPath
+checkExecutingComponentWhenHookDisable
+checkExecutingComponentWhenHookDisable failed, force unfreeze uid= 
+com.kuaikan.comic
+com.sina.weibo.action_pic_in_pic
+com.tencent.KiHan
+com.tencent.mm/com.tencent.mm.plugin.flutter.ui.MMFlutterViewActivity
+com.tencent.news
+dataDirectory
+dataPackagePath
+dataPackageShadow
+disabledSystemPackageSetting
+enableSystemPackageForSpecialSafeMode
+enableSystemPackageForSpecialSafeModeIfNeeded
+enableSystemPackageLPw
+finishSpecialSafeModeDataScan
+firstPath
+getDisabledSystemPackagesForSpecialSafeModeWrite
+getDisabledSystemPkgLPr
+getEligibleSpecialSafeModeDataPath
+getPackageManagerServiceExtImpl
+getPackagesForSpecialSafeModeWrite
+getSpecialSafeModePackageSet
+getSystemPartitionDirectories
+handleExecutingComponent
+ignoreComponentAnrByScene for ServiceTimeOut uid=
+ignoreComponentAnrByScene for checkBumpServiceIfRestricted uid=
+initializeSpecialSafeModeForBoot
+initializeSpecialSafeModePackageSet
+invalidateSensorDataSnapshot
+isDynamicPackageSetValid
+isFromSystemUiQs
+isLandscapeDisplayRotation
+isLightOsLaunchedFromSystemUiQs
+isNeedSensor
+isPathWithin
+isSamePackagePath
+isSystemPartitionPath
+isUpdatedSystemPackagePair
+lambda$beforeSendDontKillPostDeleteMessage$9
+lambda$customScanRemovableDir$3
+lambda$getInstalledApplicationsAsUserExt$8
+lambda$getInstalledPackagesAsUserExt$7
+lambda$getSystemPartitionDirectories$2
+lambda$hookAfterSendPendingBroadcast$4
+lambda$optimizePackageActivities$6
+lambda$scanDirsLIOplus$5
+loadBounds
+mHasEyeProtectEffective
+mSpecialSafeModeBootPackageSet
+mSpecialSafeModeCandidatePackages
+mSpecialSafeModeDataDirectory
+mSpecialSafeModeDataPackagePaths
+mSpecialSafeModeDataPackageSettings
+mSpecialSafeModeDataScanActive
+mSpecialSafeModeEnabledForBoot
+mSpecialSafeModeLock
+mSpecialSafeModeSystemPackageSettings
+mSpecialSafeModeSystemPartitionDirectories
+maySwitchStateToMini skip for startActivity=
+nextPackageSet
+onAppAnr
+onBootMonitorProcessExitLocked
+onProcessCrash
+packageSettingShadows
+parsedPackages
+partitionDirectories
+partitionDirectory
+persist.sys.boot_monitor.mode
+playWithLinearVibrator: ringtone haptic unsupported, fallback to VIBRATE_WITH_RINGTONE
+playWithLinearVibrator: ringtone haptic unsupported, fallback to VIBRATE_WITH_RINGTONE, path=
+pms_restore
+registerSpecialSafeModeCandidate
+replacedPackageNames
+resolveExecutingComponent
+resolveExecutingComponent check isPendingFinishAttach error 
+sSpecialSafeModePackageSet
+secondPath
+shouldFilterSpecialSafeModeDataPackage
+shouldIgnoreExecutingComponent
+shouldKeepVisibleUnderMultiAppResolver
+shouldPreserveSpecialSafeModeDataPackage
+shouldSkipFreezeSurfaceIfNeed
+shouldSkipFreezeSurfaceIfNeed: top=
+shouldSkipSpecialSafeModeDataScanFile
+special_safe_mode_package
+systemPackageShadow
+systemPartitionDirectories
+systemPath
+transition snapshot
+updateTaskVisibility skip hide for 
+val$loadBounds
+~~D8{"backend":"dex","compilation-mode":"debug","has-checksums":false,"min-api":37,"platform":true,"sha-1":"3bec476bbff78407704bff11caa40ea817fcb8fa","version":"9.2.12-dev"}

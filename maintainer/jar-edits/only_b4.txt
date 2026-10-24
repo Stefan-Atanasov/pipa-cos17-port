@@ -1,0 +1,17 @@
+$r8$lambda$QrmJH2VYWXEUdUMiF2OkeAYRdo0
+Both color temperature regulation and comfortable rhythm disabled, sensors unregistered
+Logtrial isExternalInstallApk is true, show icon
+checkExecutingComponent failed, force unfreeze uid= 
+ignoreExecutingComponent
+invalidateSensorDataState
+isExecuting
+lambda$beforeSendDontKillPostDeleteMessage$8
+lambda$customScanRemovableDir$2
+lambda$getInstalledApplicationsAsUserExt$7
+lambda$getInstalledPackagesAsUserExt$6
+lambda$hookAfterSendPendingBroadcast$3
+lambda$optimizePackageActivities$5
+lambda$scanDirsLIOplus$4
+playWithLinearVibrator: ringtone haptic unsupported, fallback to EFFECT_NOTIFICATION_REMIND
+playWithLinearVibrator: ringtone haptic unsupported, fallback to EFFECT_NOTIFICATION_REMIND, path=
+val$drawBounds

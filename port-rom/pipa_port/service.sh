@@ -1,0 +1,408 @@
+#!/system/bin/sh
+# pipa_port runtime (after boot), started by init (/system_ext/etc/init/pipa_port.rc) as the
+# pipa_port service. Same code as the pipa_port module v1.3, with ROM paths: code read-only in
+# /system_ext/pipa_port, state in /data/misc/pipa_port. Merged from pipa_core 1.12 (face HAL, charger shim, pen wake
+# and keys, blur default) and power-tune v0.15 (face watchdog, pen watcher, colour/adaptive
+# restore, helper grants, keyboard event12 link). Everything beta5-2d has built in is gone.
+#
+# Log: /data/local/tmp/pipa_port.log (face/charger/pen daemons keep their own logs).
+MODDIR=/system_ext/pipa_port
+STATE=/data/misc/pipa_port
+LOG=/data/local/tmp/pipa_port.log
+. "$MODDIR/config.prop"
+[ -f "$STATE/config.prop" ] && . "$STATE/config.prop"   # user overrides
+
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG"
+}
+
+[ "$(getprop ro.product.device)" = pipa ] || exit 0
+
+# singleton (a manual test run must not double the watchers)
+PIDF=/data/local/tmp/pipa_port.pid
+old=$(cat "$PIDF" 2>/dev/null)
+if [ -n "$old" ] && [ "$old" != "$$" ] && \
+   tr '\0' ' ' < "/proc/$old/cmdline" 2>/dev/null | grep -q 'pipa_port/service.sh'; then
+    exit 0
+fi
+echo $$ > "$PIDF"
+
+if [ -f "$LOG" ] && [ "$(wc -c < "$LOG" 2>/dev/null || echo 0)" -gt 262144 ]; then
+    tail -n 400 "$LOG" > "$LOG.tmp" 2>/dev/null && mv -f "$LOG.tmp" "$LOG"
+fi
+
+until [ "$(getprop sys.boot_completed)" = 1 ]; do sleep 2; done
+log "start (build=$(getprop ro.build.display.id))"
+
+# ------------------------------------------------------------ SurfaceFlinger on big cores
+# Our kernel's OPPO UI First keeps SurfaceFlinger + RenderEngine (realtime) off the little cores only while a
+# sched_assist scene is set; on OPPO phones their vendor perf daemon sets it, pipa's Xiaomi vendor never does, so SF
+# composed on A55 cores and missed vblanks (2026-10-24 FrameTimeline: SF dropped frames -58 %, GPU-deadline misses
+# -52 %, +2 % power under heavy use). Set SA_GPU_COMPOSITION (1<<8) with SA_SCENE_OPT_SET (1<<7) once; it only
+# affects SF/RE placement. No such node on other kernels.
+SA_SCENE=/proc/sys/kernel/sched_assist_scene
+if [ "${SF_BIG_CORES:-1}" = 1 ] && [ -w "$SA_SCENE" ]; then
+    echo 384 > "$SA_SCENE" && log "sched_assist scene -> $(cat "$SA_SCENE") (SurfaceFlinger off the little cores)"
+fi
+
+# ------------------------------------------------------------ system_server animation threads as UX
+# android.anim holds the WindowManager lock while it animates (QS collapse, app launch): Settings waited 466 ms per 4
+# launches on it, and android.display waited for a CPU longer than it ran. ColorOS sets UX for app threads only;
+# mark these as animator UX (5.10 value 128|4) through the UI First ux_task node. Checked again in the main loop in
+# case system_server restarts.
+UX_TASK=/proc/oplus_scheduler/sched_assist/ux_task
+SS_PID=
+system_ux() {
+    p=$(pidof system_server) || return
+    [ "$p" = "$SS_PID" ] && return
+    for t in $(ls /proc/$p/task 2>/dev/null); do
+        case "$(cat /proc/$p/task/$t/comm 2>/dev/null)" in
+            android.anim|android.display|android.ui) echo "p $t 132" > "$UX_TASK" 2>/dev/null ;;
+        esac
+    done
+    SS_PID=$p
+    log "system_server $p: android.anim/display/ui -> UX"
+}
+[ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
+
+# ------------------------------------------------------------ full AOT compile of the UI apps
+# bg-dexopt compiles speed-profile (hot methods only); first showings (QS panel, Settings, launcher) then run partly
+# interpreted. dalvik.vm.systemuicompilerfilter=speed (product build.prop) keeps SystemUI at speed in later dexopts;
+# compile these once per ROM build, 3 minutes after boot, in the background. ART does not downgrade a speed compile in bg-dexopt.
+SPEED_STATE=$STATE/speed_compiled
+speed_compile() {
+    fp=$(getprop ro.build.fingerprint)$(getprop ro.system_ext.build.date.utc)
+    [ "$(cat "$SPEED_STATE" 2>/dev/null)" = "$fp" ] && return
+    sleep 180
+    for p in ${SPEED_APPS:-com.android.systemui com.android.settings com.oplus.wirelesssettings com.android.launcher}; do
+        cmd package compile -m speed -f "$p" </dev/null >/dev/null 2>&1 && log "compiled $p (speed)"
+    done
+    echo "$fp" > "$SPEED_STATE"
+}
+[ "${SPEED_COMPILE:-1}" = 1 ] && ( speed_compile ) &
+
+BL=/sys/class/backlight/panel0-backlight/brightness
+screen_on() {
+    b=$(cat "$BL" 2>/dev/null)
+    [ -n "$b" ] && [ "$b" != 0 ]
+}
+
+# ------------------------------------------------------------------- face HAL
+# facehal-rs lives in the module (/data) and runs with LD_LIBRARY_PATH: from /vendor/lib64
+# it would land in the vendor linker namespace and miss /system/lib64 deps of
+# libcamera2ndk_vendor.so. init's hal_face_default domain has no camera/GPU access, so it
+# runs as root. OpenCL: the 819 libs need the Khronos ICD loader + the vendor ICD manifest,
+# stock vendor needs the old monolithic loader; a mismatch makes TFLite fall back to GL,
+# which is single-thread only, and the HAL dies.
+# The HAL runs from a /data copy, exactly as from the module: the system linker namespace
+# permits /data but not arbitrary /system_ext subdirectories for LD_LIBRARY_PATH. Refreshed
+# when the ROM copy changes (VERSION = md5 list made at build time).
+FACE=$STATE/facehal
+FACE_BIN=$FACE/android.hardware.biometrics.face-service.facehal
+face_install() {
+    cmp -s "$MODDIR/facehal/VERSION" "$FACE/VERSION" && return
+    rm -rf "$FACE"
+    cp -a "$MODDIR/facehal" "$FACE" && log "facehal copied to $FACE"
+}
+
+face_running() {
+    [ "$(getprop init.svc.vendor.facehal)" = running ] && return 0
+    pgrep -f android.hardware.biometrics.face-service.facehal >/dev/null 2>&1
+}
+
+face_start() {
+    if [ -f /vendor/Khronos/OpenCL/vendors/adreno.icd ] && [ -f /vendor/lib64/libOpenCL_adreno.so ]; then
+        cl=libOpenCL.so.819
+    else
+        cl=libOpenCL.so.stock
+    fi
+    [ -f "$FACE/lib64/$cl" ] && cp -f "$FACE/lib64/$cl" "$FACE/lib64/libOpenCL.so"
+    mkdir -p /data/vendor_de/0/facedata/facehal/templates
+    chmod 0770 /data/vendor_de/0/facedata
+    chmod 0700 /data/vendor_de/0/facedata/facehal
+    chmod 0755 "$FACE_BIN" 2>/dev/null
+    # B7: libpipa_facecrop crops the enrollment preview to the square ColorOS view (src/facecrop.c)
+    LD_PRELOAD=$FACE/lib64/libpipa_facecrop.so LD_LIBRARY_PATH=$FACE/lib64:$FACE \
+        nohup "$FACE_BIN" >>/data/local/tmp/facehal.log 2>&1 &
+    log "facehal started pid=$! ($cl)"
+}
+
+if [ "${FACE_HAL:-1}" = 1 ]; then
+    (
+        face_install
+        sleep 6
+        setprop ctl.stop vendor.facehal
+        for p in $(pgrep -f android.hardware.biometrics.face-service.facehal); do kill -9 "$p"; done
+        sleep 1
+        face_start
+    ) &
+fi
+
+# --------------------------------------------------------------- charger shim
+# No vendor.oplus.hardware.charger.ICharger on pipa: ColorOS reads -1 everywhere and reports
+# an abnormal charger. ShimHost serves values from the qcom power_supply nodes; servicemanager
+# refuses a local binder for a VINTF-declared AIDL name, so ShimRegister registers it through
+# a cross-process proxy.
+if [ "${CHARGER_SHIM:-1}" = 1 ] && ! pgrep -f shim.ShimHost >/dev/null 2>&1; then
+    (
+        sleep 4
+        L=/data/local/tmp/chargershim.log
+        HALJAR=/system_ext/framework/vendor.oplus.hardware.charger-V12-java.jar
+        while true; do
+            ( sleep 3; CLASSPATH=$MODDIR/chargershim.jar:$HALJAR \
+                app_process /system/bin shim.ShimRegister >> $L 2>&1 ) &
+            CLASSPATH=$MODDIR/chargershim.jar:$HALJAR app_process /system/bin shim.ShimHost >> $L 2>&1
+            echo "$(date) charger shim host exited, restart in 5s" >> $L
+            sleep 5
+        done
+    ) &
+fi
+
+# ------------------------------------------------------------------- defaults
+# Written only when unset, so the user's own choice wins.
+if [ "${BLUR_DEFAULT:-1}" = 1 ] && [ "$(settings get system animationBlurrySwitch)" = null ]; then
+    settings put system animationBlurrySwitch 0 && log "animation blur default -> 0"
+fi
+if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(settings get secure stylus_buttons_enabled)" = null ]; then
+    settings put secure stylus_buttons_enabled 1
+    touch "$STATE/stylus_default_set"
+    log "stylus_buttons_enabled default -> 1"
+fi
+# The ROM's default-permissions entry only applies on a first boot.
+if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1; then
+    pm grant com.port.pipa.helper android.permission.POST_NOTIFICATIONS >/dev/null 2>&1
+    appops set com.port.pipa.helper SYSTEM_ALERT_WINDOW allow >/dev/null 2>&1
+    log "pipa helper: notification + overlay granted"
+fi
+
+# ------------------------------------------------- colour / adaptive / bedtime
+# ColorOS re-applies Vivid (256) at boot, and the Eye Protect app resets adaptive colour and
+# Bedtime (it checks OPPO's CCT sensor type, not the rerouted Xiaomi one). Remember the
+# user's choice in the loop below and put it back once here.
+COLOR_STATE=$STATE/color_mode
+ADAPTIVE_STATE=$STATE/adaptive_state
+BEDTIME_STATE=$STATE/bedtime_state
+sleep 15
+if [ "${COLOR_MODE_RESTORE:-1}" = 1 ] && [ -f "$COLOR_STATE" ]; then
+    want=$(cat "$COLOR_STATE"); now=$(settings get system display_color_mode)
+    [ -n "$want" ] && [ "$want" != "$now" ] && \
+        settings put system display_color_mode "$want" && log "colour mode $now -> $want restored"
+fi
+if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
+    if [ "$(cat "$ADAPTIVE_STATE" 2>/dev/null)" = 1 ]; then
+        for k in setting_enable_color_temperature_regulation oplus_customize_comfort_color_temperature_enable; do
+            [ "$(settings get system $k)" = 1 ] || settings put system $k 1
+        done
+        log "adaptive colour restored"
+    fi
+    if [ "$(cat "$BEDTIME_STATE" 2>/dev/null)" = 1 ]; then
+        for k in oplus_customize_rhythm_health_enable oplus_customize_comfortable_rhythm_enable; do
+            [ "$(settings get system $k)" = 1 ] || settings put system $k 1
+        done
+        log "bedtime mode restored"
+    fi
+fi
+
+remember_display() {
+    if [ "${COLOR_MODE_RESTORE:-1}" = 1 ]; then
+        cm=$(settings get system display_color_mode)
+        case "$cm" in ''|null) ;; *) [ "$cm" = "$(cat "$COLOR_STATE" 2>/dev/null)" ] || echo "$cm" > "$COLOR_STATE" ;; esac
+    fi
+    if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
+        av=$(settings get system setting_enable_color_temperature_regulation)
+        case "$av" in 0|1) [ "$av" = "$(cat "$ADAPTIVE_STATE" 2>/dev/null)" ] || echo "$av" > "$ADAPTIVE_STATE" ;; esac
+        # Bedtime is on if either the standalone or the Eye Comfort-dependent switch is on
+        case "$(settings get system oplus_customize_rhythm_health_enable)$(settings get system oplus_customize_comfortable_rhythm_enable)" in
+            *1*) bt=1 ;; *0*) bt=0 ;; *) bt= ;;
+        esac
+        [ -n "$bt" ] && [ "$bt" != "$(cat "$BEDTIME_STATE" 2>/dev/null)" ] && echo "$bt" > "$BEDTIME_STATE"
+    fi
+}
+
+# B7: facehal-rs adds persist.vendor.facehal.rotation to the camera orientation for every
+# preview frame but ignores the display rotation; on pipa the right extra turn is
+# 90 x display rotation. Only while a camera worker (a second facehal process) runs.
+FROT=$(getprop persist.vendor.facehal.rotation)
+face_rotation_sync() {
+    set -- $(pidof android.hardware.biometrics.face-service.facehal)
+    [ $# -gt 1 ] || return
+    r=$(dumpsys display 2>/dev/null | grep -m1 -o 'mCurrentOrientation=[0-3]')
+    r=${r#*=}
+    [ -n "$r" ] && [ "$((r * 90))" != "$FROT" ] || return
+    FROT=$((r * 90))
+    setprop persist.vendor.facehal.rotation $FROT
+    log "face preview rotation -> $FROT"
+}
+
+# B14: magnetic case. The hall is a SW_LID switch (gpio_keys hall_key), so Android's lid
+# handling works, but PhoneWindowManager only sleeps on close with global lid_behavior=1 and
+# SettingsProvider seeds 0 (config_lidControlsSleep=false). ColorOS's own "smart case" switch
+# (global device_case_enabled) waits for an OPPO hall sensor pipa lacks, so it does nothing:
+# let that switch drive lid_behavior instead.
+LIDB=$(settings get global lid_behavior)
+# Settings are persisted to this file within ~2 s of a change; a stat per second is cheap, a
+# `settings get` (app_process) is not, so read the switch only when the file changed.
+GLOBAL_XML=/data/system/users/0/settings_global.xml
+GMT=
+lid_check() {
+    m=$(stat -c %Y "$GLOBAL_XML" 2>/dev/null)
+    [ "$m" = "$GMT" ] && return
+    GMT=$m
+    lid_sync
+}
+lid_sync() {
+    case "$(settings get global device_case_enabled)" in 0) want=0 ;; *) want=1 ;; esac
+    [ "$want" = "$LIDB" ] && return
+    settings put global lid_behavior $want
+    LIDB=$want
+    log "smart case switch -> lid_behavior $want"
+}
+
+# ------------------------------------------------------------- keyboard link
+# xiaomi-keyboard only access()es /dev/input/event12 as its "keyboard present" flag; on pipa
+# the case never lands on event12, so link it there while attached.
+KB_LINK=/dev/input/event12
+kb_node() {
+    awk '/^N: Name=/ { kb = ($0 ~ /Name="(Xiaomi|Mi) (Keyboard|Consumer( Control)?|Touchpad)"/) }
+         /^H: Handlers=/ && kb { if (match($0, /event[0-9]+/)) { print substr($0, RSTART, RLENGTH); exit } }' \
+        /proc/bus/input/devices 2>/dev/null
+}
+kb_link() {
+    node=$(kb_node)
+    if [ -n "$node" ] && [ "$node" != event12 ]; then
+        if [ -L "$KB_LINK" ]; then
+            [ "$(readlink "$KB_LINK")" = "$node" ] && return
+            rm -f "$KB_LINK"
+        elif [ -e "$KB_LINK" ]; then
+            return
+        fi
+        ln -s "$node" "$KB_LINK" && chcon -h u:object_r:input_device:s0 "$KB_LINK" 2>/dev/null
+        log "keyboard on $node -> $KB_LINK linked"
+    elif [ -z "$node" ] && [ -L "$KB_LINK" ]; then
+        rm -f "$KB_LINK" && log "keyboard gone -> $KB_LINK removed"
+    fi
+}
+
+# ------------------------------------------------------------ keyboard guard
+# The nanosic driver registers its "Xiaomi Keyboard" input devices at probe, attached or not,
+# so xiaomi-keyboard always runs and polls the accelerometer ~7x/s: the SLPI never sleeps
+# and the SoC never reaches full power collapse (2026-10-24: SLPI asleep 27 % overnight).
+# Run it only while the MCU reports the keyboard connected (bit 0 of the keypad hall status,
+# asked for by a write to _version176x). Typing works without the daemon; it only does
+# the fold-behind auto-disable.
+KB_HALL=/sys/devices/virtual/nanodev/nanodev0/_version176x
+kb_attached() {
+    echo 1 > "$KB_HALL" 2>/dev/null || return 1
+    sleep 0.1
+    grep -q 'Connected=\[1\]' "$KB_HALL" 2>/dev/null
+}
+kb_guard() {
+    if kb_attached; then want=running; else want=stopped; fi
+    now=$(getprop init.svc.xiaomi-keyboard)
+    [ -z "$now" ] || [ "$now" = "$want" ] && return
+    if [ $want = running ]; then setprop ctl.start xiaomi-keyboard; else setprop ctl.stop xiaomi-keyboard; fi
+    log "keyboard $( [ $want = running ] && echo attached || echo absent ) -> xiaomi-keyboard $want"
+}
+[ "${KEYBOARD_GUARD:-1}" = 1 ] && [ -e "$KB_HALL" ] && kb_guard
+
+# ------------------------------------------------------------------------ pen
+# * Touch driver: novatek opens the NVTCapacitivePen input only with Touch_Pen_ENABLE set,
+#   and the flag must be re-armed after every screen-on.
+# * Buttons: pen_keys.sh maps the HID keys to actions (keys.conf).
+# * ColorOS only knows OPPO pens: send IPeManager the "pencil present" intent (strings, mac
+#   without colons), and while the pen is out of the dock set settings_enable_oppo_pencil so
+#   ColorOS's own stylus lock holds 120 Hz (ipePencilRateId in the ROM; the panel senses the
+#   pen only at 60/120 Hz). Dock = fuda/reverse_chg_hall4, 0 while docked, meaningful only
+#   while the pen is connected over BT.
+# * pipa_pen_state "<connected> <docked> <soc>" (or "0") for the pipa helper's pen pill; the
+#   soc is the reverse charger's reading, fresh only while docked.
+PEN_HALL=/sys/class/power_supply/fuda/reverse_chg_hall4
+PEN_SOC=/sys/class/power_supply/wireless/reverse_pen_soc
+IOCTL=$MODDIR/xiaomi_touch_ioctl
+PEN_LOG=/data/local/tmp/pipa_pen.log
+
+pen_connected() { grep -q 'Name="Xiaomi Smart Pen"' /proc/bus/input/devices 2>/dev/null; }
+pen_docked() { [ "$(cat "$PEN_HALL" 2>/dev/null)" = 0 ]; }
+pen_mac() {
+    awk '/^\[/ { m = $0 } /^Name = Xiaomi Smart Pen$/ { m = substr(m, 2, length(m) - 2); gsub(/:/, "", m); print tolower(m); exit }' \
+        /data/misc/bluedroid/bt_config.conf 2>/dev/null
+}
+pen_present() {
+    am startservice --user 0 -a com.oplus.ipemanager.action.PENCIL_STATUS_CHANGE \
+        -p com.oplus.ipemanager --es present "$1" --es macAddr "$(pen_mac)" --es pencilId 1 >/dev/null 2>&1
+    log "pen present=$1"
+}
+LOCK=
+pen_lock() {   # cached: no settings call unless the state changes
+    [ "$LOCK" = "$1" ] && return
+    settings put global settings_enable_oppo_pencil "$1"
+    LOCK=$1
+    log "pen stylus lock -> $1"
+}
+pen_wake() {
+    ok=1
+    for i in 1 2 3; do
+        "$IOCTL" pen on >/dev/null 2>&1 || ok=0
+        sleep 0.5
+    done
+    echo "$(date) pen on applied ok=$ok" >> "$PEN_LOG"
+    [ $ok = 1 ]
+}
+pen_keys_alive() {
+    p=$(cat /data/local/tmp/pipa_pen_keys.pid 2>/dev/null)
+    [ -n "$p" ] && tr '\0' ' ' < "/proc/$p/cmdline" 2>/dev/null | grep -q pen_keys.sh
+}
+pen_keys_start() {
+    pen_keys_alive && return
+    for p in $(pgrep -f 'getevent -lt /dev/input'); do kill -9 "$p" 2>/dev/null; done
+    nohup sh "$MODDIR/pen_keys.sh" >/dev/null 2>&1 &
+    echo "$(date) started pen_keys.sh" >> "$PEN_LOG"
+}
+
+[ "${PEN_WATCH:-1}" = 1 ] && pen_lock 0   # left over from a reboot with the pen out
+
+# ------------------------------------------------------------------ main loop
+# 1 s while the screen is on (an undocked pen must work at once), 5 s while it is off.
+armed=0; conn=; pub=; tick=0; resend=2; ct=0
+while true; do
+    if ! screen_on; then
+        armed=0
+        sleep 5
+        continue
+    fi
+    if [ "${PEN_WAKE:-1}" = 1 ] && [ $armed = 0 ] && [ -x "$IOCTL" ]; then
+        pen_wake && armed=1
+    fi
+    [ "${FACE_HAL:-1}" = 1 ] && face_rotation_sync
+    [ "${LID_SYNC:-1}" = 1 ] && lid_check
+    if [ "${PEN_WATCH:-1}" = 1 ]; then
+        if pen_connected; then c=1; else c=0; fi
+        if [ "$c" != "$conn" ]; then pen_present $c; conn=$c; resend=0; ct=$tick; fi
+        # The first message at boot is sometimes ignored (ColorOS's pen manager not ready yet and
+        # Settings then shows the stylus as not connected): send it again 10 s and 40 s later.
+        if [ $c = 1 ] && [ $resend -lt 2 ]; then
+            d=$((tick - ct))
+            if [ $resend = 0 ] && [ $d -ge 10 ]; then pen_present 1; resend=1
+            elif [ $resend = 1 ] && [ $d -ge 40 ]; then pen_present 1; resend=2; fi
+        fi
+        if [ $c = 1 ]; then
+            if pen_docked; then d=1; pen_lock 0; else d=0; pen_lock 1; fi
+            p="1 $d $(cat "$PEN_SOC" 2>/dev/null)"
+        else
+            p=0; pen_lock 0
+        fi
+        if [ "$p" != "$pub" ]; then settings put global pipa_pen_state "$p"; pub=$p; fi
+    fi
+    if [ $((tick % 3)) = 0 ]; then
+        [ "${PEN_KEYS:-1}" = 1 ] && pen_keys_start
+        [ "${KB_EVENT_LINK:-1}" = 1 ] && kb_link
+        [ "${KEYBOARD_GUARD:-1}" = 1 ] && [ -e "$KB_HALL" ] && kb_guard
+    fi
+    if [ $((tick % 15)) = 0 ]; then
+        remember_display
+        [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
+        [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
+    fi
+    tick=$((tick + 1))
+    sleep 1
+done

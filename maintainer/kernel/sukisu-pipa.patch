@@ -1,0 +1,122 @@
+diff --color -ruN -x .clangd a/kernel/ksu.c b/kernel/ksu.c
+--- a/kernel/ksu.c
++++ b/kernel/ksu.c
+@@ -87,8 +87,10 @@
+ #include "feature/sucompat.c"
+ #include "feature/sulog.c"
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+ #include "feature/selinux_hide.c"
+ #endif
++#endif
+ #include "feature/shell_su_adb_only.c"
+ #include "runtime/ksud.c"
+ 
+diff --color -ruN -x .clangd a/kernel/Makefile b/kernel/Makefile
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -43,9 +43,13 @@
+ KSU_GITHUB_VER   := $(shell $(CURL_BIN) -s "$(GITHUB_API_BASE)/releases/latest" 2>/dev/null | grep '"tag_name":' | sed -E 's/.*"v?([^"]+)".*/\1/')
+ GITHUB_COMMITS   := $(shell $(CURL_BIN) -sI "$(GITHUB_API_BASE)/commits?sha=$(REPO_BRANCH)&per_page=1" 2>/dev/null | grep -i "link:" | sed -n 's/.*page=\([0-9]*\)>; rel="last".*/\1/p')
+ LOCAL_COUNT     := $(if $(GITHUB_COMMITS),$(GITHUB_COMMITS),$(git_commit_count))
++# pipa-cos17: pinned (builtin 7f1c299a, merged from main cf41f112, count 3825); no git/API needed
++LOCAL_COUNT     := 3825
++KSU_GITHUB_VER  := 4.2.1
+ KSU_VERSION     := $(if $(LOCAL_COUNT),$(shell expr $(VERSION_BASE) + $(LOCAL_COUNT) - $(VERSION_OFFSET)),13000)
+ VERSION_TAG     := $(or $(KSU_GITHUB_VER),$(git_latest_tag),4.2.1)
+-KSU_VERSION_FULL := $(if $(call git_short_sha),v$(VERSION_TAG)-$(call git_short_sha)@$(call git_branch),v$(VERSION_TAG)-$(REPO_NAME)-unknown@unknown)
++KSU_VERSION_FULL := v4.2.1-7f1c299a@builtin
++KSU_VERSION_FULL_UNUSED := $(if $(call git_short_sha),v$(VERSION_TAG)-$(call git_short_sha)@$(call git_branch),v$(VERSION_TAG)-$(REPO_NAME)-unknown@unknown)
+ $(info -- $(REPO_NAME) version: $(KSU_VERSION) [$(KSU_VERSION_FULL)])
+ 
+ ccflags-y += -DKSU_VERSION=$(KSU_VERSION)
+diff --color -ruN -x .clangd a/kernel/policy/feature.c b/kernel/policy/feature.c
+--- a/kernel/policy/feature.c
++++ b/kernel/policy/feature.c
+@@ -7,7 +7,9 @@
+     [KSU_FEATURE_KERNEL_UMOUNT] = "kernel_umount",
+     [KSU_FEATURE_SULOG] = "sulog",
+     [KSU_FEATURE_ADB_ROOT] = "adb_root",
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+     [KSU_FEATURE_SELINUX_HIDE] = "selinux_hide",
++#endif
+     [KSU_FEATURE_SHELL_SU_ADB_ONLY] = "shell_su_adb_only",
+ };
+ 
+diff --color -ruN -x .clangd a/kernel/runtime/ksud.c b/kernel/runtime/ksud.c
+--- a/kernel/runtime/ksud.c
++++ b/kernel/runtime/ksud.c
+@@ -55,7 +55,9 @@
+     ksu_observer_init();
+     // sanity check, this may influence the performance
+     stop_input_hook();
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+     ksu_selinux_hide_handle_post_fs_data();
++#endif
+     // retry forced features which failed at second stage
+     ksu_feature_apply_forced();
+ }
+@@ -95,8 +97,10 @@
+     pr_info("on_boot_completed!\n");
+     track_throne(true);
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+     ksu_selinux_hide_drop_backup_if_unused();
+ #endif
++#endif
+ }
+ 
+ #define MAX_ARG_STRINGS 0x7FFFFFFF
+@@ -219,7 +223,9 @@
+             char buf[16];
+             if (check_argv(*argv, 1, "second_stage", buf, sizeof(buf))) {
+                 pr_info("/system/bin/init second_stage executed\n");
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+                 ksu_selinux_hide_handle_second_stage();
++#endif
+                 apply_kernelsu_rules();
+                 cache_sid();
+                 setup_ksu_cred();
+@@ -293,7 +299,9 @@
+         char buf[16];
+         if (!init_second_stage_executed && check_argv(*argv, 1, "second_stage", buf, sizeof(buf))) {
+             pr_info("/system/bin/init second_stage executed\n");
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+             ksu_selinux_hide_handle_second_stage();
++#endif
+             apply_kernelsu_rules();
+             cache_sid();
+             setup_ksu_cred();
+diff --color -ruN -x .clangd a/kernel/selinux/rules.c b/kernel/selinux/rules.c
+--- a/kernel/selinux/rules.c
++++ b/kernel/selinux/rules.c
+@@ -151,7 +151,7 @@
+ 
+ void apply_kernelsu_rules(void)
+ {
+-    struct selinux_policy *pol, *old_pol;
++    struct selinux_policy *pol __maybe_unused, *old_pol __maybe_unused; /* 5.10+ only */
+     struct policydb *db;
+ 
+     if (!getenforce()) {
+@@ -255,6 +255,11 @@
+ out_flush:
+     smp_mb();
+     reset_avc_cache();
++#ifdef CONFIG_KSU_SUSFS
++    /* pipa-cos17: upstream calls this only in the 5.10+ branch; without it susfs_zygote_sid stays 0 and the
++     * setresuid hook never recognises zygote (no manager fd, no umount/seccomp handling for apps) */
++    susfs_set_batch_sid();
++#endif
+ #endif
+ }
+ 
+@@ -526,7 +531,7 @@
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+ int handle_sepolicy(void __user *user_data, u64 data_len)
+ {
+-    struct selinux_policy *pol, *old_pol;
++    struct selinux_policy *pol __maybe_unused, *old_pol __maybe_unused; /* 5.10+ only */
+     struct policydb *db;
+     struct sepol_batch_cursor cursor;
+     u8 *payload;

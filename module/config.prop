@@ -1,0 +1,78 @@
+# pipa_cos17_power_tune config
+# 1 = enabled, 0 = leave the stock/port behaviour alone
+
+# Run /vendor/bin/xiaomi-keyboard only while a Xiaomi keyboard case is attached.
+# When no keyboard is present this daemon re-arms the accelerometer ~6x/second
+# (and burns ~100 log lines/sec) for nothing.
+KEYBOARD_GUARD=1
+
+# While the keyboard is attached, symlink /dev/input/event12 to its real event
+# node. xiaomi-keyboard uses that hard-coded path as its "keyboard present"
+# flag; without it the fold-back auto-disable never runs on pipa.
+KB_EVENT_LINK=1
+
+# Freeze AodBacklightDaemon (SIGSTOP) while Setting_AodSwitchEnable != 1,
+# resume it (SIGCONT) when AOD is enabled. Works with pipa_core's restart loop.
+AOD_GATE=1
+
+# Restart the face HAL from /data/adb/modules/pipa_core/facehal if it died.
+# Without this a single crash kills face unlock for the rest of the boot and
+# makes the framework retry ctl.interface_start once per second forever.
+FACE_WATCHDOG=1
+
+# com.pipa.faceunlock is the client for the old /data/system/facehal_socket
+# stack. Disable it only when that socket does not exist (i.e. the AIDL
+# facehal-rs HAL is in use). Re-enabled automatically if the socket exists.
+LEGACY_FACE_APP=1
+
+# Remember the screen colour mode you pick (e.g. Natural) and restore it after
+# boot; ColorOS sometimes resets it to the default 256 (Vivid) on boot.
+COLOR_MODE_RESTORE=1
+
+# Restore the Adaptive colour / Bedtime mode switches after boot. The
+# eyeprotect app resets both to 0 on every boot (it checks OPPO's CCT sensor
+# type directly and cannot see the framework reroute below). The guard saves
+# the last value and writes it back once the CCT sensor has data.
+ADAPTIVE_RESTORE=1
+
+# Adaptive colour / Bedtime mode: ColorOS requests OPPO's CCT sensor type
+# 33171001, which does not exist on pipa. The module replaces
+# /system/framework/oplus-services.jar with a copy where the ambient adapter
+# registers Xiaomi's tcs3701 "front CCT" sensor (33171088) instead. The patched
+# jar also feeds a fixed 100 lx into the ambience filter because the Xiaomi
+# sensor event reports CCT/chromaticity but no lux. Set to 0 and reboot to
+# restore the stock framework jar. One patched jar per ROM build is shipped in
+# framework/<md5 of that build's jar>.jar; other builds are left alone.
+FRAMEWORK_SENSOR_REROUTE=1
+
+# Bind the patched jar even if the ROM ships a prebuilt
+# /system/framework/oat/arm64/oplus-services.odex for the stock jar. Untested;
+# keep 0 unless you are testing with a backup at hand.
+FRAMEWORK_ALLOW_ODEX=0
+
+# Xiaomi Smart Pen: the panel only senses the pen at 60 or 120 Hz (no pen at
+# 144/90 Hz, e.g. on the lockscreen). Like HyperOS: pen in the dock = your normal
+# refresh range, pen out of the dock (and connected) = fixed 120 Hz. Your values
+# are saved and put back.
+PEN_REFRESH_CAP=1
+
+# Tell ColorOS's stylus manager (IPeManager) that a pen is connected while the
+# Xiaomi pen is connected over Bluetooth, so Settings shows it as a stylus.
+PEN_PRESENT=1
+
+# Publish the pen state (connected, docked, battery %) as global pipa_pen_state for
+# the pipa helper app, which shows the pen battery notification.
+PEN_PUBLISH=1
+
+# Set secure stylus_buttons_enabled=1 once if it is unset, so drawing apps see the
+# pen buttons (BUGS-TODO.md B12). A value you set yourself is kept.
+STYLUS_BUTTONS_DEFAULT=1
+
+# Main loop period in seconds. Keyboard/input check every tick, AOD and face
+# checks every 3rd tick.
+POLL=5
+
+# Display fixes are file replacements, not flags (they need a reboot anyway):
+#   system/vendor/etc/qdcm_calib_data_xiaomi_m82_*.xml   -> Natural colour mode = sRGB
+#   system/system_ext/etc/display_brightness_config_default.xml -> real brightness curve, min ~1 nit
+# To drop one, delete that file from /data/adb/modules/pipa_cos17_power_tune/system/... and reboot.

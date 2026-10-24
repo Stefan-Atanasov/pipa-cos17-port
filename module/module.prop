@@ -1,0 +1,6 @@
+id=pipa_cos17_power_tune
+name=Pipa COS17 Power & Polish Tune
+version=v0.15
+versionCode=15
+author=stefan (companion to pipa_core by 梦归zzz)
+description=Pen: fixed 120 Hz while out of the dock so it works everywhere incl. the lockscreen, shown as a stylus in Settings, pen buttons on by default, pen battery for the pipa helper app. Idle-drain and display fixes for the COS17 pipa port, alongside pipa_core: keyboard daemon only while the case is attached (+ event12 link for fold detection), AOD daemon frozen while AOD is off, face HAL watchdog, obsolete socket face client disabled, Natural colour mode = HyperOS sRGB matrix, HyperOS-style brightness slider and auto-brightness with a ~1 nit minimum, adaptive colour / Bedtime mode via the Xiaomi CCT sensor (with boot-time switch restore), working volume control for USB-C DACs/headsets, and correct speaker left/right in both landscape orientations.

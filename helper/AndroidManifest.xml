@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- pipa helper: port-side glue for ColorOS 17 on the Xiaomi Pad 6.
+     Installed as a system app (module system/app or ROM), so persistent="true" is honoured:
+     ActivityManager starts it at boot and never kills it. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.port.pipa.helper"
+    android:versionCode="4"
+    android:versionName="0.4">
+
+    <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
+
+    <!-- creating an AudioEffect on the global output mix -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- pen battery pop-ups (runtime permission; pre-granted in the ROM build) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- pen pill overlay (appop; pre-granted in the ROM build) -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- lid_behavior from the "lock with cover" switch (privapp whitelist in the ROM) -->
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <application
+        android:name=".HelperApp"
+        android:label="pipa helper"
+        android:persistent="true"
+        android:directBootAware="true"
+        android:hasCode="true"
+        android:allowBackup="false">
+        <!-- start path when installed as a normal app (testing); a system app starts as persistent -->
+        <receiver android:name=".BootReceiver" android:exported="false" android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

@@ -1,0 +1,59 @@
+# pipa_port feature switches (1 = on, 0 = off), ROM defaults. Override any of them in
+# /data/misc/pipa_port/config.prop (root) and reboot.
+
+# Face unlock: start facehal-rs as root (the init domain has no camera/GPU access)
+# and restart it if it dies.
+FACE_HAL=1
+
+# Fake OPPO charger HAL fed from the qcom power_supply nodes, so ColorOS does not
+# report an "abnormal charger".
+CHARGER_SHIM=1
+
+
+# Re-arm the pen in the touch driver after every screen-on (otherwise it stops working).
+PEN_WAKE=1
+
+# Pen body buttons -> actions (keys.conf).
+PEN_KEYS=1
+
+# Pen watcher: tell ColorOS a stylus is connected, lock 120 Hz while the pen is out of
+# the dock (the panel senses the pen only at 60/120 Hz), publish pen battery for the
+# pipa helper's pill.
+PEN_WATCH=1
+
+# Put back the colour mode, adaptive colour and Bedtime mode that ColorOS resets at boot.
+COLOR_MODE_RESTORE=1
+ADAPTIVE_RESTORE=1
+
+# Defaults written only when never set: animation blur off (drops frames on the SD870),
+# pen buttons merged into drawing apps (stylus_buttons_enabled=1).
+BLUR_DEFAULT=1
+STYLUS_BUTTONS_DEFAULT=1
+
+# Grant the pipa helper app its notification and overlay permissions.
+HELPER_GRANTS=1
+
+# Link /dev/input/event12 to the keyboard case while it is attached (xiaomi-keyboard
+# checks that exact name for fold detection).
+KB_EVENT_LINK=1
+
+# Run xiaomi-keyboard (fold detection, polls the accelerometer) only while the keyboard
+# case is connected; otherwise it keeps the sensor hub awake all night.
+KEYBOARD_GUARD=1
+
+# Keep SurfaceFlinger + RenderEngine off the little cores (sets the UI First kernel scene our vendor never sets).
+SF_BIG_CORES=1
+
+# system_server's android.anim / android.display / android.ui as UX (window animations hold the WM lock).
+SYSTEM_UX=1
+
+# Fully compile Settings, the Wi-Fi page and the launcher once per ROM build (SystemUI via
+# dalvik.vm.systemuicompilerfilter=speed). SPEED_APPS overrides the list.
+SPEED_COMPILE=1
+
+
+
+# Magnetic case: closing it turns the screen off while ColorOS's smart case switch is on
+# (Settings drives global lid_behavior).
+LID_SYNC=0   # the pipa helper (LidKeeper) does this instantly in the ROM
+

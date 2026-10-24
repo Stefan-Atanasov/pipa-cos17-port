@@ -1,0 +1,1441 @@
+## /my_engineering/build.prop  (-3 +3)  markers=0
+    -ro.oplus.image.my_engineering.date=2026-10-06 17:37:56
+    -ro.oplus.image.my_engineering.date.utc=1791279476
+    +ro.oplus.image.my_engineering.date=2026-09-19 02:07:57
+    +ro.oplus.image.my_engineering.date.utc=1789754877
+    -ro.oplus.image.my_engineering.version=version_stub.89fd056f
+    +ro.oplus.image.my_engineering.version=version_stub.3390e473
+## /my_manifest/build.prop  (-39 +40)  markers=10
+    -ro.odm.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.1218030_142fc66_1415373:user/release-keys
+    -ro.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.1218030_142fc66_1415373:user/release-keys
+    +ro.odm.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.3b6223c-156ee02-15799c7:user/release-keys
+    +ro.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.3b6223c-156ee02-15799c7:user/release-keys
+    -ro.build.product=OPD2515
+    +ro.build.product=pipa
+    -ro.product.vendor.device=OP6548L1
+    +ro.product.vendor.device=pipa
+    -ro.odm.build.version.incremental=B.1218030_142fc66_1415373
+    -ro.product.odm.device=OP6548L1
+    -ro.vendor.build.date.utc=1791284225
+    +ro.odm.build.version.incremental=B.3b6223c-156ee02-15799c7
+    +ro.product.odm.device=pipa
+    +ro.vendor.build.date.utc=1789815467
+    -ro.product.odm.name=OPD2515
+    -ro.odm.build.date.utc=1791284225
+    +ro.product.odm.name=pipa
+    +ro.odm.build.date.utc=1789815467
+    -ro.build.version.incremental=B.1218030_142fc66_1415373
+    -ro.bootimage.build.version.incremental=B.1218030_142fc66_1415373
+    -ro.product.bootimage.device=OP6548L1
+    +ro.build.version.incremental=B.3b6223c-156ee02-15799c7
+    +ro.bootimage.build.version.incremental=B.3b6223c-156ee02-15799c7
+    +ro.product.bootimage.device=pipa
+    -ro.bootimage.build.date.utc=1791284225
+    -ro.vendor.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.1218030_142fc66_1415373:user/release-keys
+    -ro.product.device=OP6548L1
+    -ro.bootimage.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.1218030_142fc66_1415373:user/release-keys
+    -ro.product.bootimage.name=OPD2515
+    -ro.vendor.oplus.market.name=OPD2515
+    +ro.bootimage.build.date.utc=1789815467
+    +ro.vendor.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.3b6223c-156ee02-15799c7:user/release-keys
+    +ro.product.device=pipa
+    +ro.bootimage.build.fingerprint=OPPO/OPD2515/OP6548L1:17/CP2A.260605.016/B.3b6223c-156ee02-15799c7:user/release-keys
+    +ro.product.bootimage.name=pipa
+    +ro.vendor.oplus.market.name=OPPO Pad Mini
+    -ro.odm.build.date=Tue Oct  6 18:57:05 CST 2026
+    +ro.odm.build.date=Sat Sep 19 18:57:47 CST 2026
+    -ro.product.name=OPD2515
+    +ro.product.name=pipa
+    -ro.vendor.build.date=Tue Oct  6 18:57:05 CST 2026
+    -ro.bootimage.build.date=Tue Oct  6 18:57:05 CST 2026
+    +ro.vendor.build.date=Sat Sep 19 18:57:47 CST 2026
+    +ro.bootimage.build.date=Sat Sep 19 18:57:47 CST 2026
+    -ro.vendor.build.version.incremental=B.1218030_142fc66_1415373
+    -ro.product.vendor.name=OPD2515
+    -ro.oplus.version.my_product=25928_1700_C.1.0.2026100616501640139927.69a9b3e3
+    +ro.vendor.build.version.incremental=B.3b6223c-156ee02-15799c7
+    +ro.product.vendor.name=pipa
+    +ro.oplus.version.my_product=25928_1700_C.1.0.2026091901202639793719.40682980
+    -ro.oplus.version.my_region=17.0.0372.2026092820392739991561.bf2cf516
+    -ro.build.display.id.show=OPD2515_17.0.0.103(CN01)
+    +ro.oplus.version.my_region=17.0.0372.2026090817450939589391.b007f60d
+    +ro.build.display.id.show=OPD2515_17.0.0.102(CN01)
+    -ro.build.version.oplusrom.display=17.0
+    +ro.build.version.oplusrom.display=17.0 | by梦归zzz
+    -ro.oplus.version.my_stock=0.1.0.94.2026100616501640139929.d2f2e43d
+    +ro.oplus.version.my_stock=0.1.0.65.2026091918270639810588.23a76773
+    -ro.oplus.version.base=.673ac688
+    +ro.oplus.version.base=.39b62237
+## /my_manifest/etc/my_product.map  (-1729 +1730)  markers=1
+    -//my_product/app/Aod/Aod.apk 10173-18282
+    -//my_product/app/Aod/lib/arm64/libVFX.so 18288-18670
+    -//my_product/app/Aod/lib/arm64/libhandpaintedeffects.so 18671-18720
+    -//my_product/app/Aod/lib/arm64/liboplus_gifdecoder.so 18721-18747
+    -//my_product/app/Aod/lib/arm64/liboplus_image_process.so 18748-18749
+    -//my_product/app/Aod/lib/arm64/liboplusos_lunar.so 18750-18752
+    -//my_product/app/Aod/oat/arm64/Aod.vdex 18753-18782
+    -//my_product/app/AudioEffectCenter/AudioEffectCenter.apk 18783-18923
+    -//my_product/app/AudioEffectCenter/oat/arm64/AudioEffectCenter.vdex 18924-18926
+    -//my_product/app/OplusCamera/OplusCamera.apk 18927-45002
+    -//my_product/app/OplusCamera/OplusCamera.apk.prof 45003-45007
+    -//my_product/app/OplusCamera/oat/arm64/OplusCamera.art 45032-45616
+    -//my_product/app/OplusCamera/oat/arm64/OplusCamera.odex 45617-46511
+    -//my_product/app/OplusCamera/oat/arm64/OplusCamera.vdex 46512-46617
+    -//my_product/app/PCEngine/PCEngine.apk 46620-51562
+    -//my_product/app/SmartMediaController/SmartMediaController.apk 51568-52158
+    -//my_product/app/SmartMediaController/oat/arm64/SmartMediaController.vdex 52159-52167
+    -//my_product/app/SogouInput_U_Product/SogouInput_U_Product.apk 52168-69007
+    -//my_product/app/SogouInput_U_Product/oat/arm64/SogouInput_U_Product.vdex 69020-69139
+    -//my_product/app/SwitchAccess/SwitchAccess.apk 69140-70639
+    -//my_product/app/WebViewGoogle64CN/WebViewGoogle64CN.apk 70642-109403
+    -//my_product/app/talkback/talkback.apk 109434-115014
+    -//my_product/cust/CN/media/speechassist/video/speechassist_boot_ai_chat_all_key_guide_medium.mp4 115022-115337
+    -//my_product/cust/CN/media/speechassist/video/speechassist_boot_ai_chat_xaiobu_suggest_key_guide_medium.mp4 115338-115555
+    -//my_product/cust/CN/media/speechassist/video/speechassist_boot_ai_chat_xiaobu_key_guide_medium.mp4 115556-115658
+    -//my_product/decouping_wallpaper/common/product_wallpaper1.webp 115678-116883
+    -//my_product/decouping_wallpaper/common/product_wallpaper2.webp 116884-118229
+    -//my_product/decouping_wallpaper/common/product_wallpaper3.webp 118230-119517
+    -//my_product/decouping_wallpaper/common/product_wallpaper4.webp 119518-120592
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1506.mp4 120596-121486
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1506_land.mp4 121487-122198
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1507_dark_purple.webp 122199-122639
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1507_dark_purple_home.webp 122640-122657
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1508_dark_green.webp 122658-123107
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1508_dark_green_home.webp 123108-123123
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1509_dark_pink.webp 123124-123574
+    -//my_product/decouping_wallpaper/common/wallpaper_group/00_ColorOS15/ColorOS1509_dark_pink_home.webp 123575-123589
+    -//my_product/decouping_wallpaper/common/wallpaper_group/11_Present/Present01.webp 123595-124380
+    -//my_product/decouping_wallpaper/common/wallpaper_group/11_Present/Present02.webp 124381-124712
+    -//my_product/decouping_wallpaper/common/wallpaper_group/11_Present/Present03.webp 124713-125172
+    -//my_product/decouping_wallpaper/common/wallpaper_group/12_WithTheLight/WithTheLight01.webp 125175-125277
+    -//my_product/decouping_wallpaper/common/wallpaper_group/ai_camera_movement/dataSource/ai_data1.mp4 125278-126452
+    -//my_product/decouping_wallpaper/common/wallpaper_group/ai_camera_movement/dataSource/ai_data1.webp 126453-127381
+    -//my_product/decouping_wallpaper/common/wallpaper_group/ai_camera_movement/dataSource/ai_data1_2d.mp4 127382-128051
+    -//my_product/decouping_wallpaper/common/wallpaper_group/ai_camera_movement/dataSource/ai_data1_2d.webp 128052-128161
+    -//my_product/decouping_wallpaper/common/wallpaper_group/ai_camera_movement/dataSource/ai_data1_3d.mp4 128162-128529
+    -//my_product/decouping_wallpaper/common/wallpaper_group/ai_camera_movement/dataSource/ai_data1_3d.webp 128530-128620
+    -//my_product/decouping_wallpaper/common/wallpaper_group/ai_camera_movement/guideVideo/guideVideo.mp4 128624-129305
+    -//my_product/decouping_wallpaper/common/wallpaper_group/boot_inspiration/theme_update_show_pad_land.mp4 129306-129380
+    -//my_product/decouping_wallpaper/common/wallpaper_group/boot_inspiration/theme_update_show_pad_port.mp4 129381-129550
+    -//my_product/decouping_wallpaper/common/wallpaper_group/coe2_coz_orbuculum/WallpaperVersionOS17.coz2 129551-129947
+    -//my_product/decouping_wallpaper/common/wallpaper_group/coe2_coz_weather/weather.coz2 129949-132047
+    -//my_product/decouping_wallpaper/default/default_multi_sys_wallpaper.png 132050-132571
+    -//my_product/decouping_wallpaper/default/default_wallpaper.webp 132572-133777
+    -//my_product/decouping_wallpaper/default/default_wallpaper_lock.webp 133778-134983
+    -//my_product/decouping_wallpaper/default/preview_0.png 134984-134987
+    -//my_product/decouping_wallpaper/default/preview_0_en.png 134988-134991
+    -//my_product/decouping_wallpaper/default/preview_1.png 134992-135076
+    -//my_product/decouping_wallpaper/default/preview_1_en.png 135077-135135
+    -//my_product/decouping_wallpaper/default/thumb.png 135136-135220
+## /my_manifest/etc/my_stock.map  (-879 +887)  markers=6
+    -//my_stock/app/AIMemory/AIMemory.apk 4-15024
+    -//my_stock/app/AIMemory/lib/arm64/libaiunit_sdk_core.so 15036-15037
+    -//my_stock/app/AIMemory/lib/arm64/libheytap_tapconnect_cipher.so 15038-15067
+    -//my_stock/app/AIMemory/lib/arm64/libheytaplog.so 15068-15077
+    -//my_stock/app/AIMemory/lib/arm64/libnaiveEngine.so 15078-15240
+    -//my_stock/app/AIMemory/lib/arm64/libquiche.so 15241-15496
+    -//my_stock/app/AIMemory/lib/arm64/libscan_engine_decode.so 15497-15968
+    -//my_stock/app/AIMemory/lib/arm64/libscan_engine_detect.so 15969-16317
+    -//my_stock/app/AIMemory/lib/arm64/libsenz.so 16318-16381
+    -//my_stock/app/AIMemory/lib/arm64/libsqlcipher.so 16382-17108
+    -//my_stock/app/AIMemory/lib/arm64/libtensorflowlite.so 17109-17463
+    -//my_stock/app/AIMemory/lib/arm64/libwb_tables_549543368749780587_1.so 17464-17477
+    -//my_stock/app/AIMemory/lib/arm64/libwbkit-seckit3.so 17478-17492
+    -//my_stock/app/AIMemory/oat/arm64/AIMemory.vdex 17496-17634
+    -//my_stock/app/AIWidgets/AIWidgets.apk 17635-18196
+    -//my_stock/app/AIWidgets/oat/arm64/AIWidgets.vdex 18198-18207
+    -//my_stock/app/AIWriter/AIWriter.apk 18208-22419
+    -//my_stock/app/AIWriter/oat/arm64/AIWriter.vdex 22424-22498
+    -//my_stock/app/ARCore/ARCore.apk 22499-22780
+    -//my_stock/app/AssistantScreen/AssistantScreen.apk 22781-36090
+    -//my_stock/app/AssistantScreen/oat/arm64/AssistantScreen.vdex 36103-36266
+    -//my_stock/app/BaseOcrScanner/BaseOcrScanner.apk 36267-37055
+    -//my_stock/app/BaseOcrScanner/oat/arm64/BaseOcrScanner.vdex 37057-37066
+    -//my_stock/app/Browser/Browser.apk 37067-77559
+    -//my_stock/app/Browser/oat/arm64/Browser.vdex 77593-78023
+    -//my_stock/app/COSA/COSA.apk 78024-79671
+    -//my_stock/app/COSA/oat/arm64/COSA.vdex 79674-79705
+    -//my_stock/app/CardService/CardService.apk 79706-82609
+    -//my_stock/app/CardService/oat/arm64/CardService.vdex 82613-82660
+    -//my_stock/app/ChildrenSpace/ChildrenSpace.apk 82661-88751
+    -//my_stock/app/ChildrenSpace/oat/arm64/ChildrenSpace.vdex 88756-88784
+    -//my_stock/app/CloudService/CloudService.apk 88785-95342
+    -//my_stock/app/ColorAccessibilityAssistant/ColorAccessibilityAssistant.apk 95347-101213
+    -//my_stock/app/ColorAccessibilityAssistant/oat/arm64/ColorAccessibilityAssistant.vdex 101220-101289
+    -//my_stock/app/ColorDirectService/ColorDirectService.apk 101290-114038
+    -//my_stock/app/ColorDirectService/lib/arm64/libACRCloudUniversalEngine.so 114047-114073
+    -//my_stock/app/ColorDirectService/lib/arm64/libCutoutEffect.so 114074-114107
+    -//my_stock/app/ColorDirectService/lib/arm64/libSlpBase.so 114108-114178
+    -//my_stock/app/ColorDirectService/lib/arm64/libSlpCws.so 114179
+    -//my_stock/app/ColorDirectService/lib/arm64/libSlpParticiple.so 114180-114183
+    -//my_stock/app/ColorDirectService/lib/arm64/libads-c.so 114184-114185
+    -//my_stock/app/ColorDirectService/lib/arm64/libaiunit_sdk_core.so 114186-114187
+    -//my_stock/app/ColorDirectService/lib/arm64/libbase.so 114188-114319
+    -//my_stock/app/ColorDirectService/lib/arm64/libcws.so 114320-114510
+    -//my_stock/app/ColorDirectService/lib/arm64/libdatastore_shared_counter.so 114511
+    -//my_stock/app/ColorDirectService/lib/arm64/libgallery_fileextender.so 114512-114609
+    -//my_stock/app/ColorDirectService/lib/arm64/libheytaplog.so 114610-114619
+    -//my_stock/app/ColorDirectService/lib/arm64/libimage-crop.so 114620-115032
+    -//my_stock/app/ColorDirectService/lib/arm64/libnaiveEngine.so 115033-115195
+    -//my_stock/app/ColorDirectService/lib/arm64/liboplus_conscrypt_jni.so 115196-115473
+    -//my_stock/app/ColorDirectService/lib/arm64/libopluslog.so 115474-115482
+    -//my_stock/app/ColorDirectService/lib/arm64/libpaint.so 115483-116314
+    -//my_stock/app/ColorDirectService/lib/arm64/libsenz.so 116315-116378
+    -//my_stock/app/ColorDirectService/lib/arm64/libslpAuth.so 116379-116438
+    -//my_stock/app/ColorDirectService/lib/arm64/libsmart_read_engine.so 116439-117003
+    -//my_stock/app/ColorDirectService/lib/arm64/libvfxmagicediteffect.so 117004-117053
+    -//my_stock/app/Colorx/Colorx.apk 117055-119634
+    -//my_stock/app/Colorx/oat/arm64/Colorx.vdex 119638-119647
+    -//my_stock/app/DigitalWellBeing/DigitalWellBeing.apk 119648-122512
+    -//my_stock/app/DigitalWellBeing/oat/arm64/DigitalWellBeing.vdex 122516-122562
+## /my_manifest/etc/odm.map  (-1459 +1075)  markers=3
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1046464538.json 164463
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1053403856.json 164464
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1059030141.json 164465
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1116214464.json 164466
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1163279747.json 164467
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1220741049.json 164468
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1239733894.json 164469
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1252036376.json 164470
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1282439162.json 164471
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1308706119.json 164472
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1326846398.json 164473
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1398351725.json 164474
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1418661328.json 164475
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1505288016.json 164476
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1549315559.json 164477
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1559850412.json 164478
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1571857532.json 164479
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1575550540.json 164480
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1595263502.json 164481
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1617985627.json 164482
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_166452884.json 164483
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_166472600.json 164484
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1665495712.json 164485
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_170938161.json 164486
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1737481681.json 164487
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1752187630.json 164488
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1792153798.json 164489
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_181616266.json 164490
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1823133366.json 164491
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1832946120.json 164492
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1915868526.json 164493
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1917293917.json 164494
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_1993548954.json 164495
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_203183798.json 164496
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2037617428.json 164497
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2047581025.json 164498
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2095927102.json 164499
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2099453257.json 164500
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2107862386.json 164501
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2141472298.json 164502
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2145683800.json 164503
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2145899387.json 164504
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2156473094.json 164505
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2171080906.json 164506
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2239453803.json 164507
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_225590683.json 164508
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2294468521.json 164509
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2319122315.json 164510
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2319864574.json 164511
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2445437452.json 164512
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2558487747.json 164513
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2578808847.json 164514
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2592972785.json 164515
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2619957396.json 164516
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2690990302.json 164517
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2697126050.json 164518
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2701367584.json 164519
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2703376160.json 164520
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_270970801.json 164521
+    -//odm/etc/precache/com.android.launcher/re/cachemiss_settings_2711614353.json 164522
+## /my_manifest/etc/oplus/prerom_tempres/temp_res  (-9388 +7500)  markers=0
+    -��{=��{zE�`��,��ʿj=C�V�;h�W��S���ʹ�����J���I���|3I1�X1
+    -(���aQ�I�%O��������_���I������@CV,�
+    +��{=��{zE�`�q$�����:d<C�V�Smk�
+    +��^�W��ͽ̅���HE������)36�_1
+    +(���aQ�I�%O�����������I������@CV,�
+    -O�զ��4=rE��U^�T�z�J�������ބsW
+    +O�զ��4=rEy�[^�T�z�J�������ބsW
+    -�|����3�ߕ��k�5
+    +�|����3�ߕf�e�5
+    -����ƛ~̏�mY��$���V�,�hvU�c'��ԕd��oYS�j�W/���ŧ�ð'�y�)=m�«�C`��!+u*$�&T� ��{XT����%,⚇5S,��P��J�y�c�
+    +����ƛ~̏�mY��$���V�,�fvU�c'��ԕd��oYS�j�W/���ŧ�ð'�y�)=m�«�C`��!+u*$�&T� ��{XT����%,⚇5S,��P��J�y�c�
+    -�����^a��)\9Ic��4�x
+    -���r?Ê���Խϔ�X&e��Q� ��>���,��w���-z��t,�����m{�G'O���Bs��L�n\�Dt
+    -L��s�Î����#�̿�0O���>���^N��]O-T�3lZ
+    -���FǲZ�{[�-7�+�.���� c��>�syJ�
+    -[�
+    -G�h6j�<����ן՚ٜ)���ޘ}.o.��k
+    -4�Ci�O�
+    -��	GJ]S�����
+    -U��.3C��聸��m���<w�
+    -��)��-��!2��+����QS���殢�所��ں�{�am
+    -� f��l�܄ª�;a�Ax��eE�2��������ѧKd<���g��Y/'�]�<	}kG�&�N�j����\�+Fל2��>YbX.�ڸ��w<�
+    -�aL�MV['��j�o�BrQ��<YTq��
+    -�����^݂좬�t^#�n��$��������B<<���5r@MǪi?�
+    -nA��
+    -�Ѱ�6���̓]}'O�2���
+    -��v��o�6km?��T���
+    -Ds\Xw��|�@u�"":ÇBI��Eq��I>�xN+����
+    -sT�s?�]W�"��]$�h$��ǆ�x�x��}O�tQ�n�;�@z݉���}���b��c�;"�P_��
+    -j4����ρ0����eC��?�P�c*P�и��2 2���f���3&���
+    -D����z�(�"Ύ/�33���J�Hջ�X�3%���V����B��
+    -aq5P��gH����^�I4,���\2��������t?J�Ѻ
+    -�l�'�
+    -�A�r>�~zx��Ah�<eO4�7�
+    -�o�U��]�|
+    -�Q�D�H@���ʗ�y��6��Y���{�z���
+    -%A�l��7ڧ�h��G�Y���
+    -��M��ɟ���J�dYC^&��Y`����A�أ�+�;Љ��Уa�6a�O%�˹\�
+    +�����^aJ�'\9Ic��4�x
+    +���r?Ê����
+    +Ҙ�I&
+    +u��G���7���h��q�����$��o.R|�x�����.���	#�~6
+    +Epd��
+    +k2�KO�R������2ӈ1�1�-�
+    +�lc�E�؇�%�!����S��_�����,�b��@���։1�B�Ҭ;NX/w�7�}V�#�a7Z#T��|m�'�MZ�>��H{�l��J��]Z���&:?�1����o<�4��/c�b��B`�	`�|vL�;Q��
+    +���#�S[sX�lt�v���m���쳴�|n�_�C�I��J�D�,y�]��q�@�`T�rz�/���Bb�d�[�< m�
+    +P
+    +�(��F�T ��Mg��m2H�̭~n�� z!p�3�
+    +�wW�~1�7�?�)�5�p�Y�n���>1w��e��g�w�>�k�k�����EOؐ�=�tR_ r�ѨA�XY���2vr��j�����.S`�:�w�ad��J�T�t"��� ���bӝ��}Z��Z�%-���N���#����،�bp�LY)9��H�f��u��(��Gd/5P\�o
+    +����QX~׭�n^�/x��f��kwӏ<��P�f&�bØ۹o��W���M��28��F��Jj6�GL�#b&���X���j��o�[��g�ȧZ"A٦�\L�?�Tۯ� XY$���-�
+    +�ף-gJ��a�{�R��
+    +���72�
+    +������Z���X�#�� <��+�-��k
+    +f�H0��޿$�
+    +
+    +Q�Hy�;�RK�
+    +�Ӿ
+    +��&'��R!c�^xG�}Ѱ����O�2�S1�qu�@�e%�C����RH;��=��vlgȼ�rhPT����ƽ&&L=��]z���,9C.1�#�"*���ٯ
+    +�(XI��T��d��ɾnR�VK�(
+    +����hټ��НX<p��
+## /my_manifest/etc/system_ext.map  (-2752 +2748)  markers=3
+    -/system_ext/app/Battery/Battery.apk 1702-5095
+    -/system_ext/app/Battery/oat/arm64/Battery.vdex 5099-5136
+    -/system_ext/app/CertInstaller/CertInstaller.apk 5137-5417
+    -/system_ext/app/CertInstaller/oat/arm64/CertInstaller.vdex 5419-5423
+    -/system_ext/app/CloudAccService/CloudAccService.apk 5424-10180
+    -/system_ext/app/CloudAccService/oat/arm64/CloudAccService.vdex 10186-10235
+    -/system_ext/app/CrsVcrbtSwitch/CrsVcrbtSwitch.apk 10236-10472
+    -/system_ext/app/CrsVcrbtSwitch/oat/arm64/CrsVcrbtSwitch.odex 10473-10474
+    -/system_ext/app/CrsVcrbtSwitch/oat/arm64/CrsVcrbtSwitch.vdex 10475-10478
+    -/system_ext/app/EidService/EidService.apk 10479-10481
+    -/system_ext/app/EidService/oat/arm64/EidService.odex 10482
+    -/system_ext/app/FidoAsm/FidoAsm.apk 10483-10539
+    -/system_ext/app/FidoAsm/oat/arm64/FidoAsm.odex 10540
+    -/system_ext/app/FidoAsm/oat/arm64/FidoAsm.vdex 10541 10542
+    -/system_ext/app/FrameworksUtilsSysService/FrameworksUtilsSysService.apk 10543-10552
+    -/system_ext/app/FrameworksUtilsSysService/oat/arm64/FrameworksUtilsSysService.odex 10553
+    -/system_ext/app/HTMLViewer/HTMLViewer.apk 10554-12113
+    -/system_ext/app/HTMLViewer/oat/arm64/HTMLViewer.vdex 12116-12140
+    -/system_ext/app/HealthService/HealthService.apk 12141-12222
+    -/system_ext/app/HealthService/oat/arm64/HealthService.vdex 12223-12225
+    -/system_ext/app/ImsDataChannelService/ImsDataChannelService.apk 12226-12242
+    -/system_ext/app/ImsDataChannelService/oat/arm64/ImsDataChannelService.odex 12243
+    -/system_ext/app/KeyChain/KeyChain.apk 12245-12544
+    -/system_ext/app/KeyChain/oat/arm64/KeyChain.vdex 12546-12550
+    -/system_ext/app/KeyguardClockBase/KeyguardClockBase.apk 12551-13694
+    -/system_ext/app/KeyguardClockBase/oat/arm64/KeyguardClockBase.vdex 13697-13715
+    -/system_ext/app/KeyguardPersonalityClocks/KeyguardPersonalityClocks.apk 13716-15862
+    -/system_ext/app/KeyguardPersonalityClocks/oat/arm64/KeyguardPersonalityClocks.art 15866-15867
+    -/system_ext/app/KeyguardPersonalityClocks/oat/arm64/KeyguardPersonalityClocks.odex 15868-15906
+    -/system_ext/app/KeyguardPersonalityClocks/oat/arm64/KeyguardPersonalityClocks.vdex 15907-15938
+    -/system_ext/app/KeyguardStyleWidget/KeyguardStyleWidget.apk 15939-17495
+    -/system_ext/app/KeyguardStyleWidget/oat/arm64/KeyguardStyleWidget.art 17498-17499
+    -/system_ext/app/KeyguardStyleWidget/oat/arm64/KeyguardStyleWidget.odex 17500-17508
+    -/system_ext/app/KeyguardStyleWidget/oat/arm64/KeyguardStyleWidget.vdex 17509-17533
+    -/system_ext/app/LFEHer/LFEHer.apk 17534-17596
+    -/system_ext/app/LFEHer/oat/arm64/LFEHer.vdex 17597
+    -/system_ext/app/LogTrialCommercial/LogTrialCommercial.apk 17598-23114
+    -/system_ext/app/LogTrialCommercial/oat/arm64/LogTrialCommercial.vdex 23120-23194
+    -/system_ext/app/NetworkAssistSys_plugin_CellularAcc/NetworkAssistSys_plugin_CellularAcc.apk 23195-23224
+    -/system_ext/app/NetworkAssistSys_plugin_CellularCall/NetworkAssistSys_plugin_CellularCall.apk 23225-23315
+    -/system_ext/app/NetworkAssistSys_plugin_CellularCall/oat/arm64/NetworkAssistSys_plugin_CellularCall.vdex 23316
+    -/system_ext/app/NetworkAssistSys_plugin_CellularData/NetworkAssistSys_plugin_CellularData.apk 23317-23410
+    -/system_ext/app/NetworkAssistSys_plugin_CellularData/oat/arm64/NetworkAssistSys_plugin_CellularData.vdex 23411
+    -/system_ext/app/NetworkAssistSys_plugin_CellularDataSwitch/NetworkAssistSys_plugin_CellularDataSwitch.apk 23413-23465
+    -/system_ext/app/NetworkAssistSys_plugin_CellularDataSwitch/oat/arm64/NetworkAssistSys_plugin_CellularDataSwitch.vdex 23466
+    -/system_ext/app/NetworkAssistSys_plugin_CellularNetwork/NetworkAssistSys_plugin_CellularNetwork.apk 23467-23891
+    -/system_ext/app/NetworkAssistSys_plugin_CellularNetwork/oat/arm64/NetworkAssistSys_plugin_CellularNetwork.vdex 23892-23899
+    -/system_ext/app/NetworkAssistSys_plugin_CellularQoE/NetworkAssistSys_plugin_CellularQoE.apk 23900-24043
+    -/system_ext/app/NetworkAssistSys_plugin_CellularQoE/oat/arm64/NetworkAssistSys_plugin_CellularQoE.vdex 24044-24046
+    -/system_ext/app/NetworkAssistSys_plugin_CellularReg/NetworkAssistSys_plugin_CellularReg.apk 24047-24363
+    -/system_ext/app/NetworkAssistSys_plugin_CellularReg/oat/arm64/NetworkAssistSys_plugin_CellularReg.vdex 24365-24370
+    -/system_ext/app/NetworkAssistSys_plugin_CellularVirtualData/NetworkAssistSys_plugin_CellularVirtualData.apk 24371-24482
+    -/system_ext/app/NetworkAssistSys_plugin_CellularVirtualData/oat/arm64/NetworkAssistSys_plugin_CellularVirtualData.vdex 24483-24484
+    -/system_ext/app/NetworkHealthService/NetworkHealthService.apk 24485-24856
+    -/system_ext/app/NetworkHealthService/oat/arm64/NetworkHealthService.vdex 24857-24862
+    -/system_ext/app/NetworkSense_plugin_NetPrediction/NetworkSense_plugin_NetPrediction.apk 24863-25055
+    -/system_ext/app/NetworkSense_plugin_NetPrediction/oat/arm64/NetworkSense_plugin_NetPrediction.vdex 25057-25058
+    -/system_ext/app/NetworkSense_plugin_NetScore/NetworkSense_plugin_NetScore.apk 25059-25123
+    -/system_ext/app/NetworkSense_plugin_NetScore/oat/arm64/NetworkSense_plugin_NetScore.vdex 25124
+    -/system_ext/app/NetworkSense_plugin_NetworkSense/NetworkSense_plugin_NetworkSense.apk 25125-25203
+## /my_manifest/etc/system.map  (-3062 +3062)  markers=28
+    -//system/apex/com.android.permission.apex 51076-54889
+    -//system/apex/com.android.profiling.apex 54890-55258
+    -//system/apex/com.android.resolv.apex 55259-55289
+    -//system/apex/com.android.rkpd.apex 55290-55519
+    -//system/apex/com.android.runtime.apex 55520-57506
+    -//system/apex/com.android.scheduling.apex 57507-57558
+    -//system/apex/com.android.sdkext.apex 57559-57772
+    -//system/apex/com.android.telephonycore.apex 57773-57896
+    -//system/apex/com.android.tethering.apex 57897-63706
+    -//system/apex/com.android.tzdata.apex 63707-64026
+    -//system/apex/com.android.uprobestats.apex 64027-64695
+    -//system/apex/com.android.uwb.apex 64696-65748
+    -//system/apex/com.android.virt.apex 65749-81682
+    -//system/apex/com.android.webapp.apex 81683-82701
+    -//system/apex/com.android.wifi.apex 82702-85277
+    -//system/app/AppSearchAiSealConfig/AppSearchAiSealConfig.apk 85279
+    -//system/app/BasicDreams/BasicDreams.apk 85280-85319
+    -//system/app/BasicDreams/oat/arm64/BasicDreams.odex 85320
+    -//system/app/Bluetooth/Bluetooth.apk 85321-87802
+    -//system/app/Bluetooth/oat/arm64/Bluetooth.odex 87806-87818
+    -//system/app/Bluetooth/oat/arm64/Bluetooth.vdex 87819-87852
+    -//system/app/BluetoothMidiService/BluetoothMidiService.apk 87853-87856
+    -//system/app/BluetoothMidiService/oat/arm64/BluetoothMidiService.odex 87857
+    -//system/app/BookmarkProvider/BookmarkProvider.apk 87858-87861
+    -//system/app/BookmarkProvider/oat/arm64/BookmarkProvider.odex 87862
+    -//system/app/CameraExtensionsProxy/CameraExtensionsProxy.apk 87863-87881
+    -//system/app/CameraExtensionsProxy/oat/arm64/CameraExtensionsProxy.odex 87882
+    -//system/app/CaptivePortalLogin/CaptivePortalLogin.apk 87884-88061
+    -//system/app/CaptivePortalLogin/oat/arm64/CaptivePortalLogin.odex 88062-88063
+    -//system/app/CaptivePortalLogin/oat/arm64/CaptivePortalLogin.vdex 88064-88066
+    -//system/app/CarrierDefaultApp/CarrierDefaultApp.apk 88067-88081
+    -//system/app/CarrierDefaultApp/oat/arm64/CarrierDefaultApp.odex 88082
+    -//system/app/CompanionDeviceManager/CompanionDeviceManager.apk 88084-88233
+    -//system/app/CompanionDeviceManager/oat/arm64/CompanionDeviceManager.odex 88234-88235
+    -//system/app/CompanionDeviceManager/oat/arm64/CompanionDeviceManager.vdex 88236-88238
+    -//system/app/CrossDeviceServiceBroker/CrossDeviceServiceBroker.apk 88239-88243
+    -//system/app/CrossDeviceServiceBroker/oat/arm64/CrossDeviceServiceBroker.odex 88244
+    -//system/app/EasterEgg/EasterEgg.apk 88245-88589
+    -//system/app/EasterEgg/oat/arm64/EasterEgg.odex 88591-88594
+    -//system/app/EasterEgg/oat/arm64/EasterEgg.vdex 88595-88603
+    -//system/app/ExtensionsService/ExtensionsService.apk 88604-88614
+    -//system/app/ExtensionsService/oat/arm64/ExtensionsService.odex 88615
+    -//system/app/PacProcessor/PacProcessor.apk 88616-88617
+    -//system/app/PacProcessor/oat/arm64/PacProcessor.odex 88618
+    -//system/app/SecureElement/SecureElement.apk 88619-88678
+    -//system/app/SecureElement/oat/arm64/SecureElement.odex 88679
+    -//system/app/SecureElement/oat/arm64/SecureElement.vdex 88680
+    -//system/app/SimAppDialog/SimAppDialog.apk 88681-88734
+    -//system/app/SimAppDialog/oat/arm64/SimAppDialog.odex 88735
+    -//system/app/SimAppDialog/oat/arm64/SimAppDialog.vdex 88736
+    -//system/app/Traceur/Traceur.apk 88737-89203
+    -//system/app/Traceur/oat/arm64/Traceur.odex 89205-89207
+    -//system/app/Traceur/oat/arm64/Traceur.vdex 89208-89215
+    -//system/app/WallpaperBackup/WallpaperBackup.apk 89216-89221
+    -//system/app/WallpaperBackup/oat/arm64/WallpaperBackup.odex 89222-89233
+    -//system/bin/a2lrootfs.sh 89234-89235
+    -//system/bin/abb 89236-89249
+    -//system/bin/aconfigd-system 89250-89258
+    -//system/bin/aflags 89259-89260
+    -//system/bin/aisealhostservice 89261-89391
+## /my_manifest/etc/vendor.map  (-1519 +1518)  markers=2
+    -/vendor/lib/rfsa/adsp/chre_qsh_shim.so 41049-41067
+    -/vendor/lib/rfsa/adsp/libadsp_jpege_skel.so 41068-41086
+    -/vendor/lib/rfsa/adsp/libdsp_streamer_binning.so 41087-41088
+    -/vendor/lib/rfsa/adsp/libhme_dsp_skel.so 41089-41106
+    -/vendor/lib/rfsa/adsp/libmctfengine_skel.so 41107-41122
+    -/vendor/lib/rfsa/adsp/libmlawbpostproc_dsp_skel.so 41123-41143
+    -/vendor/lib/rfsa/adsp/location.so 41144-41153
+    -/vendor/lib/rfsa/adsp/nearby.so 41154-41161
+    -/vendor/lib/soundfx/libaudiopreprocessing.so 41162-41284
+    -/vendor/lib/soundfx/libbundleaidl.so 41285-41358
+    -/vendor/lib/soundfx/libbundlewrapper.so 41359-41384
+    -/vendor/lib/soundfx/libdownmix.so 41385-41386
+    -/vendor/lib/soundfx/libdownmixaidl.so 41387-41430
+    -/vendor/lib/soundfx/libdynamicsprocessingaidl.so 41431-41484
+    -/vendor/lib/soundfx/libdynproc.so 41485-41492
+    -/vendor/lib/soundfx/libeffectproxy.so 41493-41494
+    -/vendor/lib/soundfx/libhapticgenerator.so 41495-41514
+    -/vendor/lib/soundfx/libldnhncr.so 41515-41517
+    -/vendor/lib/soundfx/libloudnessenhanceraidl.so 41518-41561
+    -/vendor/lib/soundfx/libreverbaidl.so 41562-41626
+    -/vendor/lib/soundfx/libreverbwrapper.so 41627-41646
+    -/vendor/lib/soundfx/libvisualizer.so 41647-41648
+    -/vendor/lib/soundfx/libvisualizeraidl.so 41649-41697
+    -/vendor/lib64/android.automotive.watchdog-V2-ndk.so 41699-41705
+    -/vendor/lib64/android.frameworks.location.altitude-V2-ndk.so 41706-41710
+    -/vendor/lib64/android.frameworks.sensorservice-V1-ndk.so 41711-41718
+    -/vendor/lib64/android.frameworks.sensorservice@1.0.so 41719-41737
+    -/vendor/lib64/android.frameworks.stats-V1-ndk.so 41738-41742
+    -/vendor/lib64/android.frameworks.stats-V2-ndk.so 41743-41749
+    -/vendor/lib64/android.hardware.audio.common-V1-ndk.so 41750-41752
+    -/vendor/lib64/android.hardware.audio.common-V2-ndk.so 41753-41755
+    -/vendor/lib64/android.hardware.audio.common-V4-ndk.so 41756-41758
+    -/vendor/lib64/android.hardware.audio.common@5.0.so 41759-41760
+    -/vendor/lib64/android.hardware.audio.core-V3-ndk.so 41761-41794
+    -/vendor/lib64/android.hardware.audio.core.sounddose-V1-ndk.so 41795-41801
+    -/vendor/lib64/android.hardware.audio.core.sounddose-V3-ndk.so 41802-41808
+    -/vendor/lib64/android.hardware.audio.effect-V3-ndk.so 41809-41844
+    -/vendor/lib64/android.hardware.authsecret@1.0.so 41845-41853
+    -/vendor/lib64/android.hardware.automotive.vehicle@2.0-manager-lib.so 41854-41885
+    -/vendor/lib64/android.hardware.automotive.vehicle@2.0.so 41886-41905
+    -/vendor/lib64/android.hardware.bluetooth-V1-ndk.so 41906-41912
+    -/vendor/lib64/android.hardware.bluetooth.audio-V3-ndk.so 41913-41931
+    -/vendor/lib64/android.hardware.bluetooth.audio-V5-ndk.so 41932-41962
+    -/vendor/lib64/android.hardware.bluetooth.audio-impl.so 41963-42009
+    -/vendor/lib64/android.hardware.bluetooth.audio@2.0.so 42010-42033
+    -/vendor/lib64/android.hardware.bluetooth.audio@2.1.so 42034-42051
+    -/vendor/lib64/android.hardware.bluetooth.finder-V1-ndk.so 42052-42056
+    -/vendor/lib64/android.hardware.bluetooth.lmp_event-V1-ndk.so 42057-42063
+    -/vendor/lib64/android.hardware.bluetooth.ranging-V2-ndk.so 42064-42078
+    -/vendor/lib64/android.hardware.bluetooth@1.0.so 42079-42093
+    -/vendor/lib64/android.hardware.boot-V1-ndk.so 42094-42099
+    -/vendor/lib64/android.hardware.boot@1.0.so 42100-42110
+    -/vendor/lib64/android.hardware.boot@1.1.so 42111-42120
+    -/vendor/lib64/android.hardware.camera.common-V1-ndk.so 42121-42122
+    -/vendor/lib64/android.hardware.camera.device-V2-ndk.so 42123-42141
+    -/vendor/lib64/android.hardware.camera.device-V3-ndk.so 42142-42160
+    -/vendor/lib64/android.hardware.camera.metadata-V2-ndk.so 42161
+    -/vendor/lib64/android.hardware.camera.metadata-V3-ndk.so 42162
+    -/vendor/lib64/android.hardware.camera.provider-V3-ndk.so 42163-42171
+    -/vendor/lib64/android.hardware.common-V2-ndk.so 42172-42173
+## /my_product/build.prop  (-17 +26)  markers=7
+    -ro.oplus.image.my_product.date=2026-10-06 17:18:00
+    -ro.oplus.image.my_product.date.utc=1791278280
+    +ro.oplus.image.my_product.date=2026-09-19 01:50:39
+    +ro.oplus.image.my_product.date.utc=1789753839
+    -ro.build.version.ota=OPD2515_11.A.01_001_202610061718
+    +ro.build.version.ota=OPD2515_11.A.01_001_202609190150
+    -ro.build.tablet_type=mini
+    +ro.build.tablet_type=pad
+    -persist.sys.block.fingerprint=true
+    +persist.sys.block.fingerprint=false
+    -ro.build.version.ota=OPD2515_11.A.01_001_202610061718
+    +ro.build.version.ota=OPD2515_11.A.01_001_202609190150
+    -ro.build.tablet_type=mini
+    +ro.build.tablet_type=pad
+    -ro.build.version.oplusrom.display=17.0
+    +ro.build.version.oplusrom.display=17.0 | by梦归zzz
+    -ro.product.oplus.cpuinfo=SM8845
+    +ro.product.oplus.cpuinfo=SM8250_AC
+    -ro.oplus.audio.game_low_latency=true
+    +# ---- 2026-10-12: 关闭 OPLUS 低延迟音频（pipa 上游戏会炸音） ----
+    +# 下面 4 条 low_latency 属性全部注释掉，回到 AOSP 默认：
+    +# 不再注册游戏低延迟音效通路 / 不再显示低延迟音效 UI 开关。
+    +#ro.oplus.audio.game_low_latency=true
+    -ro.oplus.audio.support.low_latency_game_effect=true
+    -ro.oplus.audio.support.low_latency_game_effect.show_ui=true
+    +#ro.oplus.audio.support.low_latency_game_effect=true
+    +#ro.oplus.audio.support.low_latency_game_effect.show_ui=true
+    -ro.sf.lcd_density=420
+    +ro.sf.lcd_density=370
+    -ro.oplus.display.screenhole.positon=808,31:872,95
+    -ro.oplus.display.screen.heteromorphism=808,0:872,95
+    +# pipa 是"边框前摄"，屏幕本身没有开孔；这两条是 donor(OPPO Pad mini) 的打孔屏描述，
+    +# 留着会让 ColorOS 状态栏在竖屏时把左侧当避让区，把时钟挤成 0 宽不显示（2026-10-07 定位）。
+    +# ro.oplus.display.screenhole.positon=808,31:872,95
+    +# ro.oplus.display.screen.heteromorphism=808,0:872,95
+    +# 144Hz: 让设置页"刷新率设定"出现"极速高刷 144 Hz"（ScreenRefreshUtils.getExtremeRefreshLevelRate 读它，>120 才出选项）
+    +persist.performance.rapid.refresh_rate.level=144
+    +# 144Hz: 设置侧的上限档位（4 = 极速高刷档）
+    +ro.oplus.refreshrate.maxsettings=4
+    -ro.oplus.audio.support.low_latency_game=true
+    -ro.oplus.image.my_product.version=25928_1700_C.1.0.2026100616501640139927.69a9b3e3
+    +#ro.oplus.audio.support.low_latency_game=true
+    +ro.oplus.image.my_product.version=25928_1700_C.1.0.2026091901202639793719.40682980
+## /my_product/cust/APC/etc/extension/HK/regionSwitch/feature_os_region_hk_app_uninstall.xml  (-1 +1)  markers=0
+    -﻿<?xml version="1.0" encoding="utf-8"?>
+    +<?xml version="1.0" encoding="utf-8"?>
+## /my_product/cust/APC/etc/extension/LA/regionSwitch/feature_os_region_la_app_uninstall.xml  (-1 +1)  markers=0
+    -﻿<?xml version="1.0" encoding="utf-8"?>
+    +<?xml version="1.0" encoding="utf-8"?>
+## /my_product/cust/APC/etc/extension/MM/regionSwitch/feature_os_region_mm_app_uninstall.xml  (-1 +1)  markers=0
+    -﻿<?xml version="1.0" encoding="utf-8"?>
+    +<?xml version="1.0" encoding="utf-8"?>
+## /my_product/cust/APC/etc/extension/NP/regionSwitch/feature_os_region_np_app_uninstall.xml  (-1 +1)  markers=0
+    -﻿<?xml version="1.0" encoding="utf-8"?>
+    +<?xml version="1.0" encoding="utf-8"?>
+## /my_product/cust/JP/etc/extension/feature_os_region_jp_app_uninstall.xml  (-1 +1)  markers=0
+    -﻿<?xml version="1.0" encoding="utf-8"?>
+    +<?xml version="1.0" encoding="utf-8"?>
+## /my_product/decouping_wallpaper/common/wallpaper_group/coe2_coz_orbuculum/theme.version  (-4 +3)  markers=0
+    -  "code" : 1025,
+    -  "version": "1.2.5",
+    -  "description": "wallpaperOS17_0916",
+    -  "isP3ColorSpace": true
+    +  "code" : 1024,
+    +  "version": "1.2.4",
+    +  "description": "wallpaperOS17_0910_alpha8_patch"
+## /my_product/decouping_wallpaper/common/wallpaper_group/coe2_coz_weather/theme.version  (-4 +3)  markers=0
+    -  "code" : 1029,
+    -  "version": "1.2.9",
+    -  "description": "mountain_weather_20260916",
+    -  "isP3ColorSpace": true
+    +  "code" : 1028,
+    +  "version": "1.2.8",
+    +  "description": "mountain_weather_20260910_alpha8"
+## /my_product/etc/extension/com.oplus.app-features.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:00 #260aa73c-8978-4c7c-8805-bbe754203852 -->
+    +<!-- Timestamp 2026-09-08T17:45:11 #9afa3221-f7c9-4966-b9c5-b69383425520 -->
+## /my_product/etc/extension/com.oplus.oplus-feature.xml  (-1 +2)  markers=0
+    +	<oplus-feature name="oplus.software.camera.pre_bind_application"/>
+    -<!-- Timestamp 2026-09-28T20:39:30 #11718923-3290-4f5e-bf68-dcc3d940a5d5 -->
+    +<!-- Timestamp 2026-08-06T10:56:39 #1594375 -->
+## /my_product/etc/extension/feature_os_app_uninstall.xml  (-1 +1)  markers=0
+    -﻿<?xml version="1.0" encoding="utf-8"?>
+    +<?xml version="1.0" encoding="utf-8"?>
+## /my_product/etc/extension/sys_graphic_enhancement_config.json  (-53 +6)  markers=0
+    -    "version": 2026092301,
+    +    "version": 2026080701,
+    -            "default_vulkan_list": [
+    -                "com.miHoYo.Yuanshen",
+    -                "com.miHoYo.ys.bilibili",
+    -                "com.miHoYo.GenshinImpact",
+    -                "com.miHoYo.ys.mi",
+    -                "com.miHoYo.yuanshencb",
+    -                "com.netease.nshm",
+    -                "com.netease.nshm.nearme.gamecenter",
+    -                "com.tencent.tmgp.dfm",
+    -                "com.tencent.tmgp.cod",
+    -                "com.tencent.tmgp.codev",
+    -                "com.netease.dfjs.nearme.gamecenter",
+    -                "com.netease.race"
+    -            ],
+    +            "default_vulkan_list": [],
+    -                    "pkg": "com.tencent.tmgp.pubgmhd",
+    -                    "graphic_api": "vulkan"
+    -                },
+    -                {
+    -                },
+    -                {
+    -                    "pkg": "com.tencent.tmgp.projectg",
+    -                    "graphic_api": "vulkan"
+    -                    "pkg": "com.tencent.tmgp.pubgmhd",
+    -                    "graphic_api": "gles"
+    -                },
+    -                {
+    -                    "pkg": "com.tencent.tmgp.pubgmhd",
+    -                    "graphic_api": "vulkan"
+    -                },
+    -                {
+    -                    "pkg": "com.tencent.tmgp.projectg",
+    -                    "graphic_api": "gles"
+    -                },
+    -                {
+    -                    "pkg": "com.tencent.tmgp.projectg",
+    -                    "graphic_api": "vulkan"
+    +                    "pkg": "com.tencent.tmgp.pubgmhd"
+    +                },
+    +                {
+    +                    "pkg": "com.tencent.tmgp.projectg"
+    -                "sys_coolex_gamedata_pubg_vulkan_hdr": [
+    -                    "com.tencent.tmgp.pubgmhd",
+    -                    "com.tencent.tmgp.projectg"
+    -                ],
+    -                    "com.tencent.tmgp.pubgmhd",
+    -                    "com.tencent.tmgp.projectg"
+    -                ],
+    -                "sys_coolex_gamedata_pubg_vulkan_memc": [
+    -                    },
+    -                    {
+    -                        "pkgname": "com.tencent.hyrzol",
+    -                        "content": "CpEBCo4BCip0eXBlLmdvb2dsZWFwaXMuY29tL0dyYXBoaWNzUHJvZmlsZVByaXZhdGUSYMl0SRBClcRKpgC710z7m7X8avapqMdTDNtOYwdxJkZLraFCgkZLF9cpXue9VMRjUqDONOx/RveECalaIdDzealxv6yElU9CtGXGrw8SGReKxqhzsR3
+    -                    },
+    -                    {
+    -                        "pkgname": "com.tencent.KiHan",
+    -                        "content": "CpEBCo4BCip0eXBlLmdvb2dsZWFwaXMuY29tL0dyYXBoaWNzUHJvZmlsZVByaXZhdGUSYMl0SRBClcRKpgC710z7m7X8avapqMdTDNtOYwdxJkZLraFCgkZLF9cpXue9VMRjUqDONOx/RveECalaIdDzealxv6yElU9CtGXGrw8SGReKxqhzsR3
+## /my_product/etc/extension/sys_graphics_game_gpu_control_panel.json  (-8 +0)  markers=0
+    -                    },
+    -                    {
+    -                        "pkgname": "com.tencent.hyrzol",
+    -                        "content": "CpEBCo4BCip0eXBlLmdvb2dsZWFwaXMuY29tL0dyYXBoaWNzUHJvZmlsZVByaXZhdGUSYMl0SRBClcRKpgC710z7m7X8avapqMdTDNtOYwdxJkZLraFCgkZLF9cpXue9VMRjUqDONOx/RveECalaIdDzealxv6yElU9CtGXGrw8SGReKxqhzsR3
+    -                    },
+    -                    {
+    -                        "pkgname": "com.tencent.KiHan",
+    -                        "content": "CpEBCo4BCip0eXBlLmdvb2dsZWFwaXMuY29tL0dyYXBoaWNzUHJvZmlsZVByaXZhdGUSYMl0SRBClcRKpgC710z7m7X8avapqMdTDNtOYwdxJkZLraFCgkZLF9cpXue9VMRjUqDONOx/RveECalaIdDzealxv6yElU9CtGXGrw8SGReKxqhzsR3
+## /my_product/etc/permissions/oplus.product.display_features.xml  (-0 +2)  markers=1
+    +    <!-- portcolor: pipa 是 LCD 面板，声明 ColorOS 的 LCD 息屏模式 -->
+    +    <oplus-feature name="oplus.software.display.lcd_aod_mode"/>
+## /my_product/etc/permissions/oplus.product.display_system_features.xml  (-0 +3)  markers=1
+    +    <!-- 2026-10-13 pipa port: 试验性关闭 WCG 2.0 申报（屏幕色温异常；社群教程=删本文件）。
+    +         需要回退就把下面这行注释去掉。
+    +    -->
+## /my_product/etc/permissions/oplus.product.feature_video_unique.xml  (-0 +3)  markers=1
+    +    <!-- 2026-10-13 pipa port: 试验性关闭"三方 App HDR10/HDR10+"能力申报（抖音/B站卡顿），
+    +         需要回退就把下面两行的注释去掉。
+    +    -->
+## /my_product/etc/power_profile/power_profile.xml  (-1 +1)  markers=0
+    -  <item name="battery.capacity">8000</item>
+    +  <item name="battery.capacity">8840</item>
+## /my_product/etc/refresh_rate_config.xml  (-5 +5)  markers=0
+    -<refresh_rate_config version="20260430" ratemagic="8750R60_90_120">
+    +<refresh_rate_config version="20260431" ratemagic="8750R60_90_120">
+    -  <item package="com.android.launcher" rateId="3-2-2-3" />  <!--桌面-->
+    -  <item package="com.android.settings" rateId="3-2-2-3" />  <!--设置-->
+    +  <item package="com.android.launcher" rateId="3-2-2-3-4" />  <!--桌面-->
+    +  <item package="com.android.settings" rateId="3-2-2-3-4" />  <!--设置-->
+    -  <item package="com.android.systemui" rateId="3-2-2-3" />  <!--系统ui-->
+    +  <item package="com.android.systemui" rateId="3-2-2-3-4" />  <!--系统ui-->
+    -  <config maxrefreshsettings="3" inputMethodLowRate="false" enableFodHighRate="true" voiceSceneLowRate="true" voiceSceneLowRateDelay="500" enableAppSwitchBoost="true" appSwitchBoostType="0" appSwitchBoostMaxTemperature=
+    +  <config extremeHighEnable="true" maxrefreshsettings="4" defaultMaxRate="144" defaultRateId="0-0-0-0-4" inputMethodLowRate="false" enableFodHighRate="true" voiceSceneLowRate="true" voiceSceneLowRateDelay="500" enableAp
+## /my_product/etc/sys_bench_control_list.xml  (-1 +1)  markers=0
+    -DML+nzon9cnEHd1eNkh3nKxRYw/wV9dW7tTts/KW5OA6vcceW+yXAH17Ztog8REcLIPd4w9XBoguIAKUfi/0+gzxSQbdL4iggLk2NeI4UPbbPZkw4ovx+q0tz+GnalX/1uw/wPqszacyvHnrTKln3Kw2Y0DtjW5tU4jU/U2DVDF2q78yjUF+C0qpej+4kREV0xHuYmm6QlEIVQi2iO6OA6ibf1E
+    +DCIJnYU9cv9T9DRMZsrQsbeT6v8SV6BHzq4mHMu3x4j9/VeDONeSbCqKYeLJNo9gnGP+t2HRgsm7eTEAn1NiZF2iENDUIc8aV4BvI8jgB48VR46QC/K7zn6My9tH8eIbwfoss45yapILzD5YY0vq1tpwpOixOx1iZGP5irBrBDTGIggVd10W8F6VBhYFXcsV6+wNkH5Zy3EnKEYMq9eVKqKmP/l
+## /my_product/etc/sys_perf_config.json  (-1 +11)  markers=0
+    -        "version": 20260917
+    +        "version": 20260915
+    +            "com.tencent.mm": [
+    +                "com.tencent.mm.plugin.webview.ui.tools.MMWebViewUI",
+    +                "com.tencent.mm.plugin.brandservice.ui.timeline.preload.ui.TmplWebViewMMUI",
+    +                "com.tencent.mm.plugin.webview.ui.tools.fts.MMFTSSOSHomeWebViewUI",
+    +                "com.tencent.mm.plugin.game.ui.LiteAppGameTabUI",
+    +                "com.tencent.mm.plugin.topstory.ui.home.TopStoryHomeUI",
+    +                "com.tencent.mm.plugin.topstory.ui.home.TopStoryHomeAffinityUI",
+    +                "com.tencent.mm.feature.ecs.ui.EcsGiftFlutterUI",
+    +                "com.tencent.mm.plugin.webview.ui.tools.fts.MMSosWebViewUI"
+    +            ],
+## /my_product/media/theme/icon_version.xml  (-1 +1)  markers=0
+    -<version>18</version>
+    +<version>17</version>
+## /my_product/media/theme/themeInfo.xml  (-1 +1)  markers=0
+    -﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+    +<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+## /my_product/product_overlay/etc/permissions/com.oplus.camera.unit.sdk_product.xml  (-1 +1)  markers=0
+    -<? xml version = "1.0" encoding = "utf-8" ?>
+    +<?xml version="1.0" encoding="utf-8"?>
+## /my_region/build.prop  (-3 +3)  markers=0
+    -ro.oplus.image.my_region.date=2026-09-28 20:44:52
+    -ro.oplus.image.my_region.date.utc=1790599492
+    +ro.oplus.image.my_region.date=2026-09-08 17:49:28
+    +ro.oplus.image.my_region.date.utc=1788860968
+    -ro.oplus.image.my_region.version=17.0.0372.2026092820392739991561.bf2cf516
+    +ro.oplus.image.my_region.version=17.0.0372.2026090817450939589391.b007f60d
+## /my_region/global/etc/extension/1043_JioRoam/carrierReady/com.oplus.app-features.xml  (-2 +1)  markers=0
+    -	<app_feature name="com.android.incallui.disable_change_to_voice_on_remote_hold" args="boolean:true"/>
+    -<!-- Timestamp 2026-09-28T20:39:30 #757a0105-a064-4e6d-ae74-b758a852747e -->
+    +<!-- Timestamp 2025-11-24T16:01:50 #1087485 -->
+## /my_region/global/etc/extension/1044_Jio/carrierReady/com.oplus.app-features.xml  (-2 +1)  markers=0
+    -	<app_feature name="com.android.incallui.disable_change_to_voice_on_remote_hold" args="boolean:true"/>
+    -<!-- Timestamp 2026-09-28T20:39:30 #e906d506-6e39-472d-8f0a-eb989b8571c5 -->
+    +<!-- Timestamp 2025-11-24T16:01:50 #1087485 -->
+## /my_region/global/etc/extension/1284_MTN/carrierReady/com.oplus.app-features.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:01 #989612b6-fbf6-432f-9454-4e8e4c3b8ee6 -->
+    +<!-- Timestamp 2026-08-29T17:24:45 #4df26454-5af7-43be-905e-3e5303f0ccba -->
+## /my_region/global/etc/extension/1285_Telkom/carrierReady/com.oplus.app-features.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:01 #eecc9854-1c68-4207-bb1f-3fa9d66c976a -->
+    +<!-- Timestamp 2026-08-29T17:24:45 #566ba912-9852-440b-8d7a-78d7189a2ccd -->
+## /my_region/global/etc/extension/1286_Vodacom-ZA/carrierReady/com.oplus.app-features.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:02 #129d8036-1ebb-43a4-b049-88ebeb3d53c7 -->
+    +<!-- Timestamp 2026-08-29T17:24:45 #57239f49-9902-47cb-a77b-0c1e3fbfcb70 -->
+## /my_region/global/etc/extension/1287_CellC/carrierReady/com.oplus.app-features.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:01 #68c42b0b-6964-4032-a4bf-1658f5137694 -->
+    +<!-- Timestamp 2026-08-29T17:24:45 #608fe4fb-92d8-40ce-922a-1d185c6c5ea5 -->
+## /my_region/global/etc/extension/1288_Rain/carrierReady/com.oplus.app-features.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:02 #d16c5a90-c16f-4310-9ff8-a1d7902a18f7 -->
+    +<!-- Timestamp 2026-08-29T17:24:46 #ded03ffe-42ae-414f-916c-cd9a3f352470 -->
+## /my_region/global/etc/extension/1289_Neotel/carrierReady/com.oplus.app-features.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:03 #13982e24-d853-4c4a-9f5e-a2f6b49e611a -->
+    +<!-- Timestamp 2026-08-29T17:24:46 #57398b2c-e719-4c07-a4de-ab5e3c8b6904 -->
+## /my_region/global/etc/extension/1371_O2-GB/carrierReady/oplus_carrier_config.xml  (-1 +1)  markers=0
+    -<!-- Timestamp 2026-09-25T18:59:01 #a5719ee9-7d53-476e-a416-d2b9b80f512b -->
+    +<!-- Timestamp 2026-08-29T17:24:45 #f1184906-01e9-4f10-bdb4-07e22ab8acfd -->
+## /my_region/global/etc/launcher/app_category  (-1 +1)  markers=1
+    -    cn.wps.moffice_eng 0 com.baidu.netdisk 0 com.nearme.sync 0 com.tencent.androidqqmail 0 com.xunlei.downloadprovider 1 com.nearme.note 0 com.coloros.note 0 com.android.email 0 com.alibaba.android.rimet 0 com.netease.m
+    +    cn.wps.moffice_eng 0 com.baidu.netdisk 0 com.nearme.sync 0 com.tencent.androidqqmail 0 com.xunlei.downloadprovider 1 com.nearme.note 0 com.coloros.note 0 com.android.email 0 com.alibaba.android.rimet 0 com.netease.m
+## /my_stock/applist/applist.txt  (-26 +23)  markers=1
+    +com.oppo.instant.local.service:InstantService.apk::false
+    +com.heytap.htms:MSPService.apk::false
+    -com.heytap.htms:MSPService.apk::false
+    -com.oppo.instant.local.service:InstantService.apk::false
+    +com.coloros.translate:OppoTranslation.apk::false
+    -com.coloros.translate:OppoTranslation.apk::false
+    +com.heytap.accessory:AccessoryFramework.apk::false
+    -com.heytap.accessory:AccessoryFramework.apk::false
+    -com.oppo.store:OPPOStore.apk::false
+    +com.oplus.melody:Melody.apk::false
+    -com.oplus.melody:Melody.apk::false
+    +com.coloros.regservice:RegService.apk::false
+    -com.coloros.regservice:RegService.apk::false
+    +com.coloros.oshare:OShare.apk::false
+    -com.coloros.oshare:OShare.apk::false
+    +com.heytap.mydevices:MyDevices.apk::false
+    -com.heytap.mydevices:MyDevices.apk::false
+    +com.oplus.account:KeKeUserCenterAccount.apk::false
+    -com.oplus.account:KeKeUserCenterAccount.apk::false
+    +com.oplus.mediaturbo:MediaTurbo.apk::false
+    -com.oplus.mediaturbo:MediaTurbo.apk::false
+    +com.oplus.dmp:dmp.apk::false
+    +com.coloros.compass2:OppoCompass2.apk::false
+    -com.coloros.compass2:OppoCompass2.apk::false
+    -com.oplus.dmp:dmp.apk::false
+    -com.heytap.music:Music.apk::false
+    -com.android.wallpaper.livepicker:WallpaperChooser.apk::false
+    +com.oplus.smartengine:SmartEngine.apk::false
+    -com.oplus.smartengine:SmartEngine.apk::false
+    +com.coloros.mapcom.frame:MapComFrame.apk::false
+    -com.coloros.mapcom.frame:MapComFrame.apk::false
+    +andes.oplus.documentsreader:OplusDocumentsReader.apk::false
+    -andes.oplus.documentsreader:OplusDocumentsReader.apk::false
+    +com.oplus.screenshot:Screenshot.apk::false
+    -com.oplus.screenshot:Screenshot.apk::false
+    +com.oplus.apprecover:MDSService.apk::false
+    -com.oplus.apprecover:MDSService.apk::false
+    +com.coloros.weather2:OppoWeather2.apk::false
+    -com.coloros.weather2:OppoWeather2.apk::false
+    +com.heytap.colorfulengine:ColorfulEngine.apk::false
+    -com.heytap.colorfulengine:ColorfulEngine.apk::false
+    +com.oplus.phonenoareainquire:PhoneNOAreaInquireProvider.apk::false
+    -com.oplus.phonenoareainquire:PhoneNOAreaInquireProvider.apk::false
+    +com.oplus.member:KeKeUserCenterMember.apk::false
+    -com.oplus.member:KeKeUserCenterMember.apk::false
+    +com.oplus.contentportal:ContentPortal.apk::false
+    -com.oplus.contentportal:ContentPortal.apk::false
+    -com.heytap.yoli:BrowserVideo.apk::false
+    +com.android.wallpaper.livepicker:WallpaperChooser.apk::false
+## /my_stock/build.prop  (-3 +3)  markers=0
+    -ro.oplus.image.my_stock.date=2026-10-06 16:54:45
+    -ro.oplus.image.my_stock.date.utc=1791276885
+    +ro.oplus.image.my_stock.date=2026-09-19 18:31:21
+    +ro.oplus.image.my_stock.date.utc=1789813881
+    -ro.oplus.image.my_stock.version=0.1.0.94.2026100616501640139929.d2f2e43d
+    +ro.oplus.image.my_stock.version=0.1.0.65.2026091918270639810588.23a76773
+## /my_stock/etc/permissions/oplus_default_grant_ops_permissions_list.xml  (-4 +1)  markers=0
+    -	<default-grant-ops-permissions package="com.heytap.browser" sha256-cert-digest="B29AA0BBDC9FD9DEF55DC56EA7D74576D5846CBCF5E5ABD305E2D9319E4F42AE">
+    -		<permission name="android.permission.PACKAGE_USAGE_STATS"/>
+    -	</default-grant-ops-permissions>
+    -<!-- Timestamp 2026-09-28T20:40:01 #06c68e85-24b6-4aac-975b-25905d93e1a1 -->
+    +<!-- Timestamp 2026-05-27T11:50:59 #1488507 -->
+## /product/etc/build.prop  (-14 +14)  markers=0
+    -ro.product.build.date=Tue Oct  6 17:04:15 CST 2026
+    -ro.product.build.date.utc=1791277455
+    -# Removed by post_process_props.py because overridden by ro.product.build.fingerprint?=qti/qssi/qssi:17/CP2A.260605.016/1791277455890:user/release-keys
+    -#ro.product.build.fingerprint?=oplus/ossi/ossi:17/CP2A.260605.016/1791277455890:user/release-keys
+    -ro.product.build.fingerprint=qti/qssi/qssi:17/CP2A.260605.016/1791277455890:user/release-keys
+    +ro.product.build.date=Sat Sep 19 01:37:10 CST 2026
+    +ro.product.build.date.utc=1789753030
+    +# Removed by post_process_props.py because overridden by ro.product.build.fingerprint?=qti/qssi/qssi:17/CP2A.260605.016/1789753030042:user/release-keys
+    +#ro.product.build.fingerprint?=oplus/ossi/ossi:17/CP2A.260605.016/1789753030042:user/release-keys
+    +ro.product.build.fingerprint=qti/qssi/qssi:17/CP2A.260605.016/1789753030042:user/release-keys
+    -ro.product.build.uuid=tbimygRSL9AqriqYQdXKZsd2o68ZXRnudCtpqrmx30o
+    +ro.product.build.uuid=MY8HTyhkgqNB2CjDJ5u_pSy7as3dfr1yUihEvRdGpD0
+    -ro.product.build.version.incremental=1791277455890
+    +ro.product.build.version.incremental=1789753030042
+    -ro.build.uuid=tbimygRSL9AqriqYQdXKZsd2o68ZXRnudCtpqrmx30o
+    +ro.build.uuid=MY8HTyhkgqNB2CjDJ5u_pSy7as3dfr1yUihEvRdGpD0
+    -ro.build.version.incremental=1791277455890
+    +ro.build.version.incremental=1789753030042
+    -ro.build.date=Tue Oct  6 17:04:15 CST 2026
+    -ro.build.date.utc=1791277455
+    +ro.build.date=Sat Sep 19 01:37:10 CST 2026
+    +ro.build.date.utc=1789753030
+    -ro.build.host=kvm-slave-build-s-system-14205232
+    +ro.build.host=kvm-slave-build-s-system-13913416
+    -ro.build.description=qssi-user 17 CP2A.260605.016 1791277455890 release-keys
+    +ro.build.description=qssi-user 17 CP2A.260605.016 1789753030042 release-keys
+    -ro.oplus.image.product.version=.8ca39713
+    +ro.oplus.image.product.version=.f1fabc45
+## /product/etc/selinux/product_sepolicy.cil  (-8 +8)  markers=4
+    -(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    -(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    -(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    -(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    -(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    -(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    -(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    +(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    +(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    +(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    +(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    +(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    +(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    +(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    -(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+    +(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+## /product/etc/selinux/product_sepolicy_debug.cil  (-8 +8)  markers=4
+    -(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    -(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    -(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    -(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    -(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    -(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    -(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    +(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    +(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    +(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    +(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    +(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    +(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    +(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    -(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+    +(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+## /system/build.prop  (-19 +54)  markers=8
+    +# display composition flags
+    +ro.surface_flinger.has_wide_color_display=false
+    +ro.surface_flinger.has_HDR_display=false
+    +# keep colour management and background blur at their original values:
+    +# ColorOS panels use the blur as their background (disabling it makes them fully
+    +# transparent) and turning colour management off changes alpha/dataspace handling.
+    +ro.surface_flinger.use_color_management=true
+    +ro.surface_flinger.supports_background_blur=1
+    -ro.system.build.date=Tue Oct  6 17:04:15 CST 2026
+    -ro.system.build.date.utc=1791277455
+    -# Removed by post_process_props.py because overridden by ro.system.build.fingerprint?=qti/qssi/qssi:17/CP2A.260605.016/1791277455890:user/release-keys
+    -#ro.system.build.fingerprint?=oplus/ossi/ossi:17/CP2A.260605.016/1791277455890:user/release-keys
+    -ro.system.build.fingerprint=qti/qssi/qssi:17/CP2A.260605.016/1791277455890:user/release-keys
+    +ro.system.build.date=Sat Sep 19 01:37:10 CST 2026
+    +ro.system.build.date.utc=1789753030
+    +# Removed by post_process_props.py because overridden by ro.system.build.fingerprint?=qti/qssi/qssi:17/CP2A.260605.016/1789753030042:user/release-keys
+    +#ro.system.build.fingerprint?=oplus/ossi/ossi:17/CP2A.260605.016/1789753030042:user/release-keys
+    +ro.system.build.fingerprint=qti/qssi/qssi:17/CP2A.260605.016/1789753030042:user/release-keys
+    -ro.system.build.uuid=tbimygRSL9AqriqYQdXKZsd2o68ZXRnudCtpqrmx30o
+    +ro.system.build.uuid=MY8HTyhkgqNB2CjDJ5u_pSy7as3dfr1yUihEvRdGpD0
+    -ro.system.build.version.incremental=1791277455890
+    +ro.system.build.version.incremental=1789753030042
+    -ro.build.uuid=tbimygRSL9AqriqYQdXKZsd2o68ZXRnudCtpqrmx30o
+    +ro.build.uuid=MY8HTyhkgqNB2CjDJ5u_pSy7as3dfr1yUihEvRdGpD0
+    -ro.build.version.incremental=1791277455890
+    +ro.build.version.incremental=1789753030042
+    -ro.build.date=Tue Oct  6 17:04:15 CST 2026
+    -ro.build.date.utc=1791277455
+    +ro.build.date=Sat Sep 19 01:37:10 CST 2026
+    +ro.build.date.utc=1789753030
+    -ro.build.host=kvm-slave-build-s-system-14205232
+    +ro.build.host=kvm-slave-build-s-system-13913416
+    -ro.build.description=qssi-user 17 CP2A.260605.016 1791277455890 release-keys
+    +ro.build.description=qssi-user 17 CP2A.260605.016 1789753030042 release-keys
+    -dalvik.vm.heapsize=36m
+    +dalvik.vm.heapsize=512m
+    +dalvik.vm.heapgrowthlimit=384m
+    +# : pipa has no telephony feature declared by its (Xiaomi, Wi-Fi-only) vendor,
+    +#   but ColorOS' system_server telephony/telecom stack requires CarrierConfigManager
+    +#   to exist. Declare telephony so the framework registers the telephony services.
+    +ro.hardware.telephony=qcom
+    -ro.secure=1
+    -ro.adb.secure=1
+    -ro.debuggable=0
+    -ro.force.debuggable=0
+    -ro.oplus.image.system.version=.99fda98b
+    +ro.oplus.image.system.version=.6efda54a
+    +
+    +# log buffer size
+    +persist.logd.size=4M
+    +
+    +# ---- board overrides ----
+    +# system/build.prop is loaded first and "ro." props are first-wins, so these
+    +# take precedence over the values coming from product / my_* / vendor.
+    +# brand must stay OPPO for the preinstalled HeyTap/OPPO apps.
+    +ro.product.brand=OPPO
+    +ro.product.manufacturer=OPPO
+    +ro.product.model=OPD2515
+    +ro.product.name=pipa
+    +ro.product.device=pipa
+## /system/etc/fonts.xml  (-2 +2)  markers=0
+    -        <font weight="400" style="normal" fallbackFor="serif"
+    -            postScriptName="OPPO_Sans_4.0_TC">SysSans-Hant-Regular.ttf
+    +        <font weight="400" style="normal" index="3" fallbackFor="serif"
+    +            postScriptName="NotoSerifCJKjp-Regular">NotoSerifCJK-Regular.ttc
+## /system/etc/selinux/plat_sepolicy.cil  (-553 +0)  markers=0
+    -(dontaudit init aconfigd (process (noatsecure)))
+    -(dontaudit aconfigd apex_info_file (file (ioctl read getattr lock map open watch watch_reads)))
+    -(dontaudit aconfigd unlabeled (dir (search)))
+    -(dontaudit init aconfigd_mainline (process (noatsecure)))
+    -(dontaudit aconfigd_mainline apex_info_file (file (ioctl read getattr lock map open watch watch_reads)))
+    -(dontaudit init adbd (process (noatsecure)))
+    -(dontaudit adbd shell (process (noatsecure)))
+    -(dontaudit adbd self (capability (sys_resource)))
+    -(dontaudit adbd self (cap_userns (sys_resource)))
+    -(dontaudit adbd_tradeinmode tradeinmode (process (noatsecure)))
+    -(dontaudit su adservices_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watc
+    -(dontaudit init aisealhostservice (process (noatsecure)))
+    -(dontaudit aisealhostservice aisealhostservice_virtualizationmanager (process (noatsecure)))
+    -(dontaudit aisealhostservice_virtualizationmanager aisealhostservice_virtmgr_crosvm (process (noatsecure)))
+    -(dontaudit init aoad (process (noatsecure)))
+    -(dontaudit init apexd (process (noatsecure)))
+    -(dontaudit apexd self (capability (fsetid)))
+    -(dontaudit apexd self (cap_userns (fsetid)))
+    -(dontaudit apexd apexd_derive_classpath (process (noatsecure)))
+    -(dontaudit appdomain storage_stub_file (dir (getattr)))
+    -(dontaudit appdomain system_data_file (dir (write)))
+    -(dontaudit appdomain vendor_default_prop (file (read)))
+    -(dontaudit appdomain system_font_fallback_file (file (ioctl read write create setattr lock relabelfrom append unlink link rename open watch watch_mount watch_sb watch_with_perm watch_reads)))
+    -(dontaudit app_zygote mnt_expand_file (dir (getattr)))
+    -(dontaudit su app_zygote_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watc
+    -(dontaudit init art_boot (process (noatsecure)))
+    -(dontaudit init art_exec (process (noatsecure)))
+    -(dontaudit art_exec artd (process (noatsecure)))
+    -(dontaudit init artd (process (noatsecure)))
+    -(dontaudit su artd_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch_sb w
+    -(dontaudit artd profman (process (noatsecure)))
+    -(dontaudit artd dex2oat (process (noatsecure)))
+    -(dontaudit artd derive_classpath (process (noatsecure)))
+    -(dontaudit artd odrefresh (process (noatsecure)))
+    -(dontaudit atrace hwservice_manager_type (hwservice_manager (find)))
+    -(dontaudit atrace service_manager_type (service_manager (find)))
+    -(dontaudit atrace domain (binder (call)))
+    -(dontaudit atrace debugfs_tracing_debug (file (audit_access)))
+    -(dontaudit init audioserver (process (noatsecure)))
+    -(dontaudit init auditctl (process (noatsecure)))
+    -(dontaudit init automotive_display_service (process (noatsecure)))
+    -(dontaudit init bert_collector (process (noatsecure)))
+    -(dontaudit init blank_screen (process (noatsecure)))
+    -(dontaudit su bluetooth_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount watch
+    -(dontaudit init bootanim (process (noatsecure)))
+    -(dontaudit bootanim unlabeled (dir (search)))
+    -(dontaudit bootanim vendor_default_prop (file (read)))
+    -(dontaudit init bootstat (process (noatsecure)))
+    -(dontaudit init boringssl_self_test (process (noatsecure)))
+    -(dontaudit init vendor_boringssl_self_test (process (noatsecure)))
+    -(dontaudit init bufferhubd (process (noatsecure)))
+    -(dontaudit init cameraserver (process (noatsecure)))
+    -(dontaudit init canhalconfigurator (process (noatsecure)))
+    -(dontaudit init casefolding_remover (process (noatsecure)))
+    -(dontaudit compos_verify compos_verify_virtualizationmanager (process (noatsecure)))
+    -(dontaudit compos_verify_virtualizationmanager compos_verify_virtmgr_crosvm (process (noatsecure)))
+    -(dontaudit init composd (process (noatsecure)))
+    -(dontaudit composd composd_virtualizationmanager (process (noatsecure)))
+    -(dontaudit composd_virtualizationmanager composd_virtmgr_crosvm (process (noatsecure)))
+    -(dontaudit composd compos_fd_server (process (noatsecure)))
+## /system_ext/etc/build.prop  (-12 +12)  markers=0
+    -ro.system_ext.build.date=Tue Oct  6 17:04:15 CST 2026
+    -ro.system_ext.build.date.utc=1791277455
+    -ro.system_ext.build.fingerprint=oplus/ossi/ossi:17/CP2A.260605.016/1791277455890:user/release-keys
+    +ro.system_ext.build.date=Sat Sep 19 01:37:10 CST 2026
+    +ro.system_ext.build.date.utc=1789753030
+    +ro.system_ext.build.fingerprint=oplus/ossi/ossi:17/CP2A.260605.016/1789753030042:user/release-keys
+    -ro.system_ext.build.version.incremental=1791277455890
+    +ro.system_ext.build.version.incremental=1789753030042
+    -ro.build.date.Ymd=261006
+    -ro.build.date.ymd=261006
+    -ro.build.date.YmdHM=202610061713
+    +ro.build.date.Ymd=260919
+    +ro.build.date.ymd=260919
+    +ro.build.date.YmdHM=202609190146
+    -ro.build.master.date=202610061713
+    +ro.build.master.date=202609190146
+    -ro.oplus.image.system_ext.date=2026-10-06 17:13:34
+    -ro.oplus.image.system_ext.date.utc=1791278014
+    +ro.oplus.image.system_ext.date=2026-09-19 01:46:16
+    +ro.oplus.image.system_ext.date.utc=1789753576
+    -ro.oplus.system_ext_app.hash=c9f62eb1cdc3b8952fe7f5acdd0e4a9e
+    +ro.oplus.system_ext_app.hash=adaa3cb9b39ecce869937c3bd9b66472
+    -ro.oplus.image.system_ext.version=.20304009
+    +ro.oplus.image.system_ext.version=.cf15434a
+## /system_ext/etc/display_brightness_config_default.xml  (-2 +2)  markers=0
+    -    <version>20220104</version>
+    +    <version>20261006</version>
+    -    <brightness_table max="8191" min="222">
+    +    <brightness_table max="10239" min="222">
+## /system_ext/etc/gaia/bsp_exception_log_collect_config.xml  (-9 +1)  markers=0
+    -    <version>20260808000</version>
+    +    <version>20260730000</version>
+    -    </item>
+    -    <item id="101212" desc="oplus_startup_repair">
+    -        <compressConfig path="/data/persist_log/DCS/de/hang_oplus/" namePrefix="startup_repair" zipSizeLimit="104857600" method="zip"/>
+    -        <import template="111" />
+    -        <import template="113" />
+    -        <fileLog dir="/data/persist_log/oplusreserve1" pattern=".*" option="maxsize=10M|nodelete" targetpath="oplusreserve1" />
+    -        <fileLog dir="/data/persist_log/oplusreserve5" pattern=".*" option="maxsize=65M|nodelete" targetpath="oplusreserve5" />
+    -        <fileLog dir="/data/persist_log/oplusreserve/media/log" pattern="^((?!minidumpbackup).)*$" option="maxsize=32M|nodelete" targetpath="oplusreserve2" />
+## /system_ext/etc/gaia/bsp_exception_log_upload_config.xml  (-3 +1)  markers=0
+    -    <version>20260808000</version>
+    +    <version>20260730000</version>
+    -        <item id="101212" interval="1" dailyReportCountLimit="5"/>
+    -        <item id="101212" interval="1" dailyReportCountLimit="5"/>
+## /system_ext/etc/horae/horae.conf  (-1 +1)  markers=0
+    -hܔ�âB�^ywcc�އ��r��`���G.����?�f���c
+    +hܔ�âB�^ywcc�އ��r��`�"2��/|�:;{�� 
+## /system_ext/etc/horae/horae_MT6765.conf  (-3 +1)  markers=0
+    -������g��`9pVB>�
+    -�
+    -5 ��3
+    +������g��u;��n#���-�ԍ�
+## /system_ext/etc/horae/horae_MT6769.conf  (-1 +2)  markers=0
+    -���Br9�!�q���tZ�������ƴ�/L<��1�(Y�p0���ݫ�Xq��4'�6�@�ɒ��pº��
+    +���Br9�!�q���tZ�������ƴ�/L<��1�(Y�p0���ݫ�Xq��4'��9�܂R?;��
+    +�͑
+## /system_ext/etc/horae/horae_MT6771.conf  (-2 +1)  markers=0
+    -�$|y�8�|h��y�4�o�RE��)<4N�3gF��?���=#.���]"K���hK:�������i�yhs�C8�_^��
+    -����b�5+p����
+    +�$|y�8�|h��y�4�o�RE��)<4N�3gF��?���=#.���]"K���hK:�������i�yhs�C8�_^����4��,F�F� 1�
+## /system_ext/etc/horae/horae_MT6779.conf  (-1 +2)  markers=0
+    -������o��)6֣o�)oxK�
+    +�������E�5�5�^
+    +b%�č
+## /system_ext/etc/horae/horae_MT6781.conf  (-1 +1)  markers=0
+    -�}�q���n�w��}a~��(��*8{��ZD�@�2����a|WY�fB�
+    +�}�q���n�w��}a~��(��*8{��ZD�]�ᡶ����h3�
+## /system_ext/etc/horae/horae_MT6785.conf  (-2 +3)  markers=0
+    -u!�h��=�BQ*�k����@�>a�_
+    -`�ݿ�a"�WA�{2
+    +u!�h��=�BQ*�k����@�>a�문��B[=̀
+    +�ȡ
+    +�
+## /system_ext/etc/horae/horae_MT6789.conf  (-1 +1)  markers=0
+    -�t�C�\�_��šU�@b���b�ON�H_�s�8����oqӯh=j�Z��{y�Az*�l��
+    +�t�C�\�_��šU�@b���b�ON�H_�s�8����oqӯh=jX�дL�������M
+## /system_ext/etc/horae/horae_MT6833.conf  (-1 +1)  markers=0
+    -MY�����7�Kt=��l�va1��BB��s�H��Z��q�w�
+    +MY�����7�Kt=��l�va1��BI,X��M�V�z�0�z�
+## /system_ext/etc/horae/horae_MT6835.conf  (-2 +1)  markers=0
+    -�����*�y!�~(��3����TiZ�Rl QӇ��z����,~X���o2��n�p�����ñK��`�يi���k#�ʬ�L[�@����⪟c3e
+    -c!Rq�zl�Z
+    +�����*�y!�~(��3����TiZ�Rl QӇ��z����,~X���o2��n�p�����ñK��`�يi���k#�ʬ�L[�@�����sC�Ա�zX[Z�R�s
+## /system_ext/etc/horae/horae_MT6853.conf  (-1 +1)  markers=0
+    --62�j`��M_tF���Z�Bj��e��H�g�}YC��nX��
+    +-62�j`��M_tF���Z�Bj��e���ׄz>:L�%A�~F�J
+## /system_ext/etc/horae/horae_MT6873.conf  (-1 +2)  markers=0
+    -�ч�,�R��p�&�v?f�#䊵��!蔾y4P�V�3��";���WL�6��N��q` �O)D�Qvu~�
+    +�ч�,�R��p�&�v?f�#䊵��!蔾y4P�V�3��";���WL�6��N��q �
+    +;#�Y!�6��f�
+## /system_ext/etc/horae/horae_MT6877.conf  (-2 +1)  markers=0
+    -Q��8Vd�X������FY�){�A/���.�D�]��q�Q��z��w`���]�谸F�,HT�z�Гs��|笧��8]
+    -�
+    +Q��8Vd�X������FY�){�A/���.�D�]��q�Q��z��w`���]�谸F�,HT�z�{���JMc9$���
+## /system_ext/etc/horae/horae_MT6878.conf  (-1 +1)  markers=0
+    -E�b�GX��O��VV1���#���ج6LGJI7zM����P	Vy�6_|��~��_*㨞��l͒I�M(��p��%:��
+    +E�b�GX��O��VV1���#���ج6LGJI7zM����P	Vy�6_|��~��_*㨞��l͒I�I{և�9u�[L��
+## /system_ext/etc/horae/horae_MT6885.conf  (-2 +1)  markers=0
+    -M���߱�s��vf�yƽ���G�}ۧ��uGwX��Xއ���{R-*N��O���~�;�������<�n
+    -8Y��
+    +M���߱�s��vf�yƽ���G�}ۧ��uGwX��Xއ���{R-*N��O���~�;�x%�i��v��*p�_׸
+## /system_ext/etc/horae/horae_MT6891.conf  (-3 +2)  markers=0
+    -ś��
+    -��
+    -�P�y4�Uf��
+    +ś�v��H9~�
+    +@��(�
+## /system_ext/etc/horae/horae_MT6895.conf  (-2 +1)  markers=0
+    -�k��/��j6˳����m���:��ǅd�G��$w!�
+    -o =�,
+    +�k��/��j6˳����m���:��ǅdz�<�<�SuI�A��+��
+## /system_ext/etc/horae/horae_MT6983.conf  (-1 +2)  markers=0
+    -�U��bd�Sbz���P͢?�y��<��̬�O��/=o���i)����H	�8A�Q��5$�
+    +�U��bd�Sbz���P͢?�y��<��̬�O��/=o���i)�Dd�
+    +�3�Y��A[�G��
+## /system_ext/etc/horae/horae_MT6985.conf  (-1 +1)  markers=0
+    -Y�o��H�u���ϔ~�3P�G��ٻ��S�K��:F��Xg����,5-����
+    +Y�o��H�u���ϔ~�3P�G��ٻ��S�K��:�)1�K��O�!/�8
+## /system_ext/etc/horae/horae_MT6989.conf  (-1 +2)  markers=0
+    -��2۹(��@�gj�?�ٹ��*��j}`�
+    +��2۹(��@�gj��n������2
+    +��l���
+## /system_ext/etc/horae/horae_SDM710.conf  (-1 +1)  markers=0
+    -Њ����ϡ'����aM
+    +���2�'z�㐥�M�O�
+## /system_ext/etc/horae/horae_SDM845.conf  (-1 +2)  markers=0
+    -Qx�!�V5��2�|��
+    +�2��
+    +$V=R��8
+## /system_ext/etc/horae/horae_SM4250.conf  (-2 +1)  markers=0
+    -lU�$�;��c��x�
+    -�
+    +���'#��5;�/rC
+## /system_ext/etc/horae/horae_SM6115.conf  (-1 +3)  markers=0
+    -�ܜ͞��'��Cef3�~6�^��0�G|��0�O� ��Ϭu�V=����4Ѵ��EO^��jJ��* �jOCS.W�Pe:$4�g,3d�m��-&}5�9H��E�^�E��i<��W����!�#+�!,X�蛺�N�0��
+    +�ܜ͞��'��Cef3�~6�^��0�G|��0�O� ��Ϭu�V=����4Ѵ��EO^��jJ��* �jOCS.W�Pe:$4�g,3d�m��-&}5�9H��E�^�E��i<��W����!�#+�'�
+    +
+    +�V�(m��jnm3
+## /system_ext/etc/horae/horae_SM6125.conf  (-1 +2)  markers=0
+    -~�^fn�}#/mj���}�2 �l��r�&m��b����|^]'<��=�k֤K�[l"��ڀ��HņкzMڮ�|�
+    +~�^fn�}#/mj���}�2 �l��r�&m��b����|^]'<��=�k֤K�[l"��ڀ�L�+g�
+    +~r���uit
+## /system_ext/etc/horae/horae_SM6225.conf  (-1 +2)  markers=0
+    -4�_D�Q2Ї���E�@��$ԙksa�>�
+    +4�_D�Q2Ї���E�?A��
+    +��ƃZ+
+## /system_ext/etc/horae/horae_SM6375.conf  (-1 +1)  markers=0
+    -��c['4�fN�F��*�p�v�e~XZ���L�'hG
+    +��c['4�fN�F��*�pw��Ķ{ڍۅ����
+## /system_ext/etc/horae/horae_SM7150.conf  (-1 +1)  markers=0
+    -�\�|6ʙ�"<_!<Q(L:������!Z��23��$E�oL��
+    +�\�|6ʙ�"<_!<Q(L:������!Z,>3`�>K�u�Z�}
+## /system_ext/etc/horae/horae_SM7325.conf  (-1 +1)  markers=0
+    -(	���@�����i�[6��Z�M
+    +(	���@�7�:��$c?؛���
+## /system_ext/etc/horae/horae_SM7435.conf  (-1 +1)  markers=0
+    -��Q[D,������*"﫨��:\����ߌ�;0��q�c����
+    +��Q[D,������*"﫨��:\����q	�s���D���-�
+## /system_ext/etc/horae/horae_SM7475.conf  (-1 +1)  markers=0
+    -��i)��dz�-�XVFx�8�Iq�1])�� ��'j5&�'��
+    +��i)��dz�-�XVFx�8�Iq�1])��!�&�)[�-Ët
+## /system_ext/etc/horae/horae_SM7550.conf  (-1 +1)  markers=0
+    -�N�=2�D��͚�D�>�Ӱ�
+    +�N�=2;�k>�4���:)~
+## /system_ext/etc/horae/horae_SM7675.conf  (-1 +1)  markers=0
+    -�'�@bk������ȇ{W�9���V@a2����$�!�h[��ѥ��
+    +�'�@bk������ȇ{W�9���V@a2��O�O����c��=����
+## /system_ext/etc/horae/horae_SM8350.conf  (-1 +1)  markers=0
+    -G�v�t'�y ^��g��4d~}s����9�9
+    +G�v�t'�y ^��g/x�g���Wc;��
+## /system_ext/etc/horae/horae_SM8450.conf  (-2 +1)  markers=0
+    -]H��U��d�
+    -&L��lg�,[
+    +]H��Url��gCM�j��k�
+## /system_ext/etc/horae/horae_SM8475.conf  (-1 +1)  markers=0
+    -.�T��N����ؤ���ZQ���3%�'8����v�*��=�$�8��KՔ���
+    +.�T��N����ؤ���ZQ���3%�'8����v�*�[�M�$�aD��-
+## /system_ext/etc/horae/horae_SM8550.conf  (-1 +1)  markers=0
+    -��EUu�MLTm1F?��rv[3�{-N���������뱥�	�*�Q�$�W��MB�
+    +��EUu�MLTm1F?��rv[3�{-N���������뱥	�������1���w
+## /system_ext/etc/horae/horae_SM8635.conf  (-1 +2)  markers=0
+    -�kt�ȳ�*;��W�N4��|
+    +�kt�ȳ^���] �?��
+    +A>��
+## /system_ext/etc/horae/horae_SM8650_CAIHONG.conf  (-2 +1)  markers=0
+    -��[!��NS���D-s�L�,
+    -�N
+    +��[!��N����+qx$��
+## /system_ext/etc/horae/horae_SM8650.conf  (-1 +1)  markers=0
+    -�0o§4?�M��3���
+    +�0���/��gà�,[s
+## /system_ext/etc/init/init.oplus.debug.rc  (-8 +0)  markers=0
+    -service phoenix_fault_recorder /system_ext/bin/phoenix_fault_recorder
+    -    class core
+    -    user root
+    -    group root system
+    -    disabled
+    -    oneshot
+    -
+    -    start phoenix_fault_recorder
+## /system_ext/etc/log_flowctrl_quota.config  (-1 +0)  markers=0
+    -com.android.cts.verifier 1500
+## /system_ext/etc/log_load_quota.config  (-1 +0)  markers=0
+    -com.android.cts.verifier 1500 500 400000
+## /system_ext/etc/public.libraries-oplus.txt  (-0 +0)  markers=0
+## /system_ext/etc/selinux/system_ext_file_contexts  (-5 +0)  markers=0
+    -/(system_ext|system/system_ext)/bin/phoenix_fault_recorder u:object_r:oplusbootstats_exec:s0
+    -/(system_ext|system/system_ext)/bin/boot_monitor_service  u:object_r:boot_monitor_service_exec:s0
+    -/(system_ext|system/system_ext)/bin/bms_cli               u:object_r:bms_cli_exec:s0
+    -/dev/socket/boot_monitor_service                          u:object_r:boot_monitor_service_socket:s0
+    -/metadata/boot_monitor(/.*)?                              u:object_r:boot_monitor_metadata_file:s0
+## /system_ext/etc/selinux/system_ext_property_contexts  (-4 +0)  markers=0
+    -#ifdef OPLUS_FEATURE_BOOT_MONITOR
+    -# Liuqinghua@BSP.STABILITY, 2026/08/10, boot_monitor_service external gate
+    -persist.sys.boot_monitor.mode  u:object_r:boot_monitor_prop:s0
+    -#endif /* OPLUS_FEATURE_BOOT_MONITOR */
+## /system_ext/etc/selinux/system_ext_sepolicy.cil  (-303 +33)  markers=8
+    -(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    +(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    -(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    -(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    +(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    +(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    -(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    +(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    -(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    +(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    -(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    +(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    -(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    +(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    -(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+    -(typeattributeset coredomain_socket (drmserver_socket adbd_socket bluetooth_socket dnsproxyd_socket dumpstate_socket fwmarkd_socket lmkd_socket logd_socket logdr_socket logdw_socket mdns_socket mdnsd_socket misc_logd_fi
+    +(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+    +(typeattributeset coredomain_socket (drmserver_socket adbd_socket bluetooth_socket dnsproxyd_socket dumpstate_socket fwmarkd_socket lmkd_socket logd_socket logdr_socket logdw_socket mdns_socket mdnsd_socket misc_logd_fi
+    -(type bms_cli)
+    -(roletype object_r bms_cli)
+    -(type bms_cli_exec)
+    -(roletype object_r bms_cli_exec)
+    -(type boot_monitor_service)
+    -(roletype object_r boot_monitor_service)
+    -(type boot_monitor_service_exec)
+    -(roletype object_r boot_monitor_service_exec)
+    -(type boot_monitor_service_socket)
+    -(roletype object_r boot_monitor_service_socket)
+    -(type boot_monitor_metadata_file)
+    -(roletype object_r boot_monitor_metadata_file)
+    -(type boot_monitor_prop)
+    -(roletype object_r boot_monitor_prop)
+    -(dontaudit su vendor_aid_config_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch
+    -(dontaudit appdomain vendor_persist_camera_prop (file (ioctl read getattr lock map open watch watch_reads)))
+    -(dontaudit init vendor_bt_logger (process (noatsecure)))
+    -(dontaudit su vendor_dataservice_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watc
+    -(dontaudit domain vendor_afp_prop (file (ioctl read getattr lock map open watch watch_reads)))
+    -(dontaudit init vendor_dpmd (process (noatsecure)))
+    -(dontaudit vendor_dpmd self (capability (sys_module)))
+    -(dontaudit init vendor_dun-server (process (noatsecure)))
+    -(dontaudit su vendor_fm_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount w
+    -(dontaudit init vendor_frameworksutils_launcher (process (noatsecure)))
+    -(dontaudit init vendor_gppservice (process (noatsecure)))
+    -(dontaudit init vendor_qccsyshal_qti (process (noatsecure)))
+    -(dontaudit init vendor_imsvtdaemon (process (noatsecure)))
+    -(dontaudit vendor_imsvtdaemon default_android_service (service_manager (find)))
+    -(dontaudit vendor_imsvtdaemon vendor_sys_gpp_prop (file (ioctl read getattr lock map open watch watch_reads)))
+    -(dontaudit vendor_imsvtdaemon vendor_default_prop (file (ioctl read getattr lock map open watch watch_reads)))
+    -(dontaudit su vendor_location_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_m
+    -(dontaudit vendor_location_app system_file (dir (write)))
+    -(dontaudit init vendor_locservice (process (noatsecure)))
+    -(dontaudit init vendor_mmi_sys (process (noatsecure)))
+    -(dontaudit su vendor_mstatservice_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch wat
+    -(dontaudit init vendor_nfc_cfg_service (process (noatsecure)))
+    -(dontaudit init vendor_perfservice (process (noatsecure)))
+    -(dontaudit su vendor_qcc_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_mount 
+    -(dontaudit su vendor_qcc_authmgr_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watc
+    -(dontaudit su vendor_qcc_netstat_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watc
+    -(dontaudit su vendor_qcc_utils_app_userfaultfd (anon_inode (ioctl read write create getattr setattr lock relabelfrom relabelto append map unlink link rename execute quotaon mounton audit_access open execmod watch watch_
+    -(dontaudit init vendor_qdtservice (process (noatsecure)))
+## /system_ext/etc/selinux/system_ext_sepolicy_debug.cil  (-129 +38)  markers=9
+    -(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    +(typeattributeset domain (adbd aidl_lazy_test_server apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger charger_vendor crash_dump credsto
+    -(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    -(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    +(typeattributeset file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec appdomain_tmpfs app_zygote_tmpfs audioserver_tmpfs bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec cameraserver_tmpfs charger_ex
+    +(typeattributeset exec_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmserver_exe
+    -(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    +(typeattributeset system_file_type (adbd_exec aidl_lazy_test_server_exec apexd_exec bootanim_exec bootstat_exec bufferhubd_exec cameraserver_exec charger_exec crash_dump_exec credstore_exec dhcp_exec dnsmasq_exec drmser
+    -(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    +(typeattributeset property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native_prop d
+    -(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    +(typeattributeset system_property_type (apexd_prop bootloader_boot_reason_prop device_config_activity_manager_native_boot_prop device_config_boot_count_prop device_config_input_native_boot_prop device_config_netd_native
+    -(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    +(typeattributeset system_restricted_property_type (aac_drc_prop adaptive_haptics_prop apex_ready_prop arm64_memtag_prop binder_cache_bluetooth_server_prop binder_cache_system_server_prop binder_cache_telephony_server_pr
+    -(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+    -(typeattributeset coredomain_socket (drmserver_socket adbd_socket bluetooth_socket dnsproxyd_socket dumpstate_socket fwmarkd_socket lmkd_socket logd_socket logdr_socket logdw_socket mdns_socket mdnsd_socket misc_logd_fi
+    +(typeattributeset coredomain (adbd apexd app_zygote artd atrace audioserver blkid blkid_untrusted bluetooth bootanim bootstat bpfloader bufferhubd cameraserver charger crash_dump credstore crosvm_vendor dhcp dnsmasq drm
+    +(typeattributeset coredomain_socket (drmserver_socket adbd_socket bluetooth_socket dnsproxyd_socket dumpstate_socket fwmarkd_socket lmkd_socket logd_socket logdr_socket logdw_socket mdns_socket mdnsd_socket misc_logd_fi
+    -(type bms_cli)
+    -(roletype object_r bms_cli)
+    -(type bms_cli_exec)
+    -(roletype object_r bms_cli_exec)
+    -(type boot_monitor_service)
+    -(roletype object_r boot_monitor_service)
+    -(type boot_monitor_service_exec)
+    -(roletype object_r boot_monitor_service_exec)
+    -(type boot_monitor_service_socket)
+    -(roletype object_r boot_monitor_service_socket)
+    -(type boot_monitor_metadata_file)
+    -(roletype object_r boot_monitor_metadata_file)
+    -(type boot_monitor_prop)
+    -(roletype object_r boot_monitor_prop)
+    -;;* lmx 24 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow shell bms_cli_exec (file (read getattr map execute open)))
+    -;;* lme
+    -;;* lmx 24 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow shell bms_cli (process (transition)))
+    -;;* lme
+    -;;* lmx 24 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow bms_cli bms_cli_exec (file (read getattr map execute open entrypoint)))
+    -;;* lme
+    -;;* lmx 24 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow bms_cli shell (process (sigchld)))
+    -;;* lme
+    -(dontaudit shell bms_cli (process (noatsecure)))
+    -;;* lmx 24 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow shell bms_cli (process (siginh rlimitinh)))
+    -;;* lme
+    -(typetransition shell bms_cli_exec process bms_cli)
+    -;;* lmx 26 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow bms_cli self (unix_stream_socket (read write create getattr connect getopt setopt)))
+    -;;* lme
+    -;;* lmx 27 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow bms_cli boot_monitor_service_socket (sock_file (write)))
+    -;;* lme
+    -;;* lmx 27 vendor/oplus/system/sepolicy/ossi_generic/private/bms_cli.te
+    -(allow bms_cli boot_monitor_service (unix_stream_socket (connectto)))
+    -;;* lme
+    -;;* lmx 25 vendor/oplus/system/sepolicy/ossi_generic/private/boot_monitor_service.te
+    -(allow init boot_monitor_service_exec (file (read getattr map execute open)))
+## /system_ext/etc/sys_display_compat_config.xml  (-1 +0)  markers=0
+    -    <nonimmersive>com.larus.nova</nonimmersive>
+## /system_ext/etc/sys_filter_list.json  (-1 +2)  markers=0
+    -  "version"       : 20260825,
+    +  "version"       : 20260826,
+    +          {\"op\":\"sub_ux 0\", \"pattern\":\"(^L\\\\.network$)\", \"event\":\"start_p\", \"mode\":\"always\"},
+## /system_ext/etc/sys_secondary_page_quick_start_list.xml  (-1 +1)  markers=0
+    -    <activity cmp_name="com.oplus.pantanal.ums/com.ums.aisetting.AISettingActivity" type="1" anim_level="1|2|3|4" delayTime="175"/>
+    +    <activity cmp_name="com.oplus.pantanal.ums/com.ums.aisetting.AISettingActivity" type="1" anim_level="1|2|3|4"/>
+## /system_ext/etc/sys_startingwindow_config_list.xml  (-2 +0)  markers=0
+    -    <w>com.tencent.kairos</w>
+    -    <w>com.facebook.appmanager</w>
+## /system_ext/etc/sys_wifi_par_config_list.xml  (-9 +3)  markers=0
+    -    <OPLUS_WIFI_DYNAMIC_PKAT_FG_APP_LIST>com.tencent.qqlive,com.qiyi.video,com.UCMobile,com.tencent.mtt,com.ss.android.article.news,com.netease.newsreader.activity,com.microsoft.teams,tv.twitch.android.app,com.mxtech.vi
+    +    <OPLUS_WIFI_DYNAMIC_PKAT_FG_APP_LIST>com.tencent.qqlive,com.qiyi.video,com.smile.gifmaker,com.ss.android.ugc.aweme,com.UCMobile,com.tencent.mtt,com.ss.android.article.news,com.netease.newsreader.activity,com.microso
+    -    <OPLUS_OWM_SNAPSHOT_ENABLE type="bool">true</OPLUS_OWM_SNAPSHOT_ENABLE>
+    -    <OPLUS_OWM_SNAPSHOT_REPORT_INTERVAL type="int">5000</OPLUS_OWM_SNAPSHOT_REPORT_INTERVAL>
+    -    <OPLUS_OWM_SNAPSHOT_REPORT_THRESHOLD type="int">50</OPLUS_OWM_SNAPSHOT_REPORT_THRESHOLD>
+    -    <OPLUS_OWM_SNAPSHOT_STREAM_ID_LIST>0xc0101,0xd0101</OPLUS_OWM_SNAPSHOT_STREAM_ID_LIST>
+    -    <OPLUS_OWM_SNAPSHOT_BLACK_PKGLIST></OPLUS_OWM_SNAPSHOT_BLACK_PKGLIST>
+    -    <OPLUS_OWM_SNAPSHOT_TARGET_PKG_LIST>com.ss.android.ugc.aweme,com.ss.android.ugc.aweme.lite,com.ss.android.ugc.live,com.smile.gifmaker,com.kuaishou.nebula</OPLUS_OWM_SNAPSHOT_TARGET_PKG_LIST>
+    -    <WIFI_SMART_GEAR_SHORT_VIDEO_APP_WHITE_LIST>com.phoenix.read,com.ss.android.ugc.aweme.lite,com.kuaishou.nebula,com.qiyi.video.lite</WIFI_SMART_GEAR_SHORT_VIDEO_APP_WHITE_LIST>
+    +    <WIFI_SMART_GEAR_SHORT_VIDEO_APP_WHITE_LIST>com.ss.android.ugc.aweme,com.phoenix.read,com.ss.android.ugc.aweme.lite,com.smile.gifmaker,com.kuaishou.nebula,com.qiyi.video.lite</WIFI_SMART_GEAR_SHORT_VIDEO_APP_WHITE_L
+    -    <OPLUS_POWER_DYNAMIC_BW_APP_WHITELIST>com.tencent.tmgp.pubgmhd,com.tencent.tmgp.dfm,com.tencent.tmgp.sgame,com.oppo.launcher,com.android.launcher,com.tencent.mtt,com.baidu.browser.apps,com.UCMobile,com.heytap.browse
+    +    <OPLUS_POWER_DYNAMIC_BW_APP_WHITELIST>com.tencent.tmgp.sgame,com.oppo.launcher,com.android.launcher,com.tencent.mtt,com.baidu.browser.apps,com.UCMobile,com.heytap.browser,com.tencent.mobileqq,com.tencent.mm,com.drag
+## /system_ext/oplus/sys_app_switch_config.xml  (-1 +1)  markers=0
+    -    <version>2026082401</version>
+    +    <version>2026081501</version>
+## /system_ext/oplus/sys_view_drag_list.xml  (-54 +22)  markers=0
+    -        <item name="version" type="int" value="20260921" />
+    +        <item name="version" type="int" value="20260908" />
+    -                    newPath="{am5.d;hn5.a;com.tencent.mm.storage.e9},{hn5.a;com.tencent.mm.storage.e9},{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.
+    +                    newPath="{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.f9},{qb5.d;vc5.a;com.tencent.mm.storage.f9},{ja5.C101142d;ob5.C124016a;com
+    -                    newPath="{am5.d;hn5.a;com.tencent.mm.storage.e9},{hn5.a;com.tencent.mm.storage.e9},{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.
+    +                    newPath="{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.f9},{qb5.d;vc5.a;com.tencent.mm.storage.f9},{ja5.C101142d;ob5.C124016a;com
+    +                <view name="ImageView" type="image"/>
+    -                <!--Add for URL card drag. START-->
+    -                <view name="X2CLinearLayout" parent="X2CLinearLayout" uncle="X2CLinearLayout" type="url" bottom-view="true"/>
+    -                <view name="X2CFrameLayout" parent="X2CLinearLayout" uncle="X2CLinearLayout" type="url" bottom-view="true"/>
+    -                <view name="ImageView" type="image" needup="url"/>
+    -                <view name="ChattingUrlMvvmView" parent="FrameLayout" type="url" bottom-view="true"/>
+    -                <view name="MMImageView" parent="RoundClipFrameLayout" needup="url" touch-view="true"/>
+    -                <view name="WeImageView" parent="MaskVideoIconMvvmView" needup="url" touch-view="true"/>
+    -                <!--Add for URL card drag. END-->
+    -                    newPath="{am5.d;hn5.a;com.tencent.mm.storage.e9},{hn5.a;com.tencent.mm.storage.e9},{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.
+    +                    newPath="{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.f9},{qb5.d;vc5.a;com.tencent.mm.storage.f9},{ja5.C101142d;ob5.C124016a;com
+    -                    newPath="{am5.d;hn5.a;com.tencent.mm.storage.e9},{hn5.a;com.tencent.mm.storage.e9},{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.
+    +                    newPath="{ci5.d;jj5.a;com.tencent.mm.storage.e9},{ye5.d;dg5.a;com.tencent.mm.storage.e9},{rd5.d;we5.a;com.tencent.mm.storage.f9},{qb5.d;vc5.a;com.tencent.mm.storage.f9},{ja5.C101142d;ob5.C124016a;com
+    -                <!--Add for URL card drag. START-->
+    -                <view name="X2CLinearLayout" parent="X2CLinearLayout" uncle="X2CLinearLayout" type="url" bottom-view="true"/>
+    -                <view name="X2CFrameLayout" parent="X2CLinearLayout" uncle="X2CLinearLayout" type="url" bottom-view="true"/>
+    -                <view name="ImageView" parent="FrameLayout" needup="url" touch-view="true"/>
+    -                <view name="ChattingUrlMvvmView" parent="FrameLayout" type="url" bottom-view="true"/>
+    -                <view name="MMImageView" parent="RoundClipFrameLayout" needup="url" touch-view="true"/>
+    -                <view name="WeImageView" parent="MaskVideoIconMvvmView" needup="url" touch-view="true"/>
+    -                <!--Add for URL card drag. END-->
+    -                <view name="MMTextView" parent="LinearLayout" type="text" touch-view="true" needup="url" />
+    -                <view name = "MultiTouchImageView" type = "image" bottom-view="true"/>
+    +                <view name="MMTextView" parent="LinearLayout" type="text" touch-view="true" />
+    +                <view name = "MultiTouchImageView" type = "image"/>
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                <view name="KwaiImageView" parent="SlideHorizontalAtlasItemView" uncle="SlideHorizontalAtlasItemView" type="image"/>
+    -                <view name="KwaiImageView" parent="FrameLayout" brother="AtlasOutMaskView" type="image"/>
+    +                <view name="KwaiImageView" parent="SlideHorizontalAtlasItemView" uncle="SlideHorizontalAtlasItemView" type="image" touch-view="true" />
+    +                <view name="KwaiImageView" parent="FrameLayout" brother="AtlasOutMaskView" type="image" touch-view="true" />
+    -                <view name="KwaiImageView" parent="FrameLayout" type="image" touch-view="true"/>
+    -                <view name="MerchantKwaiImageView" type="image" touch-view="true"/>
+    +                <view name="KwaiImageView" parent="FrameLayout" type="image" />
+    +                <view name="MerchantKwaiImageView" type="image" />
+    -                <view name="KwaiImageView" parent="SlideHorizontalAtlasItemView" uncle="SlideHorizontalAtlasItemView" type="image"/>
+    -            <activity name="com.yxcorp.gifshow.comment.image.ImageDetailActivity">
+    -                <view name="CommentZoomImageView" type="image" />
+    -            </activity>
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    +                    image-path="{getLayoutNode;painter},{getLayoutNode;drawable}" />
+    -                    image-path="{getLayoutNode;N;e;painter},{getLayoutNode;N;LIZJ;painter},{getLayoutNode;L;b;painter},{getLayoutNode;L;LIZJ;painter},{getLayoutNode;painter},{getLayoutNode;drawable}" />
+## /system_ext/oplus/sys_wms_split_app_ps.xml  (-3 +2)  markers=0
+    -        <!-- 金铲铲之战
+    -        <package name="com.tencent.jkchess" type="1:1:1"  action="open:open:open" acrossTaskJump="true" >
+    +        <package name="com.tencent.jkchess" type="1:1:1"  action="open:open:open" acrossTaskJump="true" >    <!-- 金铲铲之战 -->
+    -        </package> -->
+    +        </package>
+## /system/system_dlkm/etc/build.prop  (-7 +7)  markers=0
+    -ro.system_dlkm.build.date=Tue Oct  6 17:04:15 CST 2026
+    -ro.system_dlkm.build.date.utc=1791277455
+    -# Removed by post_process_props.py because overridden by ro.system_dlkm.build.fingerprint?=qti/qssi/qssi:17/CP2A.260605.016/1791277455890:user/release-keys
+    -#ro.system_dlkm.build.fingerprint?=oplus/ossi/ossi:17/CP2A.260605.016/1791277455890:user/release-keys
+    -ro.system_dlkm.build.fingerprint=qti/qssi/qssi:17/CP2A.260605.016/1791277455890:user/release-keys
+    +ro.system_dlkm.build.date=Sat Sep 19 01:37:10 CST 2026
+    +ro.system_dlkm.build.date.utc=1789753030
+    +# Removed by post_process_props.py because overridden by ro.system_dlkm.build.fingerprint?=qti/qssi/qssi:17/CP2A.260605.016/1789753030042:user/release-keys
+    +#ro.system_dlkm.build.fingerprint?=oplus/ossi/ossi:17/CP2A.260605.016/1789753030042:user/release-keys
+    +ro.system_dlkm.build.fingerprint=qti/qssi/qssi:17/CP2A.260605.016/1789753030042:user/release-keys
+    -ro.system_dlkm.build.uuid=tbimygRSL9AqriqYQdXKZsd2o68ZXRnudCtpqrmx30o
+    +ro.system_dlkm.build.uuid=MY8HTyhkgqNB2CjDJ5u_pSy7as3dfr1yUihEvRdGpD0
+    -ro.system_dlkm.build.version.incremental=1791277455890
+    +ro.system_dlkm.build.version.incremental=1789753030042

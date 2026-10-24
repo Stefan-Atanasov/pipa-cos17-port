@@ -1,0 +1,82 @@
+path	action	class	note
+/build.prop	carry	add	root build.prop: dalvik heapsize 512m / growthlimit 384m
+/system/app/FaceUnlock/FaceUnlock.apk	carry	add	com.pipa.faceunlock (legacy socket client, R4 — candidate to drop)
+/system/etc/default-permissions/pipa_faceunlock.xml	carry	add	camera grant for FaceUnlock
+/system/etc/face/model_file	carry	add	Megvii face model (21 MB)
+/system/etc/face/panorama_mgb	carry	add	Megvii face model
+/system/lib64/libFaceDetectCA.so	carry	add	Megvii
+/system/lib64/libMegviiUnlock-jni-1.2.so	carry	add	Megvii
+/system/lib64/libMegviiUnlock.so	carry	add	Megvii
+/system/lib64/libmegface.so	carry	add	Megvii
+/system/app/OppoCamera/OppoCamera.apk	carry	add	substitute camera (com.oppocamera, Fossify-derived); replaces removed OplusCamera
+/system/etc/default-permissions/default-permissions-miuicamera.xml	carry	add	MIUI camera perms
+/system/etc/permissions/privapp-permissions-miuicamera.xml	carry	add	MIUI camera perms
+/system/etc/sysconfig/miuicamera-hiddenapi-package-whitelist.xml	carry	add	MIUI camera hiddenapi
+/system/priv-app/MiSound/MiSound.apk	carry	add	Xiaomi MiSound/Dolby UI
+/system/priv-app/MiSound/lib/arm64/libmievent.so	carry	add	MiSound
+/system/priv-app/MiSound/lib/arm64/libmp3lame.so	carry	add	MiSound
+/system/priv-app/MiSound/lib/arm64/libnative-lib.so	carry	add	MiSound
+/system/etc/permissions/privapp-permissions-misound.xml	carry	add	MiSound
+/system/etc/sysconfig/misound-hiddenapi-package-whitelist.xml	carry	add	MiSound
+/system/lib64/libxiaomipen.so	carry	add	pen-mode JNI -> /dev/xiaomi-touch
+/system/etc/media_profiles.xml	carry	add	camcorder/media profiles for pipa
+/system/etc/permissions/android.hardware.telephony.gsm.xml	carry	add	telephony feature for ColorOS telephony stack on Wi-Fi-only pad
+/system_ext/apex/com.android.vndk.v30.apex	carry	add	VNDK compat for re-imported Xiaomi vendor blobs
+/system_ext/apex/com.android.vndk.v31.apex	carry	add	VNDK compat
+/system_ext/apex/com.android.vndk.v32.apex	carry	add	VNDK compat
+/system_ext/apex/com.android.vndk.v33.apex	carry	add	VNDK compat
+/my_product/overlay/PipaCornersOverlay.apk	carry	add	port RRO
+/my_product/overlay/PipaLauncherOverlay.apk	carry	add	port RRO
+/my_product/overlay/PipaMiSoundOverlay.apk	carry	add	port RRO
+/my_product/overlay/PipaSettingsPadOverlay.apk	carry	add	port RRO
+/system/etc/init/zz_portdebug.rc	DROP	add	debug panic knobs (U1) — do not carry
+/my_product/overlay/com.android.wallpaper.livepicker.overlay.25928_old.apk	DROP	add	stale duplicate of a donor overlay
+/system/build.prop	re-apply	edit	SF wide-colour/HDR off + colour-mgmt/blur kept; heap; ro.hardware.telephony=qcom; persist.logd.size=4M; board overrides (brand/model/name/device/cpuinfo/density 370/bootanim orientation); oemports10t facehal props; REMOVES ro.secure/ro.adb.secure/ro.debuggable/ro.force.debuggable (U17)
+/my_product/build.prop	re-apply	edit	tablet_type mini->pad; persist.sys.block.fingerprint true->false; oplusrom.display "17.0 | by梦归zzz"; cpuinfo SM8845->SM8250_AC; low-latency game audio off; lcd_density 420->370; punch-hole props off; 144 Hz props
+/my_manifest/build.prop	re-apply	edit	device/name/product/odm/vendor/bootimage = pipa; market.name "OPPO Pad Mini"; oplusrom.display "by梦归zzz"; keep donor fingerprint
+/my_product/etc/permissions/oplus.product.display_system_features.xml	re-apply	edit	wcg_2.0_support commented out
+/my_product/etc/permissions/oplus.product.feature_video_unique.xml	re-apply	edit	hdr10/hdr10plus commented out
+/my_product/etc/permissions/oplus.product.display_features.xml	re-apply	edit	adds lcd_aod_mode
+/my_product/etc/refresh_rate_config.xml	re-apply	edit	144 Hz: rateId ...-4 for launcher/settings/systemui; extremeHighEnable, maxrefreshsettings=4, defaultMaxRate=144
+/my_product/etc/power_profile/power_profile.xml	re-apply	edit	battery.capacity 8000 -> 8840 (pipa)
+/system_ext/etc/display_brightness_config_default.xml	re-apply	edit	donor table; only brightness_table max 8191 -> 10239 (+version). Or use the module's M7 table
+/system_ext/etc/selinux/system_ext_sepolicy.cil	re-apply	edit	append the "pipa port" block (5 service finds + tee oppo_block_device rule)
+/system_ext/etc/selinux/system_ext_sepolicy_debug.cil	re-apply	edit	same block
+/my_stock/applist/applist.txt	re-apply	edit	drop lines of debloated apps
+/system_ext/etc/init/init.oplus.debug.rc	re-apply?	edit	UNSURE: phoenix_fault_recorder service absent in beta4 (port removal or new in C.06)
+/system/framework/oplus-services.jar	re-derive	binary	port dex edits (S17) + module CCT reroute (M12); needs donor-jar diff
+/my_product/overlay/android_framework_res_overlay.display.product.25928.apk	re-derive	binary	blanked rc_* corner drawables, re-signed
+/my_product/overlay/oplus_framework_res_overlay.display.product.25928_sm8845.apk	re-derive	binary	blanked rc_* corner drawables, re-signed
+/my_product/app/OplusCamera	remove	debloat	replaced by OppoCamera
+/my_product/del-app/Health	remove	debloat
+/my_product/del-app/HeytapReader	remove	debloat
+/my_product/del-app/HotGamesFolder	remove	debloat
+/my_product/del-app/WpsLauncher	remove	debloat
+/my_stock/del-app/BrowserVideo	remove	debloat
+/my_stock/del-app/Gamecenter	remove	debloat
+/my_stock/del-app/KeKeThemeSpace	remove	debloat
+/my_stock/del-app/KeKeUserCenterMember	remove	debloat
+/my_stock/del-app/Melody	remove	debloat
+/my_stock/del-app/Music	remove	debloat
+/my_stock/del-app/OPPOStore	remove	debloat
+/my_stock/del-app/PhoneManagerLite	remove	debloat
+/my_stock/del-app/StudyCenter	remove	debloat
+/my_stock/del-app/Tips	remove	debloat
+/system_ext/bin/boot_monitor_service	remove?	disable	UNSURE (port removal, or new in C.06; verify with C.05): Oppo boot monitor / phoenix rescue (would act on pipa boot stalls)
+/system_ext/bin/bms_cli	remove?	disable	UNSURE (port removal, or new in C.06; verify with C.05): boot monitor
+/system_ext/lib64/libboot_monitor_client.so	remove?	disable	UNSURE (port removal, or new in C.06; verify with C.05): boot monitor
+/system_ext/etc/init/init.boot_monitor_service.rc	remove?	disable	UNSURE (port removal, or new in C.06; verify with C.05): boot monitor
+/system_ext/bin/phoenix_fault_recorder	remove?	disable	UNSURE (port removal, or new in C.06; verify with C.05): phoenix
+/system/framework/oat/arm64/oplus-services.art	remove	debloat	prebuilt ART output for the stock jar: beta4 dropped it (S17 repacked jar); a bind-mounted patched jar (M12) must not meet a stale odex
+/system/framework/oat/arm64/oplus-services.art.fsv_meta	remove	debloat	prebuilt ART output for the stock jar: beta4 dropped it (S17 repacked jar); a bind-mounted patched jar (M12) must not meet a stale odex
+/system/framework/oat/arm64/oplus-services.odex	remove	debloat	prebuilt ART output for the stock jar: beta4 dropped it (S17 repacked jar); a bind-mounted patched jar (M12) must not meet a stale odex
+/system/framework/oat/arm64/oplus-services.odex.fsv_meta	remove	debloat	prebuilt ART output for the stock jar: beta4 dropped it (S17 repacked jar); a bind-mounted patched jar (M12) must not meet a stale odex
+/system/framework/oat/arm64/oplus-services.vdex	remove	debloat	prebuilt ART output for the stock jar: beta4 dropped it (S17 repacked jar); a bind-mounted patched jar (M12) must not meet a stale odex
+/system/framework/oat/arm64/oplus-services.vdex.fsv_meta	remove	debloat	prebuilt ART output for the stock jar: beta4 dropped it (S17 repacked jar); a bind-mounted patched jar (M12) must not meet a stale odex
+/system_ext/lib/libupdateprof.qti.so	carry	fix	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib/libtrigger-handler.so	carry	fix	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib64/libupdateprof.qti.so	carry	fix	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib64/libtrigger-handler.so	carry	fix	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/app/OTA	remove	debloat	D9 maintainer debloat 2026-10-22: OPPO updater/SOTA app-bundle service; offers donor (OPD2515) app bundles that can override port apps. Tested live (pm uninstall --user 0): Settings hides the Software update entry, no crash
+/system_ext/app/SystemAppUpdateService	remove	debloat	D9 maintainer debloat 2026-10-22: OPPO updater/SOTA app-bundle service; offers donor (OPD2515) app bundles that can override port apps. Tested live (pm uninstall --user 0): Settings hides the Software update entry, no crash
+/system_ext/app/SAUHelper	remove	debloat	D9 maintainer debloat 2026-10-22: OPPO updater/SOTA app-bundle service; offers donor (OPD2515) app bundles that can override port apps. Tested live (pm uninstall --user 0): Settings hides the Software update entry, no crash
