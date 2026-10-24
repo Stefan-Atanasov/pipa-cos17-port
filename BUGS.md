@@ -17,7 +17,9 @@ Updated 2026-10-24 17:00 (ROM beta5-2p, kernel walt-r5). Related: `MAINTAINER-ST
 |---|---|---|---|
 | 1 | **Clean-flash test of the release package** | Only dirty upgrades are tested | The user runs `FlashLinux.sh` with wipe from `ColorOS17-Port-pipa-beta5-2o-20261024` |
 | 2 | Night drain on 2j+ | The keyboard guard (2j) is not measured for a full night | batterystats after a night (reset 2026-10-24 09:21) |
-| 3 | Stutter under real use | Manual trace: SF on time 86 %, drops = SF GPU deadline misses; memory reclaim ruled out (HISTORY 16:20) | Check what SurfaceFlinger composes on the GPU |
+| 3 | Stutter under real use | Manual trace: SF on time 86 %, drops = SF GPU deadline misses (74 % of frames GPU-composed: blur, rounded window corners); memory reclaim ruled out (HISTORY 16:20, 17:15) | Blur decision (row below), loop fix (3a) |
+| 3 | Window blur → GPU composition | Blur forces client composition of all layers below (clientType=BLUR); A/B blur off: -25 % drops, -35 % GPU misses | User decides: `disable_window_blurs=1` as a ROM default in 2q? |
+| 3a | pipa_port loop CPU | 14.7 % of a core while the screen is on (short processes every second) | **2.3 % live** (HISTORY 17:15); user test of pen dock/buttons, then ROM 2q |
 | 3b | **14** Package cache keeps old manifest data | Layers build with `mkfs.erofs -T0` and keep the fingerprint: a changed system APK keeps its cached manifest (helper shows 0.4 on 2p; its 0.5 code runs) | Clear `/data/system/package_cache` when the layer changes (early boot), or build with a newer fixed `-T` per layer |
 | 3c | **15** Pen capsule 2-3 times at boot | pipa_port sends present=1 at boot +10 s +40 s (old workaround for "stylus connected"); with 2p each one shows the capsule | Send the boot resends without the capsule (flag) or drop them if Settings stays correct |
 | 4 | Unmapped ColorOS hints | SELinux blocks OPPO's perf daemon (a live fix works, measured neutral); `/proc/oplus_binder/ux_flag` is missing | Optional ROM 2p policy + kernel binder ux_flag (KERNEL-RESEARCH "2026-10-24 late afternoon") |

@@ -61,8 +61,19 @@ find_pen_node() {
 	}' /proc/bus/input/devices
 }
 
+# nap: wait without a sleep process (see service.sh)
+NAP_FIFO=/data/misc/pipa_port/nap_keys.fifo
+rm -f "$NAP_FIFO"
+if mkfifo "$NAP_FIFO" 2>/dev/null && exec 8<>"$NAP_FIFO"; then
+	nap() { read -t "$1" -u8 _ 2>/dev/null; }
+else
+	nap() { sleep "$1"; }
+fi
+DEVS_SEEN=-
 while true; do
-	node=$(find_pen_node)
+	# awk only when the input device list changed (builtin read of /proc/bus/input/devices)
+	devs=$(< /proc/bus/input/devices)
+	if [ "$devs" != "$DEVS_SEEN" ] || [ -z "$node" ]; then node=$(find_pen_node); DEVS_SEEN=$devs; fi
 	if [ -n "$node" ] && [ -e "$node" ]; then
 		if [ "$node" != "$CUR" ]; then
 			echo "$(date) key listener on $node" >> $LOG
@@ -85,9 +96,9 @@ while true; do
 					;;
 			esac
 		done
-		sleep 0.3
+		nap 0.3
 	else
 		CUR=""
-		sleep 3
+		nap 3
 	fi
 done

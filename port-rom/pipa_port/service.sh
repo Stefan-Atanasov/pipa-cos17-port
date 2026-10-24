@@ -82,8 +82,17 @@ speed_compile() {
 [ "${SPEED_COMPILE:-1}" = 1 ] && ( speed_compile ) &
 
 BL=/sys/class/backlight/panel0-backlight/brightness
-screen_on() {
-    b=$(cat "$BL" 2>/dev/null)
+# nap: wait without a sleep process (each toybox start costs ~17 ms CPU here): mksh `read -t` on a FIFO that
+# nobody writes. Falls back to sleep if the FIFO cannot be made.
+NAP_FIFO=/data/misc/pipa_port/nap.fifo
+rm -f "$NAP_FIFO"
+if mkfifo "$NAP_FIFO" 2>/dev/null && exec 7<>"$NAP_FIFO"; then
+    nap() { read -t "$1" -u7 _ 2>/dev/null; }
+else
+    nap() { sleep "$1"; }
+fi
+screen_on() {   # shell builtins only in the per-second loop (no cat/grep/stat processes): 2q
+    b=; read -r b < "$BL" 2>/dev/null
     [ -n "$b" ] && [ "$b" != 0 ]
 }
 
@@ -203,6 +212,9 @@ if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
     fi
 fi
 
+SYS_XML=/data/system/users/0/settings_system.xml
+SYS_STAMP=/data/misc/pipa_port/display.stamp
+rm -f "$SYS_STAMP"
 remember_display() {
     if [ "${COLOR_MODE_RESTORE:-1}" = 1 ]; then
         cm=$(settings get system display_color_mode)
@@ -222,10 +234,15 @@ remember_display() {
 # B7: facehal-rs adds persist.vendor.facehal.rotation to the camera orientation for every
 # preview frame but ignores the display rotation; on pipa the right extra turn is
 # 90 x display rotation. Only while a camera worker (a second facehal process) runs.
+# pidof scans all of /proc (and logs an SELinux denial for each foreign process while the domain
+# is permissive), so it runs every 3rd tick, and every tick only while a worker was seen in the last 10 s.
 FROT=$(getprop persist.vendor.facehal.rotation)
+FACE_SEEN=-100
 face_rotation_sync() {
+    [ $((tick - FACE_SEEN)) -lt 10 ] || [ $((tick % 3)) = 0 ] || return
     set -- $(pidof android.hardware.biometrics.face-service.facehal)
     [ $# -gt 1 ] || return
+    FACE_SEEN=$tick
     r=$(dumpsys display 2>/dev/null | grep -m1 -o 'mCurrentOrientation=[0-3]')
     r=${r#*=}
     [ -n "$r" ] && [ "$((r * 90))" != "$FROT" ] || return
@@ -243,11 +260,11 @@ LIDB=$(settings get global lid_behavior)
 # Settings are persisted to this file within ~2 s of a change; a stat per second is cheap, a
 # `settings get` (app_process) is not, so read the switch only when the file changed.
 GLOBAL_XML=/data/system/users/0/settings_global.xml
-GMT=
-lid_check() {
-    m=$(stat -c %Y "$GLOBAL_XML" 2>/dev/null)
-    [ "$m" = "$GMT" ] && return
-    GMT=$m
+LID_STAMP=/data/misc/pipa_port/lid.stamp
+rm -f "$LID_STAMP"
+lid_check() {   # [ -nt ] is a builtin test: no stat process per second
+    [ -e "$LID_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$LID_STAMP" ] && return
+    : > "$LID_STAMP"
     lid_sync
 }
 lid_sync() {
@@ -293,8 +310,9 @@ kb_link() {
 KB_HALL=/sys/devices/virtual/nanodev/nanodev0/_version176x
 kb_attached() {
     echo 1 > "$KB_HALL" 2>/dev/null || return 1
-    sleep 0.1
-    grep -q 'Connected=\[1\]' "$KB_HALL" 2>/dev/null
+    nap 0.1
+    case $(< "$KB_HALL") in *'Connected=[1]'*) return 0 ;; esac
+    return 1
 }
 kb_guard() {
     if kb_attached; then want=running; else want=stopped; fi
@@ -321,8 +339,13 @@ PEN_SOC=/sys/class/power_supply/wireless/reverse_pen_soc
 IOCTL=$MODDIR/xiaomi_touch_ioctl
 PEN_LOG=/data/local/tmp/pipa_pen.log
 
-pen_connected() { grep -q 'Name="Xiaomi Smart Pen"' /proc/bus/input/devices 2>/dev/null; }
-pen_docked() { [ "$(cat "$PEN_HALL" 2>/dev/null)" = 0 ]; }
+DEVS=
+pen_connected() {   # also keeps /proc/bus/input/devices in DEVS for kb_link
+    DEVS=$(< /proc/bus/input/devices)
+    case $DEVS in *'Name="Xiaomi Smart Pen"'*) return 0 ;; esac
+    return 1
+}
+pen_docked() { h=; read -r h < "$PEN_HALL" 2>/dev/null; [ "$h" = 0 ]; }
 pen_mac() {
     awk '/^\[/ { m = $0 } /^Name = Xiaomi Smart Pen$/ { m = substr(m, 2, length(m) - 2); gsub(/:/, "", m); print tolower(m); exit }' \
         /data/misc/bluedroid/bt_config.conf 2>/dev/null
@@ -356,9 +379,11 @@ pen_wake() {
     echo "$(date) pen on applied ok=$ok" >> "$PEN_LOG"
     [ $ok = 1 ]
 }
-pen_keys_alive() {
-    p=$(cat /data/local/tmp/pipa_pen_keys.pid 2>/dev/null)
-    [ -n "$p" ] && tr '\0' ' ' < "/proc/$p/cmdline" 2>/dev/null | grep -q pen_keys.sh
+pen_keys_alive() {   # mksh drops the NUL bytes of cmdline: "sh/system_ext/pipa_port/pen_keys.sh"
+    p=; read -r p < /data/local/tmp/pipa_pen_keys.pid 2>/dev/null
+    [ -n "$p" ] && [ -r "/proc/$p/cmdline" ] || return 1
+    case $(< "/proc/$p/cmdline") in *pen_keys.sh*) return 0 ;; esac
+    return 1
 }
 pen_keys_start() {
     pen_keys_alive && return
@@ -371,12 +396,12 @@ pen_keys_start() {
 
 # ------------------------------------------------------------------ main loop
 # 1 s while the screen is on (an undocked pen must work at once), 5 s while it is off.
-armed=0; conn=; pub=; tick=0; resend=2; ct=0; dk=
+armed=0; conn=; pub=; tick=0; resend=2; ct=0; dk=; KB_DEVS=-
 settings put global pipa_pen_fluid "${PEN_FLUID:-1}" </dev/null >/dev/null 2>&1
 while true; do
     if ! screen_on; then
         armed=0
-        sleep 5
+        nap 5
         continue
     fi
     if [ "${PEN_WAKE:-1}" = 1 ] && [ $armed = 0 ] && [ -x "$IOCTL" ]; then
@@ -396,7 +421,7 @@ while true; do
         fi
         if [ $c = 1 ]; then
             if pen_docked; then d=1; pen_lock 0; else d=0; pen_lock 1; fi
-            soc=$(cat "$PEN_SOC" 2>/dev/null)
+            soc=; read -r soc < "$PEN_SOC" 2>/dev/null
             p="1 $d $soc"
             [ -n "$dk" ] && [ "$d" != "$dk" ] && pen_fluid "$soc"
             dk=$d
@@ -407,14 +432,17 @@ while true; do
     fi
     if [ $((tick % 3)) = 0 ]; then
         [ "${PEN_KEYS:-1}" = 1 ] && pen_keys_start
-        [ "${KB_EVENT_LINK:-1}" = 1 ] && kb_link
+        # kb_link runs awk + readlink: only when the input device list changed
+        [ "${PEN_WATCH:-1}" = 1 ] || DEVS=$(< /proc/bus/input/devices)
+        if [ "${KB_EVENT_LINK:-1}" = 1 ] && [ "$DEVS" != "$KB_DEVS" ]; then kb_link; KB_DEVS=$DEVS; fi
         [ "${KEYBOARD_GUARD:-1}" = 1 ] && [ -e "$KB_HALL" ] && kb_guard
     fi
     if [ $((tick % 15)) = 0 ]; then
-        remember_display
+        # 4 `settings get` (Java processes): only after a change of the system settings file
+        if ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; then : > "$SYS_STAMP"; remember_display; fi
         [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
         [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
     fi
     tick=$((tick + 1))
-    sleep 1
+    nap 1
 done
