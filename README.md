@@ -25,6 +25,8 @@ This repository contains the build scripts, sources and documents for the ColorO
 | [TESTING.md](TESTING.md) | Check a build: regression check, smoothness test, kernel check. |
 | [KERNEL.md](KERNEL.md) | The kernel: parts, branches, settings, build. |
 | [KNOWN-ISSUES.md](KNOWN-ISSUES.md) | Open problems, workarounds and status. |
+| [BUGS.md](BUGS.md) | The maintainer bug list: cause, evidence and next step for each bug. Offline analyses are in `maintainer/bugs/`. |
+| [AGENTS.md](AGENTS.md) | Instructions for AI coding agents (`CLAUDE.md` imports it). |
 | [RELEASE-NOTES.md](RELEASE-NOTES.md) | What the current release changes, how to install it, known issues. |
 | [BLOBS.md](BLOBS.md) | Files that are not in this repository and where to get them. |
 
