@@ -41,6 +41,8 @@ writes `port-work/<tag>-<step>/`. `maintainer/build_port.sh` runs all steps in s
 | 2o | `build_beta5_2o.sh` | All app-wide `refresh_rate_config` rules at 120 Hz in Auto and 120 Hz modes. Video players keep their lower rate. |
 | 2p | `build_beta5_2p.sh` | Pen battery in the ColorOS live alert: OPPO IPeManager patched in place (`maintainer/ipe-fluid/patch_ipemanager.py`), `pipa_port` `PEN_FLUID`, helper without its own pill. |
 | 2q | `build_beta5_2q.sh` | `pipa_port` loop with shell builtins (idle CPU 14.7 → 2.3 % of a core), smoothness defaults once per install (window blur off, material blur off, animation 0.8), package-cache reset per layer, OIFace cpusets, nandswap duplicate guard. |
+| 2r | `build_beta5_2r.sh` | `pipa_port` `KSWAPD_NO_PRIME` (kswapd on CPUs 0-6), pen "connected" once at boot. |
+| 2s | `build_beta5_2s.sh` | `pipa_port` `ANIM_TIER` (launcher animation tier, default 3) + helper Quick Settings tile "Animations", `sget` for settings reads, no animation 0.8 default. |
 
 NOTE: SurfaceFlinger properties must be in `product/etc/build.prop`. The pipa `vendor/build.prop` loads after
 `system` and `system_ext` and sets other values.
@@ -83,6 +85,8 @@ Each switch is 1 (on) or 0 (off).
 | `SYSTEM_UX` | 1 | Mark the system_server threads `android.anim`, `android.display` and `android.ui` as UX. |
 | `SPEED_COMPILE` | 1 | Compile Settings, the Wi-Fi page and the launcher fully, one time for each ROM build. |
 | `LID_SYNC` | 0 | Magnetic case sync. The helper app does this. |
+| `KSWAPD_NO_PRIME` | 1 | Keep kswapd (memory reclaim) off the prime core. |
+| `ANIM_TIER` | 1 | Set the launcher animation tier (`persist.sys.oplus.anim_level`) from global `pipa_anim_level`, else `ANIM_LEVEL` (3). A change restarts the launcher. |
 
 ## 4. The pipa helper app
 
@@ -91,6 +95,7 @@ Each switch is 1 (on) or 0 (off).
 - It keeps Dolby on from boot.
 - It shows the pen battery pill and a low-battery notification.
 - It sets the "lock with cover" switch (`lid_behavior`).
+- Quick Settings tile "Animations": writes global `pipa_anim_level` (3 → 2 → 1 → 4); `pipa_port` applies it.
 
 ## 5. SELinux
 

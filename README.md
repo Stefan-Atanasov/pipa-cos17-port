@@ -11,7 +11,7 @@ This repository contains the build scripts, sources and documents for the ColorO
 | ROM | ColorOS 17 (Android 17), port release beta5 |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.103(CN01)` (C.06) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
-| Kernel | Own kernel `walt-r5` (Linux 4.19), separate repository |
+| Kernel | Own kernel `walt-r6` (Linux 4.19), separate repository |
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 

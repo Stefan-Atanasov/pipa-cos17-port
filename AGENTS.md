@@ -60,7 +60,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 
 ## How to change the ROM
 
-- Each change is a new **layer script** on top of the newest step (now `build_beta5_2q.sh` → `build_beta5_2r.sh`; set `STEP`, which writes `ro.pipa.port.layer`).
+- Each change is a new **layer script** on top of the newest step (now `build_beta5_2r.sh` → `build_beta5_2s.sh`; set `STEP`, which writes `ro.pipa.port.layer`).
   The procedure is in [BUILD.md](BUILD.md) "Add a ROM layer".
 - Only replace files in the copied tree. Write in place with `cat new > old`, so that the owner, the mode and the
   SELinux xattr stay. Each file must have `security.selinux` (`tree_manifest.py` checks it).
@@ -78,7 +78,8 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 
 - **`cmd` tools in the `pipa_port` domain.** `input`, `am`, `settings`, `pm` and `cmd` send their stdin, stdout and
   stderr to system_server over binder. If system_server cannot use the label of a descriptor, the call fails with
-  `Failed transaction (2147483646)` and no log. In `pipa_port` scripts, redirect all three to `/dev/null`.
+  `Failed transaction (2147483646)` and no log. In `pipa_port` scripts, redirect all three to `/dev/null`. Thus
+  `$(settings get ...)` cannot work there: use `sget` in `service.sh` (`content query`).
 - **SELinux denials do not go to dmesg or logcat** (the kernel has no audit core). Use `maintainer/avc_trace.sh start`,
   use the feature, then `avc_trace.sh dump <label>`. The `pipa_port` domain is permissive until its rules are
   collected.

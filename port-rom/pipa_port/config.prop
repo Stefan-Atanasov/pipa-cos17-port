@@ -31,7 +31,7 @@ ADAPTIVE_RESTORE=1
 # pen buttons merged into drawing apps (stylus_buttons_enabled=1).
 BLUR_DEFAULT=1
 STYLUS_BUTTONS_DEFAULT=1
-# once per install: window blur off, material blur off, animation scales 0.8 (2q, smoothness)
+# once per install: window blur off, material blur off (2q, smoothness; animation scales stay at 1.0 since 2s)
 SMOOTH_DEFAULT=1
 
 # Grant the pipa helper app its notification and overlay permissions.
@@ -50,6 +50,15 @@ SF_BIG_CORES=1
 
 # system_server's android.anim / android.display / android.ui as UX (window animations hold the WM lock).
 SYSTEM_UX=1
+
+# Keep kswapd (memory reclaim, zram compression) off the prime core (cpu7), so the UI gets it.
+KSWAPD_NO_PRIME=1
+
+# Launcher animation tier (persist.sys.oplus.anim_level): 3 = smoothest with parallel animations (default),
+# 2 = all parallel-animation paths, 1 = ColorOS default, 4 = light animations. Global setting pipa_anim_level wins
+# (helper Quick Settings tile, or `settings put global pipa_anim_level N`).
+ANIM_TIER=1
+ANIM_LEVEL=3
 
 # Fully compile Settings, the Wi-Fi page and the launcher once per ROM build (SystemUI via
 # dalvik.vm.systemuicompilerfilter=speed). SPEED_APPS overrides the list.

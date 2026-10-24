@@ -1,6 +1,6 @@
 # Kernel
 
-The port uses an own kernel, `walt-r5` (Linux 4.19.325). The source is in
+The port uses an own kernel, `walt-r6` (Linux 4.19.325). The source is in
 https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17.
 
 ## 1. Parts
@@ -12,6 +12,7 @@ https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17.
 | Display and touch | E404R kernel |
 | Root | SukiSU-Ultra (built in) and susfs 2.3.0 |
 | OPPO UI First scheduler (`sched_assist`, frame boost) | OPPO open-source sm8250 kernel |
+| OPPO Hans app freezer channel (netlink 29, binder/signal/network reports) | OPPO open-source sm8250 kernel (OPD2101, ColorOS 14) |
 
 ## 2. Branches
 
@@ -29,6 +30,11 @@ https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17.
 | `kernel.sched_assist_scene` | set by `pipa_port` | UI First scene. Bit 8 keeps SurfaceFlinger off the little cores. |
 
 To change a setting until the next reboot, use root: `echo 0 > /proc/sys/kernel/ux_prefer_big`.
+
+Hans: ColorOS's `/system_ext/bin/hans` reads `uname()`. Below 5.10 it uses netlink protocol 29 (this kernel); from
+5.10 on it uses the generic netlink family `oplus_hans`. The kernel reports 5.10 to apps (Android 17 BPF loaders),
+but gives the `hans` process the real 4.19 release. Without this channel, Hans turns itself off and ColorOS also
+blocks the Android freezer: no app is frozen. Check: `getprop sys.hans.enable` = `true`.
 
 ## 4. Requirements
 

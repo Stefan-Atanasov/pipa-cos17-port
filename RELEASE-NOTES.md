@@ -3,10 +3,20 @@
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB), dirty-upgraded from beta4
 through every beta5 build; a clean flash of this package is still to be tested. Back up first.
 
-ROM `beta5-2q` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
+ROM `beta5-2s` + kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
 
 ## Highlights
 
+- **App freezer works (new in this build):** ColorOS freezes the apps you do not use again ("Hans"). Before, the
+  port's kernel lacked OPPO's freezer channel, so no app was ever frozen and background apps (gallery, weather,
+  browser, ...) kept the CPU busy. In a test with many apps open, long stalls went from 262 to 2 and long frames
+  (> 120 ms) from 42 to 9. It also helps standby battery.
+- **Smoother app opening (new):** the launcher's animation tier is 3 by default: no wallpaper zoom, lighter
+  interruption handling. While apps open and close, dropped frames went from 2.7 % to 0.3 %. A Quick Settings tile
+  **"Animations"** (pipa helper) switches the tier: 3 Smooth (default) → 2 Parallel (every ColorOS parallel-animation
+  path, 1.5 % dropped) → 1 ColorOS → 4 Light. Or: `settings put global pipa_anim_level 2` (root shell or adb).
+- **Memory reclaim off the fastest core (new):** with many apps open, the kernel's memory compression (kswapd) used a
+  third of the prime core; it now runs on the other cores (launcher hitches 21 → 4 in a test).
 - **Smoothness:** SurfaceFlinger, its GPU composition thread and the UI threads of the app you use now run on the big
   CPU cores; SurfaceFlinger gets enough time per frame at 120 Hz; system animation threads are prioritised; SystemUI,
   Settings and the launcher are fully compiled. In a heavy stress test (fast app switching, flings, shade, drawer)
@@ -14,15 +24,14 @@ ROM `beta5-2q` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
   quick settings from ~300 ms to ~180 ms.
 - **120 Hz in all apps** in the Auto refresh mode (ColorOS capped music and many other apps at 60/90 Hz, and the
   switch between rates in the middle of animations caused stutter). Fullscreen video still drops to 60 Hz.
-- **Smoother by default:** window blur and material blur off, animations 20 % shorter (change them back in Settings →
-  Developer options / Display if you want), and the port's background service uses about 2 % of one CPU core
-  instead of 15 %. For the smoothest app switching, turn the taskbar off (see Tips).
+- **Smoother by default:** window blur and material blur off (with the taskbar on, blur costs about 50 % more
+  launcher jank), and the port's background service uses about 2 % of one CPU core instead of 15 %. For the smoothest app switching, turn the taskbar off (see Tips).
 - **Pen battery in the ColorOS live alert:** when you dock or take out the Xiaomi pen, ColorOS's own capsule at the
   top shows the pen and its battery level (OPPO's pen app, patched to accept the Xiaomi pen).
 - **Battery:** the keyboard-cover daemon no longer polls the accelerometer all night when no keyboard is attached
   (it kept the sensor hub and SoC awake); the GNSS service no longer retries a missing HAL every second.
-- **Own kernel** (`walt-r5`, Linux 4.19.325): LineageOS base with WALT, pipa drivers, E404 display/touch, OPPO's
-  "UI First" scheduler (what ColorOS 17 expects), SukiSU-Ultra root + susfs built in. Source:
+- **Own kernel** (`walt-r6`, Linux 4.19.325): LineageOS base with WALT, pipa drivers, E404 display/touch, OPPO's
+  "UI First" scheduler and "Hans" app freezer channel (what ColorOS 17 expects), SukiSU-Ultra root + susfs built in. Source:
   https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`).
 - **No modules needed any more:** everything `pipa_core` and the power-tune module did is in the ROM (face unlock,
   pen, AOD, Dolby, charger shim, colour/adaptive restore, helper app with the pen battery pill).
@@ -32,6 +41,9 @@ ROM `beta5-2q` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
 - Face unlock: preview rotation and crop, HAL watchdog; pen: battery pill and low-battery notice, "stylus connected"
   in Settings, 120 Hz while the pen is out, back button = screenshot, buttons merged into drawing apps; Dolby works
   from boot; correct boot rotation and logo; magnetic case (lid) works.
+- Bedtime mode no longer turns itself on at each boot, and the colour mode is remembered correctly (the port's
+  service could not read settings since beta5-2e).
+- The pen "connected" capsule shows once at boot, not three times.
 - "Battery may not be genuine" dialog gone (the charger shim reports the battery as genuine).
 - Screen glitches in Settings search fixed (SurfaceFlinger layer caching off).
 - ColorOS sound effects (AudioX) no longer retry in a loop.
@@ -53,8 +65,10 @@ ROM `beta5-2q` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
 
 ## Tips
 
-- The ROM turns material blur and window blur off and sets the animation scales to 0.8 once at the first boot. To
-  get blur back: search "blur" in Settings, and Developer options → "Allow window-level blurs".
+- The ROM turns material blur and window blur off once at the first boot. To get blur back: search "blur" in
+  Settings, and Developer options → "Allow window-level blurs". Animation scales stay at 1.0.
+- Add the **"Animations"** tile in Quick Settings (edit mode) to change the launcher animation tier; the launcher
+  restarts once when you tap it.
 - Smoothest setup measured for fast app switching: **taskbar off** (`adb shell settings put system
   enable_launcher_taskbar 0`). The ColorOS taskbar redraws on every frame of each app open/close; with it off the
   long launcher hitches (> 120 ms) were gone in the test.

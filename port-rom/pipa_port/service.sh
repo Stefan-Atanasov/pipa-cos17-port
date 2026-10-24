@@ -16,6 +16,15 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG"
 }
 
+# Read a setting: sget system|secure|global <key> (prints the value or "null"). `settings get` does not work in this
+# service: system_server may not write to the pipe of the pipa_port domain ("Failed transaction"), so from 2e to 2r
+# every read returned the error text (the colour state file got it, and its "1" turned Bedtime on at each boot).
+# `content query` prints the row itself.
+sget() {
+    v=$(content query --uri "content://settings/$1/$2" --projection value </dev/null 2>/dev/null)
+    case $v in *value=NULL|*value=) echo null ;; *value=*) echo "${v##*value=}" ;; *) echo null ;; esac
+}
+
 [ "$(getprop ro.product.device)" = pipa ] || exit 0
 
 # singleton (a manual test run must not double the watchers)
@@ -43,6 +52,20 @@ log "start (build=$(getprop ro.build.display.id))"
 SA_SCENE=/proc/sys/kernel/sched_assist_scene
 if [ "${SF_BIG_CORES:-1}" = 1 ] && [ -w "$SA_SCENE" ]; then
     echo 384 > "$SA_SCENE" && log "sched_assist scene -> $(cat "$SA_SCENE") (SurfaceFlinger off the little cores)"
+fi
+
+# ------------------------------------------------------------ kswapd off the prime core
+# Under memory pressure kswapd (zram lz4 compression) ran 19.7 s of 60 s on cpu7, more than the launcher (10.3 s) and
+# SurfaceFlinger (7.1 s) there (2026-10-24 trace manual-2). On CPUs 0-6 (manual-3): launcher frames > 120 ms 21 -> 4,
+# prime idle 10.3 -> 20.5 s, no more reclaim stalls. Once: kswapd does not restart.
+if [ "${KSWAPD_NO_PRIME:-1}" = 1 ]; then
+    for c in /proc/[0-9]*/comm; do
+        read -r n < "$c" 2>/dev/null || continue
+        case $n in
+            kswapd*) p=${c#/proc/}; p=${p%/comm}
+                     taskset -p 7f "$p" >/dev/null 2>&1 && log "kswapd $p -> CPUs 0-6"; break ;;
+        esac
+    done
 fi
 
 # ------------------------------------------------------------ system_server animation threads as UX
@@ -169,27 +192,24 @@ fi
 
 # ------------------------------------------------------------------- defaults
 # Written only when unset, so the user's own choice wins.
-if [ "${BLUR_DEFAULT:-1}" = 1 ] && [ "$(settings get system animationBlurrySwitch)" = null ]; then
+if [ "${BLUR_DEFAULT:-1}" = 1 ] && [ "$(sget system animationBlurrySwitch)" = null ]; then
     settings put system animationBlurrySwitch 0 && log "animation blur default -> 0"
 fi
-if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(settings get secure stylus_buttons_enabled)" = null ]; then
+if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(sget secure stylus_buttons_enabled)" = null ]; then
     settings put secure stylus_buttons_enabled 1
     touch "$STATE/stylus_default_set"
     log "stylus_buttons_enabled default -> 1"
 fi
 # 2q smoothness defaults, once per install (state file; the user can change them back in Developer options):
 # window blur off (SurfaceFlinger forces GPU composition of every layer below a blur: A/B -25 % dropped frames,
-# -35 % GPU misses), material blur off (launcher jank about -40 %), animation scales 0.8 (fewer animated frames).
+# -35 % GPU misses), material blur off (launcher jank about -40 %). Animation scales stay at 1.0 since 2s (user choice).
 if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
     {
         settings put global disable_window_blurs 1
         settings put system system_material_blur_enable 0
-        for k in window_animation_scale transition_animation_scale animator_duration_scale; do
-            settings put global $k 0.8
-        done
     } </dev/null >/dev/null 2>&1
     touch "$STATE/smooth_default_set"
-    log "smoothness defaults: window blur off, material blur off, animation scales 0.8"
+    log "smoothness defaults: window blur off, material blur off"
 fi
 # The ROM's default-permissions entry only applies on a first boot.
 if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1; then
@@ -207,20 +227,21 @@ ADAPTIVE_STATE=$STATE/adaptive_state
 BEDTIME_STATE=$STATE/bedtime_state
 sleep 15
 if [ "${COLOR_MODE_RESTORE:-1}" = 1 ] && [ -f "$COLOR_STATE" ]; then
-    want=$(cat "$COLOR_STATE"); now=$(settings get system display_color_mode)
+    want=$(cat "$COLOR_STATE"); now=$(sget system display_color_mode)
+    case $want in ''|*[!0-9]*) want= ; rm -f "$COLOR_STATE" ;; esac   # 2e-2r stored an error text here
     [ -n "$want" ] && [ "$want" != "$now" ] && \
         settings put system display_color_mode "$want" && log "colour mode $now -> $want restored"
 fi
 if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
     if [ "$(cat "$ADAPTIVE_STATE" 2>/dev/null)" = 1 ]; then
         for k in setting_enable_color_temperature_regulation oplus_customize_comfort_color_temperature_enable; do
-            [ "$(settings get system $k)" = 1 ] || settings put system $k 1
+            [ "$(sget system $k)" = 1 ] || settings put system $k 1
         done
         log "adaptive colour restored"
     fi
     if [ "$(cat "$BEDTIME_STATE" 2>/dev/null)" = 1 ]; then
         for k in oplus_customize_rhythm_health_enable oplus_customize_comfortable_rhythm_enable; do
-            [ "$(settings get system $k)" = 1 ] || settings put system $k 1
+            [ "$(sget system $k)" = 1 ] || settings put system $k 1
         done
         log "bedtime mode restored"
     fi
@@ -231,14 +252,14 @@ SYS_STAMP=/data/misc/pipa_port/display.stamp
 rm -f "$SYS_STAMP"
 remember_display() {
     if [ "${COLOR_MODE_RESTORE:-1}" = 1 ]; then
-        cm=$(settings get system display_color_mode)
+        cm=$(sget system display_color_mode)
         case "$cm" in ''|null) ;; *) [ "$cm" = "$(cat "$COLOR_STATE" 2>/dev/null)" ] || echo "$cm" > "$COLOR_STATE" ;; esac
     fi
     if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
-        av=$(settings get system setting_enable_color_temperature_regulation)
+        av=$(sget system setting_enable_color_temperature_regulation)
         case "$av" in 0|1) [ "$av" = "$(cat "$ADAPTIVE_STATE" 2>/dev/null)" ] || echo "$av" > "$ADAPTIVE_STATE" ;; esac
         # Bedtime is on if either the standalone or the Eye Comfort-dependent switch is on
-        case "$(settings get system oplus_customize_rhythm_health_enable)$(settings get system oplus_customize_comfortable_rhythm_enable)" in
+        case "$(sget system oplus_customize_rhythm_health_enable)$(sget system oplus_customize_comfortable_rhythm_enable)" in
             *1*) bt=1 ;; *0*) bt=0 ;; *) bt= ;;
         esac
         [ -n "$bt" ] && [ "$bt" != "$(cat "$BEDTIME_STATE" 2>/dev/null)" ] && echo "$bt" > "$BEDTIME_STATE"
@@ -270,9 +291,9 @@ face_rotation_sync() {
 # SettingsProvider seeds 0 (config_lidControlsSleep=false). ColorOS's own "smart case" switch
 # (global device_case_enabled) waits for an OPPO hall sensor pipa lacks, so it does nothing:
 # let that switch drive lid_behavior instead.
-LIDB=$(settings get global lid_behavior)
+LIDB=$(sget global lid_behavior)
 # Settings are persisted to this file within ~2 s of a change; a stat per second is cheap, a
-# `settings get` (app_process) is not, so read the switch only when the file changed.
+# sget (content query, app_process) is not, so read the switch only when the file changed.
 GLOBAL_XML=/data/system/users/0/settings_global.xml
 # A zygote restart (system_server crash, soft reboot) sets sys.boot_completed again, and OPPO's
 # init.oplus.nandswap.sh then attaches /data/nandswap/swapfile once more (seen 3x on one file: if zram ever fills,
@@ -287,6 +308,23 @@ nandswap_dedup() {
         esac
     done < /proc/swaps
 }
+# Launcher animation tier (OplusLauncher reads persist.sys.oplus.anim_level). 3 = wallpaper zoom off and lighter
+# interruption handling: SF dropped frames 2.7 -> 0.3 %, GPU deadline misses 116 -> 10 per run (2026-10-24, traced_heavy);
+# 2 keeps every parallel-animation path (dropped 1.5 %); 4 = light animations, no full-scene continuity. The helper's
+# Quick Settings tile (or `settings put global pipa_anim_level N`) picks the tier; the launcher restarts to apply it.
+ANIM_STAMP=/data/misc/pipa_port/anim.stamp
+rm -f "$ANIM_STAMP"
+anim_check() {
+    [ -e "$ANIM_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$ANIM_STAMP" ] && return
+    : > "$ANIM_STAMP"
+    want=$(sget global pipa_anim_level)
+    case $want in 1|2|3|4) ;; *) want=${ANIM_LEVEL:-3} ;; esac
+    [ "$(getprop persist.sys.oplus.anim_level)" = "$want" ] && return
+    setprop persist.sys.oplus.anim_level "$want"
+    am force-stop com.android.launcher </dev/null >/dev/null 2>&1
+    am start -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null >/dev/null 2>&1
+    log "launcher animation tier -> $want"
+}
 LID_STAMP=/data/misc/pipa_port/lid.stamp
 rm -f "$LID_STAMP"
 lid_check() {   # [ -nt ] is a builtin test: no stat process per second
@@ -295,7 +333,7 @@ lid_check() {   # [ -nt ] is a builtin test: no stat process per second
     lid_sync
 }
 lid_sync() {
-    case "$(settings get global device_case_enabled)" in 0) want=0 ;; *) want=1 ;; esac
+    case "$(sget global device_case_enabled)" in 0) want=0 ;; *) want=1 ;; esac
     [ "$want" = "$LIDB" ] && return
     settings put global lid_behavior $want
     LIDB=$want
@@ -436,6 +474,7 @@ while true; do
     fi
     [ "${FACE_HAL:-1}" = 1 ] && face_rotation_sync
     [ "${LID_SYNC:-1}" = 1 ] && lid_check
+    [ "${ANIM_TIER:-1}" = 1 ] && anim_check
     if [ "${PEN_WATCH:-1}" = 1 ]; then
         if pen_connected; then c=1; else c=0; fi
         # At boot ColorOS's pen manager is not ready at once (an early message was sometimes ignored and
@@ -466,7 +505,7 @@ while true; do
         [ "${KEYBOARD_GUARD:-1}" = 1 ] && [ -e "$KB_HALL" ] && kb_guard
     fi
     if [ $((tick % 15)) = 0 ]; then
-        # 4 `settings get` (Java processes): only after a change of the system settings file
+        # 4 sget reads (content query, Java processes): only after a change of the system settings file
         if ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; then : > "$SYS_STAMP"; remember_display; fi
         [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
         [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux

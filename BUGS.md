@@ -7,21 +7,24 @@ show (offline analysis), what to capture on a device, and where a fix would live
 Status: **open** (not investigated), **analysed** (offline cause candidates), **fix planned**,
 **fixed in <build>**.
 
-Updated 2026-10-24 19:00 (ROM beta5-2q, kernel walt-r5). Related: `MAINTAINER-STATUS.md` (builds and plan),
+Updated 2026-10-24 22:50 (ROM beta5-2s, kernel walt-r6). Related: `MAINTAINER-STATUS.md` (builds and plan),
 `notes/STABILITY-PERF.md` (old stability and performance plan, captures D1-D17), `notes/PHASE2-ROM-INTEGRATION.md`
 (how the runtime fixes went into the ROM).
 
-## Open items (2026-10-24, beta5-2q + walt-r5; the large table below has the full history of each item)
+## Open items (2026-10-24, beta5-2s + walt-r6; the large table below has the full history of each item)
 
 | Prio | Item | Why it is open | Next step |
 |---|---|---|---|
-| 1 | **Clean-flash test of the release package** | Only dirty upgrades are tested | The user runs `FlashLinux.sh` with wipe from `ColorOS17-Port-pipa-beta5-2o-20261024` |
-| 2 | Night drain on 2j+ | The keyboard guard (2j) is not measured for a full night | batterystats after a night (reset 2026-10-24 09:21) |
+| 1 | **Clean-flash test of the release package** | Only dirty upgrades are tested | The user runs `FlashLinux.sh` with wipe from `ColorOS17-Port-pipa-beta5-2s-20261024` |
+| 2 | Night drain on r6 + 2s | Hans (r6) now freezes background apps: should be the same or better than the 2i night (78 → 75 % in 8 h) | Reset batterystats, a night unplugged |
 | 3 | Stutter under real use | Manual trace: SF on time 86 %, drops = SF GPU deadline misses (74 % of frames GPU-composed: blur, rounded window corners); memory reclaim ruled out (HISTORY 16:20, 17:15) | Blur decision (row below), loop fix (3a) |
 | 3 | Transient taskbar | Redraws on every transition frame; launcher RenderThread blocks in dequeueBuffer up to ~200 ms (hidden surface). Taskbar off + blur off: launcher hitches > 120 ms 8/1 → 0/0, dropped 0.48-0.99 % | User decides (likes the taskbar); a launcher patch would be large |
 | 3a | pipa_port loop CPU | **Fixed in 2q** (14.7 → 2.3 % of a core); window blur off + animation 0.8 default (2q) | User: check pen dock + back button on 2q |
 | 3b | **14** Package cache keeps old manifest data (**fixed in 2q**: early.sh + `ro.pipa.port.layer`) | Layers build with `mkfs.erofs -T0` and keep the fingerprint: a changed system APK keeps its cached manifest (helper shows 0.4 on 2p; its 0.5 code runs) | Clear `/data/system/package_cache` when the layer changes (early boot), or build with a newer fixed `-T` per layer |
-| 3c | **15** Pen capsule 2-3 times at boot | pipa_port sends present=1 at boot +10 s +40 s (old workaround for "stylus connected"); with 2p each one shows the capsule | Send the boot resends without the capsule (flag) or drop them if Settings stays correct |
+| 3c | **15** Pen capsule 2-3 times at boot (**fixed in 2r**: one message at +40 s) | pipa_port sends present=1 at boot +10 s +40 s (old workaround for "stylus connected"); with 2p each one shows the capsule | Send the boot resends without the capsule (flag) or drop them if Settings stays correct |
+| 3d | **16** No app was ever frozen (**fixed in walt-r6**) | ColorOS's `hans` daemon needs OPPO's netlink 29 channel; without it Hans turns off and vetoes the AOSP freezer | Done: OPD2101 Hans driver + uname exemption (HISTORY 2026-10-24 21:00) |
+| 3e | **17** `settings get` never worked in the pipa_port service, Bedtime turned on at each boot (**fixed in 2s**) | `cmd settings` cannot write to the service's pipe; reads returned the error text | Done: `sget` (content query). The user decides about Bedtime (now on) |
+| 3f | **18** App-open stutter (window stretch) | ColorOS animation on the Adreno 650 | **Improved in 2s**: launcher animation tier 3 (dropped 2.7 → 0.3 %); first opens of heavy apps still load the GPU fully |
 | 4 | Unmapped ColorOS hints | SELinux blocks OPPO's perf daemon (a live fix works, measured neutral); `/proc/oplus_binder/ux_flag` is missing | Optional ROM 2p policy + kernel binder ux_flag (KERNEL-RESEARCH "2026-10-24 late afternoon") |
 | 5 | **11** "Xiaomi Keyboard configured" notification without a keyboard | The nanosic driver registers virtual input devices at probe | Kernel: register them on attach (a keyboard is necessary for the test) |
 | 6 | **B9** network sharing | The virtual modem answers `RADIO_NOT_AVAILABLE` | Logs from the **phone** during a share |

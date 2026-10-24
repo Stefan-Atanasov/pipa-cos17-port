@@ -4,8 +4,8 @@
      ActivityManager starts it at boot and never kills it. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.port.pipa.helper"
-    android:versionCode="5"
-    android:versionName="0.5">
+    android:versionCode="6"
+    android:versionName="0.6">
 
     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
 
@@ -27,6 +27,14 @@
         android:hasCode="true"
         android:allowBackup="false">
         <!-- start path when installed as a normal app (testing); a system app starts as persistent -->
+        <!-- Quick Settings tile: launcher animation tier (pipa_port applies it) -->
+        <service android:name=".AnimTile" android:exported="true" android:label="Animations"
+            android:icon="@drawable/ic_anim"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
         <receiver android:name=".BootReceiver" android:exported="false" android:directBootAware="true">
             <intent-filter>
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />

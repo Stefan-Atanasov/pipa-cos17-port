@@ -1,0 +1,92 @@
+#!/bin/sh
+# Phase 2s: launcher animation tier 3 + Quick Settings tile, no animation 0.8 default, on top of 2r (system +
+# system_ext). Run as root:
+#
+#   sudo sh build_beta5_2s.sh
+#
+# * pipa_port ANIM_TIER: persist.sys.oplus.anim_level from global pipa_anim_level, default ANIM_LEVEL=3 (traced_heavy
+#   2026-10-24: SF dropped frames 2.7 -> 0.3 %, GPU deadline misses 116 -> 10; 2 = 1.5 %, keeps every parallel-
+#   animation path). A change restarts the launcher.
+# * pipa helper 0.6: Quick Settings tile "Animations" (tap order 3 -> 2 -> 1 -> 4) writes pipa_anim_level.
+# * pipa_port SMOOTH_DEFAULT: no animation scales 0.8 any more (they stay at 1.0, user choice).
+# * pipa_port sget(): settings reads through `content query`. `settings get` failed in the service domain since 2e
+#   (colour state got the error text, Bedtime was turned on at each boot).
+# * system_ext/etc/build.prop: ro.pipa.port.layer=2s (early.sh clears the package cache: the helper manifest changed).
+#
+# Input: port-work/${TAG}-2p/tree/system, port-work/${TAG}-2r/tree/system_ext, port-work/${TAG}-2r/img,
+# helper/out/PipaHelper.apk. Output: port-work/${TAG}-2s/.
+set -eu
+TAG=${TAG:-beta5}
+STEP=2s
+[ "$(id -u)" = 0 ] || { echo "run with sudo"; exit 1; }
+P=${PIPA_ROOT:-/home/stefan/Documents/pipa}/port-work
+IMGSRC=$P/${TAG}-2r/img
+W=$P/${TAG}-$STEP
+HERE=$(cd "$(dirname "$0")" && pwd)
+ROM=$HERE/../port-rom
+APK=$HERE/../helper/out/PipaHelper.apk
+OWNER=${PIPA_OWNER:-stefan:stefan}
+[ -f "$IMGSRC/super.img" ] || { echo "run build_beta5_2r.sh first"; exit 1; }
+[ -d "$P/${TAG}-2p/tree/system" ] || { echo "the 2p system tree is missing: rebuild 2p"; exit 1; }
+[ -d "$P/${TAG}-2r/tree/system_ext" ] || { echo "the 2r tree is missing: rebuild 2r"; exit 1; }
+[ -f "$APK" ] || { echo "build the helper first: sh helper/build.sh"; exit 1; }
+
+rm -rf "$W/tree"; mkdir -p "$W/tree" "$W/img" "$W/report"
+exec > "$W/report/build.log" 2>&1
+cp -a --reflink=auto "$P/${TAG}-2p/tree/system" "$P/${TAG}-2r/tree/system_ext" "$W/tree/"
+S=$W/tree/system
+SE=$W/tree/system_ext
+
+echo "== pipa helper 0.6 (animation tile)"
+cat "$APK" > "$S/system/priv-app/PipaHelper/PipaHelper.apk"   # in place (cat >): owner, mode and SELinux label stay
+rm -rf "$S/system/priv-app/PipaHelper/oat"
+md5sum "$S/system/priv-app/PipaHelper/PipaHelper.apk"
+
+echo "== pipa_port: animation tier, smoothness defaults"
+for f in service.sh pen_keys.sh early.sh config.prop; do
+    cat "$ROM/pipa_port/$f" > "$SE/pipa_port/$f"
+    echo "updated system_ext/pipa_port/$f"
+done
+grep -q anim_check "$SE/pipa_port/service.sh"
+grep -q "^sget()" "$SE/pipa_port/service.sh"
+! grep -q "settings get " "$SE/pipa_port/service.sh"
+grep -q '^ANIM_LEVEL=3' "$SE/pipa_port/config.prop"
+grep -q KSWAPD_NO_PRIME "$SE/pipa_port/service.sh"
+! grep -q 'settings put global $k 0.8' "$SE/pipa_port/service.sh"
+
+echo "== system_ext build.prop: ro.pipa.port.layer=$STEP"
+BP=$SE/etc/build.prop
+sed "s/^ro.pipa.port.layer=.*/ro.pipa.port.layer=$STEP/" "$BP" > "$W/report/build.prop.new"
+cat "$W/report/build.prop.new" > "$BP"
+grep "^ro.pipa.port.layer=$STEP\$" "$BP"
+
+echo "== label check"
+for t in system system_ext; do
+    python3 -I "$HERE/tree_manifest.py" "$W/tree/$t" > "$W/report/$t.tsv"
+    n=$(awk -F'\t' '$7 !~ /security.selinux/' "$W/report/$t.tsv" | wc -l)
+    echo "$t: $(wc -l < "$W/report/$t.tsv") entries, $n without a SELinux label"
+    [ "$n" = 0 ] || exit 1
+done
+
+echo "== mkfs (system, system_ext)"
+for t in system system_ext; do
+    mkfs.erofs -zlz4hc -C65536 -T0 "$W/img/$t.img" "$W/tree/$t" > "$W/report/mkfs_$t.log" 2>&1
+done
+for p in product vendor odm; do cp --reflink=auto "$IMGSRC/$p.img" "$W/img/$p.img"; done
+ls -l "$W/img"
+
+echo "== super"
+cd "$W/img"
+set --
+for p in system system_ext product vendor odm; do set -- "$@" --partition "${p}_a:readonly:0:qti_dynamic_partitions_a"; done
+for p in system system_ext product vendor odm; do
+    set -- "$@" --partition "${p}_b:readonly:$(stat -c %s $p.img):qti_dynamic_partitions_b" --image "${p}_b=$p.img"
+done
+lpmake --metadata-size 65536 --super-name super --metadata-slots 2 --virtual-ab \
+    --device super:9126805504 \
+    --group qti_dynamic_partitions_a:9126805504 --group qti_dynamic_partitions_b:9126805504 \
+    "$@" --sparse --output super.img 2>&1 | grep -v -e 'will resize' -e 'Invalid sparse' || true
+ls -l super.img
+md5sum super.img
+chown -R "$OWNER" "$W/img" "$W/report"
+echo "== done"
