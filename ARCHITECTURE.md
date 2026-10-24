@@ -43,6 +43,7 @@ writes `port-work/<tag>-<step>/`. `maintainer/build_port.sh` runs all steps in s
 | 2q | `build_beta5_2q.sh` | `pipa_port` loop with shell builtins (idle CPU 14.7 → 2.3 % of a core), smoothness defaults once per install (window blur off, material blur off, animation 0.8), package-cache reset per layer, OIFace cpusets, nandswap duplicate guard. |
 | 2r | `build_beta5_2r.sh` | `pipa_port` `KSWAPD_NO_PRIME` (kswapd on CPUs 0-6), pen "connected" once at boot. |
 | 2s | `build_beta5_2s.sh` | `pipa_port` `ANIM_TIER` (launcher animation tier, default 3) + helper Quick Settings tile "Animations", `sget` for settings reads, no animation 0.8 default. |
+| 2t | `build_beta5_2t.sh` | `sget` reads settings with `settings get` into a file (cheap); a failed read keeps the animation tier. |
 
 NOTE: SurfaceFlinger properties must be in `product/etc/build.prop`. The pipa `vendor/build.prop` loads after
 `system` and `system_ext` and sets other values.

@@ -79,7 +79,8 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **`cmd` tools in the `pipa_port` domain.** `input`, `am`, `settings`, `pm` and `cmd` send their stdin, stdout and
   stderr to system_server over binder. If system_server cannot use the label of a descriptor, the call fails with
   `Failed transaction (2147483646)` and no log. In `pipa_port` scripts, redirect all three to `/dev/null`. Thus
-  `$(settings get ...)` cannot work there: use `sget` in `service.sh` (`content query`).
+  `$(settings get ...)` cannot work there: use `sget` in `service.sh` (`settings get` into a
+  file in `/data/local/tmp`).
 - **SELinux denials do not go to dmesg or logcat** (the kernel has no audit core). Use `maintainer/avc_trace.sh start`,
   use the feature, then `avc_trace.sh dump <label>`. The `pipa_port` domain is permissive until its rules are
   collected.

@@ -3,20 +3,19 @@
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB), dirty-upgraded from beta4
 through every beta5 build; a clean flash of this package is still to be tested. Back up first.
 
-ROM `beta5-2s` + kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
+ROM `beta5-2t` + kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
 
 ## Highlights
 
-- **App freezer works (new in this build):** ColorOS freezes the apps you do not use again ("Hans"). Before, the
-  port's kernel lacked OPPO's freezer channel, so no app was ever frozen and background apps (gallery, weather,
-  browser, ...) kept the CPU busy. In a test with many apps open, long stalls went from 262 to 2 and long frames
-  (> 120 ms) from 42 to 9. It also helps standby battery.
-- **Smoother app opening (new):** the launcher's animation tier is 3 by default: no wallpaper zoom, lighter
-  interruption handling. While apps open and close, dropped frames went from 2.7 % to 0.3 %. A Quick Settings tile
-  **"Animations"** (pipa helper) switches the tier: 3 Smooth (default) → 2 Parallel (every ColorOS parallel-animation
-  path, 1.5 % dropped) → 1 ColorOS → 4 Light. Or: `settings put global pipa_anim_level 2` (root shell or adb).
-- **Memory reclaim off the fastest core (new):** with many apps open, the kernel's memory compression (kswapd) used a
-  third of the prime core; it now runs on the other cores (launcher hitches 21 → 4 in a test).
+- **App freezer works (new):** ColorOS freezes the apps that you do not use ("Hans"). In beta4 and earlier beta5
+  builds, the kernel did not have OPPO's freezer channel. Thus no app was frozen, and background apps used the CPU.
+  Test with many open apps: long stalls 262 → 2, long frames (> 120 ms) 42 → 9. Standby battery also gets better.
+- **Smoother app opening (new):** the launcher animation tier is 3. Tier 3 removes the wallpaper zoom. Dropped frames
+  during app open and close: 2.7 % → 0.3 %. To change the tier, use the Quick Settings tile **"Animations"**:
+  3 Smooth (default) → 2 Parallel → 1 ColorOS → 4 Light. Tier 2 keeps all ColorOS parallel animations
+  (1.5 % dropped frames). A root shell can also set it: `settings put global pipa_anim_level 2`.
+- **Memory reclaim off the fastest core (new):** with many open apps, memory compression (kswapd) used a third of the
+  prime core. It now uses the other cores. Launcher hitches: 21 → 4.
 - **Smoothness:** SurfaceFlinger, its GPU composition thread and the UI threads of the app you use now run on the big
   CPU cores; SurfaceFlinger gets enough time per frame at 120 Hz; system animation threads are prioritised; SystemUI,
   Settings and the launcher are fully compiled. In a heavy stress test (fast app switching, flings, shade, drawer)
@@ -41,8 +40,8 @@ ROM `beta5-2s` + kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
 - Face unlock: preview rotation and crop, HAL watchdog; pen: battery pill and low-battery notice, "stylus connected"
   in Settings, 120 Hz while the pen is out, back button = screenshot, buttons merged into drawing apps; Dolby works
   from boot; correct boot rotation and logo; magnetic case (lid) works.
-- Bedtime mode no longer turns itself on at each boot, and the colour mode is remembered correctly (the port's
-  service could not read settings since beta5-2e).
+- Bedtime mode does not turn on at each boot any more. The colour mode is kept correctly. (Since beta5-2e, the port
+  service could not read settings.)
 - The pen "connected" capsule shows once at boot, not three times.
 - "Battery may not be genuine" dialog gone (the charger shim reports the battery as genuine).
 - Screen glitches in Settings search fixed (SurfaceFlinger layer caching off).
@@ -60,15 +59,16 @@ ROM `beta5-2s` + kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
    from another ROM, or if anything misbehaves after a dirty flash.
 3. First boot takes a few minutes ("Optimizing apps"); about 3 minutes after the first boot the ROM compiles
    SystemUI, Settings and the launcher once in the background, so the first minutes can feel slower.
-4. Root: update to the **SukiSU-Ultra manager 4.2.1-r1** APK (the kernel has a newer SukiSU than beta4's).
+4. Root: update to the **SukiSU-Ultra manager 4.2.1-r1** APK (the kernel has a newer SukiSU than beta4's). **Do not
+   update the manager to 4.2.1-r2 or newer yet.** The kernel has SukiSU 4.2.1-r1. A later kernel will update both.
 5. Accept the ADB authorisation prompt on the tablet if you use ADB.
 
 ## Tips
 
 - The ROM turns material blur and window blur off once at the first boot. To get blur back: search "blur" in
   Settings, and Developer options → "Allow window-level blurs". Animation scales stay at 1.0.
-- Add the **"Animations"** tile in Quick Settings (edit mode) to change the launcher animation tier; the launcher
-  restarts once when you tap it.
+- Add the **"Animations"** tile in Quick Settings (edit mode). Tap it to change the launcher animation tier. The
+  launcher restarts one time after each tap.
 - Smoothest setup measured for fast app switching: **taskbar off** (`adb shell settings put system
   enable_launcher_taskbar 0`). The ColorOS taskbar redraws on every frame of each app open/close; with it off the
   long launcher hitches (> 120 ms) were gone in the test.

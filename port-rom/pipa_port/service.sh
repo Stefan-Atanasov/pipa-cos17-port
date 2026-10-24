@@ -16,13 +16,16 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG"
 }
 
-# Read a setting: sget system|secure|global <key> (prints the value or "null"). `settings get` does not work in this
-# service: system_server may not write to the pipe of the pipa_port domain ("Failed transaction"), so from 2e to 2r
-# every read returned the error text (the colour state file got it, and its "1" turned Bedtime on at each boot).
-# `content query` prints the row itself.
+# Read a setting: sget system|secure|global <key> (prints the value or "null"; fails if the read fails). `settings get`
+# cannot write to a pipe of the pipa_port domain ("Failed transaction"), so `$(settings get ...)` returned the error
+# text from 2e to 2r (the colour state file got it, and its "1" turned Bedtime on at each boot). A file in
+# /data/local/tmp works: 0.03 s CPU per read (`content query`, Java: 0.28 s).
+SGET_F=/data/local/tmp/pipa_port.sget
 sget() {
-    v=$(content query --uri "content://settings/$1/$2" --projection value </dev/null 2>/dev/null)
-    case $v in *value=NULL|*value=) echo null ;; *value=*) echo "${v##*value=}" ;; *) echo null ;; esac
+    : > "$SGET_F"
+    settings get "$1" "$2" </dev/null >"$SGET_F" 2>/dev/null || return 1
+    v=; read -r v < "$SGET_F"
+    echo "${v:-null}"
 }
 
 [ "$(getprop ro.product.device)" = pipa ] || exit 0
@@ -293,7 +296,7 @@ face_rotation_sync() {
 # let that switch drive lid_behavior instead.
 LIDB=$(sget global lid_behavior)
 # Settings are persisted to this file within ~2 s of a change; a stat per second is cheap, a
-# sget (content query, app_process) is not, so read the switch only when the file changed.
+# sget (`settings get`, a process) is not, so read the switch only when the file changed.
 GLOBAL_XML=/data/system/users/0/settings_global.xml
 # A zygote restart (system_server crash, soft reboot) sets sys.boot_completed again, and OPPO's
 # init.oplus.nandswap.sh then attaches /data/nandswap/swapfile once more (seen 3x on one file: if zram ever fills,
@@ -317,7 +320,7 @@ rm -f "$ANIM_STAMP"
 anim_check() {
     [ -e "$ANIM_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$ANIM_STAMP" ] && return
     : > "$ANIM_STAMP"
-    want=$(sget global pipa_anim_level)
+    want=$(sget global pipa_anim_level) || return   # a failed read must not reset the tier
     case $want in 1|2|3|4) ;; *) want=${ANIM_LEVEL:-3} ;; esac
     [ "$(getprop persist.sys.oplus.anim_level)" = "$want" ] && return
     setprop persist.sys.oplus.anim_level "$want"
@@ -505,7 +508,7 @@ while true; do
         [ "${KEYBOARD_GUARD:-1}" = 1 ] && [ -e "$KB_HALL" ] && kb_guard
     fi
     if [ $((tick % 15)) = 0 ]; then
-        # 4 sget reads (content query, Java processes): only after a change of the system settings file
+        # 4 sget reads (`settings get` processes): only after a change of the system settings file
         if ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; then : > "$SYS_STAMP"; remember_display; fi
         [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
         [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
