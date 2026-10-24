@@ -29,7 +29,8 @@
 #   2r     kswapd off the prime core (KSWAPD_NO_PRIME), pen "connected" once at boot (+40 s)
 #   2s     launcher animation tier 3 (ANIM_TIER) + helper 0.6 Quick Settings tile, no animation 0.8 default
 #   2t     pipa_port sget via `settings get` into a file (~2 % -> ~0.3 % CPU with the screen on), failed reads keep the tier
-#   2u     SukiSU-Ultra manager 4.2.1-r1 as a removable preload (my_stock/del-app)
+#   2u     SukiSU-Ultra manager 4.2.1-r1 as a removable preload (my_stock/del-app) (not in the release: KernelSU finds its manager only under /data/app)
+#   2v     2t + animation blur off in the once-per-install defaults (ColorOS writes 1 on a first boot)
 #
 # On a NEW donor the first two steps are EXPECTED to stop: they check the stock md5 of every file they
 # replace (oplus-services.jar, brightness xml, odm scripts ...). That is the safety net. When one stops, read
@@ -43,7 +44,7 @@ set -eu
 
 HERE=$(cd "$(dirname "$0")" && pwd)
 P=${PIPA_ROOT:-/home/stefan/Documents/pipa}/port-work
-STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n 2o 2p 2q 2r 2s 2t 2u"
+STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n 2o 2p 2q 2r 2s 2t 2u 2v"
 
 CHECK=0
 [ "${1:-}" = "--check" ] && { CHECK=1; shift; }

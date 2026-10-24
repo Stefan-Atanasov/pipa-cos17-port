@@ -44,7 +44,8 @@ writes `port-work/<tag>-<step>/`. `maintainer/build_port.sh` runs all steps in s
 | 2r | `build_beta5_2r.sh` | `pipa_port` `KSWAPD_NO_PRIME` (kswapd on CPUs 0-6), pen "connected" once at boot. |
 | 2s | `build_beta5_2s.sh` | `pipa_port` `ANIM_TIER` (launcher animation tier, default 3) + helper Quick Settings tile "Animations", `sget` for settings reads, no animation 0.8 default. |
 | 2t | `build_beta5_2t.sh` | `sget` reads settings with `settings get` into a file (cheap); a failed read keeps the animation tier. |
-| 2u | `build_beta5_2u.sh` | SukiSU-Ultra manager 4.2.1-r1 as a removable preload (`my_stock/del-app/SukiSU`). |
+| 2u | `build_beta5_2u.sh` | SukiSU-Ultra manager 4.2.1-r1 as a removable preload (`my_stock/del-app/SukiSU`). Not released: KernelSU finds its manager only under `/data/app`. |
+| 2v | `build_beta5_2v.sh` | 2t + first-boot defaults (animation blur off, on-screen keyboard on), face preview rotation from `cmd display get-displays`. Public beta5. |
 
 NOTE: SurfaceFlinger properties must be in `product/etc/build.prop`. The pipa `vendor/build.prop` loads after
 `system` and `system_ext` and sets other values.

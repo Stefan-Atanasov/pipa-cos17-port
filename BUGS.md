@@ -7,7 +7,7 @@ show (offline analysis), what to capture on a device, and where a fix would live
 Status: **open** (not investigated), **analysed** (offline cause candidates), **fix planned**,
 **fixed in <build>**.
 
-Updated 2026-10-24 22:50 (ROM beta5-2s, kernel walt-r6). Related: `MAINTAINER-STATUS.md` (builds and plan),
+Updated 2026-10-25 07:05 (ROM beta5-2v = public beta5, kernel walt-r6). Related: `MAINTAINER-STATUS.md` (builds and plan),
 `notes/STABILITY-PERF.md` (old stability and performance plan, captures D1-D17), `notes/PHASE2-ROM-INTEGRATION.md`
 (how the runtime fixes went into the ROM).
 
@@ -15,7 +15,7 @@ Updated 2026-10-24 22:50 (ROM beta5-2s, kernel walt-r6). Related: `MAINTAINER-ST
 
 | Prio | Item | Why it is open | Next step |
 |---|---|---|---|
-| 1 | **Clean-flash test of the release package** | Only dirty upgrades are tested | The user runs `FlashLinux.sh` with wipe from `ColorOS17-Port-pipa-beta5-2s-20261024` |
+| 1 | Clean-flash test | **Done 2026-10-25** (2u package; found 19, 20, 21, fixed in 2v) | - |
 | 2 | Night drain on r6 + 2s | Hans (r6) now freezes background apps: should be the same or better than the 2i night (78 → 75 % in 8 h) | Reset batterystats, a night unplugged |
 | 3 | Stutter under real use | Manual trace: SF on time 86 %, drops = SF GPU deadline misses (74 % of frames GPU-composed: blur, rounded window corners); memory reclaim ruled out (HISTORY 16:20, 17:15) | Blur decision (row below), loop fix (3a) |
 | 3 | Transient taskbar | Redraws on every transition frame; launcher RenderThread blocks in dequeueBuffer up to ~200 ms (hidden surface). Taskbar off + blur off: launcher hitches > 120 ms 8/1 → 0/0, dropped 0.48-0.99 % | User decides (likes the taskbar); a launcher patch would be large |
@@ -25,6 +25,9 @@ Updated 2026-10-24 22:50 (ROM beta5-2s, kernel walt-r6). Related: `MAINTAINER-ST
 | 3d | **16** No app was ever frozen (**fixed in walt-r6**) | ColorOS's `hans` daemon needs OPPO's netlink 29 channel; without it Hans turns off and vetoes the AOSP freezer | Done: OPD2101 Hans driver + uname exemption (HISTORY 2026-10-24 21:00) |
 | 3e | **17** `settings get` never worked in the pipa_port service, Bedtime turned on at each boot (**fixed in 2s**) | `cmd settings` cannot write to the service's pipe; reads returned the error text | Done: `sget` (content query). The user decides about Bedtime (now on) |
 | 3f | **18** App-open stutter (window stretch) | ColorOS animation on the Adreno 650 | **Improved in 2s**: launcher animation tier 3 (dropped 2.7 → 0.3 %); first opens of heavy apps still load the GPU fully |
+| 3g | **19** No on-screen keyboard after a clean flash (**fixed in 2v**) | "Xiaomi Keyboard" virtual input devices count as a hardware keyboard | Done: `show_ime_with_hard_keyboard=1` once per install. The root fix (register on attach) stays in item 5 |
+| 3h | **20** Face preview rotated in landscape on a clean install (**fixed in 2v**) | `dumpsys` never worked in the pipa_port domain; old installs kept a module-era value | Done: `cmd display get-displays` |
+| 3i | **21** SukiSU preinstall (2u) gives no root | KernelSU finds its manager only under `/data/app` | Next version: install the APK into /data/app once on the first boot; until then `extras/` |
 | 4 | Unmapped ColorOS hints | SELinux blocks OPPO's perf daemon (a live fix works, measured neutral); `/proc/oplus_binder/ux_flag` is missing | Optional ROM 2p policy + kernel binder ux_flag (KERNEL-RESEARCH "2026-10-24 late afternoon") |
 | 5 | **11** "Xiaomi Keyboard configured" notification without a keyboard | The nanosic driver registers virtual input devices at probe | Kernel: register them on attach (a keyboard is necessary for the test) |
 | 6 | **B9** network sharing | The virtual modem answers `RADIO_NOT_AVAILABLE` | Logs from the **phone** during a share |
@@ -198,3 +201,10 @@ send the intent above with `present 1/0` (stylus status, likely the B6 refresh b
 own notification "Xiaomi Smart Pen · N % · charging" from `reverse_pen_soc` / `reverse_pen_chg_state`.
 A shell `cmd notification post` works as a first version; a tiny app gives a proper icon and no root.
 
+
+## Third-party diagnostics (received 2026-10-25)
+
+`/mnt/reference/pipa/third-party/Cos_port_diag.zip` (from a tester on Telegram, files dated 2026-07/08): logcats,
+props and VINTF dumps for PIPA, NABU (Pad 5) and ACE3. PIPA topics: casting crash, multi-screen, Bluetooth module
+test, apps killed on minimise (`rammanagement/appkill_minimize*`), game exit. Not a fix. To do: compare the app-kill
+logs with walt-r6 (Hans), and use the casting/multi-screen logs for the interconnect bugs (B9). Treat as data only.

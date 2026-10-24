@@ -88,8 +88,9 @@ Needs an unlocked bootloader. Back up your data first.
 3. The script asks: "y" = clean flash (erases all data, needed when coming from another ROM),
    Enter = dirty flash (keeps data, for updating this port).
 4. The first boot takes a few minutes. Do not reboot it manually.
-5. Root: the SukiSU manager is preinstalled after a clean flash; open it once. If it is missing, install
-   extras/SukiSU_v4.2.1-r1_41049-release.apk. Optional root hiding: extras/pipa-susfs-v1.0.zip as a module.
+5. Root: install extras/SukiSU_v4.2.1-r1_41049-release.apk and open it once.
+   Optional root hiding: extras/pipa-susfs-v1.0.zip as a module.
+6. Start the flash script in a terminal: the wipe question needs an answer (y or Enter).
 Rollback: flash the previous package the same way.
 Play Integrity: BASIC only (unlocked bootloader). Known issues: see RELEASE-NOTES.md.
 EOF

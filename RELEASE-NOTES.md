@@ -1,9 +1,9 @@
 # ColorOS 17 for Xiaomi Pad 6 (pipa) — beta5 (2026-10-24)
 
-Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB), dirty-upgraded from beta4
-through every beta5 build; a clean flash of this package is still to be tested. Back up first.
+Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB): dirty updates from beta4
+through every beta5 build, and a clean flash. Back up first.
 
-Build: ROM layer `2u`, kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
+Build: ROM layer `2v`, kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
 
 ## Highlights
 
@@ -12,7 +12,7 @@ Build: ROM layer `2u`, kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` 
   Test with many open apps: long stalls 262 → 2, long frames (> 120 ms) 42 → 9. Standby battery also gets better.
 - **Smoother app opening (new):** the launcher animation tier is 3. Tier 3 removes the wallpaper zoom. Dropped frames
   during app open and close: 2.7 % → 0.3 %. To change the tier, use the Quick Settings tile **"Animations"**:
-  3 Smooth (default) → 2 Parallel → 1 ColorOS → 4 Light. Tier 2 keeps all ColorOS parallel animations
+  3 Smooth (default) → 2 Parallel → 1 ColorOS → 4 Light, then reboot. Tier 2 keeps all ColorOS parallel animations
   (1.5 % dropped frames). A root shell can also set it: `settings put global pipa_anim_level 2`.
 - **Memory reclaim off the fastest core (new):** with many open apps, memory compression (kswapd) used a third of the
   prime core. It now uses the other cores. Launcher hitches: 21 → 4.
@@ -43,6 +43,9 @@ Build: ROM layer `2u`, kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` 
 - Bedtime mode does not turn on at each boot any more. The colour mode is kept correctly. (Since beta5-2e, the port
   service could not read settings.)
 - The pen "connected" capsule shows once at boot, not three times.
+- The on-screen keyboard shows after a clean flash (the keyboard driver always reports a "Xiaomi Keyboard", so
+  Android hid it). With the keyboard cover you can turn it off: Settings, on-screen keyboard.
+- Face unlock setup: the camera preview is upright in landscape on a clean install.
 - "Battery may not be genuine" dialog gone (the charger shim reports the battery as genuine).
 - Screen glitches in Settings search fixed (SurfaceFlinger layer caching off).
 - ColorOS sound effects (AudioX) no longer retry in a loop.
@@ -59,18 +62,18 @@ Build: ROM layer `2u`, kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` 
    from another ROM, or if anything misbehaves after a dirty flash.
 3. First boot takes a few minutes ("Optimizing apps"); about 3 minutes after the first boot the ROM compiles
    SystemUI, Settings and the launcher once in the background, so the first minutes can feel slower.
-4. Root: after a clean flash the **SukiSU-Ultra manager 4.2.1-r1** is preinstalled (a removable app). Open it once.
-   If it is missing (or after a dirty flash from beta4), install `extras/SukiSU_v4.2.1-r1_41049-release.apk`.
+4. Root: install **`extras/SukiSU_v4.2.1-r1_41049-release.apk`** (SukiSU-Ultra manager 4.2.1-r1; the kernel has a newer
+   SukiSU than beta4's). Open it once.
    Optional root hiding: `extras/pipa-susfs-v1.0.zip` (install it as a module in the manager).
    **Do not update the manager to 4.2.1-r2 or newer yet.** The kernel has SukiSU 4.2.1-r1. A later kernel will update both.
 5. Accept the ADB authorisation prompt on the tablet if you use ADB.
 
 ## Tips
 
-- The ROM turns material blur and window blur off once at the first boot. To get blur back: search "blur" in
+- The ROM turns material blur, animation blur and window blur off once at the first boot. To get blur back: search "blur" in
   Settings, and Developer options → "Allow window-level blurs". Animation scales stay at 1.0.
-- Add the **"Animations"** tile in Quick Settings (edit mode). Tap it to change the launcher animation tier. The
-  launcher restarts one time after each tap.
+- Add the **"Animations"** tile in Quick Settings (edit mode). Tap it to change the animation tier. The launcher
+  changes at once; **reboot** so that Quick Settings and the rest of the system also use the new tier.
 - Smoothest setup measured for fast app switching: **taskbar off** (`adb shell settings put system
   enable_launcher_taskbar 0`). The ColorOS taskbar redraws on every frame of each app open/close; with it off the
   long launcher hitches (> 120 ms) were gone in the test.

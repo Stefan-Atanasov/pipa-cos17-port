@@ -210,9 +210,15 @@ if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
     {
         settings put global disable_window_blurs 1
         settings put system system_material_blur_enable 0
+        # ColorOS writes animationBlurrySwitch=1 itself on a first boot (before BLUR_DEFAULT sees "null"), 2v
+        settings put system animationBlurrySwitch 0
+        # The nanosic driver always registers "Xiaomi Keyboard" input devices, so Android thinks a hardware keyboard is
+        # attached and hides the on-screen keyboard (clean flash, 2026-10-25). Keep it visible; with the real
+        # keyboard cover the user can switch it off (Settings: on-screen keyboard while a physical one is active).
+        settings put secure show_ime_with_hard_keyboard 1
     } </dev/null >/dev/null 2>&1
     touch "$STATE/smooth_default_set"
-    log "smoothness defaults: window blur off, material blur off"
+    log "first-boot defaults: window blur off, material blur off, animation blur off, on-screen keyboard on"
 fi
 # The ROM's default-permissions entry only applies on a first boot.
 if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1; then
@@ -281,8 +287,12 @@ face_rotation_sync() {
     set -- $(pidof android.hardware.biometrics.face-service.facehal)
     [ $# -gt 1 ] || return
     FACE_SEEN=$tick
-    r=$(dumpsys display 2>/dev/null | grep -m1 -o 'mCurrentOrientation=[0-3]')
-    r=${r#*=}
+    # The display rotation from `cmd display get-displays` into a file (first display = the panel). `dumpsys display`
+    # fails in this domain (FAILED_TRANSACTION, also into a file), and $(...) pipes fail for every system_server tool,
+    # so from 2e to 2u the preview turn was never set (clean flash 2026-10-25: rotated in landscape).
+    cmd display get-displays </dev/null >"$SGET_F" 2>/dev/null || return
+    r=$(grep -m1 -oE 'rotation [0-3]' "$SGET_F")
+    r=${r#rotation }
     [ -n "$r" ] && [ "$((r * 90))" != "$FROT" ] || return
     FROT=$((r * 90))
     setprop persist.vendor.facehal.rotation $FROT
