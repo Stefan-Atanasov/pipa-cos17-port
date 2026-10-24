@@ -5,6 +5,7 @@
 #     <tag>        port-work/<tag>/img/super.img is the system (e.g. beta5-2g)
 #     --boot       replace firmware/boot.img (our kernel); default: the beta4 kernel
 #     --name       version text shown in the flash script banner (default: "beta5 (<tag>)")
+#     --pkg        package name in the folder/7z name (default: <tag>), e.g. "beta5" for a public release
 #     --no-super   skip the 6.8 GB super.img (to test the packaging)
 #     --7z         also write <out>.7z next to the folder
 # Output: ~/Documents/pipa/port-work/release/ColorOS17-Port-pipa-<tag>-<yyyymmdd>/
@@ -18,11 +19,12 @@ PW=$HOME/Documents/pipa/port-work
 MAINTAINER=${MAINTAINER:-stefan}
 
 TAG=${1:?usage: build_release.sh <tag> [--boot img] [--name text] [--no-super] [--7z]}; shift
-BOOT=""; NAME="beta5 ($TAG)"; SUPER=1; SEVENZ=0
+BOOT=""; NAME="beta5 ($TAG)"; PKG=$TAG; SUPER=1; SEVENZ=0
 while [ $# -gt 0 ]; do
 	case "$1" in
 	--boot) BOOT=$2; shift 2 ;;
 	--name) NAME=$2; shift 2 ;;
+	--pkg) PKG=$2; shift 2 ;;
 	--no-super) SUPER=0; shift ;;
 	--7z) SEVENZ=1; shift ;;
 	*) echo "unknown option $1"; exit 1 ;;
@@ -34,7 +36,7 @@ SUPER_IMG=$PW/$TAG/img/super.img
 [ $SUPER = 0 ] || [ -f "$SUPER_IMG" ] || { echo "missing $SUPER_IMG"; exit 1; }
 [ -z "$BOOT" ] || [ "$(head -c 8 "$BOOT")" = "ANDROID!" ] || { echo "not a boot image: $BOOT"; exit 1; }
 
-OUT=$PW/release/ColorOS17-Port-pipa-$TAG-$(date +%Y%m%d)
+OUT=$PW/release/ColorOS17-Port-pipa-$PKG-$(date +%Y%m%d)
 rm -rf "$OUT"; mkdir -p "$OUT/super"
 cp -a "$SRC/bin" "$SRC/firmware" "$OUT/"
 chmod +x "$OUT"/bin/Linux/{adb,fastboot,magiskboot}
@@ -72,6 +74,10 @@ open(dst, 'wb').write(s.encode('gbk'))
 EOF
 
 [ -f "$COS/RELEASE-NOTES-beta5.md" ] && cp "$COS/RELEASE-NOTES-beta5.md" "$OUT/RELEASE-NOTES.md"
+# extras: the SukiSU manager that matches the kernel (a clean flash removes the app) and the optional susfs module
+mkdir -p "$OUT/extras"
+cp "$COS/kernel/sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk" "$OUT/extras/"
+cp "$COS/pipa-susfs-v1.0.zip" "$OUT/extras/"
 cat > "$OUT/README-FLASH.txt" <<EOF
 ColorOS 17 port for Xiaomi Pad 6 (pipa) - $NAME
 Original build: Coolapk @梦归zzz. Maintainer: $MAINTAINER.
@@ -82,6 +88,8 @@ Needs an unlocked bootloader. Back up your data first.
 3. The script asks: "y" = clean flash (erases all data, needed when coming from another ROM),
    Enter = dirty flash (keeps data, for updating this port).
 4. The first boot takes a few minutes. Do not reboot it manually.
+5. Root: the SukiSU manager is preinstalled after a clean flash; open it once. If it is missing, install
+   extras/SukiSU_v4.2.1-r1_41049-release.apk. Optional root hiding: extras/pipa-susfs-v1.0.zip as a module.
 Rollback: flash the previous package the same way.
 Play Integrity: BASIC only (unlocked bootloader). Known issues: see RELEASE-NOTES.md.
 EOF

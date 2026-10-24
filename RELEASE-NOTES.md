@@ -3,7 +3,7 @@
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB), dirty-upgraded from beta4
 through every beta5 build; a clean flash of this package is still to be tested. Back up first.
 
-ROM `beta5-2t` + kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
+Build: ROM layer `2u`, kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
 
 ## Highlights
 
@@ -59,8 +59,10 @@ ROM `beta5-2t` + kernel `walt-r6`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
    from another ROM, or if anything misbehaves after a dirty flash.
 3. First boot takes a few minutes ("Optimizing apps"); about 3 minutes after the first boot the ROM compiles
    SystemUI, Settings and the launcher once in the background, so the first minutes can feel slower.
-4. Root: update to the **SukiSU-Ultra manager 4.2.1-r1** APK (the kernel has a newer SukiSU than beta4's). **Do not
-   update the manager to 4.2.1-r2 or newer yet.** The kernel has SukiSU 4.2.1-r1. A later kernel will update both.
+4. Root: after a clean flash the **SukiSU-Ultra manager 4.2.1-r1** is preinstalled (a removable app). Open it once.
+   If it is missing (or after a dirty flash from beta4), install `extras/SukiSU_v4.2.1-r1_41049-release.apk`.
+   Optional root hiding: `extras/pipa-susfs-v1.0.zip` (install it as a module in the manager).
+   **Do not update the manager to 4.2.1-r2 or newer yet.** The kernel has SukiSU 4.2.1-r1. A later kernel will update both.
 5. Accept the ADB authorisation prompt on the tablet if you use ADB.
 
 ## Tips

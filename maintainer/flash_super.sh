@@ -9,7 +9,7 @@
 set -eu
 YES=0; [ "${1:-}" = -y ] && { YES=1; shift; }
 P=~/Documents/pipa
-case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5-2g|beta5-2h|beta5-2i|beta5-2j|beta5-2k|beta5-2l|beta5-2m|beta5-2n|beta5-2o|beta5-2p|beta5-2q|beta5-2r|beta5-2s|beta5-2t  or  <path> <md5>} in
+case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5-2g|beta5-2h|beta5-2i|beta5-2j|beta5-2k|beta5-2l|beta5-2m|beta5-2n|beta5-2o|beta5-2p|beta5-2q|beta5-2r|beta5-2s|beta5-2t|beta5-2u  or  <path> <md5>} in
     roundtrip)   IMG=$P/port-work/roundtrip/img/super.img;   MD5=090e5a32031d61824c213284530daa01 ;;
     beta4)       IMG="$P/COS17/ColorOS17 Port for pipa-beta4-20261017/super/super.img"; MD5=4ba0e1937fe207be497eb42eac04ba48 ;;
     beta5-2d)    IMG=$P/port-work/beta5-2d/img/super.img;    MD5=3dfbe1816afec27f519ee0fed5b86145 ;;
@@ -29,6 +29,7 @@ case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5
     beta5-2r)    IMG=$P/port-work/beta5-2r/img/super.img;    MD5=6b102f06d38a50c8a90ae75555766a4b ;;
     beta5-2s)    IMG=$P/port-work/beta5-2s/img/super.img;    MD5=cf4e642ff938c97fb695f9b92b93af11 ;;
     beta5-2t)    IMG=$P/port-work/beta5-2t/img/super.img;    MD5=cfc39157a4e689da5ce62e9da0814642 ;;
+    beta5-2u)    IMG=$P/port-work/beta5-2u/img/super.img;    MD5=e50a67c459da943d9c570d4f0a618706 ;;
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot
