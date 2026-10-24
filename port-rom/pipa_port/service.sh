@@ -438,14 +438,15 @@ while true; do
     [ "${LID_SYNC:-1}" = 1 ] && lid_check
     if [ "${PEN_WATCH:-1}" = 1 ]; then
         if pen_connected; then c=1; else c=0; fi
-        if [ "$c" != "$conn" ]; then pen_present $c; conn=$c; resend=0; ct=$tick; fi
-        # The first message at boot is sometimes ignored (ColorOS's pen manager not ready yet and
-        # Settings then shows the stylus as not connected): send it again 10 s and 40 s later.
-        if [ $c = 1 ] && [ $resend -lt 2 ]; then
-            d=$((tick - ct))
-            if [ $resend = 0 ] && [ $d -ge 10 ]; then pen_present 1; resend=1
-            elif [ $resend = 1 ] && [ $d -ge 40 ]; then pen_present 1; resend=2; fi
+        # At boot ColorOS's pen manager is not ready at once (an early message was sometimes ignored and
+        # Settings showed the stylus as not connected), so the first "connected" goes out once, 40 s after the
+        # service start. Since 2p each present=1 also shows the live-alert capsule: one message, not three.
+        # Later changes (Bluetooth connect/disconnect) go out at once.
+        if [ "$c" != "$conn" ]; then
+            if [ -z "$conn" ] && [ $c = 1 ]; then resend=0; ct=$tick; else pen_present $c; resend=2; fi
+            conn=$c
         fi
+        if [ $c = 1 ] && [ $resend = 0 ] && [ $((tick - ct)) -ge 40 ]; then pen_present 1; resend=2; fi
         if [ $c = 1 ]; then
             if pen_docked; then d=1; pen_lock 0; else d=0; pen_lock 1; fi
             soc=; read -r soc < "$PEN_SOC" 2>/dev/null

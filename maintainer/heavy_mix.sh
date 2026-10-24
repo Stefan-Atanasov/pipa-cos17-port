@@ -5,7 +5,7 @@
 # (opens Spotify), tap it (expands the live alert card), app drawer (open, fling). Ends with fast open/close bursts of all apps (BURST s open,
 # 0.25), then the same with no gap after HOME (next open overlaps the close animation).
 # Run from the PC, screen on and unlocked, landscape (2880x1800).
-#   ADB="adb -s 83836a90" sh maintainer/heavy_mix.sh <label> [cycles]      (default 16 cycles)
+#   ADB="adb -s 83836a90" sh maintainer/heavy_mix.sh <label> [cycles]      (default 16 cycles; NOCLEAN=1: no clean start)
 # Timing knobs (s): OPEN (wait after icon tap, 0.6), FL (gap between flings, 0.35), GAP (0.3). Taps and swipes go
 # through the touchscreen's kernel input device (maintainer/kgest, root) like a finger; INJECT=1 uses `input` instead.
 # Reports gfxinfo (frames janky% p50 p90 p99 slowUI slowDraw) of launcher, SystemUI and the sum of the apps.
@@ -25,8 +25,9 @@ else
 	$ADB push "$(dirname "$0")/kgest/kgest" /data/local/tmp/kgest >/dev/null; sh_ 'chmod 755 /data/local/tmp/kgest'
 	tap() { sh_ "su -c '/data/local/tmp/kgest tap $1 $2'"; }; swipe() { sh_ "su -c '/data/local/tmp/kgest swipe $*'"; }
 fi
-# clean start: close every app in recents (force-stop, Spotify included), so each run starts from the same state
-sh_ 'input keyevent 3; for p in $(dumpsys activity recents | grep -oE "realActivity=\{[^/]+" | cut -d{ -f2 | sort -u); do
+# clean start: close every app in recents (force-stop, Spotify included), so each run starts from the same state.
+# NOCLEAN=1 keeps the open apps (memory-pressure runs after maintainer/mem_fill.sh).
+[ "${NOCLEAN:-0}" = 1 ] || sh_ 'input keyevent 3; for p in $(dumpsys activity recents | grep -oE "realActivity=\{[^/]+" | cut -d{ -f2 | sort -u); do
 	case $p in com.android.launcher|com.android.systemui|app.revanced.android.gms) ;; *) am force-stop $p ;; esac; done'
 # (app.revanced.android.gms = microG, YouTube Morphe needs it running)
 sleep 2
