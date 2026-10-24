@@ -20,6 +20,8 @@ PEN_KEYS=1
 # the dock (the panel senses the pen only at 60/120 Hz), publish pen battery for the
 # pipa helper's pill.
 PEN_WATCH=1
+# 1 = pen battery in the ColorOS live alert on dock/undock (needs the patched IPeManager, 2p); 0 = helper pill
+PEN_FLUID=1
 
 # Put back the colour mode, adaptive colour and Bedtime mode that ColorOS resets at boot.
 COLOR_MODE_RESTORE=1

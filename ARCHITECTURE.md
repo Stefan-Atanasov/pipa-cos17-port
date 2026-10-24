@@ -39,6 +39,7 @@ writes `port-work/<tag>-<step>/`. `maintainer/build_port.sh` runs all steps in s
 | 2m | `build_beta5_2m.sh` | SurfaceFlinger layer caching off (screen glitches). |
 | 2n | `build_beta5_2n.sh` | system_server animation threads as UX, UI apps fully compiled. |
 | 2o | `build_beta5_2o.sh` | All app-wide `refresh_rate_config` rules at 120 Hz in Auto and 120 Hz modes. Video players keep their lower rate. |
+| 2p | `build_beta5_2p.sh` | Pen battery in the ColorOS live alert: OPPO IPeManager patched in place (`maintainer/ipe-fluid/patch_ipemanager.py`), `pipa_port` `PEN_FLUID`, helper without its own pill. |
 
 NOTE: SurfaceFlinger properties must be in `product/etc/build.prop`. The pipa `vendor/build.prop` loads after
 `system` and `system_ext` and sets other values.

@@ -19,10 +19,14 @@ import android.util.Log;
  * The vendor sysfs nodes are root-only, so power-tune's pen watcher publishes them as
  * global pipa_pen_state = "<connected> <docked> <soc>" (or "0" without a pen). The soc comes
  * from the reverse charger, so it only updates while the pen is docked.
+ *
+ * Since ROM 2p the pen battery shows in the ColorOS live alert (patched IPeManager, pipa_port PEN_FLUID).
+ * pipa_port then sets global pipa_pen_fluid = 1, and the pill stays off; the low-battery notification stays.
  */
 final class PenKeeper {
     private static final String TAG = "PipaHelper.Pen";
     private static final String KEY = "pipa_pen_state";
+    private static final String KEY_FLUID = "pipa_pen_fluid";
     private static final String CH_LOW = "pen_low";
     private static final int ID_LOW = 2;
     private static final int LOW_SOC = 15;
@@ -102,6 +106,7 @@ final class PenKeeper {
         String state = docked ? (soc >= 100 ? "Charged" : "Charging") : "Pen";
         String text = pct.isEmpty() ? state : pct + " · " + state;
         if (refresh && !pill.isShowing()) return;
+        if (Settings.Global.getInt(ctx.getContentResolver(), KEY_FLUID, 0) == 1) return; // live alert instead
         pill.show(text, docked);
     }
 

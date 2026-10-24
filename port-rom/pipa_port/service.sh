@@ -332,6 +332,14 @@ pen_present() {
         -p com.oplus.ipemanager --es present "$1" --es macAddr "$(pen_mac)" --es pencilId 1 >/dev/null 2>&1
     log "pen present=$1"
 }
+# ColorOS live-alert pen capsule (2p: IPeManager patched by maintainer/ipe-fluid/patch_ipemanager.py, which shows its
+# fluid-cloud battery card on a present event, with the level from ipe_pencil_battery_level). Shown on dock and undock;
+# the capsule hides by itself after a few seconds. pipa_pen_fluid=1 tells the pipa helper to skip its own pill.
+pen_fluid() {
+    [ "${PEN_FLUID:-1}" = 1 ] || return 0
+    case $1 in ''|*[!0-9]*) ;; *) settings put global ipe_pencil_battery_level "$1" </dev/null >/dev/null 2>&1 ;; esac
+    pen_present 1
+}
 LOCK=
 pen_lock() {   # cached: no settings call unless the state changes
     [ "$LOCK" = "$1" ] && return
@@ -363,7 +371,8 @@ pen_keys_start() {
 
 # ------------------------------------------------------------------ main loop
 # 1 s while the screen is on (an undocked pen must work at once), 5 s while it is off.
-armed=0; conn=; pub=; tick=0; resend=2; ct=0
+armed=0; conn=; pub=; tick=0; resend=2; ct=0; dk=
+settings put global pipa_pen_fluid "${PEN_FLUID:-1}" </dev/null >/dev/null 2>&1
 while true; do
     if ! screen_on; then
         armed=0
@@ -387,9 +396,12 @@ while true; do
         fi
         if [ $c = 1 ]; then
             if pen_docked; then d=1; pen_lock 0; else d=0; pen_lock 1; fi
-            p="1 $d $(cat "$PEN_SOC" 2>/dev/null)"
+            soc=$(cat "$PEN_SOC" 2>/dev/null)
+            p="1 $d $soc"
+            [ -n "$dk" ] && [ "$d" != "$dk" ] && pen_fluid "$soc"
+            dk=$d
         else
-            p=0; pen_lock 0
+            p=0; pen_lock 0; dk=
         fi
         if [ "$p" != "$pub" ]; then settings put global pipa_pen_state "$p"; pub=$p; fi
     fi

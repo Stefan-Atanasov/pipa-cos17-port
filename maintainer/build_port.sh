@@ -24,6 +24,7 @@
 #   2m     SF layer caching off again (screen glitches in Settings search)
 #   2n     system_server animation threads as UX, UI apps fully compiled (QS -> Settings launch)
 #   2o     refresh_rate_config: app-wide rules at 120 Hz in Auto mode (no 90<->120 switches mid-animation)
+#   2p     pen battery in the ColorOS live alert: patched IPeManager (ipe-fluid/), pipa_port PEN_FLUID, helper 0.5
 #
 # On a NEW donor the first two steps are EXPECTED to stop: they check the stock md5 of every file they
 # replace (oplus-services.jar, brightness xml, odm scripts ...). That is the safety net. When one stops, read
@@ -37,7 +38,7 @@ set -eu
 
 HERE=$(cd "$(dirname "$0")" && pwd)
 P=${PIPA_ROOT:-/home/stefan/Documents/pipa}/port-work
-STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n 2o"
+STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n 2o 2p"
 
 CHECK=0
 [ "${1:-}" = "--check" ] && { CHECK=1; shift; }

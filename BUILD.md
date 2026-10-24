@@ -73,7 +73,7 @@ sudo sh maintainer/build_port.sh beta5 <donor-img-dir>
 3. To continue from a step, give the first step and the last step:
 
 ```sh
-sudo sh maintainer/build_port.sh beta5 <donor-img-dir> 2e 2o
+sudo sh maintainer/build_port.sh beta5 <donor-img-dir> 2e 2p
 ```
 
 The output of each step is in `port-work/<tag>-<step>/` (`tree/`, `img/`, `report/`). The flashable image is
@@ -85,7 +85,7 @@ NOTE: On a new donor, the first two steps stop at their md5 checks. This is corr
 ### 2.2 Add a ROM layer
 
 1. Change the source: `port-rom/`, `helper/` or an edit list.
-2. Copy the newest step script, for example `maintainer/build_beta5_2o.sh`, to the next name (`build_beta5_2p.sh`).
+2. Copy the newest step script, for example `maintainer/build_beta5_2p.sh`, to the next name (`build_beta5_2q.sh`).
 3. In the new script, set the input to the previous step and the output to the new step.
 4. Only replace files in the copied tree. Write each file in place with `cat new > old`.
    This keeps the owner, the mode and the SELinux label.

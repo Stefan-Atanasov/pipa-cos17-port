@@ -3,7 +3,7 @@
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB), dirty-upgraded from beta4
 through every beta5 build; a clean flash of this package is still to be tested. Back up first.
 
-ROM `beta5-2o` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
+ROM `beta5-2p` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
 
 ## Highlights
 
@@ -14,6 +14,8 @@ ROM `beta5-2o` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
   quick settings from ~300 ms to ~180 ms.
 - **120 Hz in all apps** in the Auto refresh mode (ColorOS capped music and many other apps at 60/90 Hz, and the
   switch between rates in the middle of animations caused stutter). Fullscreen video still drops to 60 Hz.
+- **Pen battery in the ColorOS live alert:** when you dock or take out the Xiaomi pen, ColorOS's own capsule at the
+  top shows the pen and its battery level (OPPO's pen app, patched to accept the Xiaomi pen).
 - **Battery:** the keyboard-cover daemon no longer polls the accelerometer all night when no keyboard is attached
   (it kept the sensor hub and SoC awake); the GNSS service no longer retries a missing HAL every second.
 - **Own kernel** (`walt-r5`, Linux 4.19.325): LineageOS base with WALT, pipa drivers, E404 display/touch, OPPO's
@@ -61,6 +63,7 @@ ROM `beta5-2o` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
 - Face enrollment can crash near the frame edge; retry works.
 - A "Xiaomi Keyboard configured" notification can appear without a keyboard (turn off "Physical keyboard"
   notifications).
+- Settings → Stylus shows the Xiaomi pen as "disconnected" (that page only tracks OPPO pens); the pen works.
 - The keyboard cover's fold-behind auto-disable is untested (no keyboard here); typing should work.
 - Play Integrity: BASIC only (unlocked bootloader); apps that need DEVICE integrity will not work.
 - Adaptive colour follows the colour-temperature sensor only (no lux bridge).

@@ -7,17 +7,19 @@ show (offline analysis), what to capture on a device, and where a fix would live
 Status: **open** (not investigated), **analysed** (offline cause candidates), **fix planned**,
 **fixed in <build>**.
 
-Updated 2026-10-24 15:40 (ROM beta5-2o, kernel walt-r5). Related: `MAINTAINER-STATUS.md` (builds and plan),
+Updated 2026-10-24 17:00 (ROM beta5-2p, kernel walt-r5). Related: `MAINTAINER-STATUS.md` (builds and plan),
 `notes/STABILITY-PERF.md` (old stability and performance plan, captures D1-D17), `notes/PHASE2-ROM-INTEGRATION.md`
 (how the runtime fixes went into the ROM).
 
-## Open items (2026-10-24, beta5-2o + walt-r5; the large table below has the full history of each item)
+## Open items (2026-10-24, beta5-2p + walt-r5; the large table below has the full history of each item)
 
 | Prio | Item | Why it is open | Next step |
 |---|---|---|---|
 | 1 | **Clean-flash test of the release package** | Only dirty upgrades are tested | The user runs `FlashLinux.sh` with wipe from `ColorOS17-Port-pipa-beta5-2o-20261024` |
 | 2 | Night drain on 2j+ | The keyboard guard (2j) is not measured for a full night | batterystats after a night (reset 2026-10-24 09:21) |
-| 3 | **12** Pen in the OPPO live alert (wish) | The helper shows its own floating pill for pen charging and pen battery. The user wants the ColorOS live alert ("fluid cloud") | Find the API that ColorOS uses for its own pen or accessory charging alert, then send the same from the helper |
+| 3 | Stutter under real use | Manual trace: SF on time 86 %, drops = SF GPU deadline misses; memory reclaim ruled out (HISTORY 16:20) | Check what SurfaceFlinger composes on the GPU |
+| 3b | **14** Package cache keeps old manifest data | Layers build with `mkfs.erofs -T0` and keep the fingerprint: a changed system APK keeps its cached manifest (helper shows 0.4 on 2p; its 0.5 code runs) | Clear `/data/system/package_cache` when the layer changes (early boot), or build with a newer fixed `-T` per layer |
+| 3c | **15** Pen capsule 2-3 times at boot | pipa_port sends present=1 at boot +10 s +40 s (old workaround for "stylus connected"); with 2p each one shows the capsule | Send the boot resends without the capsule (flag) or drop them if Settings stays correct |
 | 4 | Unmapped ColorOS hints | SELinux blocks OPPO's perf daemon (a live fix works, measured neutral); `/proc/oplus_binder/ux_flag` is missing | Optional ROM 2p policy + kernel binder ux_flag (KERNEL-RESEARCH "2026-10-24 late afternoon") |
 | 5 | **11** "Xiaomi Keyboard configured" notification without a keyboard | The nanosic driver registers virtual input devices at probe | Kernel: register them on attach (a keyboard is necessary for the test) |
 | 6 | **B9** network sharing | The virtual modem answers `RADIO_NOT_AVAILABLE` | Logs from the **phone** during a share |
@@ -30,7 +32,7 @@ Updated 2026-10-24 15:40 (ROM beta5-2o, kernel walt-r5). Related: `MAINTAINER-ST
 | 13 | Colour and adaptive restore is still a script | The apps that reset them are not patched | Find the app that resets them |
 | — | Play Integrity | BASIC only (unlocked bootloader) | None |
 
-Fixed on 2026-10-24: idle drain from `xiaomi-keyboard` (2j), GNSS retry loop (2j), perfetto/traced (2j), "battery not
+Fixed on 2026-10-24: pen battery in the OPPO live alert (**12**, 2p, verified on the flashed ROM 16:56). Before: idle drain from `xiaomi-keyboard` (2j), GNSS retry loop (2j), perfetto/traced (2j), "battery not
 genuine" dialog (2k), stutter / dropped frames (2l + walt-r4/r5: SurfaceFlinger, RenderEngine and UI threads on big
 cores, SF timing), Settings search glitch (2m, layer caching off), slow QS -> Settings (2n), refresh-rate switches mid-animation (Spotify -> pill; 2o: apps at 120 Hz, video 60). B4/B5 (lag): heavy-test
 SF frames on time 59 -> 94-96 %, launcher 5.8-7.6 % janky with material blur off. Own kernel: done (walt-r5).
@@ -65,11 +67,50 @@ the pill at the top of the screen), not in the helper's own floating window.
 **Now:** the pipa helper (`helper/`, B3) shows its own pill when the pen goes on or off the dock, and a notification at
 15 % or less. The ColorOS pen UI (IPeManager) works only for OPPO pens.
 
-**Next steps:**
-1. Find how ColorOS shows its own accessory or pen charging in the live alert (SystemUI fluid-cloud provider, the
-   OPPO pen charging alert in IPeManager, or the public live-update notification API of Android 16+).
-2. If an API is open to a priv-app, send the pen state from the helper through it, and remove the floating pill.
-3. If only IPeManager can show it, check whether the pen-present intent (B3) with the battery level is enough.
+**Offline analysis (2026-10-24, 2o images):**
+- IPeManager (`my_product/priv-app/IPeManager`) has its own fluid-cloud pen card: `com.oplus.ipemanager.fluid.SeedlingCardProvider`
+  on OPPO's Pantanal Seedling API (`com.oplus.pantanal.seedling`).
+- `btadsorb/ble/k0.B0(level)`: if fluid cloud is supported (`btadsorb/util/w.d0`), it writes `sp_key_unic_battery_level`
+  and `sp_key_pencil_seeding_card_type` to its preferences and calls `x3/c.g` (`UPK_IPeSeedlingCardManager`, "showBarCapsule")
+  to push the card. It needs a pen MAC (`k0.u` → `l0.a`); else it logs `showFluidCloudBatteryCapsule mCurrentMacAddr null`.
+  Without fluid support it uses the old window capsule (`IUIServiceControl.showBatteryCapsule`, `capsule_id_pencil_battery`).
+- Callers of `B0`: `k0.h0(present, mac)` from `CoreService.d` ("pencilNodeChange", the pen-present path that the B3 intent
+  reaches), `k0.W` (charging state from the OPPO BLE characteristic), a click handler, and a service connection.
+- SystemUI does not show Android 16 live-update (promoted) notifications in the fluid cloud. Its
+  `FluidReplaceNotificationManager` (`fluid_seeding_notification`, feature `oplus.software.fluid_replace_ntf`) only hides
+  the notification of an app that already has a Seedling card. A card of our own would need the Pantanal Seedling SDK
+  and a registration with Pantanal UMS (more work).
+
+**Live test (2026-10-24 16:05, 2o):** present intent sent by hand, debug logs on (`persist.sys.assert.panic true`,
+then set back to false; `ipe_pencil_battery_level` written for the test, then deleted).
+- IPeManager reads the pen battery only from global `ipe_pencil_battery_level` (absent on pipa → -1). With 100 it logs
+  `setWirelessPenSoc batteryLevel = 100, ConnectState 2`, but no card.
+- `isPencilDeviceNameMatched deviceName = Xiaomi Smart Pen → matched = false`: only OPPO/OnePlus pen names are known
+  (OPPO Pencil, Pencil 2/2R/2 Pro/3/3 Pro, OnePlus Pencil 2/Stylo …).
+- `nodeChangeSamePencil` then tries the OPPO BLE GATT link: `doServicesDiscovered return invalid device address`. The
+  card (`B0`) comes only after this OPPO BLE link works. **Result: IPeManager does not show the card for the Xiaomi pen
+  without a code change.**
+- Options: (A) patch IPeManager (smali: accept the Xiaomi pen and call `B0(level)` on present, with the level from the
+  helper; the app must be re-signed, so its data is cleared once); (B) a Seedling card in the helper (Pantanal SDK not
+  public; the protocol must be reimplemented); (C) keep the helper pill.
+
+**Fix (2p, 2026-10-24):** `maintainer/ipe-fluid/patch_ipemanager.py` patches `k0.h0` in place (classes2.dex, same
+size, OPPO platform signature block kept; Android does not verify system-partition APKs at boot, and re-signing would
+lose the platform-signature permissions): the "new pen" branch reads `ipe_pencil_battery_level` and calls `B0(level)`;
+P1 removes the "same present → return" check (else only the first present=1 after a present=0 shows the card); P2
+sends the `B0(k0.L)` branch (OPPO BLE level) to the new code. pipa_port `PEN_FLUID` writes the level and sends
+present=1 on each dock and undock; helper 0.5 skips its pill while `pipa_pen_fluid`=1. The capsule hides by itself
+after a few seconds; IPeManager does not show it while its own pen page is in the foreground.
+Not changed: the OPPO pen page (Settings → Stylus) shows "disconnected". It shows the state of OPPO's own BLE link
+(`e0.getConnectState` → `l0.f`), which the Xiaomi pen never has (also before 2p).
+
+**Old next steps (done):**
+1. On the tablet: `logcat | grep -iE 'IPeManager|Seedling|FluidCloud'`, dock and undock the pen (the helper sends the
+   pen-present intent). Look for `showFluidCloudBatteryCapsule` or `mCurrentMacAddr null`.
+2. If the MAC is the block: give the pen MAC in the intent or in `ipe_pencil_mac_addr`, and the level in
+   `ipe_pencil_battery_level`, then send the present intent again.
+3. If the card shows: remove the helper's floating pill (keep the low-battery notification).
+4. If IPeManager refuses a non-OPPO pen: plan B is a Seedling card from the helper (Pantanal SDK).
 
 ## B1 Wi-Fi sometimes does not turn on
 

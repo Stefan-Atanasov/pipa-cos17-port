@@ -60,7 +60,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 
 ## How to change the ROM
 
-- Each change is a new **layer script** on top of the newest step (now `build_beta5_2o.sh` → `build_beta5_2p.sh`).
+- Each change is a new **layer script** on top of the newest step (now `build_beta5_2p.sh` → `build_beta5_2q.sh`).
   The procedure is in [BUILD.md](BUILD.md) "Add a ROM layer".
 - Only replace files in the copied tree. Write in place with `cat new > old`, so that the owner, the mode and the
   SELinux xattr stay. Each file must have `security.selinux` (`tree_manifest.py` checks it).
@@ -97,6 +97,13 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Never replace `/data/adb/ksud`.** Update it only with a kernel that agrees with it, through the SukiSU manager.
 - **If the device does not boot:** the boot image has TWRP (Power + Volume up). TWRP ADB has root and a decrypted
   `/data`.
+- **Patching a system app (APK).** Many OPPO system apps (for example IPeManager) are signed with the platform key.
+  Do not re-sign them: they lose their platform-signature permissions. Android does not verify APKs on system
+  partitions at boot (it only reads the certificate), so patch the dex **in place with the same size** in the original
+  APK (the dex must be stored, not deflated), update only the zip CRCs, and keep the signing block
+  (`maintainer/ipe-fluid/patch_ipemanager.py` is the model: pattern-based, stops on a different version). Delete the
+  prebuilt `oat/` next to the APK. To test live: bind-mount the patched APK over the original in init's mount namespace
+  (`nsenter -t 1 -m -- mount --bind ...`) and `am force-stop` the app; a reboot removes it.
 - Do not kill `system_server` to apply framework changes (it causes a warm-reset crash). Reboot.
 - **Smoothness:** measure with `maintainer/perfetto/traced_heavy.sh <label>` (FrameTimeline), not only gfxinfo. Wait
   60 s after unlock and do 2 runs or more. `input tap` goes around the kernel input handlers; use real touch through
