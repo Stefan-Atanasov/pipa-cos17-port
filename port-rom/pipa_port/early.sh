@@ -9,6 +9,26 @@ rm -f /data/local/tmp/pipa_pen_keys.pid /data/local/tmp/pipa_port.pid
 # /metadata is only 58 MB; ColorOS bootcap writes ~20 MB per boot until aconfig hits StorageFull.
 rm -rf /metadata/bootcap /metadata/portdiag
 
+# Package parse cache (BUGS-TODO 14): the layers build with mkfs.erofs -T0 (all file times 0) and keep the build
+# fingerprint, so PackageManager would keep the cached manifest of a changed system APK. Each layer sets
+# ro.pipa.port.layer in system_ext/etc/build.prop; clear the cache once when it changes (before zygote/PMS).
+L=$(getprop ro.pipa.port.layer)
+if [ -n "$L" ] && [ "$L" != "$(cat /data/misc/pipa_port/pkgcache_layer 2>/dev/null)" ]; then
+    rm -rf /data/system/package_cache/*
+    echo "$L" > /data/misc/pipa_port/pkgcache_layer
+fi
+
+# OPPO OIFace (frame/thread booster, /system_ext/bin/oiface) moves threads into /dev/cpuset/oiface_fg, oiface_fg+ and
+# oiface_bg, which OPPO's vendor init creates; pipa's Xiaomi vendor does not ("directSetTask: get cpuset path
+# failed" on every app switch). OIFace writes the CPU masks itself (fg 4-6, fg+ 4-7, bg 0-3); it starts later (class hal).
+for g in oiface_fg oiface_fg+ oiface_bg; do
+    if mkdir -p "/dev/cpuset/$g" 2>/dev/null; then
+        cat /dev/cpuset/mems > "/dev/cpuset/$g/mems"; cat /dev/cpuset/cpus > "/dev/cpuset/$g/cpus"
+        chown -R root:system "/dev/cpuset/$g"; chmod 0775 "/dev/cpuset/$g"
+        chmod 0664 "/dev/cpuset/$g/tasks" "/dev/cpuset/$g/cpus" "/dev/cpuset/$g/cgroup.procs"
+    fi
+done
+
 # Rounded-corner overlay idmap: /product/overlay is an overlayfs merge that includes
 # /my_product/overlay, so idmap2d names the idmap after /product/overlay/... while
 # OverlayManager looks for /my_product/overlay/... -> STATE_NO_IDMAP. Create the expected one

@@ -7,20 +7,20 @@ show (offline analysis), what to capture on a device, and where a fix would live
 Status: **open** (not investigated), **analysed** (offline cause candidates), **fix planned**,
 **fixed in <build>**.
 
-Updated 2026-10-24 17:00 (ROM beta5-2p, kernel walt-r5). Related: `MAINTAINER-STATUS.md` (builds and plan),
+Updated 2026-10-24 19:00 (ROM beta5-2q, kernel walt-r5). Related: `MAINTAINER-STATUS.md` (builds and plan),
 `notes/STABILITY-PERF.md` (old stability and performance plan, captures D1-D17), `notes/PHASE2-ROM-INTEGRATION.md`
 (how the runtime fixes went into the ROM).
 
-## Open items (2026-10-24, beta5-2p + walt-r5; the large table below has the full history of each item)
+## Open items (2026-10-24, beta5-2q + walt-r5; the large table below has the full history of each item)
 
 | Prio | Item | Why it is open | Next step |
 |---|---|---|---|
 | 1 | **Clean-flash test of the release package** | Only dirty upgrades are tested | The user runs `FlashLinux.sh` with wipe from `ColorOS17-Port-pipa-beta5-2o-20261024` |
 | 2 | Night drain on 2j+ | The keyboard guard (2j) is not measured for a full night | batterystats after a night (reset 2026-10-24 09:21) |
 | 3 | Stutter under real use | Manual trace: SF on time 86 %, drops = SF GPU deadline misses (74 % of frames GPU-composed: blur, rounded window corners); memory reclaim ruled out (HISTORY 16:20, 17:15) | Blur decision (row below), loop fix (3a) |
-| 3 | Window blur → GPU composition | Blur forces client composition of all layers below (clientType=BLUR); A/B blur off: -25 % drops, -35 % GPU misses | User decides: `disable_window_blurs=1` as a ROM default in 2q? |
-| 3a | pipa_port loop CPU | 14.7 % of a core while the screen is on (short processes every second) | **2.3 % live** (HISTORY 17:15); user test of pen dock/buttons, then ROM 2q |
-| 3b | **14** Package cache keeps old manifest data | Layers build with `mkfs.erofs -T0` and keep the fingerprint: a changed system APK keeps its cached manifest (helper shows 0.4 on 2p; its 0.5 code runs) | Clear `/data/system/package_cache` when the layer changes (early boot), or build with a newer fixed `-T` per layer |
+| 3 | Transient taskbar | Redraws on every transition frame; launcher RenderThread blocks in dequeueBuffer up to ~200 ms (hidden surface). Taskbar off + blur off: launcher hitches > 120 ms 8/1 → 0/0, dropped 0.48-0.99 % | User decides (likes the taskbar); a launcher patch would be large |
+| 3a | pipa_port loop CPU | **Fixed in 2q** (14.7 → 2.3 % of a core); window blur off + animation 0.8 default (2q) | User: check pen dock + back button on 2q |
+| 3b | **14** Package cache keeps old manifest data (**fixed in 2q**: early.sh + `ro.pipa.port.layer`) | Layers build with `mkfs.erofs -T0` and keep the fingerprint: a changed system APK keeps its cached manifest (helper shows 0.4 on 2p; its 0.5 code runs) | Clear `/data/system/package_cache` when the layer changes (early boot), or build with a newer fixed `-T` per layer |
 | 3c | **15** Pen capsule 2-3 times at boot | pipa_port sends present=1 at boot +10 s +40 s (old workaround for "stylus connected"); with 2p each one shows the capsule | Send the boot resends without the capsule (flag) or drop them if Settings stays correct |
 | 4 | Unmapped ColorOS hints | SELinux blocks OPPO's perf daemon (a live fix works, measured neutral); `/proc/oplus_binder/ux_flag` is missing | Optional ROM 2p policy + kernel binder ux_flag (KERNEL-RESEARCH "2026-10-24 late afternoon") |
 | 5 | **11** "Xiaomi Keyboard configured" notification without a keyboard | The nanosic driver registers virtual input devices at probe | Kernel: register them on attach (a keyboard is necessary for the test) |

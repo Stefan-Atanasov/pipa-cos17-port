@@ -31,6 +31,8 @@ ADAPTIVE_RESTORE=1
 # pen buttons merged into drawing apps (stylus_buttons_enabled=1).
 BLUR_DEFAULT=1
 STYLUS_BUTTONS_DEFAULT=1
+# once per install: window blur off, material blur off, animation scales 0.8 (2q, smoothness)
+SMOOTH_DEFAULT=1
 
 # Grant the pipa helper app its notification and overlay permissions.
 HELPER_GRANTS=1

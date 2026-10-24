@@ -60,7 +60,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 
 ## How to change the ROM
 
-- Each change is a new **layer script** on top of the newest step (now `build_beta5_2p.sh` → `build_beta5_2q.sh`).
+- Each change is a new **layer script** on top of the newest step (now `build_beta5_2q.sh` → `build_beta5_2r.sh`; set `STEP`, which writes `ro.pipa.port.layer`).
   The procedure is in [BUILD.md](BUILD.md) "Add a ROM layer".
 - Only replace files in the copied tree. Write in place with `cat new > old`, so that the owner, the mode and the
   SELinux xattr stay. Each file must have `security.selinux` (`tree_manifest.py` checks it).

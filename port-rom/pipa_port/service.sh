@@ -177,6 +177,20 @@ if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(settings get secure stylus_but
     touch "$STATE/stylus_default_set"
     log "stylus_buttons_enabled default -> 1"
 fi
+# 2q smoothness defaults, once per install (state file; the user can change them back in Developer options):
+# window blur off (SurfaceFlinger forces GPU composition of every layer below a blur: A/B -25 % dropped frames,
+# -35 % GPU misses), material blur off (launcher jank about -40 %), animation scales 0.8 (fewer animated frames).
+if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
+    {
+        settings put global disable_window_blurs 1
+        settings put system system_material_blur_enable 0
+        for k in window_animation_scale transition_animation_scale animator_duration_scale; do
+            settings put global $k 0.8
+        done
+    } </dev/null >/dev/null 2>&1
+    touch "$STATE/smooth_default_set"
+    log "smoothness defaults: window blur off, material blur off, animation scales 0.8"
+fi
 # The ROM's default-permissions entry only applies on a first boot.
 if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1; then
     pm grant com.port.pipa.helper android.permission.POST_NOTIFICATIONS >/dev/null 2>&1
@@ -260,6 +274,19 @@ LIDB=$(settings get global lid_behavior)
 # Settings are persisted to this file within ~2 s of a change; a stat per second is cheap, a
 # `settings get` (app_process) is not, so read the switch only when the file changed.
 GLOBAL_XML=/data/system/users/0/settings_global.xml
+# A zygote restart (system_server crash, soft reboot) sets sys.boot_completed again, and OPPO's
+# init.oplus.nandswap.sh then attaches /data/nandswap/swapfile once more (seen 3x on one file: if zram ever fills,
+# the swap areas would overwrite each other). Keep the first loop swap, remove the others.
+nandswap_dedup() {
+    n=0
+    while read -r dev rest; do
+        case $dev in
+            /dev/block/loop*)
+                n=$((n + 1))
+                if [ $n -gt 1 ]; then swapoff "$dev" 2>/dev/null && losetup -d "$dev" 2>/dev/null; log "nandswap: removed duplicate swap $dev"; fi ;;
+        esac
+    done < /proc/swaps
+}
 LID_STAMP=/data/misc/pipa_port/lid.stamp
 rm -f "$LID_STAMP"
 lid_check() {   # [ -nt ] is a builtin test: no stat process per second
@@ -442,6 +469,7 @@ while true; do
         if ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; then : > "$SYS_STAMP"; remember_display; fi
         [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
         [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
+        nandswap_dedup
     fi
     tick=$((tick + 1))
     nap 1
