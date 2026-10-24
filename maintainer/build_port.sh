@@ -23,6 +23,7 @@
 #   2l     smoothness: SurfaceFlinger off the little cores (UI First scene), SF early offsets in product build.prop
 #   2m     SF layer caching off again (screen glitches in Settings search)
 #   2n     system_server animation threads as UX, UI apps fully compiled (QS -> Settings launch)
+#   2o     refresh_rate_config: app-wide rules at 120 Hz in Auto mode (no 90<->120 switches mid-animation)
 #
 # On a NEW donor the first two steps are EXPECTED to stop: they check the stock md5 of every file they
 # replace (oplus-services.jar, brightness xml, odm scripts ...). That is the safety net. When one stops, read
@@ -30,13 +31,13 @@
 # md5 in the script, and resume with the first-step argument. Before a new donor also do:
 #   * maintainer/wfs_scan.sh <old tree> <new tree>   new waitForService imports hang system_server on boot
 #   * maintainer/port_diff.py                        new C.0x-vs-old diff -> update c06-vs-beta4/PORT-EDITS.tsv
-#   * PORT-MAINTAINER.md                             rebase procedure and regression checklist
+#   * notes/PORT-MAINTAINER.md                             rebase procedure and regression checklist
 # After the build: sh flash_super.sh <path-to-super.img> <md5> (dirty flash), then maintainer/device_check.sh <tag>.
 set -eu
 
 HERE=$(cd "$(dirname "$0")" && pwd)
 P=${PIPA_ROOT:-/home/stefan/Documents/pipa}/port-work
-STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n"
+STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n 2o"
 
 CHECK=0
 [ "${1:-}" = "--check" ] && { CHECK=1; shift; }

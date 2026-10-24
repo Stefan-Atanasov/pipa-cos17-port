@@ -1,5 +1,5 @@
 #!/bin/sh
-# Phase 2b: two vendor-side fixes on top of beta5-2a (PHASE2-ROM-INTEGRATION.md A2 redo, B1).
+# Phase 2b: two vendor-side fixes on top of beta5-2a (notes/PHASE2-ROM-INTEGRATION.md A2 redo, B1).
 # Run as root after build_beta5_2a.sh:
 #
 #   sudo sh build_beta5_2b.sh

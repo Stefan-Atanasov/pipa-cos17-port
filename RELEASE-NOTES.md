@@ -1,9 +1,9 @@
 # ColorOS 17 for Xiaomi Pad 6 (pipa) — beta5 (2026-10-24)
 
-Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB) through
-dirty upgrades; a clean-flash test on the release package is still pending. Back up first.
+Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB), dirty-upgraded from beta4
+through every beta5 build; a clean flash of this package is still to be tested. Back up first.
 
-ROM `beta5-2n` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
+ROM `beta5-2o` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
 
 ## Highlights
 
@@ -12,6 +12,8 @@ ROM `beta5-2n` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
   Settings and the launcher are fully compiled. In a heavy stress test (fast app switching, flings, shade, drawer)
   frames shown on time went from 59 % to 94-96 %, dropped frames from 6.5 % to about 1 %, and opening Settings from
   quick settings from ~300 ms to ~180 ms.
+- **120 Hz in all apps** in the Auto refresh mode (ColorOS capped music and many other apps at 60/90 Hz, and the
+  switch between rates in the middle of animations caused stutter). Fullscreen video still drops to 60 Hz.
 - **Battery:** the keyboard-cover daemon no longer polls the accelerometer all night when no keyboard is attached
   (it kept the sensor hub and SoC awake); the GNSS service no longer retries a missing HAL every second.
 - **Own kernel** (`walt-r5`, Linux 4.19.325): LineageOS base with WALT, pipa drivers, E404 display/touch, OPPO's
@@ -34,13 +36,14 @@ ROM `beta5-2n` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
 
 ## Install
 
-1. **Back up.** Remove the `pipa_core` and power-tune modules first if you have them (the ROM does their job now and
-   running both duplicates services). The optional `pipa_susfs` module (root hiding) is fine.
-2. Run `FlashLinux.sh` / `FlashWindows.bat` from the package (slot B). Answer **y for a clean flash** (recommended
-   when coming from beta4 or older), Enter to keep data.
+1. **Back up.** Coming from beta4 or an earlier beta5: **remove the `pipa_core` and power-tune modules first** (the
+   ROM does their job now; running both duplicates services). The optional `pipa_susfs` module (root hiding) is fine.
+2. Run `FlashLinux.sh` / `FlashWindows.bat` from the package (slot B). **Enter = dirty flash** (keeps data): works from
+   beta4; the maintainer's tablet came from beta4 this way without a wipe. **y = clean flash**: use it when coming
+   from another ROM, or if anything misbehaves after a dirty flash.
 3. First boot takes a few minutes ("Optimizing apps"); about 3 minutes after the first boot the ROM compiles
    SystemUI, Settings and the launcher once in the background, so the first minutes can feel slower.
-4. Root: install the **SukiSU-Ultra manager 4.2.1-r1** APK (the kernel has SukiSU built in).
+4. Root: update to the **SukiSU-Ultra manager 4.2.1-r1** APK (the kernel has a newer SukiSU than beta4's).
 5. Accept the ADB authorisation prompt on the tablet if you use ADB.
 
 ## Tips

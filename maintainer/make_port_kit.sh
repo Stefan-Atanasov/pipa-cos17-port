@@ -17,9 +17,9 @@ K=$STAGE/$NAME
 mkdir -p "$K" "$OUTDIR"
 
 cd "$COS"
-DOCS="BUILD-GUIDE.md MAINTAINER-STATUS.md PORT-MAINTAINER.md PATCH-INVENTORY.md PHASE2-ROM-INTEGRATION.md BUGS-TODO.md
-      RELEASE-NOTES-beta5.md HISTORY.md README.md HANDOFF.md STABILITY-PERF.md CLAUDE.md AGENTS.md"
+DOCS="BUILD-GUIDE.md MAINTAINER-STATUS.md DEVICE-STATE.md BUGS-TODO.md RELEASE-NOTES-beta5.md HISTORY.md CLAUDE.md AGENTS.md"
 for f in $DOCS; do [ -f "$f" ] && cp "$f" "$K/"; done
+cp -r docs notes "$K/"
 mkdir -p "$K/kernel"; cp kernel/WALT-KERNEL.md kernel/KERNEL-RESEARCH.md "$K/kernel/"
 [ -f kernel/walt-own.bundle ] && cp kernel/walt-own.bundle "$K/kernel/"
 
@@ -40,7 +40,7 @@ cat > "$K/KIT-README.md" <<'EOF'
 
 Everything needed to rebuild the port's ROM layers and the kernel, without images or donor files.
 
-* Start with **`BUILD-GUIDE.md`** (ROM + kernel: build, test, flash, roll back), then `PORT-MAINTAINER.md` (rebase
+* Start with **`BUILD-GUIDE.md`** (ROM + kernel: build, test, flash, roll back), then `docs/REBASE.md` (rebase
   onto a new OPPO donor) and `MAINTAINER-STATUS.md` (current state, what each step does). Bugs: `BUGS-TODO.md`.
   Why each fix exists: `kernel/KERNEL-RESEARCH.md`, `HISTORY.md`, `module/README.md`.
 * Kernel source: https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`, README + build script);

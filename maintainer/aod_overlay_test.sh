@@ -1,5 +1,5 @@
 #!/bin/sh
-# AOD experiment (PHASE2-ROM-INTEGRATION.md A9): can a framework doze-brightness overlay replace
+# AOD experiment (notes/PHASE2-ROM-INTEGRATION.md A9): can a framework doze-brightness overlay replace
 # pipa_core's AodBacklightDaemon?
 #
 # Why it might: ColorOS's DozeBrightnessStrategyExtImpl.updateBrightness(f) only returns

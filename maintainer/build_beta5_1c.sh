@@ -1,5 +1,5 @@
 #!/bin/sh
-# Phase 1c: three pipa_core runtime tasks moved into the ROM (PHASE2-ROM-INTEGRATION.md A1, A2, A4).
+# Phase 1c: three pipa_core runtime tasks moved into the ROM (notes/PHASE2-ROM-INTEGRATION.md A1, A2, A4).
 # Layered on the phase 1 build; run as root after build_beta5_baked.sh (and flash only after that
 # image has booted, so each flash tests one step):
 #

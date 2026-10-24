@@ -1,5 +1,5 @@
 #!/bin/sh
-# Collect the device data that STABILITY-PERF.md §4 asks for (D1–D17) in one go.
+# Collect the device data that notes/STABILITY-PERF.md §4 asks for (D1–D17) in one go.
 #
 #   sh device_capture.sh [label] [--unhide-avc]
 #   ADB="adb -s 83836a90" sh device_capture.sh beta5     (USB instead of the default TCP serial)

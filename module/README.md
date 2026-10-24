@@ -361,7 +361,7 @@ computes its point (5263 K) but deliberately defers to Adaptive colour
 donor's behaviour.
 
 **Base jars.** beta4: the port-shipped repacked jar (`3316594f…`; the port author repacked it on
-2026-09-26, see `PATCH-INVENTORY.md` S17). C.06: donor stock (`2175feb9…`). A diff found no port
+2026-09-26, see `notes/PATCH-INVENTORY.md` S17). C.06: donor stock (`2175feb9…`). A diff found no port
 code edit (`maintainer/jar-edits/REPORT.md`), so the same `patch_framework.sh` output applies to
 both.
 

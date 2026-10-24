@@ -1,5 +1,5 @@
 #!/bin/sh
-# Round-trip test of the rebuild pipeline on unchanged beta4 content (PORT-MAINTAINER.md step 2).
+# Round-trip test of the rebuild pipeline on unchanged beta4 content (notes/PORT-MAINTAINER.md step 2).
 # extract system/system_ext as root with xattrs -> mkfs.erofs -> re-extract -> compare every
 # path, type, mode, owner, content hash, symlink target and xattr (SELinux label, capabilities).
 # Read-only on COS17/work/parts; writes only under $W. Run: sudo sh roundtrip_test.sh

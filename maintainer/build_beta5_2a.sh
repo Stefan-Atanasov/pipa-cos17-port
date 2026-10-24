@@ -1,5 +1,5 @@
 #!/bin/sh
-# Phase 2a: the two "easy" runtime pieces leave pipa_core / power-tune (PHASE2-ROM-INTEGRATION.md
+# Phase 2a: the two "easy" runtime pieces leave pipa_core / power-tune (notes/PHASE2-ROM-INTEGRATION.md
 # A4, A9). Layered on the phase 1c build; run as root after build_beta5_1c.sh:
 #
 #   sudo sh build_beta5_2a.sh

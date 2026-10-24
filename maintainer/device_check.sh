@@ -1,5 +1,5 @@
 #!/bin/sh
-# Regression checklist for a pipa COS17 build (PORT-MAINTAINER.md §8), run over ADB.
+# Regression checklist for a pipa COS17 build (notes/PORT-MAINTAINER.md §8), run over ADB.
 #
 #   sh device_check.sh [label]        e.g.  sh device_check.sh beta5-first-boot
 #   ADB="adb -s 83836a90" sh device_check.sh    (USB instead of the default TCP serial)
