@@ -5,27 +5,23 @@ Paste the block below as the first message of a fresh Claude Code session starte
 
 ```
 Continue COS17 pipa maintenance (ColorOS 17 port for the Xiaomi Pad 6). Tablet on USB (serial 83836a90): ROM
-beta5-2n (2026-10-24: 2j idle fix + Perfetto; 2k battery dialog; 2l stutter fix = SF off the little cores + SF
-early offsets; 2m layer caching off (glitch); 2n system_server UX + speed-compiled UI apps). Taskbar on + system material blur off (my choice, smoothest). No KSU scripts, kernel walt-r5 on boot_b (2026-10-24: r4 SF RenderEngine off the little cores, r5 UX threads on big cores +
-frame_rate 120; rollback bootimg/boot-walt-r4.img;
-ROM rollback flash_super.sh -y beta5-2i). Goal: smooth everywhere (app open/close, shade/QS, app drawer, scrolling)
-at 120 Hz, good idle drain, then release. I have the Xiaomi pen, no keyboard.
+beta5-2n + kernel walt-r5 on boot_b (rollbacks: flash_super.sh -y beta5-2m, bootimg/boot-walt-r4.img). My settings:
+taskbar on + system material blur off. I have the Xiaomi pen, no keyboard.
 
-Read first: COS17/CLAUDE.md, COS17/MAINTAINER-STATUS.md, COS17/BUILD-GUIDE.md (ROM + kernel build/flash/rollback),
-COS17/BUGS-TODO.md, COS17/kernel/KERNEL-RESEARCH.md ("2026-10-23 midnight" = smoothness work), HISTORY.md (last entry).
-Rules: ask me for sudo password / PIN, never store them. Kernel/ROM test flashes and rollbacks: go ahead, one line
-what + rollback, tell me before rebooting. Short answers. Keep tool output small.
+Read first: COS17/CLAUDE.md, COS17/MAINTAINER-STATUS.md, COS17/BUILD-GUIDE.md, COS17/BUGS-TODO.md (table at the top),
+COS17/kernel/KERNEL-RESEARCH.md (newest sections at the top of the dated list = 2026-10-24), HISTORY.md (last entries).
+Rules: ask me for sudo password / PIN, never store them. ROM/kernel test flashes and rollbacks: go ahead, one line
+what + rollback, tell me before rebooting. Short answers. Keep tool output small. Measure smoothness with
+maintainer/perfetto/traced_heavy.sh (wait 60 s after unlock, >= 2 runs, `svc power stayon usb` during a series).
+
+Published 2026-10-24: kernel source github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (oppo), port repo
+github.com/Stefan-Atanasov/pipa-cos17-port (sync_port_repo.sh), private kit make_port_kit.sh, release package
+port-work/release/ColorOS17-Port-pipa-beta5-2n-20261024 (+ .7z).
 
 Plan:
-1. Night on 2j vs night on 2i (2i: 78->75 % in 8 h, 307 mAh screen off, SLPI asleep 27 %, AOSD 0x/CXSD 1x).
-   batterystats reset 2026-10-24 09:21 at 75 %. Check dumpsys batterystats, /sys/power/system_sleep/stats,
-   /sys/power/rpmh_stats/master_stats (SLPI). Next idle levers: com.heytap.accessory BLE scans, deviceidle_maint.
-2. Optional ROM 2o: SELinux for OPPO's perf daemon (proc_version read + labelled scene nodes) and frame_rate =
-   refresh rate (measured neutral so far, see KERNEL-RESEARCH "2026-10-24 late afternoon"); binder ux_flag port.
-   Phantom "Xiaomi Keyboard configured" notification (BUGS-TODO 11).
-3. Smoothness next levers (after 2l: launcher Buffer Stuffing / App Deadline, long DRM commits, CLIENT layers; measure with maintainer/perfetto/traced_heavy.sh after 60 s settle) (measure with maintainer/heavy_mix.sh, 2 runs, POWER=1; why with maintainer/perfetto/,
-   FrameTimeline now possible): launcher GPU load + ColorOS "Blur" GPU context, launcher Buffer Stuffing,
-   display commit on SF main thread. Ruled out: clocks, DDR/LLCC bandwidth, 120 vs 144 Hz, SF Vulkan, HWUI GL,
-   OPPO mid-tier anim/blur levels, SystemUI UX, rounded-corner overlay.
-4. Release package (BUILD-GUIDE.md section 3: build_release.sh <newest ROM step> + walt-r5 boot.img) + clean-flash test.
+1. Clean-flash test of the release package (I run FlashLinux.sh with wipe), then I post it on Telegram.
+2. Night drain on 2j+ (batterystats reset 2026-10-24 09:21, 75 %): /sys/power/system_sleep/stats, rpmh master_stats.
+3. Optional ROM 2o: SELinux for OPPO's perf daemon + kernel binder ux_flag (KERNEL-RESEARCH "2026-10-24 late
+   afternoon"; measured neutral so far). Phantom keyboard notification (BUGS-TODO 11).
+4. Leftover bugs: B9 network sharing, B8 app lock, B1 Wi-Fi, B2 navbar, face crop_eyes, B11 idle refresh.
 ```

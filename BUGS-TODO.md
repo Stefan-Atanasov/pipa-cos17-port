@@ -5,30 +5,31 @@ show (offline analysis), what to capture on a device, and where a fix would live
 Status: **open** (not investigated), **analysed** (offline cause candidates), **fix planned**,
 **fixed in <build>**.
 
-Updated 2026-10-23 (beta5-2g). Related: `STABILITY-PERF.md` (stability/perf plan, captures D1–D17), `PHASE2-ROM-INTEGRATION.md`
+Updated 2026-10-24 (ROM beta5-2n, kernel walt-r5). Related: `STABILITY-PERF.md` (stability/perf plan, captures D1–D17), `PHASE2-ROM-INTEGRATION.md`
 (moving runtime fixes into the ROM), `MAINTAINER-STATUS.md` (builds and roadmap).
 
-## Open items at a glance (2026-10-23, beta5-2h + own kernel r2; the table below has the full history of each)
+## Open items at a glance (2026-10-24, beta5-2n + walt-r5; the table below has the full history of each)
 
 | Prio | Item | Why it is open | Next step |
 |---|---|---|---|
-| 1 | Lag and battery drain (B4/B5). New report 2026-10-23 (E404 r1): rapid open/close of apps from the home screen with Spotify playing and the Dynamic Island (fluid cloud) visible gets laggy | **lag fixed on E404 r2b (2026-10-23 18:16)**: cause = ColorOS boosts through WALT `sched_boost` (dummy on CASS); `uclamp_boost.c` touch boost → Spotify spam 13–16 % janky (was 21–33 %, old WALT 14–27 %). Battery: E404 idles WFI-only (98.7 vs 71 mAh/h), r3b built, untested | own WALT kernel with OPPO sched_assist (`kernel/KERNEL-RESEARCH.md` "Plan"); battery test of r3b or the WALT kernel (`drain_usb.sh`) |
-| ✓ | AudioX retry loop | **fixed in beta5-2g** (sysconfig `component-override`, verified 2026-10-23: stays disabled after `pm default-state`) | none |
-| 2 | **Idle drain: `xiaomi-keyboard` always on** (found 2026-10-24 morning) | the nanosic driver's virtual "Xiaomi Keyboard" devices exist without a keyboard, so the old input-name gate no longer works; the daemon polls the accelerometer ~7x/s, SLPI asleep only 27 % overnight, AOSD 0x / CXSD 1x in 8 h (`/sys/power/system_sleep/stats`) | **fixed in beta5-2j**: pipa_port `KEYBOARD_GUARD` asks the MCU (`echo 1 > /sys/devices/virtual/nanodev/nanodev0/_version176x`, then `Connected=[1]`) and stops/starts the daemon. Attach path untested (no keyboard here). Night 2j vs 2i to confirm |
-| 2 | **GNSS retry loop** (found 2026-10-23 night) | `loc_sys_service` (system_ext, `class main`) polls the absent `vendor.qti.gnss.ILocAidlGnss` once a second for ever: servicemanager churn (a launcher `getService` waited 327 ms in a trace) and a 1 Hz wakeup. beta5-1c only commented out its `on early-boot start`; `class main` still starts it | **fixed in beta5-2j** (verified: `init.svc.loc_sys_service=stopped` after boot) |
-| 2 | **perfetto `traced` never starts** (found 2026-10-23 night) | donor `/product/etc/build.prop:88` sets `traced.relay_producer_port=vsock://-1:2010`; our kernel has no AF_VSOCK, so `traced` exits ("Failed to create vsock://-1:2010 (errno 97)") and init restarts it every 5 s while `persist.traced.enable=1`. No perfetto, no FrameTimeline, no bug-report traces | **fixed in beta5-2j** (verified: `perfetto` records with `setprop persist.traced.enable 1`; set it back to 0 after tracing) |
-| 12 | **FIXED in beta5-2k** ~~"Battery error: battery may not be genuine" dialog~~ (charger shim returned 0 for `getPsyBatteryHmac`; SystemUI `isBatteryOriginal()` = hmac != 0; shim patched by `maintainer/chargershim/patch_auth.py`) (seen 2026-10-24 after a SystemUI restart) | OPPO battery authentication in SystemUI does not recognise pipa's battery; a dim dialog that also forces GPU composition while shown | find the check (SystemUI / battery service), make the ROM treat the battery as authentic or skip the dialog |
-| 11 | **"Xiaomi Keyboard configured" notification** without a keyboard | the nanosic driver (`drivers/input/keyboard/nanosic_driver_v2/nano_input.c` `Nanosic_input_register()`) creates virtual Xiaomi Keyboard/Mouse/Consumer HID devices at probe, attached or not; Android posts the PHYSICAL_KEYBOARD notification | kernel: register the virtual devices only when the keyboard attaches; user workaround: turn off "Physical keyboard" notifications |
-| 3 | **B9** network sharing | virtual modem answers `RADIO_NOT_AVAILABLE`; data path unclear; call/SMS sharing link comes up | logs from the **phone** during a share attempt, `ro.carrier=wifi-only` suspect |
-| 4 | **B8** privacy password / app lock | needs OPPO `ICryptoeng` HAL (absent) | write a small `ICryptoeng` shim (hash in `/data`), or hide the entry |
-| 5 | Face enrollment crash | `crop_eyes` OpenCV ROI out of range kills the HAL near the frame edge | check face position limits / guard in a wrapper; low priority, retry works |
-| 6 | **B1** Wi-Fi sometimes does not turn on | no recovery path | add `gEnableForceTargetAssert=1` to the vendor ini, fix `wifi_cool_reset` domain |
-| 7 | **B2** UI drawn behind the navigation bar | density/taskbar insets suspected | device dumps from an affected app, then an overlay test |
-| 8 | **B11** refresh rate never drops when idle | needs `IDisplayPanelFeature` shim | parked until the donor is final |
-| 9 | `pipa_port` domain is permissive | rules not collected | boot trace with `avc_trace.sh`, write rules, drop `typepermissive` |
-| 1 | **Own kernel (E404R) fully working, then flash** | running kernel has no source here, no audit core, built-in SukiSU 4.2.0 | **own E404R build exists, faster, not flashed** (`kernel/KERNEL-RESEARCH.md` "Status and next steps"): open = root (v2 stalls at boot in SukiSU sucompat hooks) and `gpuservice` crashes on E404 |
-| 10 | Colour / adaptive restore still a script | resetters not patched | find the app that resets them, patch in the ROM |
-| — | Play Integrity | BASIC only, by design (unlocked bootloader) | nothing; documented in the release notes |
+| 1 | **Clean-flash test of the release package** | only dirty upgrades tested so far | user runs FlashLinux.sh with wipe on the release folder |
+| 2 | Night drain on 2j+ | keyboard guard (2j) not yet measured overnight | batterystats after a night (reset 2026-10-24 09:21) |
+| 3 | Unmapped ColorOS hints | OPPO perf daemon blocked by SELinux (live fix works, measured neutral); `/proc/oplus_binder/ux_flag` missing | optional ROM 2o policy + kernel binder ux_flag (KERNEL-RESEARCH "2026-10-24 late afternoon") |
+| 11 | "Xiaomi Keyboard configured" notification without a keyboard | nanosic driver registers virtual input devices at probe | kernel: register on attach (needs a keyboard to test) |
+| 3 | **B9** network sharing | virtual modem answers `RADIO_NOT_AVAILABLE` | logs from the **phone** during a share attempt |
+| 4 | **B8** privacy password / app lock | needs OPPO `ICryptoeng` HAL (absent) | small `ICryptoeng` shim, or hide the entry |
+| 5 | Face enrollment crash | `crop_eyes` ROI out of range near the frame edge | guard in a wrapper; retry works |
+| 6 | **B1** Wi-Fi sometimes does not turn on | no recovery path | `gEnableForceTargetAssert=1`, fix `wifi_cool_reset` domain |
+| 7 | **B2** UI drawn behind the navigation bar | insets suspected | device dumps from an affected app |
+| 8 | **B11** refresh rate never drops when idle | needs `IDisplayPanelFeature` shim | parked |
+| 9 | `pipa_port` domain is permissive | rules not collected | `avc_trace.sh` boot trace, then drop `typepermissive` |
+| 10 | Colour / adaptive restore still a script | resetters not patched | find the resetting app |
+| — | Play Integrity | BASIC only (unlocked bootloader) | none |
+
+Fixed on 2026-10-24: idle drain from `xiaomi-keyboard` (2j), GNSS retry loop (2j), perfetto/traced (2j), "battery not
+genuine" dialog (2k), stutter / dropped frames (2l + walt-r4/r5: SurfaceFlinger, RenderEngine and UI threads on big
+cores, SF timing), Settings search glitch (2m, layer caching off), slow QS -> Settings (2n). B4/B5 (lag): heavy-test
+SF frames on time 59 -> 94-96 %, launcher 5.8-7.6 % janky with material blur off. Own kernel: done (walt-r5).
 
 Verified fixed: B3, B6, B7, B10, B12, B13, B14 (details in the table).
 

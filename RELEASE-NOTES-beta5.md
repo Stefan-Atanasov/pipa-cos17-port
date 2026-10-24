@@ -1,101 +1,78 @@
-# ColorOS 17 for pipa — beta5 (maintainer build)
+# ColorOS 17 for Xiaomi Pad 6 (pipa) — beta5 (2026-10-24)
 
-**STATUS: not yet released — tested on one device (the maintainer's, 2026-10-22).** beta5 and
-beta5-baked boot and pass the regression check (24/24) on a dirty flash over beta4. More testers
-wanted before the public release.
+Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. **Beta:** tested on one device (8 GB) through
+dirty upgrades; a clean-flash test on the release package is still pending. Back up first.
 
-beta5 is the first build by the new maintainer (stefan). The original developer 梦归zzz has stopped
-working on the port.
+ROM `beta5-2n` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06); pipa vendor/odm/firmware from beta4.
 
-Variants: `beta5` (this), `beta5-baked` (module file fixes baked in; recommended), `beta5-1c`
-(+ GNSS, pen perms; not yet tested on a device).
+## Highlights
 
-## Base
+- **Smoothness:** SurfaceFlinger, its GPU composition thread and the UI threads of the app you use now run on the big
+  CPU cores; SurfaceFlinger gets enough time per frame at 120 Hz; system animation threads are prioritised; SystemUI,
+  Settings and the launcher are fully compiled. In a heavy stress test (fast app switching, flings, shade, drawer)
+  frames shown on time went from 59 % to 94-96 %, dropped frames from 6.5 % to about 1 %, and opening Settings from
+  quick settings from ~300 ms to ~180 ms.
+- **Battery:** the keyboard-cover daemon no longer polls the accelerometer all night when no keyboard is attached
+  (it kept the sensor hub and SoC awake); the GNSS service no longer retries a missing HAL every second.
+- **Own kernel** (`walt-r5`, Linux 4.19.325): LineageOS base with WALT, pipa drivers, E404 display/touch, OPPO's
+  "UI First" scheduler (what ColorOS 17 expects), SukiSU-Ultra root + susfs built in. Source:
+  https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`).
+- **No modules needed any more:** everything `pipa_core` and the power-tune module did is in the ROM (face unlock,
+  pen, AOD, Dolby, charger shim, colour/adaptive restore, helper app with the pen battery pill).
 
-- OPPO Pad Mini **OPD2515 17.0.0.103(CN01) / C.06** (beta4 was C.05 / 17.0.0.102)
-- Firmware, kernel, vendor and odm are **unchanged from beta4**
-- Flash target: slot B, as before
+## Fixes vs beta4
 
-## Changes vs beta4
-
-- OS side (system, system_ext, product) rebased onto the C.06 donor build
-- Port additions and debloat applied as in beta4 (same app removals, same added files)
-- **SELinux:** stock C.06 policy plus only the pipa port allow rules. beta4 had deleted all
-  `dontaudit` rules (a debugging leftover); that is not carried, so less log noise
-- **ADB security restored:** `ro.secure`, `ro.adb.secure`, `ro.debuggable` are set again (beta4 had
-  them deleted). Your PC will ask for ADB authorisation once after flashing
-- `system/build.prop` file mode is now 644 (was 600)
-- The prebuilt `oplus-services` odex files that C.06 ships are removed, same as beta4 (needed for
-  the module's patched framework jar)
-- **OPPO's updater is removed** (`com.oplus.ota`, `com.oplus.sau`, `com.oplus.sauhelper`). The "Software
-  update" entry disappears. It only ever offered OPPO Pad Mini app bundles, never a real system update,
-  and installing them could override port apps. Port updates come as new builds like this one
-- **Fixed three C.06 boot hangs** that made the plain C.06 rebase bootloop on pipa: C.06 waits
-  forever for hardware services pipa doesn't have (OPPO's engineering HAL, and Qualcomm's QSPM
-  performance HAL in `libupdateprof.qti.so` / `libtrigger-handler.so`). The two libraries are
-  carried from beta4 (C.05), and a 2-byte fix in `oplus-services.jar` restores beta4's
-  non-blocking path for the engineering HAL
-- `oplus-services.jar` is otherwise C.06 stock. A diff against beta4 found no port-author edit that
-  needed re-applying
-- Build fingerprints/dates in `my_manifest` stay as in beta4 so they keep matching the unchanged vendor
-
-## Required modules
-
-1. **pipa_core v1.10** (by 梦归zzz) — still required: face unlock, stylus, AOD, subsys HALs.
-   It lives outside the ROM image; reinstall it after any data wipe.
-2. **Pipa COS17 Power & Polish Tune** — optional, but if you use it you need **v0.10**.
-   - **v0.7 or older must NOT be used with beta5**: it binds the beta4 framework jar over the C.06
-     framework, which likely bootloops.
-   - v0.8 is safe on beta5 (md5 guard) but skips the reroute, so adaptive colour stays off.
-   - v0.9 works on these images but lacks the C.06 boot fixes; use v0.10.
-   - v0.10 carries one patched jar per base (beta4 and C.06) and binds only the matching one; on an
-     unknown build it skips the bind. It also skips it if a prebuilt `oplus-services.odex` is present.
-   - v0.10 re-enables adaptive colour / bedtime colour on plain beta5 (beta5-baked has it built in).
+- Face unlock: preview rotation and crop, HAL watchdog; pen: battery pill and low-battery notice, "stylus connected"
+  in Settings, 120 Hz while the pen is out, back button = screenshot, buttons merged into drawing apps; Dolby works
+  from boot; correct boot rotation and logo; magnetic case (lid) works.
+- "Battery may not be genuine" dialog gone (the charger shim reports the battery as genuine).
+- Screen glitches in Settings search fixed (SurfaceFlinger layer caching off).
+- ColorOS sound effects (AudioX) no longer retry in a loop.
+- OPPO's updater removed: it only offered OPPO Pad Mini app bundles, never system updates for pipa.
+- Three C.06 boot hangs fixed (OPPO engineering HAL, Qualcomm QSPM wait).
+- Security: ADB authorisation and `ro.secure` restored; SELinux enforcing.
 
 ## Install
 
-1. Back up `/data` first. C.05 → C.06 is a minor ColorOS update, so a dirty flash from beta4 is
-   expected to work, but it is untested.
-2. **Install/upgrade the module to v0.10 before flashing** and reboot once on beta4 (check the module
-   log for `bind /system/framework/oplus-services.jar <- module`).
-3. Flash with `FlashLinux.sh` / `FlashWindows.bat` as usual (slot B). Firmware is untouched.
-4. **If it bootloops:** reflash the beta4 `super.img` (boot to fastboot, flash, no wipe needed).
-5. After boot, accept the one-time ADB authorisation prompt on the tablet.
+1. **Back up.** Remove the `pipa_core` and power-tune modules first if you have them (the ROM does their job now and
+   running both duplicates services). The optional `pipa_susfs` module (root hiding) is fine.
+2. Run `FlashLinux.sh` / `FlashWindows.bat` from the package (slot B). Answer **y for a clean flash** (recommended
+   when coming from beta4 or older), Enter to keep data.
+3. First boot takes a few minutes ("Optimizing apps"); about 3 minutes after the first boot the ROM compiles
+   SystemUI, Settings and the launcher once in the background, so the first minutes can feel slower.
+4. Root: install the **SukiSU-Ultra manager 4.2.1-r1** APK (the kernel has SukiSU built in).
+5. Accept the ADB authorisation prompt on the tablet if you use ADB.
 
-## Known issues / limitations
+## Tips
 
-- Tested on one device only so far (8 GB, dirty flash over beta4 with pipa_core v1.10).
-- First boot after flashing shows "Optimizing apps" and is laggy for a few minutes while apps
-  are recompiled; this settles by itself.
-- Possible difference: the default slow brightness ramp rate in the C.06 framework differs from
-  beta4 (40 vs 320; probably overridden at runtime). Tell us if brightness ramping feels different
-- Adaptive colour (module) uses a fixed 100 lx in place of the missing lux value, so it follows the
-  colour-temperature sensor only; brightness-based ambient adaptation is not bridged
-- ColorOS sound effects (Audiox) cannot work on this hardware (carried over from beta4)
-- Face unlock depends on the pipa_core HAL start (carried over from beta4): if the HAL crashes,
-  face unlock stays dead until reboot
-- Two display overlays are carried over from beta4 unchanged
-- Some UNSURE removals (boot-monitor/phoenix services) were applied for parity with beta4; the
-  donor C.05 build would be needed to confirm they were port edits
+- Smoothest setup measured: turn ColorOS **"Material blur" off** (search "blur" in Settings, or
+  `adb shell settings put system system_material_blur_enable 0`). It removes the frosted background of folders and
+  the taskbar and cuts launcher jank by about 40 %. The taskbar can stay on.
+
+## Known issues
+
+- Network sharing (interconnect) and the privacy password / app lock do not work.
+- Wi-Fi may occasionally fail to turn on; a reboot fixes it.
+- Some apps may draw slightly behind the navigation bar.
+- The refresh rate does not drop when the screen is idle (120 Hz stays on).
+- Face enrollment can crash near the frame edge; retry works.
+- A "Xiaomi Keyboard configured" notification can appear without a keyboard (turn off "Physical keyboard"
+  notifications).
+- The keyboard cover's fold-behind auto-disable is untested (no keyboard here); typing should work.
+- Play Integrity: BASIC only (unlocked bootloader); apps that need DEVICE integrity will not work.
+- Adaptive colour follows the colour-temperature sensor only (no lux bridge).
 
 ## Please report
 
-After flashing, tell us: boots or bootloops, face unlock, stylus, AOD, audio (incl. rotation),
-adaptive colour, brightness ramp, battery idle drain. Include the module version.
+Boots or not, clean or dirty flash, face unlock, pen, keyboard cover (if you have one), Wi-Fi, battery drain overnight,
+any stutter (which app or gesture).
 
-## Download
+## Build it yourself
 
-- super.img: <download link>
-- md5: <md5>
-- Module v0.10: <download link> (md5 `ec6e3425…`)
-- pipa_core v1.10: <download link>
+Scripts, sources and docs: https://github.com/Stefan-Atanasov/pipa-cos17-port (start at `BUILD-GUIDE.md`).
 
 ## Credits
 
-- **梦归zzz** — original ColorOS 17 port for pipa and the pipa_core module
-- stefan — maintainer, beta5 rebase and Power & Polish Tune module
-
-## Known limitations (to include in the final notes)
-
-- Play Integrity: only `MEETS_BASIC_INTEGRITY` (unlocked bootloader). Apps that require DEVICE integrity (some banking/payment apps, some games) will not work.
-- Network sharing (interconnect) and the privacy password / app lock do not work yet.
+- **梦归zzz**: the original ColorOS 17 port for pipa and the `pipa_core` module
+- **Stefan-Atanasov**: maintainer, beta5 rebase, ROM fixes, kernel
+- LineageOS, liyafe1997 (pipa kernel drivers), kvsnr113 (E404 kernel), SukiSU-Ultra, susfs, OPPO (open-source kernel)

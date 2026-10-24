@@ -19,6 +19,8 @@ by our kernel, and the kernel's SukiSU (manager/ksud 4.2.1-r1) must match the ma
 
 - Host: Linux, `sudo`, `erofs-utils` (`mkfs.erofs`, `fsck.erofs`, `dump.erofs`), `lpmake`/`lpunpack`, `fastboot`/`adb`,
   python3, JDK 21 + `~/Android/Sdk` (helper app), NDK 30 (face crop add-on).
+- Paths: scripts default to `/home/stefan/Documents/pipa`; elsewhere set `PIPA_ROOT` (folder with `COS17/`, `port-work/`,
+  `donor/`) and `PIPA_OWNER` (user:group), passed through sudo: `sudo PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh ...`.
 - `mountpoint /mnt/reference` must succeed (the HDD holds `donor/`, `work/` and the reference ROMs behind symlinks).
 - Free space: `du` shows ~23 GB per layer in `port-work/`, but btrfs reflinks share most of it; keep ≥ 40 GB free.
 - Tablet: `adb devices` shows `83836a90`. Flashing super keeps `/data`; until a boot completes `/data` runs with
@@ -127,3 +129,14 @@ bash maintainer/build_release.sh beta5-2n --boot ~/Documents/pipa/port-work/kern
 
 Firmware + super + our boot.img + flash scripts in `port-work/release/`. Before publishing: a clean-flash test
 (`FlashLinux.sh` with wipe, run by the user), release notes `RELEASE-NOTES-beta5.md`, kernel source link (GPL).
+
+## 4. Publish
+
+| What | Command | Where it goes |
+|---|---|---|
+| Kernel source (GPL) | cherry-pick onto `pub/oppo` in `port-work/kernel/walt-own`, `git push origin pub/oppo:oppo` | github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (`oppo`; README, `build-pipa-cos17.sh`, `pack-boot.sh`) |
+| Port scripts, sources, docs | `sh maintainer/sync_port_repo.sh "message"` | github.com/Stefan-Atanasov/pipa-cos17-port (no blobs, no signing key; `BLOBS.md` lists what is left out) |
+| Private kit for a co-maintainer | `sh maintainer/make_port_kit.sh` | `port-work/release/pipa-cos17-port-kit-<date>.tar.gz` (with blobs, without `helper/keys/`) |
+| User release | `bash maintainer/build_release.sh <tag> --boot <boot.img> --name "..." --7z` | `port-work/release/ColorOS17-Port-pipa-<tag>-<date>/` + `.7z`, notes `RELEASE-NOTES-beta5.md` |
+
+Never share `helper/keys/` (helper signing key + `keystore.pass`): with it anyone can sign helper updates the ROM accepts.

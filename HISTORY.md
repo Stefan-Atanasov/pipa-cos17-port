@@ -357,3 +357,14 @@ Built by `maintainer/build_beta5.sh` (root) → `apply_port_edits.py` with
 - `kernel.ux_prefer_big` (heavy UX UI threads on big cores without the slide scene) + `kernel.frame_rate` 120 default.
   Launcher gfxinfo 5.8-6.7 % (r4: 7.4-7.9 %), no power cost. `bootimg/boot-walt-r5.img` md5
   `bbc576523eb15649520b3ccd97200c15`; `oppo` 07c07a536bc1, public `oppo` 14710e930108; bundle saved.
+
+## 2026-10-24 afternoon: release prep
+
+- Kernel repo: README for this kernel (liyafe's kept as README.liyafe.md), `build-pipa-cos17.sh`, `pack-boot.sh`
+  (same md5 as `mkboot.sh` for r5); public `oppo` b3f745524763 (local `oppo` ad72fe5cb429).
+- Port repo created: github.com/Stefan-Atanasov/pipa-cos17-port (`maintainer/sync_port_repo.sh`; proprietary blobs
+  excluded, listed in BLOBS.md; signing key excluded; fails closed).
+- `maintainer/make_port_kit.sh` (private kit, 86 MB, no `helper/keys/`).
+- helper keystore password moved from `helper/build.sh` to `helper/keys/keystore.pass` (private).
+- Scripts take `PIPA_ROOT` / `PIPA_OWNER` (defaults unchanged); `build_port.sh --check` passes for every step.
+- RELEASE-NOTES-beta5.md rewritten for beta5-2n + walt-r5; docs cleaned (MAINTAINER-STATUS compact, BUGS-TODO table).

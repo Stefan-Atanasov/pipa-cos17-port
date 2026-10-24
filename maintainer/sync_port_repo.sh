@@ -12,7 +12,7 @@ MSG=${1:-"sync from COS17 $(date +%F)"}
 mkdir -p "$R"
 cd "$COS"
 rsync -a --delete --delete-excluded \
-    --exclude='.git/' \
+    --filter='P .git/' --exclude='.git/' \
     --exclude='maintainer/jar-edits/venv/' --exclude='__pycache__/' --exclude='*.pyc' \
     --exclude='helper/keys/' --exclude='helper/out/' \
     --exclude='*.so' --exclude='*.jar' --exclude='*.apk' --exclude='*.7z' --exclude='*.img' --exclude='*.zip' \
