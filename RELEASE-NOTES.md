@@ -16,7 +16,7 @@ ROM `beta5-2q` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
   switch between rates in the middle of animations caused stutter). Fullscreen video still drops to 60 Hz.
 - **Smoother by default:** window blur and material blur off, animations 20 % shorter (change them back in Settings →
   Developer options / Display if you want), and the port's background service uses about 2 % of one CPU core
-  instead of 15 %. For the smoothest app switching, turn the taskbar off (Settings → Home screen).
+  instead of 15 %. For the smoothest app switching, turn the taskbar off (see Tips).
 - **Pen battery in the ColorOS live alert:** when you dock or take out the Xiaomi pen, ColorOS's own capsule at the
   top shows the pen and its battery level (OPPO's pen app, patched to accept the Xiaomi pen).
 - **Battery:** the keyboard-cover daemon no longer polls the accelerometer all night when no keyboard is attached
@@ -53,9 +53,11 @@ ROM `beta5-2q` + kernel `walt-r5`. Donor: OPPO OPD2515 `17.0.0.103(CN01)` (C.06)
 
 ## Tips
 
-- Smoothest setup measured: turn ColorOS **"Material blur" off** (search "blur" in Settings, or
-  `adb shell settings put system system_material_blur_enable 0`). It removes the frosted background of folders and
-  the taskbar and cuts launcher jank by about 40 %. The taskbar can stay on.
+- The ROM turns material blur and window blur off and sets the animation scales to 0.8 once at the first boot. To
+  get blur back: search "blur" in Settings, and Developer options → "Allow window-level blurs".
+- Smoothest setup measured for fast app switching: **taskbar off** (`adb shell settings put system
+  enable_launcher_taskbar 0`). The ColorOS taskbar redraws on every frame of each app open/close; with it off the
+  long launcher hitches (> 120 ms) were gone in the test.
 
 ## Known issues
 
