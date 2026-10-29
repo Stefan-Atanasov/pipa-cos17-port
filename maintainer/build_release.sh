@@ -57,6 +57,15 @@ assert s.count(old) == 1
 s = s.replace(old, 'chmod +x "$FASTBOOT" 2>/dev/null\n'
               '[[ -x "$FASTBOOT" ]] || FASTBOOT="$(command -v fastboot || true)"\n'
               '[[ -n "$FASTBOOT" && -x "$FASTBOOT" ]] ||', 1)
+# dirty flash: boot and dtbo only to slot B (the port boots from B), so a Linux/UEFI boot image in boot_a/dtbo_a
+# survives a port update (docs/DUALBOOT-LINUX.md). A clean flash still writes both slots.
+old = 'flash boot_ab "$BOOT_IMAGE"\n'
+assert s.count(old) == 1
+s = s.replace(old, 'if [[ "$WIPE" == true ]]; then BS=_ab; else BS=_b; echo "[*] Keep data: boot and dtbo go to slot B only (slot A is not changed)."; fi\n'
+              'flash "boot$BS" "$BOOT_IMAGE"\n')
+old = 'flash dtbo_ab "$FW_DIR/dtbo.img"\n'
+assert s.count(old) == 1
+s = s.replace(old, 'flash "dtbo$BS" "$FW_DIR/dtbo.img"\n')
 open(dst, 'w', encoding='utf-8').write(s)
 EOF
 chmod +x "$OUT/FlashLinux.sh"
@@ -70,13 +79,24 @@ old = 'echo System version: ColorOS 17 / Android 17\r\n'
 assert s.count(old) == 1
 s = s.replace(old, old.replace('Android 17', f'Android 17 {name}') +
               f'echo.\r\necho 维护者：{maint}\r\necho Maintainer: {maint}\r\n')
+# dirty flash: boot and dtbo only to slot B (see the Linux script)
+old = 'call :flash boot_ab "%BOOT_IMAGE%" || goto :abort\r\n'
+assert s.count(old) == 1
+s = s.replace(old, 'if /I "%WIPE%"=="y" (set "BS=_ab") else (set "BS=_b" & echo [*] Keep data: boot and dtbo go to slot B only.)\r\n'
+              'call :flash boot%BS% "%BOOT_IMAGE%" || goto :abort\r\n')
+old = 'call :flash dtbo_ab "%FW_DIR%\\dtbo.img" || goto :abort\r\n'
+assert s.count(old) == 1
+s = s.replace(old, 'call :flash dtbo%BS% "%FW_DIR%\\dtbo.img" || goto :abort\r\n')
 open(dst, 'wb').write(s.encode('gbk'))
 EOF
 
-[ -f "$COS/RELEASE-NOTES-beta5.md" ] && cp "$COS/RELEASE-NOTES-beta5.md" "$OUT/RELEASE-NOTES.md"
+# release notes: RELEASE-NOTES-<pkg>.md (e.g. beta6), else the beta5 notes
+NOTES=$COS/RELEASE-NOTES-$PKG.md; [ -f "$NOTES" ] || NOTES=$COS/RELEASE-NOTES-beta5.md
+[ -f "$NOTES" ] && cp "$NOTES" "$OUT/RELEASE-NOTES.md"
 # extras: the SukiSU manager that matches the kernel (a clean flash removes the app) and the optional susfs module
 mkdir -p "$OUT/extras"
-cp "$COS/kernel/sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk" "$OUT/extras/"
+KSU_APK=${KSU_APK:-$COS/kernel/sukisu-v4.3.0/SukiSU_v4.3.0_41100-release.apk}   # walt-r8 and later; walt-r6/r7: KSU_APK=.../sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk
+cp "$KSU_APK" "$OUT/extras/"
 cp "$COS/pipa-susfs-v1.0.zip" "$OUT/extras/"
 cat > "$OUT/README-FLASH.txt" <<EOF
 ColorOS 17 port for Xiaomi Pad 6 (pipa) - $NAME
@@ -88,7 +108,8 @@ Needs an unlocked bootloader. Back up your data first.
 3. The script asks: "y" = clean flash (erases all data, needed when coming from another ROM),
    Enter = dirty flash (keeps data, for updating this port).
 4. The first boot takes a few minutes. Do not reboot it manually.
-5. Root: install extras/SukiSU_v4.2.1-r1_41049-release.apk and open it once.
+5. Root: the port installs the SukiSU manager on the first boot. If it is missing, install
+   extras/$(basename "$KSU_APK") and open it once.
    Optional root hiding: extras/pipa-susfs-v1.0.zip as a module.
 6. Start the flash script in a terminal: the wipe question needs an answer (y or Enter).
 Rollback: flash the previous package the same way.

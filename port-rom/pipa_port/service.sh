@@ -247,13 +247,20 @@ fi
 # SukiSU-Ultra manager, once per install (2w). KernelSU finds its manager only under /data/app (the system preload of
 # 2u gave no root), so install the APK that matches the kernel (4.2.1-r1) as a normal app. `pm install` from this
 # domain works (tested 2026-10-28). The user can update or uninstall it: the state file stops a second install.
-if [ "${KSU_MANAGER:-1}" = 1 ] && [ ! -e "$STATE/ksu_manager_set" ] && [ -f "$MODDIR/SukiSU.apk" ]; then
-    if pm path com.sukisu.ultra </dev/null >/dev/null 2>&1; then
-        touch "$STATE/ksu_manager_set"
-        log "SukiSU manager already installed"
-    elif pm install "$MODDIR/SukiSU.apk" </dev/null >/dev/null 2>&1; then
-        touch "$STATE/ksu_manager_set"
-        log "SukiSU manager installed"
+# The marker holds the versionCode of the bundled APK (empty file = 2w-3o, 4.2.1-r1). A newer bundled manager (a new
+# kernel needs it) is installed over an older one; a newer manager that the user installed stays.
+KSU_WANT=$(cat "$MODDIR/SukiSU.version" 2>/dev/null)
+if [ "${KSU_MANAGER:-1}" = 1 ] && [ -f "$MODDIR/SukiSU.apk" ] && [ -n "$KSU_WANT" ] && \
+   [ "$(cat "$STATE/ksu_manager_set" 2>/dev/null)" != "$KSU_WANT" ]; then
+    : > "$SGET_F"
+    pm list packages --show-versioncode com.sukisu.ultra </dev/null >"$SGET_F" 2>/dev/null
+    have=$(sed -n 's/^package:com\.sukisu\.ultra versionCode:\([0-9]*\).*/\1/p' "$SGET_F")
+    if [ -n "$have" ] && [ "$have" -ge "$KSU_WANT" ]; then
+        echo "$KSU_WANT" > "$STATE/ksu_manager_set"
+        log "SukiSU manager $have already installed"
+    elif pm install -r "$MODDIR/SukiSU.apk" </dev/null >/dev/null 2>&1; then
+        echo "$KSU_WANT" > "$STATE/ksu_manager_set"
+        log "SukiSU manager ${have:-none} -> $KSU_WANT installed"
     else
         log "SukiSU manager install failed (next boot tries again)"
     fi

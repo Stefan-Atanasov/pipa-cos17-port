@@ -1,143 +1,158 @@
-# Dual boot with Linux: Android storage and SELinux
+# Dual boot with Linux: what you must know first
 
-This page answers a common question: "Can Linux in a dual boot read the internal storage of the ColorOS 17 port?"
+This page tells you how the ColorOS 17 port for the Xiaomi Pad 6 (`pipa`) uses the storage, the boot slots and the
+kernel, and what this means for a dual boot with Linux (or Windows). Read all of it before you change a partition.
 
-## Short answer
+All values come from the maintainer's tablet (128 GB model, 2026-10-29), unless a source is given. **We did not
+install a dual boot on this port ourselves.** The methods below are from the pipa Linux community.
 
-- **No.** Linux cannot read the encrypted `/data` of this port.
-- **SELinux permissive does not help.** SELinux does not hold or make encryption keys.
-- `androidboot.selinux=permissive` on the kernel command line does nothing on this port. This is a `user` build.
-  Android init uses that value only when it is built with `ALLOW_PERMISSIVE_SELINUX` (userdebug and eng builds).
-- To share files between Android and Linux, use a separate drive or copy the files over the network.
+## 1. Short answers
 
-## Why Linux cannot read `/data`
+- **Can Linux read the internal storage of the port?** No. `/data` is encrypted with keys that only the TEE of the
+  tablet can use (section 4).
+- **Do I need SELinux permissive?** No. SELinux does not hold encryption keys. `androidboot.selinux=permissive` on the
+  kernel command line also does nothing: this is a `user` build, and the vendor boot image sets
+  `androidboot.selinux=enforcing`.
+- **Do I need to turn off Android encryption for dual boot?** No. Linux uses its own boot image and its own root
+  partition.
+- **Is dual boot possible?** Yes, with the community methods (section 6). It needs a **format of all Android data**,
+  because `userdata` uses all the free space.
+- **What is the easy way to share files?** A USB drive, or the network (MTP, ADB, Syncthing, SMB).
 
-The port uses the encryption settings of the pipa vendor (`/vendor/etc/fstab.qcom`):
+## 2. Storage layout (UFS)
+
+The UFS storage has several logical units (LUNs). Linux sees them as `sda` ... `sdf`.
+
+| LUN | Contents |
+|---|---|
+| `sda` (~117 GB) | `persist`, `metadata`, `misc`, `frp`, `cust`, `rawdump`, `rescue`, `super` (`sda29`, 8.5 GB) and **`userdata` (`sda34`, 106.6 GB) = the last partition** |
+| `sdb`, `sdc` | `xbl_a` + `xbl_config_a`, and `xbl_b` + `xbl_config_b` (primary bootloader) |
+| `sdd` | `cdt`, `ddr` (board data, DDR training) |
+| `sde` (2.1 GB) | The A/B firmware and boot partitions: `abl`, `aop`, `tz`, `hyp`, `keymaster`, `modem`, `dsp`, `bluetooth`, `boot`, `vendor_boot`, `dtbo`, `vbmeta`, `vm-linux`, ... (each with `_a` and `_b`) |
+| `sdf` | Modem storage: `modemst1`, `modemst2`, `fsg`, `fsc` |
+
+- `userdata` is the last partition on `sda`. To make space, shrink `userdata` from the end and add new partitions
+  after it (`sda35`, `sda36`, ...). The Windows-on-pipa guides use the same layout.
+- There is **no `recovery` partition**. Recovery (TWRP) is in the boot image.
+- `vm-linux_a/b`, `rawdump`, `rescue`, `cust` are **not** free space. Do not use them.
+
+## 3. Boot chain, slots and kernel
+
+| Item | The port |
+|---|---|
+| Bootloader | Xiaomi ABL, unlocked. Verified boot state `orange`. |
+| Active slot | **B** (`androidboot.slot_suffix=_b`). All flash scripts set slot B. |
+| Firmware (`abl`, `xbl`, `tz`, `hyp`, `keymaster`, `modem`, `dsp`, `bluetooth`, `aop`, ...) | **The same on slot A and slot B.** The release scripts flash these with `_ab`. |
+| `vbmeta`, `vbmeta_system`, `vendor_boot`, `dtbo` | The same on slot A and slot B. |
+| `boot_b` (192 MB) | **The port kernel + TWRP 3.7.1** (boot image header v3). Never replace it. |
+| `boot_a` (192 MB) | The kernel of the last clean flash. The port never boots from it. **This is the place for a Linux or UEFI image.** |
+| `vendor_boot` (96 MB, header v3) | The device tree (DTB) and the base kernel command line (`androidboot.hardware=qcom ... androidboot.selinux=enforcing`). The bootloader loads `vendor_boot` of the active slot. |
+| `dtbo` | Device tree overlays (`androidboot.dtbo_idx=9`). Mainline Linux needs an **empty** `dtbo` in its slot. |
+| `super` | The ROM (system, system_ext, product, vendor, odm, my_*), only in the slot B logical partitions. Slot A has no ROM. |
+
+The kernel:
+
+- The port uses its own kernel (Linux **4.19**, SM8250 WALT): https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17
+  (branch `oppo`). Root: SukiSU-Ultra (built in), susfs, KPM. It is an Android kernel. It cannot boot a Linux
+  distribution.
+- A Linux distribution needs a **mainline pipa kernel** (for example the kernels of TheMojoMan's images, or
+  https://github.com/MollySophia/linux-mainline-pipa). Each OS has its own kernel in its own boot slot.
+- Do not flash the port kernel to `boot_a`, and do not flash a mainline kernel to `boot_b`.
+
+## 4. Encryption of `/data`
 
 ```
 /data  f2fs  inlinecrypt  fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,
                           metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption
 ```
 
-- There are two layers of encryption:
-  1. **Metadata encryption** encrypts the full partition below f2fs. You cannot mount the raw `userdata` partition.
-  2. **File-based encryption (FBE) v2** encrypts the file names and the file contents in f2fs.
-- Both layers use **hardware-wrapped keys** (`wrappedkey_v0`). The raw keys never exist in software. Only the
-  Qualcomm TEE (keymaster 4.0) and the inline crypto engine (ICE) of the SoC can use them. The keys for user data
-  (credential-encrypted storage) also need your lock-screen credential.
-- AOSP says that the legacy format `wrappedkey_v0` is not compatible with the upstream Linux kernel. The new
-  hardware-wrapped key support in Linux 6.16 is for a different format.
-- TWRP in the port's boot image can decrypt `/data`, because TWRP runs the Android keymaster in the TEE. A normal
-  Linux system does not have this stack.
+- There are two layers: **metadata encryption** (the full partition, below f2fs) and **file-based encryption v2**
+  (file names and contents).
+- Both use **hardware-wrapped keys** (`wrappedkey_v0`). Only the Qualcomm TEE (keymaster 4.0) and the inline crypto
+  engine of the SoC can use them. User data also needs your lock-screen credential.
+- AOSP says that `wrappedkey_v0` is not compatible with the upstream Linux kernel. TWRP in the port can decrypt
+  `/data` because it runs the Android keymaster in the TEE.
+- **Keep `metadata` and `persist`.** If you erase `metadata`, Android cannot open `/data` again (format needed).
+- A ROM without encryption is possible in theory (remove `fileencryption=`, `metadata_encryption=`, `keydirectory=`
+  from the fstab and format `userdata`). The port does not offer it and it is not tested.
 
-We know of no Linux project for pipa that can unlock this storage.
+## 5. What the flash scripts write
 
-## What works
-
-### 1. Separate shared storage (recommended)
-
-- Use a USB drive or a separate partition with a file system that both systems can use (for example exFAT or ext4).
-- Or copy files over the network: MTP, ADB, Syncthing, SMB. Copy them while Android runs and is unlocked.
-
-Android stays encrypted. This is the safe choice.
-
-### 2. A ROM without encryption (not available, not tested)
-
-It is possible to remove `fileencryption=`, `metadata_encryption=` and `keydirectory=` from the fstab. Then:
-
-- You must **format `userdata`**. All data is lost. A change of the fstab does not decrypt old files.
-- All copies of the fstab must agree (vendor and first-stage ramdisk).
-- Android requires FBE since Android 10. We do not know if ColorOS 17 works without it: the lock screen, the work
-  profile and some apps can fail.
-- Anybody with the tablet can then read all your data, for example with TWRP.
-- Linux must also support the f2fs features that Android uses (for example casefold and compression).
-
-The port does not offer this variant now. If you want to test it, ask in the group.
-
-## Partition layout of the port (for dual boot)
-
-Checked on the maintainer's tablet (2026-10-29, 128 GB model):
-
-| Partition | Content |
+| Script | Writes |
 |---|---|
-| Active slot | **B**. The port boots from slot B. |
-| Firmware (`abl`, `xbl`, `tz`, `modem`, `dsp`, `keymaster`, `bluetooth`, ...), `vendor_boot`, `dtbo` | **The same on slot A and slot B.** `FlashLinux.sh` writes the `_ab` targets, which writes both slots. |
-| `boot_b` (192 MB) | The port kernel + TWRP. Do not replace it. |
-| `boot_a` (192 MB) | The release kernel (beta5: walt-r6). The port does not boot from it. **This is the place for a Linux or UEFI boot image.** |
-| `super` (8.5 GB) | The ROM, only in the slot B logical partitions. |
-| `userdata` (106.6 GB) | Android data, encrypted. It uses all the remaining space. There is no free space for Linux. |
-| `vm-linux_a/b`, `rawdump` | Not free space. Do not use them. |
+| `FlashLinux.sh` / `FlashWindows.bat`, **clean flash** ("y") | All firmware `_ab`, `boot_ab`, `dtbo_ab`, `vendor_boot_ab`, `vbmeta_ab`, `super`; erases `metadata` and `userdata`. **Overwrites a Linux image in `boot_a` and `dtbo_a`.** |
+| Same, **dirty flash** (Enter), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps your Linux image.** |
+| Same, dirty flash, **beta5 and older** | Like a clean flash without the erase: `boot_ab` and `dtbo_ab`. Flash your Linux image to `boot_a` again after the update, and erase `dtbo_a` again. |
 
-## Dual boot methods that people use on pipa
+- No script changes the partition table (GPT).
+- The port has no OTA updater. (On ROMs with A/B OTA, an update writes the inactive slot = the Linux slot. HyperOS
+  users reported Linux boot failures after updates.)
 
-These methods are documented by the pipa Linux community. **We did not test them with this port.**
+## 6. Dual boot methods used on pipa
 
-1. **Linux boot image in the other slot** (TheMojoMan `xiaomi-pipa`). Flash the Linux boot image to `boot_a`, erase
-   `dtbo_a` (mainline Linux needs an empty DTBO), then select slot A to boot Linux. Select slot B to boot ColorOS.
-2. **UEFI in the other slot** (TheMojoMan `pipa-multiboot`, Mu-Qcom / edk2-msm). Flash the pipa UEFI image to `boot_a`.
-   UEFI shows a rEFInd menu and starts Linux (or Windows) from an EFI system partition.
-3. **`fastboot boot`** of a Linux image from a PC. Nothing is written to the boot partitions, and the next normal boot
-   starts ColorOS again. Linux must have its root file system on USB storage or in RAM.
+1. **Linux boot image in slot A** (TheMojoMan `xiaomi-pipa`): flash the Linux boot image to `boot_a`, erase `dtbo_a`,
+   put the Linux root image on its own partition.
+2. **UEFI in slot A** (TheMojoMan `pipa-multiboot`, Mu-Qcom / edk2-msm): flash `pipa_dualrole.img` to `boot_a`. UEFI
+   shows a rEFInd menu and starts Linux (or Windows) from an EFI system partition (`esp`).
+3. **`fastboot boot`** of a Linux image from a PC: nothing is written to the boot partitions. Linux must have its
+   root file system on USB storage or in RAM.
 
-Switch slots in the bootloader: `fastboot set_active a` (Linux) and `fastboot set_active b` (ColorOS).
+Switch the OS in the bootloader: `fastboot set_active a` (Linux), `fastboot set_active b` (ColorOS). Do not use
+`qbootctl` (reported fastboot loop on pipa).
 
-**Linux needs its own partition for its root file system.** The encrypted `userdata` cannot hold it. Thus, an
-installed dual boot needs a smaller `userdata` and a GPT change. This **formats all Android data**. Make a file-level
-backup first (on the tablet, while Android is unlocked). Use the sector values of your own tablet, never the
-values from a guide for another storage size.
+### Typical steps (methods 1 and 2)
 
-### Encryption and other ROMs
+1. Make a file-level backup of your Android data (on the tablet, while it is unlocked). Copy it to a PC.
+2. Back up the partition table and `boot_a`, `dtbo_a` (for example with TWRP or `dd`).
+3. In TWRP (or a Linux live system), shrink `userdata` (`sda34`) from the end with `parted`, and create the Linux
+   root partition (and `esp` for method 2) after it. Use the values of **your** tablet. Never copy values from a
+   guide for another storage size (the guides show 256 GB values).
+4. Boot ColorOS (slot B). It formats the new, smaller `/data`. All Android data is lost at this point.
+5. Write the Linux root image to the new partition.
+6. Flash the Linux boot image (or the UEFI image) to `boot_a`. Erase `dtbo_a`.
+7. `fastboot set_active a` to start Linux. `fastboot set_active b` to go back.
 
-- **You do not need to turn off Android encryption for dual boot.** Linux boots from its own boot image and its own
-  root partition. Encryption only stops Linux from reading the Android files.
-- The same methods are used with HyperOS (reported in TheMojoMan issue 7). We found no verified reports for
-  LineageOS, crDroid, PixelOS, Evolution X or this port. The method does not depend on the ROM name. What matters is
-  which partitions the ROM installer and updater write.
+## 7. If something goes wrong
 
-### Updating the port when Linux is on slot A
+- ColorOS does not start: in fastboot, `fastboot set_active b`. Then reboot.
+- TWRP: Power + Volume up **with slot B active** (TWRP is only in `boot_b`).
+- Bootloop after a port update: flash the release again with "keep data" (Enter).
+- Linux does not start after a port update (beta5 or older scripts): flash your Linux boot image to `boot_a` again and
+  erase `dtbo_a` again.
 
-- **`FlashLinux.sh` / `FlashWindows.bat` of the release overwrite Linux.** They flash `boot_ab` and `dtbo_ab` (both
-  slots), also for a dirty flash ("keep data"). After a port update, flash your Linux boot image to `boot_a` again
-  and erase `dtbo_a` again. Keep copies of them.
-- On Android ROMs with A/B OTA updates, an OTA writes the inactive slot (= the Linux slot) and switches to it. HyperOS
-  users reported Linux boot failures after updates. This port has no OTA updater.
-- Before an update, keep a copy of your Linux boot image, the EFI files and your partition table.
-
-### Never do this
+## 8. Never do this
 
 - Do not replace `boot_b` or erase `dtbo_b`: ColorOS and TWRP boot from them.
-- Do not erase `persist`, `modemst1`, `modemst2`, `fsg`, `fsc`, `metadata` or other calibration and key partitions.
+- Do not erase `persist`, `modemst1`, `modemst2`, `fsg`, `fsc`, `metadata`, `devinfo`, `keystore`, `frp` or other
+  calibration and key partitions.
+- Do not flash firmware (`xbl`, `abl`, `tz`, `keymaster`, ...) from another device or another ROM to get a boot menu.
 - Do not flash a generic SM8250 image or an image for another tablet.
-- Do not run a rootfs flasher that writes to `userdata` while you want to keep Android.
-- Do not restore a stock GPT over a changed partition layout.
+- Do not run a rootfs flasher that writes to `userdata` (for example the default postmarketOS flasher) if you want to
+  keep Android.
+- Do not restore a stock partition table over a changed layout: it removes the Linux partitions.
+- Do not use `rawdump`, `rescue`, `cust` or `vm-linux_a/b` as Linux storage.
 - Do not relock the bootloader.
-- Do not use `qbootctl` (a reported endless fastboot loop on pipa).
 
-## Why a rebuilt vendor image can bootloop
+## 9. Why a rebuilt vendor image can bootloop
 
-A rebuilt EROFS image must keep:
-
-- the SELinux label (`security.selinux`) of each file,
-- the file capabilities, the owner, the group and the mode of each file,
-- the symbolic links.
-
-Also, the vbmeta / AVB state must agree with the new image. The port build (`maintainer/port/port.sh`) extracts the
-images with `fsck.erofs --extract --xattrs --preserve` and checks the labels before it makes the images.
+A rebuilt EROFS image must keep the SELinux label (`security.selinux`), the file capabilities, the owner, the group
+and the mode of each file, and the symbolic links. The vbmeta / AVB state must also agree with the new image. The
+port build (`maintainer/port/port.sh`) extracts the images with `fsck.erofs --extract --xattrs --preserve` and checks
+the labels before it makes the images.
 
 ## Sources
 
 - AOSP, file-based encryption: https://source.android.com/docs/security/features/encryption/file-based
 - AOSP, metadata encryption: https://source.android.com/docs/security/features/encryption/metadata
 - AOSP, hardware-wrapped keys (`wrappedkey_v0` and upstream Linux): https://source.android.com/docs/security/features/encryption/hw-wrapped-keys
-- Linux kernel, fscrypt: https://docs.kernel.org/filesystems/fscrypt.html
-- Linux kernel, inline encryption: https://docs.kernel.org/block/inline-encryption.html
+- AOSP, A/B slots and updates: https://source.android.com/docs/core/ota/ab
 - AOSP init, SELinux mode: https://android.googlesource.com/platform/system/core/+/refs/heads/main/init/selinux.cpp
-- Linux kernel, f2fs: https://docs.kernel.org/filesystems/f2fs.html
+- Linux kernel, fscrypt: https://docs.kernel.org/filesystems/fscrypt.html
 - TheMojoMan, pipa Linux images and slot install: https://github.com/TheMojoMan/xiaomi-pipa
 - TheMojoMan, pipa EFI multiboot: https://github.com/TheMojoMan/xiaomi-pipa/blob/main/pipa-multiboot.md
+- HyperOS dual boot and update reports (TheMojoMan issue 7): https://github.com/TheMojoMan/xiaomi-pipa/issues/7
+- Fedora on pipa, dual-boot guide: https://github.com/greed0802/pipa-fedora-builder-43/blob/main/DUALBOOT.md
 - edk2-msm (pipa UEFI target): https://github.com/edk2-porting/edk2-msm
 - Close-to-mainline pipa kernel: https://github.com/MollySophia/linux-mainline-pipa
 - postmarketOS pipa page: https://wiki.postmarketos.org/wiki/Xiaomi_Pad_6_(xiaomi-pipa)
-- AOSP, A/B slots: https://source.android.com/docs/core/ota/ab/ab_implement
-- HyperOS dual boot and update reports (TheMojoMan issue 7): https://github.com/TheMojoMan/xiaomi-pipa/issues/7
-- Fedora on pipa, dual-boot guide: https://github.com/greed0802/pipa-fedora-builder-43/blob/main/DUALBOOT.md
+- Windows on pipa: https://github.com/arisfadillahh/windows-pipa
