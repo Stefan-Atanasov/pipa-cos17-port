@@ -23,7 +23,7 @@ layer scripts. `maintainer/port/port.sh` runs them in order of `NN` in one tree:
 2. It runs all steps. Each step edits the tree.
 3. It checks the SELinux labels, makes one image for each partition (`mkfs.erofs`) and makes `super.img` (`lpmake`).
 
-The default last step is 3j. `--until <step>` stops after a step (`--until 3h` gives the 3h content).
+The default last step is 3o. `--until <step>` stops after a step (`--until 3h` gives the 3h content).
 Step 2u is off by default (`PORT_WITH_2U=1` turns it on).
 
 Before `port.sh`, each layer was a script `maintainer/build_beta5_<step>.sh`. It read the images of the previous layer
@@ -71,6 +71,11 @@ layer script of each step.
 | 3h | `build_beta5_3h.sh` | `ro.surface_flinger.has_HDR_display=true` in `product/etc/build.prop` (HDR profiles and HDR output). |
 | 3i | `build_beta5_3i.sh` | Wide colour. |
 | 3j | `build_beta5_3j.sh` | Composer HAL skips `SET_LAYER_GENERIC_METADATA` (YouTube HDR plays). |
+| 3k | step only (optional, `PORT_ODM_C06=1`) | The odm interconnect stack from C.06 instead of C.05. Not tested. |
+| 3l | step only | `ro.mediaserver.64b.enable=true`: 64-bit mediaserver (video thumbnails work). |
+| 3m | step only | `media.settings.xml` points to `media_profiles_kona.xml` (the first zygote64 no longer aborts at boot). |
+| 3n | step only | The `pipa_port` loop sleeps 1 s with the screen off: the pen is ready about 1 s after screen-on. |
+| 3o | step only | `framework.jar`: per-app device identity. Netflix sees a Pixel 6 (Widevine L1, HD), Google Photos sees a Pixel XL. Other apps see the real device. |
 
 NOTE: SurfaceFlinger properties must be in `product/etc/build.prop`. The pipa `vendor/build.prop` loads after
 `system` and `system_ext` and sets other values.

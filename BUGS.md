@@ -7,7 +7,7 @@ show (offline analysis), what to capture on a device, and where a fix would live
 Status: **open** (not investigated), **analysed** (offline cause candidates), **fix planned**,
 **fixed in <build>**.
 
-Updated 2026-10-29 (status sweep; ROM port-pt8 on the tablet = all layers up to 3j + 3l + 3m + 3n, built by `maintainer/port/port.sh`; kernel walt-r7ov; public beta5 = layer 2v + kernel walt-r6, so layers 2w..3n and walt-r7ov are not released yet). Related: `MAINTAINER-STATUS.md` (builds and plan),
+Updated 2026-10-29 15:10 (ROM port-pt11 on the tablet = all layers up to 3j + 3l + 3m + 3n + 3o + pipa_port boot.oat rules, built by `maintainer/port/port.sh`; kernel walt-r8kpm; public beta5 = layer 2v + kernel walt-r6, so layers 2w..3n and walt-r7ov are not released yet). Related: `MAINTAINER-STATUS.md` (builds and plan),
 `notes/STABILITY-PERF.md` (old stability and performance plan, captures D1-D17), `notes/PHASE2-ROM-INTEGRATION.md`
 (how the runtime fixes went into the ROM).
 
