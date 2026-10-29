@@ -9,7 +9,10 @@
 ;; collected denials
 (allow pipa_port activity_service (service_manager (find)))
 (allow pipa_port apex_art_data_file (dir (search)))
-(allow pipa_port apex_art_data_file (file (getattr open read)))
+(allow pipa_port apex_art_data_file (file (getattr open read map execute)))
+;; 3o: framework.jar is patched, so odrefresh puts the framework boot image into apexdata; the Java tools
+;; (settings, input) execute it there. They also log to statsd: not needed, keep it quiet.
+(dontaudit pipa_port statsdw_socket (sock_file (write)))
 (allow pipa_port apex_info_file (file (getattr open read)))
 (allow pipa_port apex_module_data_file (dir (search)))
 (allow pipa_port appops_service (service_manager (find)))

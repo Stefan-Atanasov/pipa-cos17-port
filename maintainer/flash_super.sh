@@ -47,6 +47,12 @@ case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5
     beta5-3j)    IMG=$P/port-work/beta5-3j/img/super.img;    MD5=98820de3af5df2349d311505ba6e9c39 ;;
     port-pt3)    IMG=$P/port-work/pt3/img/super.img;         MD5=cd30ab3df125f3849e435de4b09a9e44 ;;   # port.sh (single tree) = 3j
     port-pt4)    IMG=$P/port-work/pt4/img/super.img;         MD5=b75a944c851144b14073f4085f35cb5e ;;   # pt3 + 3k (odm interconnect from C.06), TEST
+    port-pt6)    IMG=$P/port-work/pt6/img/super.img;         MD5=3b76c9b6e9c78a98fb3148a2c561038c ;;   # pt3 + 3l (64-bit mediaserver), TEST
+    port-pt7)    IMG=$P/port-work/pt7/img/super.img;         MD5=feeab1558be8de8a2fe8392bab2043fd ;;   # pt6 + 3m (media profiles path), TEST
+    port-pt8)    IMG=$P/port-work/pt8/img/super.img;         MD5=b0b557e6ce56b11b439e73e696b7cd97 ;;   # pt7 + 3n (pen ready ~1 s after screen-on), TEST
+    port-pt9)    IMG=$P/port-work/pt9/img/super.img;         MD5=99daa786ff18801e4b3a48b2d3b69f01 ;;   # pt8 + pipa_port map on apex_art_data_file (boot.oat), TEST
+    port-pt10)   IMG=$P/port-work/pt10/img/super.img;        MD5=15281b87ea5d88c2452e291c6515d711 ;;   # pt9 + 3o per-app identity (Netflix Pixel 6, Google Photos Pixel XL), TEST
+    port-pt11)   IMG=$P/port-work/pt11/img/super.img;        MD5=073694b0db32209dc040849d5f6ceb28 ;;   # pt10 + pipa_port boot.oat execute + statsdw dontaudit (3o side effect), TEST
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

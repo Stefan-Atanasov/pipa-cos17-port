@@ -505,13 +505,14 @@ pen_keys_start() {
 [ "${PEN_WATCH:-1}" = 1 ] && pen_lock 0   # left over from a reboot with the pen out
 
 # ------------------------------------------------------------------ main loop
-# 1 s while the screen is on (an undocked pen must work at once), 5 s while it is off.
+# 1 s, also while the screen is off: "pen on" goes out at most ~1 s after screen-on (5 s before 3n). The check is
+# one builtin read; in suspend the timer does not run, so the shorter sleep costs no wakeups.
 armed=0; conn=; pub=; tick=0; resend=2; ct=0; dk=; KB_DEVS=-
 settings put global pipa_pen_fluid "${PEN_FLUID:-1}" </dev/null >/dev/null 2>&1
 while true; do
     if ! screen_on; then
         armed=0
-        nap 5
+        nap 1
         continue
     fi
     if [ "${PEN_WAKE:-1}" = 1 ] && [ $armed = 0 ] && [ -x "$IOCTL" ]; then

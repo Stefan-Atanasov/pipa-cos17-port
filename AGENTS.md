@@ -125,6 +125,9 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Kernel images: pack only with `maintainer/kernel/mkboot.sh`.** `magiskboot` repack changes the header patch level,
   and the bootloader then refuses the kernel with no message (black screen). For `fastboot boot` tests, use trimmed
   images (`TRIM=1`).
+- **Do not run a live `ksud sepolicy patch` on kernel walt-r8kpm (SukiSU 4.3 builtin).** On 2026-10-29 two live
+  rules (an `allow` and a `dontaudit`) hung the big cores; the watchdog reset the tablet 20 s later (pstore:
+  `Watchdog bark`, cpu alive mask 0f). Compile a policy change on the tablet with `secilc` and test it with a ROM build.
 - **Never replace `/data/adb/ksud`.** Update it only with a kernel that agrees with it, through the SukiSU manager.
 - **If the device does not boot:** the boot image has TWRP (Power + Volume up). TWRP ADB has root and a decrypted
   `/data`.
