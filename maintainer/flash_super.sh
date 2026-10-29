@@ -9,7 +9,7 @@
 set -eu
 YES=0; [ "${1:-}" = -y ] && { YES=1; shift; }
 P=~/Documents/pipa
-case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5-2g|beta5-2h|beta5-2i|beta5-2j|beta5-2k|beta5-2l|beta5-2m|beta5-2n|beta5-2o|beta5-2p|beta5-2q|beta5-2r|beta5-2s|beta5-2t|beta5-2u|beta5-2v  or  <path> <md5>} in
+case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5-2g|beta5-2h|beta5-2i|beta5-2j|beta5-2k|beta5-2l|beta5-2m|beta5-2n|beta5-2o|beta5-2p|beta5-2q|beta5-2r|beta5-2s|beta5-2t|beta5-2u|beta5-2v|beta5-2w|beta5-2x|beta5-2y  or  <path> <md5>} in
     roundtrip)   IMG=$P/port-work/roundtrip/img/super.img;   MD5=090e5a32031d61824c213284530daa01 ;;
     beta4)       IMG="$P/COS17/ColorOS17 Port for pipa-beta4-20261017/super/super.img"; MD5=4ba0e1937fe207be497eb42eac04ba48 ;;
     beta5-2d)    IMG=$P/port-work/beta5-2d/img/super.img;    MD5=3dfbe1816afec27f519ee0fed5b86145 ;;
@@ -31,6 +31,22 @@ case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5
     beta5-2t)    IMG=$P/port-work/beta5-2t/img/super.img;    MD5=cfc39157a4e689da5ce62e9da0814642 ;;
     beta5-2u)    IMG=$P/port-work/beta5-2u/img/super.img;    MD5=e50a67c459da943d9c570d4f0a618706 ;;
     beta5-2v)    IMG=$P/port-work/beta5-2v/img/super.img;    MD5=4bd035e9d3ee1ad742796bf6420fda7b ;;
+    beta5-2w)    IMG=$P/port-work/beta5-2w/img/super.img;    MD5=220a449b753e8051f2aa1abeea78a501 ;;
+    beta5-2x)    IMG=$P/port-work/beta5-2x/img/super.img;    MD5=c0eaec48e68bc3c8bfc7d67138aacfb3 ;;
+    beta5-2y)    IMG=$P/port-work/beta5-2y/img/super.img;    MD5=d14341692447a5934cd1ef7b432a13a7 ;;
+    beta5-2z)    IMG=$P/port-work/beta5-2z/img/super.img;    MD5=10a96a0384ecd8945ff083305723fba3 ;;
+    beta5-3a)    IMG=$P/port-work/beta5-3a/img/super.img;    MD5=fe3a01420b4e1c30a5372981c67b263d ;;
+    beta5-3b)    IMG=$P/port-work/beta5-3b/img/super.img;    MD5=f85d4d5b1208c14719a0c70dbaea83e6 ;;
+    beta5-3c)    IMG=$P/port-work/beta5-3c/img/super.img;    MD5=2a253f6501de7cef2be9c76ca7770654 ;;
+    beta5-3d)    IMG=$P/port-work/beta5-3d/img/super.img;    MD5=2831f53923a046c428507b5f60b6102b ;;
+    beta5-3e)    IMG=$P/port-work/beta5-3e/img/super.img;    MD5=2efdaae3aaf4480520e1eddfffafa479 ;;
+    beta5-3f)    IMG=$P/port-work/beta5-3f/img/super.img;    MD5=88262647f430cef1a37a3f179e1d9826 ;;
+    beta5-3g)    IMG=$P/port-work/beta5-3g/img/super.img;    MD5=3fe7303c70ea87d39a091b29204a7567 ;;
+    beta5-3h)    IMG=$P/port-work/beta5-3h/img/super.img;    MD5=6842099375e52a27dfd135365f361df6 ;;
+    beta5-3i)    IMG=$P/port-work/beta5-3i/img/super.img;    MD5=16cd33c2d9d17875141e13c9a925dbcc ;;
+    beta5-3j)    IMG=$P/port-work/beta5-3j/img/super.img;    MD5=98820de3af5df2349d311505ba6e9c39 ;;
+    port-pt3)    IMG=$P/port-work/pt3/img/super.img;         MD5=cd30ab3df125f3849e435de4b09a9e44 ;;   # port.sh (single tree) = 3j
+    port-pt4)    IMG=$P/port-work/pt4/img/super.img;         MD5=b75a944c851144b14073f4085f35cb5e ;;   # pt3 + 3k (odm interconnect from C.06), TEST
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

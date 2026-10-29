@@ -31,6 +31,20 @@
 #   2t     pipa_port sget via `settings get` into a file (~2 % -> ~0.3 % CPU with the screen on), failed reads keep the tier
 #   2u     SukiSU-Ultra manager 4.2.1-r1 as a removable preload (my_stock/del-app) (not in the release: KernelSU finds its manager only under /data/app)
 #   2v     2t + animation blur off in the once-per-install defaults (ColorOS writes 1 on a first boot)
+#   2w     idle drain: no knuckle sensor (patch_foldtouch.py, SLPI asleep ~100 %), SukiSU manager installed on the first boot
+#   2x     surfaceflinger: no waits for OPPO display HALs (Game Filter froze the screen; patch_sf_waits.py)
+#   2y     (record, not in STEPS) test: Xiaomi displayfeature colour HAL in vendor; it runs, but the ColorOS composer ignores its modes
+#   2z     idle refresh: touch idle may switch the panel to 60 Hz at any brightness (patch_vrr_config.py; on 2x)
+#   3a     privacy password, app lock, hidden apps: CryptoEngShim stands in for OPPO's ICryptoeng (maintainer/cryptoeng)
+#   3b     OTI resumes after a screen-off: SystemUI power_off pause gets its auto-resume (patch_systemui_oti.py)
+#   3c     B9 interconnect: system_app <-> commcenterd DMTP policy, dual virtual SIM slots (pipa_port.rc)
+#   3d     B9 call sharing: C.06 AIDL virtual modem in odm (radio V3, ims V7), private lib dir, VINTF + contexts
+#   3e     27 echo reference also in the non-voip mixer paths (harmless, does not fix the echo)
+#   3f     22 Game Filter as a colour matrix, 8 face eye-ROI guard, 13 Eye Protect Bedtime patch, 12 pipa_port enforcing
+#   3g     12 property + one-time rules, face VERSION refresh (needs the 3e tree for the original CIL)
+#   3h     29 HDR: product build.prop has_HDR_display=true
+#   3i     (TEST, record, not in STEPS) wide colour on: YouTube HDR plays, but the PixelOS composer drops HDR frames
+#   3j     (TEST, not flashed yet) 3i + composer skips SET_LAYER_GENERIC_METADATA (patch_composer_genmeta.py)
 #
 # On a NEW donor the first two steps are EXPECTED to stop: they check the stock md5 of every file they
 # replace (oplus-services.jar, brightness xml, odm scripts ...). That is the safety net. When one stops, read
@@ -42,9 +56,13 @@
 # After the build: sh flash_super.sh <path-to-super.img> <md5> (dirty flash), then maintainer/device_check.sh <tag>.
 set -eu
 
+# HISTORY (2026-10-29): this layer chain is replaced by maintainer/port/port.sh (one tree, same result, ~4 min).
+# New fixes go only into maintainer/port/steps/. Run this old chain only to reproduce an old layer: LEGACY=1.
+[ "${LEGACY:-0}" = 1 ] || { echo "build_port.sh is the old layer chain. Use: sudo sh $(dirname "$0")/port/port.sh <tag> <donor-img-dir>"; echo "(set LEGACY=1 to run the old chain anyway)"; exit 2; }
+
 HERE=$(cd "$(dirname "$0")" && pwd)
 P=${PIPA_ROOT:-/home/stefan/Documents/pipa}/port-work
-STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n 2o 2p 2q 2r 2s 2t 2u 2v"
+STEPS="base baked 1c 2a 2b 2c 2d 2e 2f 2g 2h 2i 2j 2k 2l 2m 2n 2o 2p 2q 2r 2s 2t 2u 2v 2w 2x 2z 3a 3b 3c 3d 3e 3f 3g 3h"
 
 CHECK=0
 [ "${1:-}" = "--check" ] && { CHECK=1; shift; }

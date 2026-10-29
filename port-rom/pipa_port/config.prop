@@ -9,6 +9,9 @@ FACE_HAL=1
 # report an "abnormal charger".
 CHARGER_SHIM=1
 
+# Software stand-in for OPPO's ICryptoeng (TEE): privacy password, app lock and hidden apps. The records are in
+# /data/misc/pipa_port/cryptoeng (3a).
+CRYPTOENG=1
 
 # Re-arm the pen in the touch driver after every screen-on (otherwise it stops working).
 PEN_WAKE=1
@@ -36,6 +39,10 @@ SMOOTH_DEFAULT=1
 
 # Grant the pipa helper app its notification and overlay permissions.
 HELPER_GRANTS=1
+
+# Once per install: install the SukiSU-Ultra manager (system_ext/pipa_port/SukiSU.apk) as a normal app, so that
+# KernelSU finds it under /data/app (2w).
+KSU_MANAGER=1
 
 # Link /dev/input/event12 to the keyboard case while it is attached (xiaomi-keyboard
 # checks that exact name for fold detection).

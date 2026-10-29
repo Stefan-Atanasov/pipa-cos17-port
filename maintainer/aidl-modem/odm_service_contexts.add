@@ -1,0 +1,12 @@
+android.hardware.radio.modem.IRadioModem/vircomm1    u:object_r:hal_radio_service:s0
+android.hardware.radio.modem.IRadioModem/vircomm2    u:object_r:hal_radio_service:s0
+android.hardware.radio.sim.IRadioSim/vircomm1    u:object_r:hal_radio_service:s0
+android.hardware.radio.sim.IRadioSim/vircomm2    u:object_r:hal_radio_service:s0
+android.hardware.radio.data.IRadioData/vircomm1    u:object_r:hal_radio_service:s0
+android.hardware.radio.data.IRadioData/vircomm2    u:object_r:hal_radio_service:s0
+android.hardware.radio.voice.IRadioVoice/vircomm1    u:object_r:hal_radio_service:s0
+android.hardware.radio.voice.IRadioVoice/vircomm2    u:object_r:hal_radio_service:s0
+android.hardware.radio.network.IRadioNetwork/vircomm1    u:object_r:hal_radio_service:s0
+android.hardware.radio.network.IRadioNetwork/vircomm2    u:object_r:hal_radio_service:s0
+android.hardware.radio.messaging.IRadioMessaging/vircomm1    u:object_r:hal_radio_service:s0
+android.hardware.radio.messaging.IRadioMessaging/vircomm2    u:object_r:hal_radio_service:s0

@@ -14,7 +14,7 @@ cd "$COS"
 rsync -a --delete --delete-excluded \
     --filter='P .git/' --exclude='.git/' \
     --exclude='maintainer/jar-edits/venv/' --exclude='__pycache__/' --exclude='*.pyc' \
-    --exclude='helper/keys/' --exclude='helper/out/' \
+    --exclude='helper/keys/' --exclude='helper/out/' --exclude='out/' --exclude='*.log' --exclude='*.class' --exclude='*.dex' \
     --exclude='*.so' --exclude='*.jar' --exclude='*.apk' --exclude='*.7z' --exclude='*.img' --exclude='*.zip' \
     --exclude='port-rom/pipa_port/facehal/' --exclude='port-rom/pipa_port/xiaomi_touch_ioctl' \
     --exclude='maintainer/kgest/kgest' --exclude='maintainer/jars/' \

@@ -1,6 +1,7 @@
 # Move the port to a new donor build
 
-This document gives the procedure to build the port on a new OPPO Pad Mini (OPD2515) ColorOS build.
+This document gives the procedure to build the port on a new OPPO Pad Mini (OPD2515) ColorOS build. The build tool is
+`maintainer/port/port.sh`.
 
 ## 1. What changes
 
@@ -34,29 +35,38 @@ sh maintainer/wfs_scan.sh <old tree> <new tree>
 
    WARNING: A new `waitForService` import stops system_server at boot. The watchdog then restarts the tablet.
 
-4. Compare the new donor with the old donor. Update the edit list `maintainer/c06-vs-beta4/PORT-EDITS.tsv` with
-   `maintainer/port_diff.py`.
-5. If the helper app changed, build it: `sh helper/build.sh`.
-6. Build all steps with a new tag:
+4. Compare the new donor with the old donor:
 
 ```sh
-sudo sh maintainer/build_port.sh <newtag> <donor-img-dir>
+sudo bash maintainer/donor_check.sh <old-donor-img-dir> <new-donor-img-dir> [out-dir]
 ```
 
-7. If the first two steps stop at an md5 check, make the fix again from the new donor file:
+   Read `report.md` in the output folder. It lists:
+   - the changed files that the steps touch,
+   - the md5 gates that will stop a step,
+   - new `waitForService` imports (a boot hang),
+   - the SurfaceFlinger `waitForService` sites,
+   - changes in sepolicy, VINTF, init files and `build.prop`.
+5. Fix what the report lists. Make the patched files again from the new donor files with the tools in `module/tools/`.
+   Change the md5 gates in the steps. Update the edit list `maintainer/c06-vs-beta4/PORT-EDITS.tsv` with
+   `maintainer/port_diff.py`. If the helper app changed, build it: `sh helper/build.sh`.
    - `oplus-services.jar`: `module/tools/patch_framework.sh <new jar> module/framework/<md5>.jar`
    - Brightness table: `module/tools/gen_brightness_table.py`
-8. Write the new md5 into the step script.
-9. Continue the build from that step:
+6. Build with a new tag. The run stops at each step that finds an unknown file. Fix the step and start the run again
+   from the beginning. There is no resume.
 
 ```sh
-sudo sh maintainer/build_port.sh <newtag> <donor-img-dir> <step>
+sudo sh maintainer/port/port.sh <newtag> <new-donor-img-dir>
 ```
 
-10. Compile the SELinux policy on the tablet with `/system/bin/secilc` and the eight policy inputs.
-11. Flash `super` without a wipe: `sh maintainer/flash_super.sh -y <path-to-super.img> <md5>`.
-12. Do the regression check: `sh maintainer/device_check.sh <tag>`. Do the checks that `build_port.sh` shows at
+7. Compare the file manifests (`report/<partition>.tsv`) with the old build. Do not compare the image md5.
+8. Compile the SELinux policy on the tablet with `/system/bin/secilc` and the eight policy inputs.
+9. Flash `super` without a wipe: `sh maintainer/flash_super.sh -y <name>`. For an image that is not in the list, give
+   the path and the md5.
+10. Do the regression check: `sh maintainer/device_check.sh <tag>`. Do the checks that `build_port.sh` shows at
     the end.
+
+NOTE: The older command `maintainer/build_port.sh` runs the old layer chain. Use it only to test.
 
 ## 3. Binary conflicts
 
@@ -87,7 +97,7 @@ Make sure that the new tree has:
 - Extract trees as root with `fsck.erofs --extract=<dir> --xattrs --preserve <image>`. This keeps the SELinux
   labels.
 - `super`: 9126805504 bytes, metadata 65536 bytes, 2 slots, `--virtual-ab`, groups `qti_dynamic_partitions_a` and
-  `qti_dynamic_partitions_b`. The build steps run `lpmake` with these values.
+  `qti_dynamic_partitions_b`. `port.sh` runs `lpmake` with these values.
 
 NOTE: `lpmake` shows `Invalid sparse file format at header magic` one time for each raw input image. This is
 correct.

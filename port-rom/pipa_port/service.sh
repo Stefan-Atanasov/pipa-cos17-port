@@ -157,7 +157,10 @@ face_start() {
     chmod 0700 /data/vendor_de/0/facedata/facehal
     chmod 0755 "$FACE_BIN" 2>/dev/null
     # B7: libpipa_facecrop crops the enrollment preview to the square ColorOS view (src/facecrop.c)
-    LD_PRELOAD=$FACE/lib64/libpipa_facecrop.so LD_LIBRARY_PATH=$FACE/lib64:$FACE \
+    # 8 (3f): libpipa_eyeguard clamps an eye ROI outside the frame in crop_eyes (src/eyeguard.c): no SIGSEGV
+    pre=$FACE/lib64/libpipa_facecrop.so
+    [ -f "$FACE/lib64/libpipa_eyeguard.so" ] && pre=$pre:$FACE/lib64/libpipa_eyeguard.so
+    LD_PRELOAD=$pre LD_LIBRARY_PATH=$FACE/lib64:$FACE \
         nohup "$FACE_BIN" >>/data/local/tmp/facehal.log 2>&1 &
     log "facehal started pid=$! ($cl)"
 }
@@ -188,6 +191,21 @@ if [ "${CHARGER_SHIM:-1}" = 1 ] && ! pgrep -f shim.ShimHost >/dev/null 2>&1; the
                 app_process /system/bin shim.ShimRegister >> $L 2>&1 ) &
             CLASSPATH=$MODDIR/chargershim.jar:$HALJAR app_process /system/bin shim.ShimHost >> $L 2>&1
             echo "$(date) charger shim host exited, restart in 5s" >> $L
+            sleep 5
+        done
+    ) &
+fi
+
+# ------------------------------------------------------------ cryptoeng shim
+# No vendor.oplus.hardware.cryptoeng.ICryptoeng on pipa (OPPO keeps the privacy password in a TEE app), so the
+# privacy password, app lock and hidden apps failed without a message. CryptoEngShim (maintainer/cryptoeng) answers
+# the same commands and keeps the records in $STATE/cryptoeng (root only). Only uid 1000 and root may call it.
+if [ "${CRYPTOENG:-1}" = 1 ] && ! pgrep -f CryptoEngShim >/dev/null 2>&1; then
+    (
+        L=/data/local/tmp/cryptoeng.log
+        while true; do
+            CLASSPATH=$MODDIR/cryptoeng.jar app_process /system/bin CryptoEngShim "$STATE/cryptoeng" </dev/null >> $L 2>&1
+            echo "$(date) cryptoeng shim exited, restart in 5s" >> $L
             sleep 5
         done
     ) &
@@ -225,6 +243,20 @@ if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1
     pm grant com.port.pipa.helper android.permission.POST_NOTIFICATIONS >/dev/null 2>&1
     appops set com.port.pipa.helper SYSTEM_ALERT_WINDOW allow >/dev/null 2>&1
     log "pipa helper: notification + overlay granted"
+fi
+# SukiSU-Ultra manager, once per install (2w). KernelSU finds its manager only under /data/app (the system preload of
+# 2u gave no root), so install the APK that matches the kernel (4.2.1-r1) as a normal app. `pm install` from this
+# domain works (tested 2026-10-28). The user can update or uninstall it: the state file stops a second install.
+if [ "${KSU_MANAGER:-1}" = 1 ] && [ ! -e "$STATE/ksu_manager_set" ] && [ -f "$MODDIR/SukiSU.apk" ]; then
+    if pm path com.sukisu.ultra </dev/null >/dev/null 2>&1; then
+        touch "$STATE/ksu_manager_set"
+        log "SukiSU manager already installed"
+    elif pm install "$MODDIR/SukiSU.apk" </dev/null >/dev/null 2>&1; then
+        touch "$STATE/ksu_manager_set"
+        log "SukiSU manager installed"
+    else
+        log "SukiSU manager install failed (next boot tries again)"
+    fi
 fi
 
 # ------------------------------------------------- colour / adaptive / bedtime

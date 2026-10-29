@@ -32,10 +32,19 @@ Get these inputs. They are not in this repository.
 | Input | Path below `PIPA_ROOT` |
 |---|---|
 | Original release `ColorOS17 Port for pipa-beta4-20261017.7z` (firmware, `super`) | `COS17/` |
-| Partition images of the beta4 `super` (`lpunpack`, slot B) | `COS17/work/parts/*_b.img` |
-| Root-extracted beta4 tree | `port-work/roundtrip/src` |
+| Partition images of the beta4 `super` (`lpunpack`, slot B). `port.sh` checks the md5 of `vendor_b.img` (`b601a907363d01e78697cd5d4f60edf6`) and of `odm_b.img` (`8e25ab23745ad3d9abb7a3312abe3e23`). | `COS17/work/parts/*_b.img` |
+| `port-overlay`: a folder of beta4 files that you must make yourself from the beta4 release (see below) | `COS17/port-overlay/` |
 | Donor OPD2515 `17.0.0.103(CN01)` images | `donor/OPD2515_11.C.06/img` |
 | Proprietary files listed in `BLOBS.md` | their paths in this repository |
+
+The `port-overlay` folder holds the beta4 files that the edit list `maintainer/c06-vs-beta4/PORT-EDITS.tsv` takes
+(face unlock, MiSound, OppoCamera, the pen library, overlays, properties, CIL files). Make it in this way:
+
+1. Extract the beta4 `system` and `system_ext` partitions as root (`fsck.erofs --extract=<dir> --xattrs --preserve <img>`).
+2. Copy the files that `PORT-EDITS.tsv` names into `COS17/port-overlay/`.
+3. Compare your folder with the list `maintainer/c06-vs-beta4/port-overlay.md5` (`md5sum -c` from inside the folder).
+
+The vendor side stays at beta4. 367 `vendor` files and 78 `odm` files have no other known source.
 
 ### 1.3 Folder and owner
 
@@ -47,42 +56,63 @@ The scripts use `/home/stefan/Documents/pipa` as the default root folder. To use
 4. Give the variables to `sudo`, because the build steps run as root:
 
 ```sh
-sudo PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh COS17/maintainer/build_port.sh beta5 <donor-img-dir>
+sudo PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh COS17/maintainer/port/port.sh beta5 <donor-img-dir>
 ```
 
 ### 1.4 Disk space
 
-Each ROM layer adds about 7 GB of images. Keep at least 40 GB free in `port-work/`.
+A `port.sh` run needs about 30 GB in `port-work/`. The preflight asks for 40 GB. The old layer scripts add about 7 GB of images for each layer.
 
 ## 2. Build the ROM
 
 ### 2.1 Build all steps
 
+`maintainer/port/port.sh` is the main build. It uses one tree. It extracts the donor and the pinned beta4 base one time,
+runs the steps `maintainer/port/steps/NN-<step>-<name>.sh` in order (`00-base` to `37-3j`), checks the SELinux labels,
+makes one image for each partition and makes `super.img`. A run takes 3 to 4 minutes.
+
 1. Do the preflight check. It builds nothing.
 
 ```sh
-sh maintainer/build_port.sh --check beta5 <donor-img-dir>
+sh maintainer/port/port.sh --check beta5 <donor-img-dir>
 ```
 
-2. Build all steps:
+2. Build all steps. `port.sh` reads `COS17/port-overlay` (set `PORT_OVERLAY_SRC` for a different folder):
 
 ```sh
-sudo sh maintainer/build_port.sh beta5 <donor-img-dir>
+sudo sh maintainer/port/port.sh <tag> <donor-img-dir> [--until <step>] [--keep-tree]
 ```
 
-3. To continue from a step, give the first step and the last step:
+3. `--until <step>` stops after a step. The default last step is 3j. `--keep-tree` keeps the tree
+   `port-work/<tag>/tree`. Step 2u (SukiSU preload) is off by default. Set `PORT_WITH_2U=1` to turn it on.
 
-```sh
-sudo sh maintainer/build_port.sh beta5 <donor-img-dir> 2e 2q
-```
+The output is in `port-work/<tag>/`:
 
-The output of each step is in `port-work/<tag>-<step>/` (`tree/`, `img/`, `report/`). The flashable image is
-`port-work/<tag>-<last step>/img/super.img`.
+| Path | Content |
+|---|---|
+| `img/super.img` | The flashable image and the partition images. |
+| `report/PORT-REPORT.txt` | Time of each step, image sizes, md5. |
+| `report/<partition>.tsv` | File manifest of each partition (path, mode, owner, md5, labels). |
+| `report/steps/*.log` | Output of each step. |
 
-NOTE: On a new donor, the first two steps stop at their md5 checks. This is correct. Refer to
-[REBASE.md](REBASE.md).
+NOTE: `mkfs.erofs` puts a random UUID in each image. Two builds with the same content have different image md5 values.
+To compare two builds, compare the `report/<partition>.tsv` manifests (made by `tree_manifest.py`), not the image md5.
 
-### 2.2 Add a ROM layer
+NOTE: On a new donor, the first steps stop at their md5 checks. This is correct. Refer to
+[REBASE.md](REBASE.md). The full description of `port.sh` is in `maintainer/port/README.md`.
+
+### 2.2 Add a fix
+
+1. Change the source: `port-rom/`, `helper/` or an edit list.
+2. Write a new step file in `maintainer/port/steps/`. The procedure is in `maintainer/port/README.md` ("How to add a step").
+3. Build with `port.sh`. Test with `--until <step> --keep-tree` first.
+
+You can test a fix quickly as a layer on top of the last image (section 2.3). Then move the fix into a step.
+
+### 2.3 Old method: add a ROM layer (history and test path)
+
+The layer scripts `maintainer/build_beta5_<step>.sh` and `maintainer/build_port.sh` stay in the repository.
+Use them to test one fix on the last image without a full build.
 
 1. Change the source: `port-rom/`, `helper/` or an edit list.
 2. Copy the newest step script, for example `maintainer/build_beta5_2q.sh`, to the next name (`build_beta5_2r.sh`). Set `STEP` in the new script (it writes `ro.pipa.port.layer`).
@@ -95,9 +125,9 @@ NOTE: On a new donor, the first two steps stop at their md5 checks. This is corr
 7. Make sure that the label check (`tree_manifest.py`) passes. Each file must have `security.selinux`.
 8. Run the new step: `sudo sh maintainer/build_beta5_<step>.sh`.
 9. Add the name and the md5 of the new `super.img` to `maintainer/flash_super.sh`.
-10. Add the step to `STEPS` in `maintainer/build_port.sh`.
+10. Move the fix into a step file of `port.sh`.
 
-### 2.3 Build the helper app
+### 2.4 Build the helper app
 
 ```sh
 sh helper/build.sh

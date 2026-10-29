@@ -7,17 +7,29 @@ This document tells how the port is put together.
 | Part | Contents | Source |
 |---|---|---|
 | Firmware | Bootloader, modem, DSP, `vendor_boot`, `dtbo`, `vbmeta*` | beta4 release, not changed |
-| Kernel (`boot`) | Own kernel `walt-r5` | [KERNEL.md](KERNEL.md) |
+| Kernel (`boot`) | Own kernel `walt-r6` | [KERNEL.md](KERNEL.md) |
 | `vendor`, `odm` | pipa device side with port edits | beta4 release, not changed by a rebase |
-| `system` (with the donor `my_*` folders), `system_ext`, `product` | ColorOS 17 | donor OPD2515 C.06 and the ROM layers below |
+| `system` (with the donor `my_*` folders), `system_ext`, `product` | ColorOS 17 | donor OPD2515 C.06 and the build steps below |
 
 All content is in slot B. The `_a` partitions are empty. `vbmeta` has verification off, so the images need no
 signature.
 
-## 2. ROM layers
+## 2. ROM build steps
 
-Each build step is a script in `maintainer/`. Each step reads the tree and the images of the previous step and
-writes `port-work/<tag>-<step>/`. `maintainer/build_port.sh` runs all steps in sequence.
+The steps live in `maintainer/port/steps/` as `NN-<step>-<name>.sh`. The step names are the same as the names of the old
+layer scripts. `maintainer/port/port.sh` runs them in order of `NN` in one tree:
+
+1. It extracts the donor and the pinned beta4 `vendor` and `odm` one time.
+2. It runs all steps. Each step edits the tree.
+3. It checks the SELinux labels, makes one image for each partition (`mkfs.erofs`) and makes `super.img` (`lpmake`).
+
+The default last step is 3j. `--until <step>` stops after a step (`--until 3h` gives the 3h content).
+Step 2u is off by default (`PORT_WITH_2U=1` turns it on).
+
+Before `port.sh`, each layer was a script `maintainer/build_beta5_<step>.sh`. It read the images of the previous layer
+and wrote `port-work/<tag>-<step>/`. `maintainer/build_port.sh` ran them in sequence. These scripts stay in the
+repository as history and as a way to test one fix on top of the newest image. The column "Script" gives the old
+layer script of each step.
 
 | Step | Script | Contents |
 |---|---|---|
@@ -46,6 +58,19 @@ writes `port-work/<tag>-<step>/`. `maintainer/build_port.sh` runs all steps in s
 | 2t | `build_beta5_2t.sh` | `sget` reads settings with `settings get` into a file (cheap); a failed read keeps the animation tier. |
 | 2u | `build_beta5_2u.sh` | SukiSU-Ultra manager 4.2.1-r1 as a removable preload (`my_stock/del-app/SukiSU`). Not released: KernelSU finds its manager only under `/data/app`. |
 | 2v | `build_beta5_2v.sh` | 2t + first-boot defaults (animation blur off, on-screen keyboard on), face preview rotation from `cmd display get-displays`. Public beta5. |
+| 2w | `build_beta5_2w.sh` | `oplus-services.jar` without the knuckle sensor (idle drain), SukiSU manager installed once on the first boot. |
+| 2x | `build_beta5_2x.sh` | `surfaceflinger` does not wait for OPPO display HALs (Game Filter froze the screen). |
+| 2z | `build_beta5_2z.sh` | Panel goes to 60 Hz when idle (`oplus_vrr_config.json`). |
+| 3a | `build_beta5_3a.sh` | `CryptoEngShim`: privacy password and app lock work. |
+| 3b | `build_beta5_3b.sh` | SystemUI keeps the idle 60 Hz after a screen-off (OTI pause with auto-resume). |
+| 3c | `build_beta5_3c.sh` | Interconnect to the phone: SELinux rule, two virtual SIM slots. |
+| 3d | `build_beta5_3d.sh` | AIDL virtual modem in `odm` (calls on the pad). |
+| 3e | `build_beta5_3e.sh` | Echo reference in the non-voip mixer paths. |
+| 3f | `build_beta5_3f.sh` | Game Filter and colour enhancement as a colour matrix, face eye guard, Eye Protect Bedtime patch, `pipa_port` enforcing. |
+| 3g | `build_beta5_3g.sh` | `pipa_port` property-set and one-time-path rules. |
+| 3h | `build_beta5_3h.sh` | `ro.surface_flinger.has_HDR_display=true` in `product/etc/build.prop` (HDR profiles and HDR output). |
+| 3i | `build_beta5_3i.sh` | Wide colour. |
+| 3j | `build_beta5_3j.sh` | Composer HAL skips `SET_LAYER_GENERIC_METADATA` (YouTube HDR plays). |
 
 NOTE: SurfaceFlinger properties must be in `product/etc/build.prop`. The pipa `vendor/build.prop` loads after
 `system` and `system_ext` and sets other values.
@@ -60,7 +85,7 @@ The ROM includes the port runtime. No KernelSU module is necessary.
 | `/system_ext/etc/init/pipa_port.rc` | `port-rom/pipa_port.rc` |
 
 The init file starts the services `pipa_port`, `pipa_subsys0` and `pipa_subsys1` in the SELinux domain
-`pipa_port`. The domain is permissive.
+`pipa_port`. The domain is enforcing since step 3g.
 
 - State: `/data/misc/pipa_port/`
 - Log: `/data/local/tmp/pipa_port.log`
@@ -105,6 +130,7 @@ Each switch is 1 (on) or 0 (off).
 - The ROM is enforcing.
 - `maintainer/uifirst-policy/sa_block.cil` labels the UI First kernel nodes and gives access to them. Step 2i adds
   it to `system_ext_sepolicy.cil`.
+- The `pipa_port` domain is enforcing (steps 3f and 3g). Its rules are in `maintainer/sepolicy/pipa_port_rules.cil`.
 - Before you build a policy change, compile it on the tablet with `/system/bin/secilc` and the eight policy
   inputs. A non-zero exit means an error.
 - SELinux denials do not show in the logs. Use `maintainer/avc_trace.sh`.

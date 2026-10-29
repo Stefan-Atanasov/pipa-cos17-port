@@ -1,0 +1,60 @@
+<!-- pipa port 3d: AIDL virtual modem (C.06 odm lib-virtual-modem-radio-aidl.so + qti-ims-aidl plugin): radio V3, ims V7, qtiradioconfig V2; keeps the port ISubsysRadio entries -->
+<manifest version="1.0" type="device">
+    <hal format="aidl">
+        <name>vendor.oplus.hardware.subsys_interface.subsys_radio</name>
+        <version>9</version>
+        <fqname>ISubsysRadio/slot1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.oplus.hardware.subsys_interface.subsys_radio</name>
+        <version>8</version>
+        <fqname>ISubsysRadio/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.data</name>
+        <version>3</version>
+        <fqname>IRadioData/vircomm1</fqname>
+        <fqname>IRadioData/vircomm2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.voice</name>
+        <version>3</version>
+        <fqname>IRadioVoice/vircomm1</fqname>
+        <fqname>IRadioVoice/vircomm2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.sim</name>
+        <version>3</version>
+        <fqname>IRadioSim/vircomm1</fqname>
+        <fqname>IRadioSim/vircomm2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.network</name>
+        <version>3</version>
+        <fqname>IRadioNetwork/vircomm1</fqname>
+        <fqname>IRadioNetwork/vircomm2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.modem</name>
+        <version>3</version>
+        <fqname>IRadioModem/vircomm1</fqname>
+        <fqname>IRadioModem/vircomm2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.messaging</name>
+        <version>3</version>
+        <fqname>IRadioMessaging/vircomm1</fqname>
+        <fqname>IRadioMessaging/vircomm2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.ims</name>
+        <version>7</version>
+        <fqname>IImsRadio/imsradio0</fqname>
+        <fqname>IImsRadio/imsradio1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.qtiradioconfig</name>
+        <version>2</version>
+        <fqname>IQtiRadioConfig/default</fqname>
+    </hal>
+</manifest>

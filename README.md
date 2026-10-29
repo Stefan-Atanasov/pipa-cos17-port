@@ -1,7 +1,8 @@
 # ColorOS 17 port for Xiaomi Pad 6 (pipa)
 
 This repository contains the build scripts, sources and documents for the ColorOS 17 port on the Xiaomi Pad 6
-(code name `pipa`, Snapdragon 870). Use it to build the ROM from the original release and an OPPO donor build.
+(code name `pipa`, Snapdragon 870). Use it to build the ROM from the original release and an OPPO donor build. The main build is one command,
+`maintainer/port/port.sh`.
 
 ## Overview
 
@@ -34,7 +35,8 @@ This repository contains the build scripts, sources and documents for the ColorO
 
 | Folder | Contents |
 |---|---|
-| `maintainer/` | Build steps (`build_beta5*.sh`, `build_port.sh`), flash scripts, release script, test and analysis tools. |
+| `maintainer/` | Flash scripts, release script, test and analysis tools. The old layer scripts (`build_beta5*.sh`, `build_port.sh`) are the history and the test path. |
+| `maintainer/port/` | The main ROM build: `port.sh` and the steps in `steps/`. |
 | `maintainer/kernel/` | Kernel tree setup, build, boot image packing and flash scripts. |
 | `maintainer/perfetto/` | Frame timing trace and analysis tools. |
 | `maintainer/uifirst-policy/` | SELinux policy for the UI First kernel nodes. |
@@ -46,6 +48,8 @@ This repository contains the build scripts, sources and documents for the ColorO
 
 - Proprietary binaries. [BLOBS.md](BLOBS.md) lists them and their source.
 - Images, the original beta4 release and the donor files.
+- The `port-overlay` folder. It holds the beta4 files that the port edit list needs. You must make it yourself from the beta4
+  release. [BUILD.md](BUILD.md) gives the command idea.
 - The signing key of the pipa helper app. `helper/build.sh` makes a new key on the first build.
 
 ## Kernel

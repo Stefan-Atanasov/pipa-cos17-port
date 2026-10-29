@@ -8,6 +8,11 @@ on post-fs-data
     # runs as hal_radio_default, which is denied /dev/diag, and never registers.
     start pipa_subsys0
     start pipa_subsys1
+    # B9 network/call/SMS sharing (3c): the OPPO odm sets these, pipa's odm does not. dsds = two virtual SIM
+    # slots for the phone's SIMs (with one slot com.android.phone crashes on slot 1 in OplusVmServiceStateOberser).
+    # Set before telephony starts, so no SIM-mode reboot. A vendor prop from my_product build.prop is ignored.
+    setprop persist.radio.multisim.config dsds
+    setprop persist.vendor.radio.virtualcomm 1
 
 on property:sys.boot_completed=1
     start pipa_port
