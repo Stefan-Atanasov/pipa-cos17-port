@@ -15,7 +15,9 @@ import com.android.server.display.color.DisplayTransformManager;
  *
  * Modes (from OplusGames): 0..99 = filter index (0 = off), 100..199 = colour enhancement index + 100 (100 = off).
  * Filter indices: my_product/etc/extension/sys_gamespace_function.json color_filter_2_0_filter_index. The matrices are
- * approximations of the OPPO 3D LUT presets.
+ * approximations of the OPPO 3D LUT presets, made from the OplusGames descriptions (game_filter2_item_desc_*).
+ * The matrix works on linear light (HWC PCC after IGC, RenderEngine in linear): contrast pivots on linear mid grey 0.18,
+ * and offsets stay small (linear 0.01 is already ~0.1 in sRGB).
  */
 public final class PipaGameFilter {
     private static final String TAG = "PipaGameFilter";
@@ -35,7 +37,8 @@ public final class PipaGameFilter {
                 if (mode >= 100 && mode < 200) sEnhance = mode - 100;
                 else if (mode >= 0 && mode < 100) sFilter = mode;
                 else return;
-                m = mul(filter(sFilter), saturation(sEnhance <= 0 ? 1f : 1f + 0.06f * Math.min(sEnhance, 5)));
+                // Games outside color_enhance_2_0_game_index get index 1: it must be visible on its own (1.06 was not)
+                m = mul(filter(sFilter), saturation(sEnhance <= 0 ? 1f : 1.15f + 0.05f * Math.min(sEnhance, 5)));
             }
             DisplayTransformManager dtm = LocalServices.getService(DisplayTransformManager.class);
             if (dtm == null) return;
@@ -67,34 +70,40 @@ public final class PipaGameFilter {
         return rgb(r, 0, 0, 0, g, 0, 0, 0, b, 0, 0, 0);
     }
 
-    /** Contrast around mid grey (c > 1 = more contrast). */
+    /** Contrast around linear mid grey (c > 1 = more contrast). */
     private static float[] contrast(float c) {
-        float o = 0.5f * (1 - c);
+        float o = 0.18f * (1 - c);
         return rgb(c, 0, 0, 0, c, 0, 0, 0, c, o, o, o);
+    }
+
+    /** Shadow lift: out = in * (1 - l) + l. */
+    private static float[] lift(float l) {
+        float g = 1 - l;
+        return rgb(g, 0, 0, 0, g, 0, 0, 0, g, l, l, l);
     }
 
     private static float[] filter(int f) {
         switch (f) {
-            case 1:  // dreamland_roaming: soft, a little pink and vivid
-                return mul(gain(1.04f, 0.97f, 1.04f), mul(saturation(1.15f), contrast(0.94f)));
-            case 2:  // fenghuo_huijuan: warm old scroll
-                return mul(gain(1.06f, 0.98f, 0.82f), saturation(0.80f));
-            case 3:  // tactical_enhancement: contrast and colour for spotting
-                return mul(contrast(1.12f), saturation(1.30f));
-            case 4:  // ultra_hd: crisp and vivid
-                return mul(contrast(1.06f), saturation(1.20f));
-            case 6:  // bright: lifts the shadows
-                return rgb(0.92f, 0, 0, 0, 0.92f, 0, 0, 0, 0.92f, 0.08f, 0.08f, 0.08f);
-            case 7:  // film: muted, warm, low contrast
-                return mul(gain(1.04f, 1.0f, 0.92f), mul(saturation(0.75f), contrast(0.90f)));
+            case 1:  // dreamland_roaming "Beauty Lens": soft skin, a little warm and pink
+                return mul(gain(1.03f, 0.98f, 1.0f), mul(saturation(1.05f), contrast(0.92f)));
+            case 2:  // fenghuo_huijuan "Arena vision": softer effects, less eye strain
+                return mul(gain(1.0f, 0.98f, 0.92f), mul(saturation(0.90f), contrast(0.94f)));
+            case 3:  // tactical_enhancement "FPS vision": brighter dark areas
+                return mul(lift(0.012f), mul(saturation(1.08f), gain(1.06f, 1.06f, 1.06f)));
+            case 4:  // ultra_hd: clarity and texture (no sharpening in a matrix: local contrast stand-in)
+                return mul(contrast(1.08f), saturation(1.12f));
+            case 6:  // bright "Vivid": more saturation
+                return mul(contrast(1.03f), saturation(1.25f));
+            case 7:  // film "Film Grain": muted, warm, low contrast
+                return mul(gain(1.04f, 1.0f, 0.92f), mul(saturation(0.78f), contrast(0.92f)));
             case 8: {  // night_vision_device: green monochrome
                 float k = 1.15f;
                 return rgb(0.25f * LR * k, 0.25f * LG * k, 0.25f * LB * k,
                            LR * k, LG * k, LB * k,
-                           0.25f * LR * k, 0.25f * LG * k, 0.25f * LB * k, 0, 0.02f, 0);
+                           0.25f * LR * k, 0.25f * LG * k, 0.25f * LB * k, 0, 0.002f, 0);
             }
-            case 9:  // fantasy_vision: cool violet, very vivid
-                return mul(gain(1.0f, 0.94f, 1.10f), saturation(1.35f));
+            case 9:  // fantasy_vision "Fantasy vision": more light, richer colours
+                return mul(gain(1.08f, 1.08f, 1.08f), saturation(1.25f));
             default:
                 return identity();
         }

@@ -356,7 +356,15 @@ nandswap_dedup() {
         case $dev in
             /dev/block/loop*)
                 n=$((n + 1))
-                if [ $n -gt 1 ]; then swapoff "$dev" 2>/dev/null && losetup -d "$dev" 2>/dev/null; log "nandswap: removed duplicate swap $dev"; fi ;;
+                # each zygote restart attaches one more 8 GB swap file (its file is deleted but stays open: the
+                # space is gone). Before 3r the policy had no sys_admin: swapoff failed, the log still said "removed".
+                if [ $n -gt 1 ]; then
+                    if swapoff "$dev" 2>/dev/null && losetup -d "$dev" 2>/dev/null; then
+                        log "nandswap: removed duplicate swap $dev"
+                    elif [ "$NANDSWAP_FAIL" != "$dev" ]; then
+                        log "nandswap: cannot remove duplicate swap $dev"; NANDSWAP_FAIL=$dev
+                    fi
+                fi ;;
         esac
     done < /proc/swaps
 }
@@ -514,7 +522,7 @@ pen_keys_start() {
 # ------------------------------------------------------------------ main loop
 # 1 s, also while the screen is off: "pen on" goes out at most ~1 s after screen-on (5 s before 3n). The check is
 # one builtin read; in suspend the timer does not run, so the shorter sleep costs no wakeups.
-armed=0; conn=; pub=; tick=0; resend=2; ct=0; dk=; KB_DEVS=-
+armed=0; conn=; pub=; tick=0; resend=2; dk=; KB_DEVS=-
 settings put global pipa_pen_fluid "${PEN_FLUID:-1}" </dev/null >/dev/null 2>&1
 while true; do
     if ! screen_on; then
@@ -535,18 +543,25 @@ while true; do
         # service start. Since 2p each present=1 also shows the live-alert capsule: one message, not three.
         # Later changes (Bluetooth connect/disconnect) go out at once.
         if [ "$c" != "$conn" ]; then
-            if [ -z "$conn" ] && [ $c = 1 ]; then resend=0; ct=$tick; else pen_present $c; resend=2; fi
+            if [ -z "$conn" ] && [ $c = 1 ]; then resend=0; else pen_present $c; resend=2; fi
             conn=$c
         fi
-        if [ $c = 1 ] && [ $resend = 0 ] && [ $((tick - ct)) -ge 40 ]; then pen_present 1; resend=2; fi
+        # The 40 s count from the service start (screen-on seconds), not from the connect: a pen that connects
+        # later (first screen-on after boot) gets its message at once, not 40 s later as a "random" capsule.
+        if [ $c = 1 ] && [ $resend = 0 ] && [ $tick -ge 40 ]; then pen_present 1; resend=2; fi
         if [ $c = 1 ]; then
-            if pen_docked; then d=1; pen_lock 0; else d=0; pen_lock 1; fi
+            # The hall sensor can read "out" for 1-2 s with the pen in the dock (seen 2026-10-29: two capsules):
+            # a new dock state counts after 3 same reads.
+            if pen_docked; then dr=1; else dr=0; fi
+            if [ "$dr" = "$dlast" ]; then dn=$((dn + 1)); else dn=1; dlast=$dr; fi
+            if [ -z "$dk" ] || [ $dn -ge 3 ]; then d=$dr; else d=$dk; fi
+            if [ $d = 1 ]; then pen_lock 0; else pen_lock 1; fi
             soc=; read -r soc < "$PEN_SOC" 2>/dev/null
             p="1 $d $soc"
             [ -n "$dk" ] && [ "$d" != "$dk" ] && pen_fluid "$soc"
             dk=$d
         else
-            p=0; pen_lock 0; dk=
+            p=0; pen_lock 0; dk=; dlast=
         fi
         if [ "$p" != "$pub" ]; then settings put global pipa_pen_state "$p"; pub=$p; fi
     fi

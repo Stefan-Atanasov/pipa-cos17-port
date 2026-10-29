@@ -55,6 +55,8 @@ case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5
     port-pt11)   IMG=$P/port-work/pt11/img/super.img;        MD5=073694b0db32209dc040849d5f6ceb28 ;;   # pt10 + pipa_port boot.oat execute + statsdw dontaudit (3o side effect), TEST
     port-pt12)   IMG=$P/port-work/pt12/img/super.img;        MD5=7b3973dcde3e827ebba48079d71b9bc3 ;;   # pt11 + SukiSU manager v4.3.0 (41100) + upgrade logic, TEST
     port-pt13)   IMG=$P/port-work/pt13/img/super.img;        MD5=6b6a367b5d264e37950e32c309548304 ;;   # pt12 + 3p Google Photos NEXUS_PRELOAD feature, TEST
+    port-pt14)   IMG=$P/port-work/pt14/img/super.img;        MD5=d0c2830e0c0d2b7ea79d02ef5eebada8 ;;   # pt13 + 3q HDR = Natural/P3 + EDR off, 3r Standard warm, pen capsule, Game Filter, nandswap sys_admin, TEST
+    port-pt18)   IMG=$P/port-work/pt18/img/super.img;        MD5=496f03bc546fa09f0ef3b27e851b71c4 ;;   # pt14 + 3s adaptive tone (CCT stream, real lux, curves, bedtime, dark locks) + pipa_port loop ioctls, TEST
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

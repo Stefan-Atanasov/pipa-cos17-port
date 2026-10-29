@@ -18,7 +18,7 @@ random UUID in each image. Compare the files, not the image md5. Read `NOTES-ref
 |---|---|
 | `port.sh` | The runner. |
 | `lib.sh` | Helper functions for the steps (`replace_once`, `need_grep`, `set_layer`, `fingerprint`, ...). |
-| `steps/NN-<step>-<name>.sh` | One file for each step (00-base to 43-3p). 44 files. Steps 00-37 match the old layer scripts; 39-3l and later are new steps. Step 38-3k is optional (`PORT_ODM_C06=1`). `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
+| `steps/NN-<step>-<name>.sh` | One file for each step (00-base to 46-3s). 47 files. Steps 00-37 match the old layer scripts; 39-3l and later are new steps. Step 38-3k is optional (`PORT_ODM_C06=1`). `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
 | `NOTES-refactor.md` | What is not 1:1, every difference, every assumption. |
 
 The old scripts (`build_port.sh`, `build_beta5*.sh`) stay unchanged.

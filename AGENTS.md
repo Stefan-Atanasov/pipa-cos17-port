@@ -138,6 +138,17 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   (`maintainer/ipe-fluid/patch_ipemanager.py` is the model: pattern-based, stops on a different version). Delete the
   prebuilt `oat/` next to the APK. To test live: bind-mount the patched APK over the original in init's mount namespace
   (`nsenter -t 1 -m -- mount --bind ...`) and `am force-stop` the app; a reboot removes it.
+- **Each zygote or composer restart attaches one more 8 GB OPPO swap file.** Its old file is deleted but stays open,
+  so `/data` fills up (72 GB after a day of UI-restart tests). `pipa_port` `nandswap_dedup` removes the extra loop
+  swaps (it needs `sys_admin` and the loop ioctls, in the rules since pt18). By hand: `swapoff` and `losetup -d` each
+  `loop` that `losetup` shows on `/data/nandswap/swapfile` and `/proc/swaps` does not list. Prefer a reboot.
+- **Live test of a display calibration:** bind the QDCM XML over `/vendor/etc/qdcm_calib_data_*.xml` in init's
+  namespace, then `setprop ctl.restart display-color-hal-1-0` and `vendor.qti.hardware.display.composer` (the UI
+  restarts). Do `umount` before a new bind: stacked binds keep the old file. A SurfaceFlinger matrix preview
+  (`su -c 'service call SurfaceFlinger 1015 i32 1 <16 floats>'`, `i32 0` resets) acts weaker than the same matrix in
+  the PCC.
+- **Adaptive tone** uses the continuous Xiaomi colour stream `front_cct_strm` (33171089) since 3s
+  (`maintainer/ambientlux/`). Check it with `dumpsys color_display` (`sensorDataValid`, `sensorLux`, `targetCCT`).
 - **`dump.erofs --ls --path=<missing>` returns exit code 0.** Check its output for "read inode failed".
 - **Run smali and baksmali with `-j 1`.** With threads, the dex layout changes on each run (same code, other md5).
 - Do not kill `system_server` to apply framework changes (it causes a warm-reset crash). Reboot.
