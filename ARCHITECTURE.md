@@ -23,7 +23,7 @@ layer scripts. `maintainer/port/port.sh` runs them in order of `NN` in one tree:
 2. It runs all steps. Each step edits the tree.
 3. It checks the SELinux labels, makes one image for each partition (`mkfs.erofs`) and makes `super.img` (`lpmake`).
 
-The default last step is 3o. `--until <step>` stops after a step (`--until 3h` gives the 3h content).
+The default last step is 3p. `--until <step>` stops after a step (`--until 3h` gives the 3h content).
 Step 2u is off by default (`PORT_WITH_2U=1` turns it on).
 
 Before `port.sh`, each layer was a script `maintainer/build_beta5_<step>.sh`. It read the images of the previous layer
@@ -76,6 +76,7 @@ layer script of each step.
 | 3m | step only | `media.settings.xml` points to `media_profiles_kona.xml` (the first zygote64 no longer aborts at boot). |
 | 3n | step only | The `pipa_port` loop sleeps 1 s with the screen off: the pen is ready about 1 s after screen-on. |
 | 3o | step only | `framework.jar`: per-app device identity. Netflix sees a Pixel 6 (Widevine L1, HD), Google Photos sees a Pixel XL. Other apps see the real device. |
+| 3p | step only | `product/etc/sysconfig/pipa-photos.xml`: the feature `com.google.android.apps.photos.NEXUS_PRELOAD`. Google Photos detects an original Pixel by this feature (free original-quality backup). |
 
 NOTE: SurfaceFlinger properties must be in `product/etc/build.prop`. The pipa `vendor/build.prop` loads after
 `system` and `system_ext` and sets other values.

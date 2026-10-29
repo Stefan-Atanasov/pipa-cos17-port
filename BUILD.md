@@ -83,7 +83,7 @@ sh maintainer/port/port.sh --check beta5 <donor-img-dir>
 sudo sh maintainer/port/port.sh <tag> <donor-img-dir> [--until <step>] [--keep-tree]
 ```
 
-3. `--until <step>` stops after a step. The default last step is 3o. `--keep-tree` keeps the tree
+3. `--until <step>` stops after a step. The default last step is 3p. `--keep-tree` keeps the tree
    `port-work/<tag>/tree`. Step 2u (SukiSU preload) is off by default. Set `PORT_WITH_2U=1` to turn it on.
 
 The output is in `port-work/<tag>/`:

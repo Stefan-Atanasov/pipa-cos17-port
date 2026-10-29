@@ -54,6 +54,7 @@ case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5
     port-pt10)   IMG=$P/port-work/pt10/img/super.img;        MD5=15281b87ea5d88c2452e291c6515d711 ;;   # pt9 + 3o per-app identity (Netflix Pixel 6, Google Photos Pixel XL), TEST
     port-pt11)   IMG=$P/port-work/pt11/img/super.img;        MD5=073694b0db32209dc040849d5f6ceb28 ;;   # pt10 + pipa_port boot.oat execute + statsdw dontaudit (3o side effect), TEST
     port-pt12)   IMG=$P/port-work/pt12/img/super.img;        MD5=7b3973dcde3e827ebba48079d71b9bc3 ;;   # pt11 + SukiSU manager v4.3.0 (41100) + upgrade logic, TEST
+    port-pt13)   IMG=$P/port-work/pt13/img/super.img;        MD5=6b6a367b5d264e37950e32c309548304 ;;   # pt12 + 3p Google Photos NEXUS_PRELOAD feature, TEST
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

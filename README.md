@@ -9,7 +9,7 @@ This repository contains the build scripts, sources and documents for the ColorO
 | Item | Value |
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870 |
-| ROM | ColorOS 17 (Android 17). Public release beta5 (layer 2v). Development build: `port.sh` up to step 3o (not released) |
+| ROM | ColorOS 17 (Android 17). Public release beta5 (layer 2v). Development build: `port.sh` up to step 3p (not released) |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.103(CN01)` (C.06) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
 | Kernel | Own kernel (Linux 4.19), separate repository. Public: `walt-r6`. Development: `walt-r8kpm` (SukiSU-Ultra v4.3.0 + KPM) |

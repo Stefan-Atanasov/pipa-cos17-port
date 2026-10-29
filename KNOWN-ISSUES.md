@@ -1,7 +1,7 @@
 # Known issues
 
 This document lists the problems of the public release **beta5** (ROM layer 2v + kernel walt-r6) and their status in
-the development build (ROM `port.sh` up to step 3o + kernel walt-r8kpm, not released yet). Each entry gives the
+the development build (ROM `port.sh` up to step 3p + kernel walt-r8kpm, not released yet). Each entry gives the
 symptom, a workaround if there is one, and the status. Updated 2026-10-29.
 
 ## For users
@@ -24,7 +24,7 @@ symptom, a workaround if there is one, and the status. Updated 2026-10-29.
 | Video thumbnails do not show in Gallery and file apps. | 3l: 64-bit mediaserver. |
 | The pen is ready only up to 5 s after screen-on. | 3n: about 1 s. |
 | Netflix plays only in SD (Widevine L3). | 3o: Netflix sees a Pixel 6 and gets Widevine L1 (HD). If Netflix was installed before, clear its app data one time. |
-| Google Photos has no free original-quality backup. | 3o: Google Photos sees a Pixel XL. |
+| Google Photos has no free original-quality backup. | 3o + 3p: Google Photos sees an original Pixel XL (free unlimited original quality). |
 
 ### Open
 
