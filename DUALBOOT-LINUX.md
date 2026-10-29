@@ -54,6 +54,48 @@ It is possible to remove `fileencryption=`, `metadata_encryption=` and `keydirec
 
 The port does not offer this variant now. If you want to test it, ask in the group.
 
+## Partition layout of the port (for dual boot)
+
+Checked on the maintainer's tablet (2026-10-29, 128 GB model):
+
+| Partition | Content |
+|---|---|
+| Active slot | **B**. The port boots from slot B. |
+| Firmware (`abl`, `xbl`, `tz`, `modem`, `dsp`, `keymaster`, `bluetooth`, ...), `vendor_boot`, `dtbo` | **The same on slot A and slot B.** `FlashLinux.sh` writes the `_ab` targets, which writes both slots. |
+| `boot_b` (192 MB) | The port kernel + TWRP. Do not replace it. |
+| `boot_a` (192 MB) | The release kernel (beta5: walt-r6). The port does not boot from it. **This is the place for a Linux or UEFI boot image.** |
+| `super` (8.5 GB) | The ROM, only in the slot B logical partitions. |
+| `userdata` (106.6 GB) | Android data, encrypted. It uses all the remaining space. There is no free space for Linux. |
+| `vm-linux_a/b`, `rawdump` | Not free space. Do not use them. |
+
+## Dual boot methods that people use on pipa
+
+These methods are documented by the pipa Linux community. **We did not test them with this port.**
+
+1. **Linux boot image in the other slot** (TheMojoMan `xiaomi-pipa`). Flash the Linux boot image to `boot_a`, erase
+   `dtbo_a` (mainline Linux needs an empty DTBO), then select slot A to boot Linux. Select slot B to boot ColorOS.
+2. **UEFI in the other slot** (TheMojoMan `pipa-multiboot`, Mu-Qcom / edk2-msm). Flash the pipa UEFI image to `boot_a`.
+   UEFI shows a rEFInd menu and starts Linux (or Windows) from an EFI system partition.
+3. **`fastboot boot`** of a Linux image from a PC. Nothing is written to the boot partitions, and the next normal boot
+   starts ColorOS again. Linux must have its root file system on USB storage or in RAM.
+
+Switch slots in the bootloader: `fastboot set_active a` (Linux) and `fastboot set_active b` (ColorOS).
+
+**Linux needs its own partition for its root file system.** The encrypted `userdata` cannot hold it. Thus, an
+installed dual boot needs a smaller `userdata` and a GPT change. This **formats all Android data**. Make a file-level
+backup first (on the tablet, while Android is unlocked). Use the sector values of your own tablet, never the
+values from a guide for another storage size.
+
+### Never do this
+
+- Do not replace `boot_b` or erase `dtbo_b`: ColorOS and TWRP boot from them.
+- Do not erase `persist`, `modemst1`, `modemst2`, `fsg`, `fsc`, `metadata` or other calibration and key partitions.
+- Do not flash a generic SM8250 image or an image for another tablet.
+- Do not run a rootfs flasher that writes to `userdata` while you want to keep Android.
+- Do not restore a stock GPT over a changed partition layout.
+- Do not relock the bootloader.
+- Do not use `qbootctl` (a reported endless fastboot loop on pipa).
+
 ## Why a rebuilt vendor image can bootloop
 
 A rebuilt EROFS image must keep:
@@ -74,3 +116,9 @@ images with `fsck.erofs --extract --xattrs --preserve` and checks the labels bef
 - Linux kernel, inline encryption: https://docs.kernel.org/block/inline-encryption.html
 - AOSP init, SELinux mode: https://android.googlesource.com/platform/system/core/+/refs/heads/main/init/selinux.cpp
 - Linux kernel, f2fs: https://docs.kernel.org/filesystems/f2fs.html
+- TheMojoMan, pipa Linux images and slot install: https://github.com/TheMojoMan/xiaomi-pipa
+- TheMojoMan, pipa EFI multiboot: https://github.com/TheMojoMan/xiaomi-pipa/blob/main/pipa-multiboot.md
+- edk2-msm (pipa UEFI target): https://github.com/edk2-porting/edk2-msm
+- Close-to-mainline pipa kernel: https://github.com/MollySophia/linux-mainline-pipa
+- postmarketOS pipa page: https://wiki.postmarketos.org/wiki/Xiaomi_Pad_6_(xiaomi-pipa)
+- AOSP, A/B slots: https://source.android.com/docs/core/ota/ab/ab_implement
