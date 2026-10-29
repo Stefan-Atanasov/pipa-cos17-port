@@ -86,6 +86,23 @@ installed dual boot needs a smaller `userdata` and a GPT change. This **formats 
 backup first (on the tablet, while Android is unlocked). Use the sector values of your own tablet, never the
 values from a guide for another storage size.
 
+### Encryption and other ROMs
+
+- **You do not need to turn off Android encryption for dual boot.** Linux boots from its own boot image and its own
+  root partition. Encryption only stops Linux from reading the Android files.
+- The same methods are used with HyperOS (reported in TheMojoMan issue 7). We found no verified reports for
+  LineageOS, crDroid, PixelOS, Evolution X or this port. The method does not depend on the ROM name. What matters is
+  which partitions the ROM installer and updater write.
+
+### Updating the port when Linux is on slot A
+
+- **`FlashLinux.sh` / `FlashWindows.bat` of the release overwrite Linux.** They flash `boot_ab` and `dtbo_ab` (both
+  slots), also for a dirty flash ("keep data"). After a port update, flash your Linux boot image to `boot_a` again
+  and erase `dtbo_a` again. Keep copies of them.
+- On Android ROMs with A/B OTA updates, an OTA writes the inactive slot (= the Linux slot) and switches to it. HyperOS
+  users reported Linux boot failures after updates. This port has no OTA updater.
+- Before an update, keep a copy of your Linux boot image, the EFI files and your partition table.
+
 ### Never do this
 
 - Do not replace `boot_b` or erase `dtbo_b`: ColorOS and TWRP boot from them.
@@ -122,3 +139,5 @@ images with `fsck.erofs --extract --xattrs --preserve` and checks the labels bef
 - Close-to-mainline pipa kernel: https://github.com/MollySophia/linux-mainline-pipa
 - postmarketOS pipa page: https://wiki.postmarketos.org/wiki/Xiaomi_Pad_6_(xiaomi-pipa)
 - AOSP, A/B slots: https://source.android.com/docs/core/ota/ab/ab_implement
+- HyperOS dual boot and update reports (TheMojoMan issue 7): https://github.com/TheMojoMan/xiaomi-pipa/issues/7
+- Fedora on pipa, dual-boot guide: https://github.com/greed0802/pipa-fedora-builder-43/blob/main/DUALBOOT.md
