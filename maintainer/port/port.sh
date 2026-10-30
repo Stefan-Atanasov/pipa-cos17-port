@@ -10,7 +10,7 @@
 #                   Use a NEW tag (not one that build_port.sh used): the run deletes port-work/<tag>/.
 #   <donor-img-dir> the donor's extracted images (system.img, system_ext.img, product.img, my_*.img),
 #                   e.g. ~/Documents/pipa/donor/OPD2515_11.C.06/img
-#   --until <step>  stop after this step (default: the last one, 3p; 3k needs PORT_ODM_C06=1 to do anything). Step names: see steps/.
+#   --until <step>  stop after this step (default: the last one, 3t; 3k needs PORT_ODM_C06=1 to do anything). Step names: see steps/.
 #   --keep-tree     keep port-work/<tag>/tree after a good run (default: delete it, 13-23 GB).
 #                   After a failed run the tree always stays.
 #

@@ -10,7 +10,7 @@ symptom, a workaround if there is one, and the status. Updated 2026-10-29.
 
 | Problem in beta5 | Fix |
 |---|---|
-| Battery drain in standby: the sensor hub never sleeps. | 2w (OPPO fold sensor type = Xiaomi knuckle sensor). Night test: 0.26 %/h. |
+| Battery drain in standby: the sensor hub never sleeps. | 2w (OPPO fold sensor type = Xiaomi knuckle sensor). Night tests: 0.26 %/h (3j), 0.21 %/h (pt18 = beta6). |
 | No root after a clean flash (SukiSU manager). | 2w: the manager installs into `/data/app` on the first boot. |
 | Game Filter and colour enhancement freeze the screen. | 2x (no freeze) and 3f (the filters work as a colour matrix). |
 | The refresh rate stays at 120 Hz on a static screen. | 2z and 3b: the panel drops to 60 Hz when idle. |
@@ -43,7 +43,7 @@ symptom, a workaround if there is one, and the status. Updated 2026-10-29.
 | Call sharing echo | In shared calls, the far end can hear an echo of itself. | Use headphones. | Parked: the pipa DSP echo canceller does not work in this path. |
 | Pen page | Settings → Stylus (OPPO pen page) shows the Xiaomi pen as "disconnected". | None necessary: the pen works. | By design (OPPO pen protocol). |
 | Keyboard case | The auto-off when you fold the keyboard behind the tablet is not tested. | Typing works. | Not tested. |
-| Play Integrity | Only BASIC integrity (unlocked bootloader). Apps that need DEVICE integrity do not work. | None. | By design. |
+| Play Integrity | Only BASIC integrity (unlocked bootloader). Apps that need DEVICE integrity do not work. | Optional open-source modules in the package (`extras/integrity/`). DEVICE needs a keybox that Google accepts; public keyboxes were rejected in a test on 2026-10-30. | By design. |
 | Material blur | With "Material blur" on, the launcher animations are less smooth. | Turn "Material blur" off: `adb shell settings put system system_material_blur_enable 0`. | By design (GPU load). |
 | Dual boot with Linux | Linux cannot read the internal storage. | Use a shared drive or the network. | By design: see [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md). |
 
