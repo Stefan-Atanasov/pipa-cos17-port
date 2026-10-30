@@ -8,6 +8,9 @@ This repository contains the build scripts, sources and documents for the ColorO
 (beta6 = current release; `beta6-noenc` = experimental build without `/data` encryption for Linux dual boot, not
 tested). Support group: https://t.me/cosforpipa
 
+**Report a bug:** https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
+(write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened).
+
 > Most of the maintainer work (builds, fixes, documents) was done with an AI assistant (Claude) and tested on one
 > tablet. Back up first, and report problems in the group.
 

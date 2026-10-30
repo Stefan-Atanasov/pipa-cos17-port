@@ -2,7 +2,10 @@
 
 This document lists the known problems of the public release **beta6** (2026-10-30, ROM `port.sh` up to step 3w +
 kernel walt-r8kpm) and what beta6 fixed against beta5. Each entry gives the symptom, a workaround if there is one, and
-the status. Updated 2026-10-30. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
+the status. Updated 2026-10-30.
+
+**Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
+Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
 ## For users
 
