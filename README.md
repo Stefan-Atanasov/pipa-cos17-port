@@ -33,6 +33,18 @@ first. The flash script asks one question:
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
 - Enter: dirty flash ("keep data"). Use it for an update from beta5.
 
+Clean flash from a different ROM: the beta6 flash scripts do not erase `frp`. The screen lock of the old ROM stays
+there, and ColorOS cannot set a new PIN ("Screen lock was already changed"). After the clean flash, erase `frp` one
+time (your data stays):
+
+```
+adb reboot bootloader
+fastboot erase frp
+fastboot reboot
+```
+
+You can also do it before you start the flash script (the tablet is already in fastboot mode): `fastboot erase frp`.
+
 WARNING: An unlocked bootloader is necessary. Make a backup of your data before you flash. The flash scripts also
 write the firmware (bootloader, modem, `vbmeta`) in a dirty flash.
 
