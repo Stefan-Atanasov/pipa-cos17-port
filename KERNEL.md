@@ -1,6 +1,6 @@
 # Kernel
 
-The port uses an own kernel (Linux 4.19.325). The public release beta5 has `walt-r6`. The development kernel is
+The port uses an own kernel (Linux 4.19.325). The public release beta6 (2026-10-30) has
 `walt-r8kpm`: SukiSU-Ultra v4.3.0 (builtin), susfs, KPM. The source is in
 https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`).
 
