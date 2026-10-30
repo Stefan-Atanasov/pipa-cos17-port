@@ -33,9 +33,11 @@ first. The flash script asks one question:
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
 - Enter: dirty flash ("keep data"). Use it for an update from beta5.
 
-Clean flash from a different ROM: the beta6 flash scripts do not erase `frp`. The screen lock of the old ROM stays
-there, and ColorOS cannot set a new PIN ("Screen lock was already changed"). After the clean flash, erase `frp` one
-time (your data stays):
+Clean flash from a different ROM: the flash scripts also erase `frp` (since 2026-10-30, 17:00). If `frp` is not
+erased, the screen lock of the old ROM stays there, and ColorOS cannot set a new PIN ("Screen lock was already
+changed"). The first beta6 download does not erase `frp`: if your `FlashLinux.sh` or `FlashWindows.bat` does not
+contain the text `erase frp`, use the `beta6-frpfix` zip (it replaces the two scripts). Or, after the clean flash,
+erase `frp` one time (your data stays):
 
 ```
 adb reboot bootloader
