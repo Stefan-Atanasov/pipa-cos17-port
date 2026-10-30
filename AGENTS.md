@@ -93,6 +93,10 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   sets in user space and logs nothing for a permissive domain: test property rules with a boot.
 - The `pipa_port` domain is **enforcing since 3g**. Its rules are in `maintainer/sepolicy/pipa_port_rules.cil`. A new
   access in the service needs a rule there.
+  Code that the service starts also runs in this domain (face HAL and its camera worker, `input`). The 3g rules came
+  from a boot only; the face camera worker had none until 3w. To find missing rules: `setprop persist.logd.audit.rate
+  2000` and `persist.logd.size 16M`, reboot, use the feature, list the `scontext=u:r:pipa_port` denials. Set both
+  properties back to "" after.
 - Before you build a policy change, compile it on the tablet with `/system/bin/secilc` and all 8 policy inputs.
 - **Donor boot hangs.** C.06 waits for HALs that pipa does not have (`waitForService` in `oplus-services.jar` and in
   two QSPM libs). Each one stops system_server until the watchdog panics the device. On a new donor, scan changed libs

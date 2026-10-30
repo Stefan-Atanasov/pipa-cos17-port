@@ -98,9 +98,6 @@ mkdir -p "$OUT/extras"
 KSU_APK=${KSU_APK:-$COS/kernel/sukisu-v4.3.0/SukiSU_v4.3.0_41100-release.apk}   # walt-r8 and later; walt-r6/r7: KSU_APK=.../sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk
 cp "$KSU_APK" "$OUT/extras/"
 cp "$COS/pipa-susfs-v1.0.zip" "$OUT/extras/"
-# optional Play Integrity modules (open source, unchanged; README-INTEGRITY.txt), if present
-INTEGRITY=${INTEGRITY:-$PW/extras-integrity}
-[ -d "$INTEGRITY" ] && { mkdir -p "$OUT/extras/integrity"; cp "$INTEGRITY"/* "$OUT/extras/integrity/"; }
 cat > "$OUT/README-FLASH.txt" <<EOF
 ColorOS 17 port for Xiaomi Pad 6 (pipa) - $NAME
 Original build: Coolapk @梦归zzz. Maintainer: $MAINTAINER.
@@ -114,7 +111,6 @@ Needs an unlocked bootloader. Back up your data first.
 5. Root: the port installs the SukiSU manager on the first boot. If it is missing, install
    extras/$(basename "$KSU_APK") and open it once.
    Optional root hiding: extras/pipa-susfs-v1.0.zip as a module.
-   Optional Play Integrity modules: extras/integrity/README-INTEGRITY.txt.
 6. Start the flash script in a terminal: the wipe question needs an answer (y or Enter).
 Rollback: flash the previous package the same way.
 Play Integrity: BASIC only (unlocked bootloader). Known issues: see RELEASE-NOTES.md.

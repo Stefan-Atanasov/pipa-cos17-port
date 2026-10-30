@@ -112,3 +112,39 @@
 (allow pipa_port metadata_file (file (getattr unlink)))
 (allow pipa_port resourcecache_data_file (dir (add_name getattr open read search write)))
 (allow pipa_port resourcecache_data_file (file (create getattr open read setattr write)))
+;; 3w (2026-10-30): face enrollment and face unlock. The face HAL starts a camera worker (same domain) that talks to
+;; cameraserver, the graphics allocator/mapper (HIDL) and the display service. The 3g capture never ran it: enforcing
+;; = black preview, "Add now" hangs. Collected in a permissive window (user OK): enroll + unlock worked
+;; (onAuthenticated true), no denials into pipa_port.
+(allow pipa_port hwservicemanager_prop (file (getattr map open read)))
+(allow pipa_port camera_config_prop (file (getattr map open read)))
+(allow pipa_port vendor_display_prop (file (getattr map open read)))
+(allow pipa_port proc_uptime (file (getattr open read)))
+(allow pipa_port proc_frame_boost_ctrl (file (getattr open read write)))
+(allow pipa_port face_vendor_data_file (file (setattr)))
+(allow pipa_port display_service (service_manager (find)))
+(allow pipa_port permission_service (service_manager (find)))
+(allow pipa_port vendor_perf_service (service_manager (find)))
+(allow pipa_port hal_graphics_allocator_service (service_manager (find)))
+(allow pipa_port fwk_camera_hwservice (hwservice_manager (find)))
+(allow pipa_port hal_graphics_allocator_hwservice (hwservice_manager (find)))
+(allow pipa_port hal_graphics_mapper_hwservice (hwservice_manager (find)))
+(allow pipa_port hidl_token_hwservice (hwservice_manager (find)))
+(allow pipa_port hwservicemanager (binder (call transfer)))
+(allow pipa_port cameraserver (binder (call transfer)))
+(allow pipa_port hal_graphics_allocator_default (binder (call transfer)))
+(allow pipa_port hal_graphics_allocator_default (fd (use)))
+(allow pipa_port system_app (fd (use)))
+;; 3w, second capture (enforcing boot with audit rate 2000): pen back button (pen_keys.sh -> `input keyevent 120`
+;; needs the input service), face worker extras (cameraserver ashmem, UX/boost nodes).
+(allow pipa_port input_service (service_manager (find)))
+(allow pipa_port cameraserver (fd (use)))
+(allow pipa_port oplus_scheduler_sched_assist_proc (file (getattr read)))
+(allow pipa_port proc_frame_boost_sys_ctrl (file (getattr open read write)))
+;; 3w, third capture: face enroll preview (the HAL passes the preview buffers to Settings): black without it.
+(allow pipa_port system_app (binder (call transfer)))
+;; 3w, fourth capture: face enroll preview froze after a rotation (portrait): the HAL could not use the release fences
+;; from SurfaceFlinger and the composer; perf hint from the face worker.
+(allow pipa_port surfaceflinger (fd (use)))
+(allow pipa_port hal_graphics_composer_default (fd (use)))
+(allow pipa_port vendor_perfservice (binder (call)))
