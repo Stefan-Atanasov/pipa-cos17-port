@@ -57,7 +57,7 @@ case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5
     port-pt13)   IMG=$P/port-work/pt13/img/super.img;        MD5=6b6a367b5d264e37950e32c309548304 ;;   # pt12 + 3p Google Photos NEXUS_PRELOAD feature, TEST
     port-pt14)   IMG=$P/port-work/pt14/img/super.img;        MD5=d0c2830e0c0d2b7ea79d02ef5eebada8 ;;   # pt13 + 3q HDR = Natural/P3 + EDR off, 3r Standard warm, pen capsule, Game Filter, nandswap sys_admin, TEST
     port-pt18)   IMG=$P/port-work/pt18/img/super.img;        MD5=496f03bc546fa09f0ef3b27e851b71c4 ;;   # pt14 + 3s adaptive tone (CCT stream, real lux, curves, bedtime, dark locks) + pipa_port loop ioctls, TEST
-    beta6)       IMG=$P/port-work/beta6/img/super.img;       MD5=3cbfd264def50a1e485fca8bf3c279c9 ;;   # pt18 content + 3t battery log fix, RELEASE candidate
+    beta6)       IMG=$P/port-work/beta6/img/super.img;       MD5=37540a9fd84034e1a0a44f7e6da7839d ;;   # pt18 content + 3t battery log + 3u pen dock + 3v fast service start, RELEASE
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

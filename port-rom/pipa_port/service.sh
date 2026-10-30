@@ -81,9 +81,10 @@ SS_PID=
 system_ux() {
     p=$(pidof system_server) || return
     [ "$p" = "$SS_PID" ] && return
-    for t in $(ls /proc/$p/task 2>/dev/null); do
-        case "$(cat /proc/$p/task/$t/comm 2>/dev/null)" in
-            android.anim|android.display|android.ui) echo "p $t 132" > "$UX_TASK" 2>/dev/null ;;
+    for d in /proc/$p/task/*; do   # builtin read: one cat per thread (~300) took ~6 s at each start (3v)
+        n=; read -r n < "$d/comm" 2>/dev/null
+        case "$n" in
+            android.anim|android.display|android.ui) echo "p ${d##*/} 132" > "$UX_TASK" 2>/dev/null ;;
         esac
     done
     SS_PID=$p
@@ -273,6 +274,12 @@ fi
 COLOR_STATE=$STATE/color_mode
 ADAPTIVE_STATE=$STATE/adaptive_state
 BEDTIME_STATE=$STATE/bedtime_state
+# In the background (3v): the main loop (pen, keyboard guard, lid) starts at once, not 15 s later. The loop saves
+# the display choice only after this restore ($DISP_DONE), so the boot reset is never saved as the user's choice.
+DISP_DONE=$STATE/display.restored
+rm -f "$DISP_DONE"
+(
+SGET_F=$SGET_F.restore   # own file: the main loop also uses sget
 sleep 15
 if [ "${COLOR_MODE_RESTORE:-1}" = 1 ] && [ -f "$COLOR_STATE" ]; then
     want=$(cat "$COLOR_STATE"); now=$(sget system display_color_mode)
@@ -294,6 +301,9 @@ if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
         log "bedtime mode restored"
     fi
 fi
+rm -f "$SGET_F"
+: > "$DISP_DONE"
+) &
 
 SYS_XML=/data/system/users/0/settings_system.xml
 SYS_STAMP=/data/misc/pipa_port/display.stamp
@@ -460,6 +470,7 @@ kb_guard() {
 # * pipa_pen_state "<connected> <docked> <soc>" (or "0") for the pipa helper's pen pill; the
 #   soc is the reverse charger's reading, fresh only while docked.
 PEN_HALL=/sys/class/power_supply/fuda/reverse_chg_hall4
+PEN_HALL3=/sys/class/power_supply/fuda/reverse_chg_hall3   # second dock magnet (pen the other way round)
 PEN_SOC=/sys/class/power_supply/wireless/reverse_pen_soc
 IOCTL=$MODDIR/xiaomi_touch_ioctl
 PEN_LOG=/data/local/tmp/pipa_pen.log
@@ -470,7 +481,7 @@ pen_connected() {   # also keeps /proc/bus/input/devices in DEVS for kb_link
     case $DEVS in *'Name="Xiaomi Smart Pen"'*) return 0 ;; esac
     return 1
 }
-pen_docked() { h=; read -r h < "$PEN_HALL" 2>/dev/null; [ "$h" = 0 ]; }
+pen_docked() { h=; h3=; read -r h < "$PEN_HALL" 2>/dev/null; read -r h3 < "$PEN_HALL3" 2>/dev/null; [ "$h" = 0 ] || [ "$h3" = 0 ]; }
 pen_mac() {
     awk '/^\[/ { m = $0 } /^Name = Xiaomi Smart Pen$/ { m = substr(m, 2, length(m) - 2); gsub(/:/, "", m); print tolower(m); exit }' \
         /data/misc/bluedroid/bt_config.conf 2>/dev/null
@@ -550,18 +561,18 @@ while true; do
         # later (first screen-on after boot) gets its message at once, not 40 s later as a "random" capsule.
         if [ $c = 1 ] && [ $resend = 0 ] && [ $tick -ge 40 ]; then pen_present 1; resend=2; fi
         if [ $c = 1 ]; then
-            # The hall sensor can read "out" for 1-2 s with the pen in the dock (seen 2026-10-29: two capsules):
-            # a new dock state counts after 3 same reads.
-            if pen_docked; then dr=1; else dr=0; fi
-            if [ "$dr" = "$dlast" ]; then dn=$((dn + 1)); else dn=1; dlast=$dr; fi
-            if [ -z "$dk" ] || [ $dn -ge 3 ]; then d=$dr; else d=$dk; fi
+            # Two dock halls (hall3, hall4: one for each pen orientation); docked = one of them reads 0. The
+            # 2026-10-29 "out for 2 s" capsule came from hall4 alone (pen on the other magnet). "In" counts at
+            # once; "out" only when a second read 0.5 s later agrees (was 3 reads = 3-4 s delay, 3u).
+            if pen_docked; then d=1; else d=0; fi
+            if [ -n "$dk" ] && [ $dk = 1 ] && [ $d = 0 ]; then nap 0.5; pen_docked && d=1; fi
             if [ $d = 1 ]; then pen_lock 0; else pen_lock 1; fi
             soc=; read -r soc < "$PEN_SOC" 2>/dev/null
             p="1 $d $soc"
             [ -n "$dk" ] && [ "$d" != "$dk" ] && pen_fluid "$soc"
             dk=$d
         else
-            p=0; pen_lock 0; dk=; dlast=
+            p=0; pen_lock 0; dk=
         fi
         if [ "$p" != "$pub" ]; then settings put global pipa_pen_state "$p"; pub=$p; fi
     fi
@@ -574,7 +585,7 @@ while true; do
     fi
     if [ $((tick % 15)) = 0 ]; then
         # 4 sget reads (`settings get` processes): only after a change of the system settings file
-        if ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; then : > "$SYS_STAMP"; remember_display; fi
+        if [ -e "$DISP_DONE" ] && { ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; }; then : > "$SYS_STAMP"; remember_display; fi
         [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
         [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
         nandswap_dedup
