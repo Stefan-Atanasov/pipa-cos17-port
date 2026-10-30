@@ -109,8 +109,6 @@ The own scripts, sources and documents in this repository are under the Apache L
 
 - The license does not cover the proprietary files that the build needs ([BLOBS.md](BLOBS.md)). They belong to their
   owners and are not in this repository.
-- `port-rom/pipa_port/service.sh` has parts from the `pipa_core` module of 梦归zzz. These parts stay under the terms
-  of their author.
 - The kernel is a separate repository under GPL-2.0.
 
 ## Credits
