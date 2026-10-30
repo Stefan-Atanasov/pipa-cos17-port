@@ -10,7 +10,7 @@
 #                   Use a NEW tag (not one that build_port.sh used): the run deletes port-work/<tag>/.
 #   <donor-img-dir> the donor's extracted images (system.img, system_ext.img, product.img, my_*.img),
 #                   e.g. ~/Documents/pipa/donor/OPD2515_11.C.06/img
-#   --until <step>  stop after this step (default: the last one, 3w; 3k needs PORT_ODM_C06=1 to do anything). Step names: see steps/.
+#   --until <step>  stop after this step (default: the last one, 3x; 3k needs PORT_ODM_C06=1, 3x PORT_NOENCRYPT=1). Step names: see steps/.
 #   --keep-tree     keep port-work/<tag>/tree after a good run (default: delete it, 13-23 GB).
 #                   After a failed run the tree always stays.
 #
@@ -20,6 +20,7 @@
 #                     Set it to a frozen overlay folder when you have one. It needs system/ and system_ext/.
 #   PORT_WITH_2U=1    also apply step 2u (SukiSU preload). The old chain does NOT have it in 3h.
 #   PORT_ODM_C06=1    also apply the optional step 3k (OPPO interconnect stack in the odm from C.06; NOTES-3k-odm-c06.md).
+#   PORT_NOENCRYPT=1  also apply the optional step 3x (/data without encryption, for Linux dual boot; clean flash only).
 #   PORT_FORCE=1      allow a tag whose work dir port.sh did not create (the old chain used it).
 #   PIPA_ROOT, PIPA_OWNER   as in the old layer scripts.
 #

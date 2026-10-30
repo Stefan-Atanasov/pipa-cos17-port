@@ -4,15 +4,22 @@ This repository contains the build scripts, sources and documents for the ColorO
 (code name `pipa`, Snapdragon 870). Use it to build the ROM from the original release and an OPPO donor build. The main build is one command,
 `maintainer/port/port.sh`.
 
+**Download the builds:** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
+(beta6 = current release; `beta6-noenc` = experimental build without `/data` encryption for Linux dual boot, not
+tested). Support group: https://t.me/cosforpipa
+
+> Most of the maintainer work (builds, fixes, documents) was done with an AI assistant (Claude) and tested on one
+> tablet. Back up first, and report problems in the group.
+
 ## Overview
 
 | Item | Value |
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870 |
-| ROM | ColorOS 17 (Android 17). Public release beta5 (layer 2v). Development build: `port.sh` up to step 3p (not released) |
+| ROM | ColorOS 17 (Android 17). Public release **beta6** (2026-10-30, `port.sh` up to step 3w). Previous: beta5 (layer 2v) |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.103(CN01)` (C.06) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
-| Kernel | Own kernel (Linux 4.19), separate repository. Public: `walt-r6`. Development: `walt-r8kpm` (SukiSU-Ultra v4.3.0 + KPM) |
+| Kernel | Own kernel (Linux 4.19), separate repository. Public: `walt-r8kpm` (SukiSU-Ultra v4.3.0 + KPM, in beta6) |
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 

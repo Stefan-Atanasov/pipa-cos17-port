@@ -6,10 +6,15 @@ kernel, and what this means for a dual boot with Linux (or Windows). Read all of
 All values come from the maintainer's tablet (128 GB model, 2026-10-29), unless a source is given. **We did not
 install a dual boot on this port ourselves.** The methods below are from the pipa Linux community.
 
+> **Not tested, AI-written.** This page was written with an AI assistant (Claude) from measurements on the
+> maintainer's tablet and the community documents linked below. Nobody has done a dual boot with this port yet.
+> Check each step yourself and back up first. Reports are welcome.
+
 ## 1. Short answers
 
-- **Can Linux read the internal storage of the port?** No. `/data` is encrypted with keys that only the TEE of the
-  tablet can use (section 4).
+- **Can Linux read the internal storage of the port?** Not with the normal build: `/data` is encrypted with keys
+  that only the TEE of the tablet can use (section 4). An **experimental build without encryption** exists
+  (`beta6-noenc`, section 4); it is not tested.
 - **Do I need SELinux permissive?** No. SELinux does not hold encryption keys. `androidboot.selinux=permissive` on the
   kernel command line also does nothing: this is a `user` build, and the vendor boot image sets
   `androidboot.selinux=enforcing`.
@@ -73,8 +78,14 @@ The kernel:
 - AOSP says that `wrappedkey_v0` is not compatible with the upstream Linux kernel. TWRP in the port can decrypt
   `/data` because it runs the Android keymaster in the TEE.
 - **Keep `metadata` and `persist`.** If you erase `metadata`, Android cannot open `/data` again (format needed).
-- A ROM without encryption is possible in theory (remove `fileencryption=`, `metadata_encryption=`, `keydirectory=`
-  from the fstab and format `userdata`). The port does not offer it and it is not tested.
+- **Experimental build without encryption: `beta6-noenc`** (2026-10-30, port step 3x, `PORT_NOENCRYPT=1`). Its
+  `vendor/etc/fstab.qcom` has no `fileencryption=`, `metadata_encryption=`, `keydirectory=` and `inlinecrypt` on
+  `/data`, so Android formats `/data` without encryption. Then Linux can read it (f2fs).
+  - **Not tested.** Nobody has booted it yet.
+  - **Clean flash only** (flash script, answer `y`). "Keep data" over an encrypted install does not work. To go back
+    to the normal build, flash it with `y` again.
+  - Check after the first boot: `adb shell getprop ro.crypto.state` must show `unencrypted`.
+  - No protection at rest: anyone with the tablet in the bootloader or TWRP can read your files.
 
 ## 5. What the flash scripts write
 
