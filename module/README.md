@@ -1,5 +1,9 @@
 # Pipa COS17 Power & Polish Tune (v0.10)
 
+> **Historical.** This module was used up to beta5-2d. Since beta5-2e, the ROM build (`maintainer/port/port.sh`) has
+> these fixes. The build still uses `module/tools/` and the data files in `module/system/` (baked step). The current
+> `module.prop` is v0.15. Paths to `notes/` and `/home/stefan/...` are private maintainer paths.
+
 Companion module for the **ColorOS 17 port for Xiaomi Pad 6 (`pipa`)**, beta4 `OPD2515_17.0.0.102(CN01)`
 (2026-10-17) and beta5 (C.06 base, `17.0.0.103`); v0.10 supports both (see sections 12 and 15). It runs next to `pipa_core` v1.10 (梦归zzz) and **does not modify `pipa_core`**.
 Each fix below is a workaround for a problem that can be fixed properly in the ROM. The

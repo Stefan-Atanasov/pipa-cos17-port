@@ -17,7 +17,7 @@ if [[ ${1:-} == --help || ${1:-} == -h ]]; then usage; exit 0; fi
 if [[ ${1:-} == --image-only ]]; then mode=image-only; shift; fi
 if (( $# < 2 || $# > 3 )); then usage >&2; exit 2; fi
 here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-out=${3:-/home/stefan/Documents/pipa/port-work/donor-check/$(basename -- "$2")}
+out=${3:-${PIPA_ROOT:-$(cd -- "$here/../.." && pwd)}/port-work/donor-check/$(basename -- "$2")}
 command -v python3 >/dev/null || { echo 'ERROR: Install python3.' >&2; exit 1; }
 # -B prevents import of port_diff.py from writing into the source folder.
 python3 -B - "$here" "$1" "$2" "$out" "$mode" <<'PY'

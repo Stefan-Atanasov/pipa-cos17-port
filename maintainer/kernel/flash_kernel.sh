@@ -9,7 +9,7 @@
 # The tablet may be in Android (adb) or already in fastboot. Ask the user before "flash" or "restore".
 set -euo pipefail
 SERIAL=${SERIAL:-83836a90}
-BK=${BK:-$HOME/Documents/pipa/COS17/kernel/backup-partitions-20261023}
+BK=${BK:-$(cd "$(dirname "$0")/../.." && pwd)/kernel/backup-partitions-20261023}
 FB="timeout 180 fastboot -s $SERIAL"
 BOOT_SIZE=201326592
 
@@ -30,8 +30,8 @@ check_img() {
 	[ "$(stat -c %s "$1")" -le $BOOT_SIZE ] || die "$1 is larger than boot_b"
 }
 
-# test boots send the full image: v1, the only build that booted, was a full image, so trimmed ones are not used
-# (the user's call, 2026-10-23); a 196 MB transfer hung the bootloader once (a long power press restarted it)
+# test boots: use a trimmed image (mkboot.sh TRIM=1; used for r7kb, r7ov, r8 since 2026-10-28). A full 196 MB image
+# hung the bootloader two times, and a 92 MB KPM trim image also hung it (57 MB worked); a long power press restarts it
 
 case "${1:-}" in
 test)

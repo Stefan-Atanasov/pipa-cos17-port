@@ -18,7 +18,7 @@ set -euo pipefail
 OUT=${1:?usage: prepare_tree.sh <out-tree> [E404_REF] [SUKISU_REF]}
 E404_REF=${2:-9b8e5a79}
 SUKISU_REF=${3:-7f1c299a}
-K=${K:-$HOME/Documents/pipa/port-work/kernel}
+K=${K:-${PIPA_ROOT:-$(cd "$(dirname "$0")/../../.." && pwd)}/port-work/kernel}
 P=$(cd "$(dirname "$0")" && pwd)
 E404_GIT=${E404_GIT:-$K/e404-stbpf}          # clone of kvsnr113/xiaomi_sm8250_kernel_e404
 SUKI_GIT=${SUKI_GIT:-$K/sukisu-7f1c}         # clone of SukiSU-Ultra/SukiSU-Ultra (branch builtin)

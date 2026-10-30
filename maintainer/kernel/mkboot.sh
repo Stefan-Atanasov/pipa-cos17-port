@@ -3,8 +3,8 @@
 # only the kernel swapped, optionally with extra kernel cmdline in the boot header (e.g. "pipa_hooks=3").
 #   bash maintainer/kernel/mkboot.sh <Image> <out.img> ["cmdline"]      (TRIM=1: test-boot image, see below)
 set -euo pipefail
-K=${K:-$HOME/Documents/pipa/port-work/kernel}
-BK=${BK:-$HOME/Documents/pipa/COS17/kernel/backup-partitions-20261023}
+K=${K:-${PIPA_ROOT:-$(cd "$(dirname "$0")/../../.." && pwd)}/port-work/kernel}
+BK=${BK:-$(cd "$(dirname "$0")/../.." && pwd)/kernel/backup-partitions-20261023}
 MB=$K/bootimg/magiskboot
 [ $# -ge 2 ] && [ -f "$1" ] || { sed -n 2,4p "$0"; exit 1; }
 img=$(realpath "$1"); out=$(realpath -m "$2"); cmd=${3:-}

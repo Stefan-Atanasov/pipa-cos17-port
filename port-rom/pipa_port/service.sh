@@ -1,6 +1,6 @@
 #!/system/bin/sh
 # pipa_port runtime (after boot), started by init (/system_ext/etc/init/pipa_port.rc) as the
-# pipa_port service. Same code as the pipa_port module v1.3, with ROM paths: code read-only in
+# pipa_port service. Started as the pipa_port module v1.3, with ROM paths: code read-only in
 # /system_ext/pipa_port, state in /data/misc/pipa_port. Merged from pipa_core 1.12 (face HAL, charger shim, pen wake
 # and keys, blur default) and power-tune v0.15 (face watchdog, pen watcher, colour/adaptive
 # restore, helper grants, keyboard event12 link). Everything beta5-2d has built in is gone.
@@ -124,7 +124,7 @@ screen_on() {   # shell builtins only in the per-second loop (no cat/grep/stat p
 }
 
 # ------------------------------------------------------------------- face HAL
-# facehal-rs lives in the module (/data) and runs with LD_LIBRARY_PATH: from /vendor/lib64
+# facehal-rs runs from its /data copy (/data/misc/pipa_port/facehal, face_install) with LD_LIBRARY_PATH: from /vendor/lib64
 # it would land in the vendor linker namespace and miss /system/lib64 deps of
 # libcamera2ndk_vendor.so. init's hal_face_default domain has no camera/GPU access, so it
 # runs as root. OpenCL: the 819 libs need the Khronos ICD loader + the vendor ICD manifest,

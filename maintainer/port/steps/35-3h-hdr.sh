@@ -4,7 +4,8 @@
 # beta4 set ro.surface_flinger.has_HDR_display=false (system and vendor build.prop; HyperOS: true). Codec2InfoBuilder
 # (libsfplugin_ccodec) then hides all HDR decoder profiles (HEVC HDR10/HDR10+, VP9 HDR, AV1 HDR10), so apps never pick
 # HDR streams. Tested live 2026-10-28 with resetprop: profiles back, HDR10 clip composited by the HWC as BT2020_PQ,
-# HDR/SDR boost 2.25 (HyperOS value). has_wide_color_display stays false (the QDCM colour tuning depends on it).
+# HDR/SDR boost 2.25 (HyperOS value). has_wide_color_display stays false here; step 3i sets it
+# to true (only together with the 3j composer patch).
 # * product/etc/build.prop: ro.surface_flinger.has_HDR_display=true (product loads after system and vendor).
 # * system_ext/etc/build.prop is not changed: ro.pipa.port.layer stays 3g (no system APK changed).
 #

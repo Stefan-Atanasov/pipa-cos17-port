@@ -21,6 +21,7 @@ rsync -a --delete --delete-excluded \
     --exclude='module/system/vendor/etc/qdcm_calib_data_*' --exclude='module/system/system_ext/etc/display_brightness_config_*' \
     --exclude='module/framework/' --exclude='maintainer/port-repo/' \
     --include='/maintainer/***' --include='/port-rom/***' --include='/helper/***' --include='/module/***' \
+    --include='/port-module/' --include='/port-module/src/***' \
     --exclude='*' \
     ./ "$R/"
 # fail closed
@@ -31,6 +32,7 @@ grep -rIl 'KSPASS=[^$]' "$R/helper" >/dev/null 2>&1 && { echo "helper password i
 # public docs (STE100, no session history) at the repo root, incl. AGENTS.md/CLAUDE.md for a co-maintainer's AI agent and
 # BUGS.md; the internal root notes (CLAUDE.md, AGENTS.md, MAINTAINER-STATUS.md, HISTORY.md, kernel/*.md ...) stay local
 cp "$COS"/docs/*.md "$HERE/port-repo/BLOBS.md" "$R/"
+cp "$COS/LICENSE" "$R/LICENSE"
 cp "$COS/RELEASE-NOTES-beta6.md" "$R/RELEASE-NOTES.md"
 # bug list for co-maintainers and their agents: the maintainer's BUGS-TODO.md, with a note on links to private docs
 { printf '%s\n\n' '> Public copy of the maintainer bug list (`BUGS-TODO.md`). Links to `MAINTAINER-STATUS.md`, `HISTORY.md`, `notes/` and `kernel/*.md` point to private maintainer notes that are not in this repository.'

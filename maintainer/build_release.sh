@@ -13,12 +13,12 @@
 # The flash scripts keep the original behaviour: one script, "y" = clean flash (erase metadata + userdata),
 # Enter = dirty flash (keep data). The original build credit stays; a maintainer line is added.
 set -euo pipefail
-COS=$HOME/Documents/pipa/COS17
+COS=$(cd "$(dirname "$0")/.." && pwd)
 SRC="$COS/ColorOS17 Port for pipa-beta4-20261017"
-PW=$HOME/Documents/pipa/port-work
+PW=${PIPA_ROOT:-$(cd "$COS/.." && pwd)}/port-work
 MAINTAINER=${MAINTAINER:-stefan}
 
-TAG=${1:?usage: build_release.sh <tag> [--boot img] [--name text] [--no-super] [--7z]}; shift
+TAG=${1:?usage: build_release.sh <tag> [--pkg name] [--boot img] [--name text] [--no-super] [--7z]}; shift
 BOOT=""; NAME="beta5 ($TAG)"; PKG=$TAG; SUPER=1; SEVENZ=0
 while [ $# -gt 0 ]; do
 	case "$1" in
@@ -32,7 +32,9 @@ while [ $# -gt 0 ]; do
 done
 
 SUPER_IMG=$PW/$TAG/img/super.img
-[ -d "$SRC/firmware" ] || { echo "beta4 release tree missing (HDD mounted?): $SRC"; exit 1; }
+[ -d "$SRC/firmware" ] || { echo "beta4 release tree missing (extract the beta4 .7z in COS17/; maintainer: HDD mounted?): $SRC"; exit 1; }
+NOTES=$COS/RELEASE-NOTES-$PKG.md
+[ -f "$NOTES" ] || { echo "missing $NOTES: write the notes or give --pkg <name> of existing notes"; exit 1; }
 [ $SUPER = 0 ] || [ -f "$SUPER_IMG" ] || { echo "missing $SUPER_IMG"; exit 1; }
 [ -z "$BOOT" ] || [ "$(head -c 8 "$BOOT")" = "ANDROID!" ] || { echo "not a boot image: $BOOT"; exit 1; }
 
@@ -90,12 +92,12 @@ s = s.replace(old, 'call :flash dtbo%BS% "%FW_DIR%\\dtbo.img" || goto :abort\r\n
 open(dst, 'wb').write(s.encode('gbk'))
 EOF
 
-# release notes: RELEASE-NOTES-<pkg>.md (e.g. beta6), else the beta5 notes
-NOTES=$COS/RELEASE-NOTES-$PKG.md; [ -f "$NOTES" ] || NOTES=$COS/RELEASE-NOTES-beta5.md
-[ -f "$NOTES" ] && cp "$NOTES" "$OUT/RELEASE-NOTES.md"
+# release notes: RELEASE-NOTES-<pkg>.md (e.g. beta6; checked at the start, no fallback to old notes)
+cp "$NOTES" "$OUT/RELEASE-NOTES.md"
 # extras: the SukiSU manager that matches the kernel (a clean flash removes the app) and the optional susfs module
 mkdir -p "$OUT/extras"
 KSU_APK=${KSU_APK:-$COS/kernel/sukisu-v4.3.0/SukiSU_v4.3.0_41100-release.apk}   # walt-r8 and later; walt-r6/r7: KSU_APK=.../sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk
+for f in "$KSU_APK" "$COS/pipa-susfs-v1.0.zip"; do [ -f "$f" ] || { echo "missing extra: $f (KSU_APK= for another manager APK)"; exit 1; }; done
 cp "$KSU_APK" "$OUT/extras/"
 cp "$COS/pipa-susfs-v1.0.zip" "$OUT/extras/"
 cat > "$OUT/README-FLASH.txt" <<EOF

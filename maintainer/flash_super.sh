@@ -8,8 +8,8 @@
 # script stops on a mismatch. Rollback = the same script with "beta4".
 set -eu
 YES=0; [ "${1:-}" = -y ] && { YES=1; shift; }
-P=~/Documents/pipa
-case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5-2g|beta5-2h|beta5-2i|beta5-2j|beta5-2k|beta5-2l|beta5-2m|beta5-2n|beta5-2o|beta5-2p|beta5-2q|beta5-2r|beta5-2s|beta5-2t|beta5-2u|beta5-2v|beta5-2w|beta5-2x|beta5-2y  or  <path> <md5>} in
+P=${PIPA_ROOT:-$(cd "$(dirname "$0")/../.." && pwd)}   # the folder that holds COS17/
+case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. beta6, beta4) or flash_super.sh [-y] <path> <md5>} in
     roundtrip)   IMG=$P/port-work/roundtrip/img/super.img;   MD5=090e5a32031d61824c213284530daa01 ;;
     beta4)       IMG="$P/COS17/ColorOS17 Port for pipa-beta4-20261017/super/super.img"; MD5=4ba0e1937fe207be497eb42eac04ba48 ;;
     beta5-2d)    IMG=$P/port-work/beta5-2d/img/super.img;    MD5=3dfbe1816afec27f519ee0fed5b86145 ;;
@@ -62,7 +62,7 @@ case ${1:?usage: flash_super.sh roundtrip|beta4|beta5-2d|beta5-2e|beta5-2f|beta5
 esac
 FB=fastboot
 
-[ -f "$IMG" ] || { echo "image not found: $IMG"; echo "(older build images were deleted on 2026-10-23 to save space; rebuild with maintainer/build_port.sh)"; exit 1; }
+[ -f "$IMG" ] || { echo "image not found: $IMG"; echo "(most old build images are deleted; rebuild with maintainer/port/port.sh <tag> <donor-img-dir> [--until <step>], then: sh $0 -y <path> <md5>)"; exit 1; }
 echo "image: $IMG"
 echo "checking md5 (takes ~30 s)..."
 got=$(md5sum "$IMG" | cut -d' ' -f1)

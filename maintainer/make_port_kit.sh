@@ -45,11 +45,11 @@ Everything needed to rebuild the port's ROM layers and the kernel, without image
   Why each fix exists: `kernel/KERNEL-RESEARCH.md`, `HISTORY.md`, `module/README.md`.
 * Kernel source: https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`, README + build script);
   `kernel/walt-own.bundle` holds the same commits for `maintainer/kernel/prepare_tree_walt.sh`.
-* Paths: the scripts default to `/home/stefan/Documents/pipa`. Set **`PIPA_ROOT`** to your folder (the one that
-  holds `COS17/`, `port-work/`, `donor/`, `reference/`) and **`PIPA_OWNER`** (user:group for build outputs); the
-  layer scripts run as root, so pass them through sudo: `sudo PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh ...`.
+* Paths: `port.sh` and the main scripts use the folder that holds `COS17/` (also `port-work/`, `donor/`, `tools/`)
+  and give build outputs to the owner of `COS17/`. The old layer scripts default to `/home/stefan/Documents/pipa`:
+  for them set **`PIPA_ROOT`** and **`PIPA_OWNER`** through sudo: `sudo env PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh ...`.
 * Inputs not in the kit: the original beta4 release (`ColorOS17 Port for pipa-beta4-20261017.7z`, its super and
-  firmware), the donor OPD2515 `17.0.0.103(CN01)` (C.06) images, and the extracted beta4 tree (`port-work/roundtrip/src`).
+  firmware), the donor OPD2515 `17.0.0.103(CN01)` (C.06) images, and the `COS17/port-overlay/` folder (frozen beta4 files, see docs/BUILD.md section 1.3).
 * The pipa helper app is signed with your own key: `helper/build.sh` creates `helper/keys/` on first run. Keep it;
   ROM builds and helper updates must share it. (Builds signed with another key cannot update each other's helper.)
 * Tools: erofs-utils, lpmake/lpunpack, fastboot/adb, python3, JDK 21 + Android SDK build-tools 37 (helper), NDK 30

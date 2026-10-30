@@ -1,5 +1,8 @@
 # SELinux for OPPO's UI First proc nodes (ROM layer beta5-2i)
 
+> Used by step 2i of `maintainer/port/port.sh` (`steps/11-2i-uifirst-sepolicy.sh`). It adds `sa_block.cil` to
+> `system_ext_sepolicy.cil` and `system_ext_sepolicy_debug.cil`. The layer script named below is history.
+
 ColorOS 17 talks to the kernel's UI First interface through /proc/oplus_scheduler/sched_assist/* (ux_task,
 ux_task_app, im_flag, im_flag_app), /proc/oplus_frame_boost/sys_ctrl and /proc/sys/fbg/*. The labels and rules
 for these nodes live in OPPO's **vendor** policy, and we ship pipa's Xiaomi vendor, so without this block the

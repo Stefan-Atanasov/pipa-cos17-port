@@ -14,7 +14,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Problem in beta5 | Fix |
 |---|---|
 | Battery drain in standby: the sensor hub never sleeps. | 2w (OPPO fold sensor type = Xiaomi knuckle sensor). Night test: 0.21 %/h (13 h, screen off). |
-| No root after a clean flash (SukiSU manager). | 2w: the manager installs into `/data/app` on the first boot. |
+| No root after a clean flash (SukiSU manager). | 2w: the manager installs into `/data/app` on the first boot. The install was tested on a running system; a clean flash with 2w is not tested yet. |
 | Game Filter and colour enhancement freeze the screen. | 2x (no freeze) and 3f (the filters work as a colour matrix). |
 | The refresh rate stays at 120 Hz on a static screen. | 2z and 3b: the panel drops to 60 Hz when idle. |
 | The privacy password and the ColorOS app lock do not work. | 3a: `ICryptoeng` shim. |
@@ -29,12 +29,12 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Game Filter colours do not match their names ("Vivid" is pale); colour enhancement is not visible. | New filter matrices from the app descriptions. |
 | Adaptive tone (and Bedtime) changes the colour only a little and slowly. | 3s: the continuous colour sensor stream with real lux; Bedtime is always warmer than adaptive. |
 | The pen capsule shows with the pen in the dock, or 3-4 s late; the pen the other way round is not seen. | 3u: both dock sensors are read; the capsule shows about 1 s after dock or undock. |
-| Pen, keyboard and case features start about 20 s after the boot. | 3v: about 2 s. |
+| Pen, keyboard and case features start about 20 s after the boot. | 3v: the service starts about 2 s after the boot. |
 | The battery service writes an error line every few seconds while charging. | 3t (log only; charging was correct). |
 | After many UI restarts, OPPO swap files fill the storage. | 3r + pt18 rules: `pipa_port` removes the extra swap files. |
 | Video thumbnails do not show in Gallery and file apps. | 3l: 64-bit mediaserver. |
 | The pen is ready only up to 5 s after screen-on. | 3n: about 1 s. |
-| Netflix plays only in SD (Widevine L3). | 3o: Netflix sees a Pixel 6 and gets Widevine L1 (HD). If Netflix was installed before, clear its app data one time. |
+| Netflix plays only in SD (Widevine L3). | 3o: Netflix sees a Pixel 6 and gets Widevine L1 (probe). HD playback is not confirmed yet. If Netflix was installed before, clear its app data one time. |
 | Google Photos has no free original-quality backup. | 3o + 3p: Google Photos sees an original Pixel XL (free unlimited original quality). |
 
 ### Open
@@ -47,10 +47,10 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Microphone | Some recordings have no audio ("sometimes"). | None. | Open. Not reproduced. Steps to reproduce are necessary. |
 | Call sharing echo | In shared calls, the far end can hear an echo of itself. | Use headphones. | Parked: the pipa DSP echo canceller does not work in this path. |
 | Pen page | Settings → Stylus (OPPO pen page) shows the Xiaomi pen as "disconnected". | None necessary: the pen works. | By design (OPPO pen protocol). |
-| Keyboard case | The auto-off when you fold the keyboard behind the tablet is not tested. | Typing works. | Not tested. |
+| Keyboard case | Attach, detach and the auto-off when you fold the keyboard behind the tablet are not tested on beta6. | None. | Not tested (no tester). |
 | Play Integrity | Only BASIC integrity (unlocked bootloader). Apps that need DEVICE integrity do not work. | None. DEVICE needs a keybox that Google accepts; public keyboxes were rejected in a test on 2026-10-30. | By design. |
-| Material blur | With "Material blur" on, the launcher animations are less smooth. | Turn "Material blur" off: `adb shell settings put system system_material_blur_enable 0`. | By design (GPU load). |
-| Dual boot with Linux | Linux cannot read the internal storage (it is encrypted). | Use a shared drive or the network, or the experimental `beta6-noenc` build (no encryption, clean flash only, not tested). | See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md). |
+| Material blur | With "Material blur" on, the launcher animations are less smooth. | It is off by default after a new install. To set it off again: `adb shell settings put system system_material_blur_enable 0`. | By design (GPU load). |
+| Dual boot with Linux | Linux cannot read the internal storage (it is encrypted). | Use a shared drive or the network, or the experimental `beta6-noenc` build. | See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md). `beta6-noenc`: not tested, clean flash only (it erases all data). Do not update between `beta6` and `beta6-noenc` with "keep data". Data on the tablet has no encryption. |
 | Pen back button | It no longer takes a screenshot. | None necessary: it is the standard second stylus button now (apps decide what it does). | Changed on purpose in beta6. |
 | Network sharing with a phone | The tablet does not use the phone's network while Wi-Fi is connected. | Turn Wi-Fi off. After a reboot, if the phone's SIM does not show, turn the sharing off and on in the phone link once. | Normal Android behaviour (mobile data only without Wi-Fi). Works: tested 2026-10-30. |
 | Game Assistant latency | Game Assistant shows about 200 ms network latency. | None necessary. | It measures to a server in China; the network is not slow. |
@@ -59,11 +59,11 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 | Item | Status |
 |---|---|
-| Release paths of the beta6 package | Not tested by the maintainer: update from beta5 ("keep data") and clean flash. The tablet came to beta6 through dirty flashes of test builds. Reports welcome. |
-| Clean flash of a release package | Last tested on 2026-10-25 (2u package). |
+| Release paths of the beta6 package | **Not tested for beta6**: update from beta5 ("keep data", SukiSU manager 4.2.1 → 4.3.0), clean flash (root on first boot, setup wizard), and "keep data" leaves `boot_a`/`dtbo_a` unchanged. The tablet came to beta6 through dirty flashes of test builds. Reports welcome. |
+| Clean flash of a release package | Last tested on 2026-10-25 (2u package, before beta5). |
 | Step 3x (unencrypted `/data`, `PORT_NOENCRYPT=1`) | Built as `beta6-noenc`, not tested. Clean flash only. |
 | Face unlock and `pipa_port` enforcing | Since 3g the face camera worker had no rules (black enroll preview, no unlock) in the test builds; 3w adds them. Code that the service starts needs rules in `pipa_port_rules.cil`. |
-| `pipa_port` SELinux domain | Enforcing since 3g. Rules: `maintainer/sepolicy/pipa_port_rules.cil`. |
+| `pipa_port` SELinux domain | Enforcing since 3f (3g and 3w added rules). Rules: `maintainer/sepolicy/pipa_port_rules.cil`. |
 | Live SELinux rules with `ksud sepolicy patch` | Kernel walt-r8kpm hangs (watchdog reset). Compile on the tablet with `secilc` and test with a ROM build. |
 | Step 3o and the boot image | `framework.jar` is patched: odrefresh compiles the framework boot image into `/data` on the first boot (about 1 min longer). |
 | Step 3k (odm interconnect from C.06) | Optional (`PORT_ODM_C06=1`). Built, not tested. |

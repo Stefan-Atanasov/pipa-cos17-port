@@ -1,5 +1,8 @@
 # B14: closing the magnetic case does not turn the screen off
 
+> **Historical analysis (2026-10-22).** Current status: **fixed in beta5-2e** (helper `LidKeeper`), verified
+> 2026-10-23. The current list is `BUGS.md` (B14).
+
 Status: cause found (2026-10-22), fix proposed, not built. Investigation was read-only on the tablet.
 
 ## Event path on pipa (works)

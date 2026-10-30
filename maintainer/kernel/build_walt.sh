@@ -11,7 +11,7 @@
 # liyafe's old snapshot and is not used.
 # Output: <tree>/out/arch/arm64/boot/Image. Pack with mkboot.sh (TRIM=1 for fastboot boot). Notes: kernel/KERNEL-RESEARCH.md
 set -euo pipefail
-K=${K:-$HOME/Documents/pipa/port-work/kernel}
+K=${K:-${PIPA_ROOT:-$(cd "$(dirname "$0")/../../.." && pwd)}/port-work/kernel}
 TREE=${TREE:-$K/walt-own}
 export PATH="$K/clang-r547379/bin:$PATH" KBUILD_BUILD_USER=stefan KBUILD_BUILD_HOST=pipa-cos17
 OUT=${OUT:-out}

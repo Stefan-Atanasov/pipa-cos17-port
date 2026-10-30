@@ -4,7 +4,7 @@
 # Prints one line per check; saves the raw output to port-work/kernel/checks/<label>.txt
 ADB=${ADB:-adb -s 83836a90}
 L=${1:-check}
-OUT=~/Documents/pipa/port-work/kernel/checks; mkdir -p "$OUT"
+OUT=${PIPA_ROOT:-$(cd "$(dirname "$0")/../../.." && pwd)}/port-work/kernel/checks; mkdir -p "$OUT"
 r() { $ADB shell "su -c '$1'" 2>&1 | tr -d '\r'; }
 {
 echo "== kernel";      $ADB shell 'uname -r; cat /proc/version' | tr -d '\r'

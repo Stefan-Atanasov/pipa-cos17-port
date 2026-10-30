@@ -118,5 +118,6 @@ echo "systemui  frames janky% p50 p90 p99 slowUI slowDraw: $ui"
 echo "apps      frames janky% - - maxp99 slowUI slowDraw: $apps"
 few=$(for p in $PKGS; do [ $p = com.spotify.music ] && continue; n=$(raw $p | awk '{print $1}'); [ "${n:-0}" -lt 50 ] && printf "%s(%s) " "${p##*.}" "${n:-0}"; done)
 [ -n "$few" ] || [ "$playing" = 0 ] && echo "INVALID: apps that hardly opened: ${few:-none}; music_playing=$playing (a floating window or dialog may block the taps)"
-mkdir -p ~/Documents/pipa/port-work/perf-ab
-echo "$(date +%F_%T),$L,$N,$playing,$secs,$(echo $la | tr ' ' ','),$(echo $ui | tr ' ' ','),$(echo $apps | tr ' ' ','),$watts" >> ~/Documents/pipa/port-work/perf-ab/heavy.csv
+PA=${PIPA_ROOT:-$(cd "$(dirname "$0")/../.." && pwd)}/port-work/perf-ab
+mkdir -p "$PA"
+echo "$(date +%F_%T),$L,$N,$playing,$secs,$(echo $la | tr ' ' ','),$(echo $ui | tr ' ' ','),$(echo $apps | tr ' ' ','),$watts" >> "$PA/heavy.csv"

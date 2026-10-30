@@ -9,8 +9,10 @@ The old chain ran 36 scripts. Each script extracted the images of the previous s
 2. Run the steps in order. Each step edits the tree.
 3. Check the SELinux labels, run `mkfs.erofs` for each partition, and run `lpmake`.
 
-The result must have the same files as the 3h images of the old chain. The image bytes differ: `mkfs.erofs` puts a
-random UUID in each image. Compare the files, not the image md5. Read `NOTES-refactor.md` for all differences.
+When `port.sh` was new (2026-10-29), its `--until 3h` result had the same files as the 3h images of the old chain
+(`NOTES-refactor.md`). The image bytes differ: `mkfs.erofs` puts a random UUID in each image. Compare the files, not
+the image md5. Since 3k, new fixes are step files only. beta6 (2026-10-30) is a default `port.sh` run (last active
+step 3w).
 
 ## Files
 
@@ -18,7 +20,7 @@ random UUID in each image. Compare the files, not the image md5. Read `NOTES-ref
 |---|---|
 | `port.sh` | The runner. |
 | `lib.sh` | Helper functions for the steps (`replace_once`, `need_grep`, `set_layer`, `fingerprint`, ...). |
-| `steps/NN-<step>-<name>.sh` | One file for each step (00-base to 51-3x). 52 files. Steps 00-37 match the old layer scripts; 39-3l and later are new steps. Step 38-3k is optional (`PORT_ODM_C06=1`). `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
+| `steps/NN-<step>-<name>.sh` | One file for each step (00-base to 51-3x). 52 files. Steps 00-37 match the old layer scripts; 38-3k and later are new steps. Steps 2u, 3k and 3x are optional. `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
 | `NOTES-refactor.md` | What is not 1:1, every difference, every assumption. |
 
 The old scripts (`build_port.sh`, `build_beta5*.sh`) stay unchanged.
@@ -38,7 +40,7 @@ sudo sh maintainer/port/port.sh single ~/Documents/pipa/donor/OPD2515_11.C.06/im
 
 - `<tag>` is the name of the run. Use a new tag. The run deletes `port-work/<tag>/`. The runner refuses a tag that
   the old chain used (`port-work/<tag>-baked` exists) unless you set `PORT_FORCE=1`.
-- `--until <step>` stops after this step. Step names: `base baked 1c 2a ... 2x 2z 3a ... 3j 3k 3l 3m 3n 3o 3p 3q 3r 3s 3t 3u 3v 3w 3x`. The default is the last step (3x). Step 3k does nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). `--until 3h` gives the old chain's 3h.
+- `--until <step>` stops after this step. Step names: `base baked 1c 2a ... 2x 2z 3a ... 3j 3k 3l 3m 3n 3o 3p 3q 3r 3s 3t 3u 3v 3w 3x`. The default is the last step (3x). Step 2u does nothing without `PORT_WITH_2U=1`, step 3k nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). Thus the default build ends at 3w (beta6). `--until 3h` gives the old chain's 3h.
 - `--keep-tree` keeps `port-work/<tag>/tree`. Without it, the runner deletes the tree after a good run. After a
   failed run, the tree always stays.
 - `--check` does the preflight and stops.
@@ -50,20 +52,23 @@ Set variables with `sudo env NAME=value sh ...` (plain `sudo` can remove them).
 | `PORT_OVERLAY_SRC` | `COS17/port-overlay` | The frozen beta4 files for `PORT-EDITS.tsv` (md5 list `maintainer/c06-vs-beta4/port-overlay.md5`). It needs `system/` and `system_ext/`. The full beta4 tree `port-work/roundtrip/src` also works. |
 | `PORT_WITH_2U` | `0` | Set to `1` to apply step 2u. The old chain does not have 2u in 3h. |
 | `PORT_ODM_C06` | `0` | Set to `1` to apply the optional step 3k: the OPPO interconnect stack in the odm from C.06 ("Tier 1"). Read `NOTES-3k-odm-c06.md` first. |
+| `PORT_NOENCRYPT` | `0` | Set to `1` to apply the optional step 3x: `/data` without encryption (`beta6-noenc`, Linux dual boot). Clean flash only. Experimental. |
 | `PORT_FORCE` | `0` | Set to `1` to overwrite a work dir that `port.sh` did not make. |
-| `PIPA_ROOT`, `PIPA_OWNER` | as in the old scripts | Base folder and owner of the result files. |
+| `PIPA_ROOT`, `PIPA_OWNER` | the folder that holds `COS17/`, the owner of `COS17/` | Base folder and owner of the result files. |
+| `ANDROID_HOME` | `~/Android/Sdk` of the `PIPA_OWNER` user | Android SDK (build-tools 37.0.0, platform android-37.0) for the jar steps. |
 
 ### Preflight
 
 The preflight stops the run when one of these is true:
 
-- `/mnt/reference` is not mounted.
+- An input links to `/mnt/reference` (the maintainer's second disk), and this disk is not mounted.
 - A donor image, a tool (`fsck.erofs`, `mkfs.erofs`, `lpmake`, ...) or an input of a step is missing.
 - The md5 of `work/parts/vendor_b.img` is not `b601a907363d01e78697cd5d4f60edf6`, or the md5 of `odm_b.img` is not
   `8e25ab23745ad3d9abb7a3312abe3e23`.
 - Less than 40 GB is free in `port-work`.
 
-Each step lists its own inputs in `#NEEDS:` lines at the top. The preflight checks them.
+Each step lists its own inputs in `#NEEDS:` lines at the top. The preflight checks them for all selected steps. An
+optional step has a line `#OPTIONAL: <VAR>`: the preflight checks its inputs only when `<VAR>=1`.
 
 ### Safety checks during the run
 
@@ -87,7 +92,8 @@ All files are in `port-work/<tag>/`:
 | `report/<partition>.tsv` | `tree_manifest.py` output (path, mode, owner, md5, xattrs) for each new partition. |
 | `report/port.log`, `report/mkfs_*.log`, `report/lpmake.log` | Logs of the runner. |
 
-To flash: add a name to the `case` list of `flash_super.sh`, then run `sh flash_super.sh -y <super.img> <md5>`.
+To flash: `sh flash_super.sh -y <super.img> <md5>` (md5 from `PORT-REPORT.txt`). The maintainer also adds a name to
+the `case` list of `flash_super.sh`.
 
 ## Steps
 
@@ -158,6 +164,19 @@ they changed (for example 3a to 3c built `system` again without a change).
 | 36 | 3i | `build_beta5_3i.sh` | product |
 | 37 | 3j | `build_beta5_3j.sh` | vendor |
 | 38 | 3k | none (new) | odm, only with `PORT_ODM_C06=1` |
+| 39 | 3l | none (new) | product |
+| 40 | 3m | none (new) | product, vendor |
+| 41 | 3n | none (new) | system_ext |
+| 42 | 3o | none (new) | system |
+| 43 | 3p | none (new) | product |
+| 44 | 3q | none (new) | vendor, system (`my_product`) |
+| 45 | 3r | none (new) | vendor |
+| 46 | 3s | none (new) | system |
+| 47 | 3t | none (new) | system |
+| 48 | 3u | none (new) | system_ext |
+| 49 | 3v | none (new) | system_ext |
+| 50 | 3w | none (new) | system_ext |
+| 51 | 3x | none (new) | vendor, only with `PORT_NOENCRYPT=1` |
 
 The order of `build_port.sh` is the order of the numbers.
 
@@ -178,7 +197,8 @@ The order of `build_port.sh` is the order of the numbers.
    the package cache when `ro.pipa.port.layer` changes.
 10. If the step needs the old state of a file that a later step changes, save a copy in `$ORIG`. Say it in a comment.
 11. Test with `sudo sh port.sh <tag> <donor> --until <step> --keep-tree`. Look at `report/steps/<NN-...>.log`.
-12. Add the step to the table above, to `BUILD-GUIDE.md`, and to `MAINTAINER-STATUS.md`.
+12. Add the step to the table above and to `docs/ARCHITECTURE.md` (section 2.3). The maintainer also records it in
+    the private notes.
 
 ## What to do on a new donor
 
@@ -203,10 +223,10 @@ The first steps stop on a new donor. This is expected. It is the safety net.
    Change the md5 in the step. Start the build again from the start. There is no resume: a step that stopped can
    leave half of its edits in the tree.
 5. Before you flash a rebase, scan the changed libraries for new `waitForService` imports. They hang `system_server`:
-   `sudo bash maintainer/wfs_scan.sh <old tree> <new tree>` (for example `../reference/cos17` and
-   `port-work/<tag>/tree`).
+   `sudo bash maintainer/wfs_scan.sh <old tree> <new tree>` (for example an extracted tree of the
+   previous build and `port-work/<tag>/tree`).
 6. Update `c06-vs-beta4/PORT-EDITS.tsv` with `maintainer/port_diff.py`:
    `port_diff.py changes OLD_DONOR PORT -o OUT`, then `port_diff.py rebase OLD_DONOR PORT NEW_DONOR -o OUT`.
-   Read `OUT/apply.sh` and `OUT/conflicts/` before you use them. Details: `notes/PORT-MAINTAINER.md`.
-7. After the build: add a name to `flash_super.sh`, flash, run `maintainer/device_check.sh <tag>`.
-   The list "re-verify on a new base" at the end of `build_port.sh` still applies.
+   Read `OUT/apply.sh` and `OUT/conflicts/` before you use them.
+7. After the build: flash, run `maintainer/device_check.sh <tag>`. Do the checks in the list "re-verify on a new
+   donor" at the end of the `port.sh` output.

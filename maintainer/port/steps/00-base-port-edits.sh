@@ -10,8 +10,8 @@
 #    (OplusEngineerFwService waits for a HAL that pipa does not have). The jar must be the stock C.06 jar.
 #
 # apply_port_edits.py reads the files that it carries from the beta4 source tree $PORT_OVERLAY_SRC
-# (default: port-work/roundtrip/src, the root-extracted beta4 release). It has system/ and system_ext/.
-# Later this can be a frozen overlay folder: set PORT_OVERLAY_SRC when you start port.sh.
+# (default: COS17/port-overlay, the frozen beta4 files; the full root-extracted beta4 tree port-work/roundtrip/src
+# also works). It has system/ and system_ext/. Set PORT_OVERLAY_SRC when you start port.sh to use another folder.
 #
 # On a NEW donor this step is EXPECTED to stop (md5 of the stock jar, PORT-EDITS rows): that is the
 # safety net. Read the message, regenerate the fix from the new donor's file, update the md5, run again.

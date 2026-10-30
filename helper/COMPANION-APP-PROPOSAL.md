@@ -1,5 +1,9 @@
 # Companion app: research and proposal (2026-10-23, read-only research; nothing built yet)
 
+> **Status 2026-10-30:** not built. Since this proposal, the helper (v0.6) has the Quick Settings tile
+> "Animations" (global `pipa_anim_level`), the pen battery is in the ColorOS live alert (`PEN_FLUID`, step 2p), and
+> `sget` (a `settings get` into a file) answers the question about `settings get` in the enforcing domain.
+
 ## What exists
 - `~/Documents/pipa/pipa_pen_fix_v1.3.zip`: KSU module for iqraOS (HyperOS), no UI; MIUI pen sysfs/refresh loops. Not useful here.
 - **PipaControls** (nullpointer1101/android_device_xiaomi_pipa, branch `16.derp`, `pipacontrols/`, Apache-2.0): the

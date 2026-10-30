@@ -1,7 +1,9 @@
 # Step 3k: the odm interconnect stack from C.06 (optional, "Tier 1")
 
 Status: built and checked statically, **not flashed, not tested on the tablet**. Image: `port-work/pt4/img/super.img`,
-md5 `b75a944c851144b14073f4085f35cb5e`, 6 832 163 388 bytes. It is not in `flash_super.sh`.
+md5 `b75a944c851144b14073f4085f35cb5e`, 6 832 163 388 bytes. `flash_super.sh` name: `port-pt4`. It was built on test build pt3 (before beta6) and is not in beta6. Paths like
+`port-work/pt4/` and `notes/` are on the maintainer's PC. Input: the C.06 `vendor.img` and `odm.img` in
+`port-work/donor-c06-vendor/` (`docs/BUILD.md`, section 1.3).
 
 ## Why
 

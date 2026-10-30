@@ -13,6 +13,7 @@
 # preload stays in the final image and ro.pipa.port.layer is set to 2u until 2v replaces it.
 #
 # Old layer script: build_beta5_2u.sh
+#OPTIONAL: PORT_WITH_2U
 #NEEDS: "$HERE/../kernel/sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk"
 set -eu
 . "$PORT/lib.sh"

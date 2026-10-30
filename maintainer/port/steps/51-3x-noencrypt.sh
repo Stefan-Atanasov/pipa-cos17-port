@@ -7,6 +7,7 @@
 # (FlashLinux.sh "y"). A dirty flash over an encrypted /data does not boot correctly: always wipe when you change
 # between the normal and this build. /metadata stays (f2fs checkpoint). Lock screen PIN and apps work; the data is
 # readable by anyone with the tablet in the bootloader (no protection at rest).
+#OPTIONAL: PORT_NOENCRYPT
 #NEEDS: "$PORT/lib.sh"
 set -eu
 . "$PORT/lib.sh"

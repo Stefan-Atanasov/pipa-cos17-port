@@ -101,7 +101,7 @@ slot=$(getprop ro.boot.slot_suffix)
 bc=$(getprop sys.boot_completed)
 [ "$bc" = 1 ]; chk "boot completed" $? "sys.boot_completed=${bc:-empty}"
 layer=$(getprop ro.pipa.port.layer)
-[ -n "$layer" ]; chk "ROM layer property set" $? "ro.pipa.port.layer=${layer:-empty}"
+[ -n "$layer" ]; chk "ROM layer property set (last step with set_layer, the package-cache key)" $? "ro.pipa.port.layer=${layer:-empty}"
 dv=$(getprop ro.product.device)
 [ "$dv" = pipa ]; chk "device is pipa" $? "$dv"
 info "display id"   "$(getprop ro.build.display.id)"

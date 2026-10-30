@@ -1,5 +1,9 @@
 # NOTES-refactor: what is not 1:1
 
+> **Historical record (2026-10-29).** Written before the first `port.sh` run. Since then `port.sh` built all test
+> builds and beta6 (52 step files, `00-base` to `51-3x`). For the current state, read `README.md` in this folder.
+> References to `BUILD-GUIDE.md`, `MAINTAINER-STATUS.md` and `notes/` point to private maintainer notes.
+
 Written 2026-10-29 with the first version of `port.sh` and the 36 step files. Nothing in `port/` has run on the real
 tree yet. I tested only:
 

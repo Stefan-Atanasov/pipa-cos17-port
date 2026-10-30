@@ -1,5 +1,8 @@
 # B3 / B4 investigation (offline, read-only)
 
+> **Historical analysis (2026-10-22, module period).** Current status in `BUGS.md`: B3 fixed (beta5-2d/2f, pen dock
+> in 3u); B4 improved (blur off by default since 2q). Paths below are the maintainer's PC.
+
 Trees: `/home/stefan/Documents/pipa/reference/{cos17,hyperos1-stock}`. "cos17" = the port as built (vendor has
 `debug.hwui.renderer=skiavk`). Tools: androguard venv, `python -I`. Items marked (GUESS) are not proven offline.
 

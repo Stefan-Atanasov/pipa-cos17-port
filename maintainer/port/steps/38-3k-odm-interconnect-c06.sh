@@ -20,6 +20,7 @@
 # Details, risks, test plan and rollback: maintainer/port/NOTES-3k-odm-c06.md.
 #
 # Old layer script: none (new in port.sh)
+#OPTIONAL: PORT_ODM_C06
 #NEEDS: "$P/donor-c06-vendor/odm.img" "$P/donor-c06-vendor/vendor.img" "$PORT/odm_closure.py"
 set -eu
 . "$PORT/lib.sh"

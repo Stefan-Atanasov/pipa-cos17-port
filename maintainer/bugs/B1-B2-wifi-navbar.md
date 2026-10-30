@@ -1,5 +1,8 @@
 # B1 (Wi-Fi sometimes does not turn on) and B2 (UI behind the navigation bar): offline analysis
 
+> **Historical analysis (2026-10-22, before any device data).** Current status in `BUGS.md`: B1 slow Wi-Fi connect
+> after a reboot fixed in kernel walt-r6-nvmac (2026-10-28); Wi-Fi that does not turn on and B2 are still open.
+
 Method: read-only comparison of `reference/{cos17,hyperos1-stock,iqraos3.1,pixelos}` plus overlay/ARSC inspection.
 Caveat: androguard ARSC value decoding was unreliable for framework-res, so only resource names and IDs are trusted there.
 Overlay APKs from `my_product/overlay` decoded sanely, but values are still marked "(decoded)". No device data exists

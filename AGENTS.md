@@ -49,11 +49,16 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 
 ## Paths and tools
 
-- The scripts use `PIPA_ROOT` (the folder that holds this repository as `COS17/`, plus `port-work/` and `donor/`) and
-  `PIPA_OWNER` (user:group of the build output). The build scripts run as root. Give the variables through sudo:
-  `sudo PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh COS17/maintainer/port/port.sh ...`.
-- Host tools: `erofs-utils`, `lpmake`/`lpunpack`, `fastboot`/`adb`, python3, JDK 21 + Android SDK build-tools 37
-  (helper), NDK 30 (face crop add-on), AOSP clang r547379 (kernel).
+- `port.sh` uses `PIPA_ROOT` (the folder that holds this repository as `COS17/`, plus `port-work/`, `donor/` and
+  `tools/`) and `PIPA_OWNER` (user:group of the build output). The build scripts run as root. Give the variables
+  through sudo: `sudo env NAME=value sh COS17/maintainer/port/port.sh ...`.
+- Without `PIPA_ROOT`, the scripts use the folder that holds `COS17/` (found from their own location). The kernel
+  scripts also use `K` and `BK`. Refer to [BUILD.md](BUILD.md), section 1.4.
+- An optional step (2u, 3k, 3x) has a line `#OPTIONAL: <VAR>`. A new optional step must have this line, so that the
+  preflight checks its inputs only when it runs.
+- Host tools: [BUILD.md](BUILD.md), section 1.1 (erofs-utils, android-tools, python3, JDK 21, Android SDK build-tools
+  37.0.0 and platform android-37.0, smali/baksmali 2.5.2, apktool 2.12.1; NDK 30 and AOSP clang r547379 only for
+  the add-ons and the kernel).
 - The partition images are **EROFS**, not ext4. Use `dump.erofs --ls|--cat --path=<p> <img>` and
   `fsck.erofs --extract=<dir> --xattrs --preserve <img>` (as root, to keep the SELinux labels).
 - Device access: `adb -s <serial> shell "su -c '<cmd>'"` (root through SukiSU / KernelSU). Many scripts read the
@@ -64,8 +69,9 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - The main build is `sudo sh maintainer/port/port.sh <tag> <donor-img-dir> [--until <step>] [--keep-tree]`
   (`--check` = preflight). It builds in one tree and runs the steps `maintainer/port/steps/NN-<step>-<name>.sh` in order.
 - **A new fix is a new step file** in `maintainer/port/steps/`. Do not write a new layer script. The procedure is in
-  `maintainer/port/README.md` ("How to add a step"). Set `STEP`: it writes `ro.pipa.port.layer`.
-- You can test a fix as a quick layer on top of the last image ([BUILD.md](BUILD.md) "Old method"). Then move it into a step.
+  `maintainer/port/README.md` ("How to add a step"). If the step changes a system APK or jar, call `set_layer "$STEP"`:
+  it writes `ro.pipa.port.layer`, and `early.sh` then clears the package cache.
+- To test a fix, build with `port.sh --until <step> --keep-tree`. The old layer scripts are history.
 - To compare two builds, compare the `report/<partition>.tsv` manifests. The image md5 differs on each run (random
   `mkfs.erofs` UUID).
 - Before a new donor: `sudo bash maintainer/donor_check.sh <old-img-dir> <new-img-dir>` ([REBASE.md](REBASE.md)).
@@ -91,13 +97,15 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **SELinux denials are in logcat (tag `auditd`) and dmesg** (the WALT kernel has `CONFIG_AUDIT=y`). The default audit
   rate (5/s) drops most denials: for a capture, set `persist.logd.audit.rate` to 2000 and reboot. init checks property
   sets in user space and logs nothing for a permissive domain: test property rules with a boot.
-- The `pipa_port` domain is **enforcing since 3g**. Its rules are in `maintainer/sepolicy/pipa_port_rules.cil`. A new
+- The `pipa_port` domain is **enforcing since 3f** (3g and 3w added rules). Its rules are in `maintainer/sepolicy/pipa_port_rules.cil`. A new
   access in the service needs a rule there.
   Code that the service starts also runs in this domain (face HAL and its camera worker, `input`). The 3g rules came
   from a boot only; the face camera worker had none until 3w. To find missing rules: `setprop persist.logd.audit.rate
   2000` and `persist.logd.size 16M`, reboot, use the feature, list the `scontext=u:r:pipa_port` denials. Set both
   properties back to "" after.
-- Before you build a policy change, compile it on the tablet with `/system/bin/secilc` and all 8 policy inputs.
+- Before you build a policy change, compile it on the tablet with `/system/bin/secilc` and all 8 policy inputs: the
+  platform CIL, the mapping and compat CIL, the `system_ext` CIL and mapping, `product`, the vendor
+  `plat_pub_versioned.cil` and `vendor_sepolicy.cil`, and `odm`. A non-zero exit means an error.
 - **Donor boot hangs.** C.06 waits for HALs that pipa does not have (`waitForService` in `oplus-services.jar` and in
   two QSPM libs). Each one stops system_server until the watchdog panics the device. On a new donor, scan changed libs
   for new `waitForService` imports before you flash. A bootloop: read `/data/anr/traces_SystemServer_WDT*` and
@@ -144,7 +152,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   (`nsenter -t 1 -m -- mount --bind ...`) and `am force-stop` the app; a reboot removes it.
 - **Each zygote or composer restart attaches one more 8 GB OPPO swap file.** Its old file is deleted but stays open,
   so `/data` fills up (72 GB after a day of UI-restart tests). `pipa_port` `nandswap_dedup` removes the extra loop
-  swaps (it needs `sys_admin` and the loop ioctls, in the rules since pt18). By hand: `swapoff` and `losetup -d` each
+  swaps (it needs `sys_admin` and the loop ioctls, in the rules since test build pt18, before beta6). By hand: `swapoff` and `losetup -d` each
   `loop` that `losetup` shows on `/data/nandswap/swapfile` and `/proc/swaps` does not list. Prefer a reboot.
 - **Live test of a display calibration:** bind the QDCM XML over `/vendor/etc/qdcm_calib_data_*.xml` in init's
   namespace, then `setprop ctl.restart display-color-hal-1-0` and `vendor.qti.hardware.display.composer` (the UI

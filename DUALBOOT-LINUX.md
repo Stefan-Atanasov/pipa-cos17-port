@@ -19,7 +19,8 @@ install a dual boot on this port ourselves.** The methods below are from the pip
   kernel command line also does nothing: this is a `user` build, and the vendor boot image sets
   `androidboot.selinux=enforcing`.
 - **Do I need to turn off Android encryption for dual boot?** No. Linux uses its own boot image and its own root
-  partition.
+  partition. Only if Linux must read the Android `/data`: then the experimental `beta6-noenc` build is necessary
+  (clean flash, all data erased, no encryption).
 - **Is dual boot possible?** Yes, with the community methods (section 6). It needs a **format of all Android data**,
   because `userdata` uses all the free space.
 - **What is the easy way to share files?** A USB drive, or the network (MTP, ADB, Syncthing, SMB).
@@ -92,7 +93,7 @@ The kernel:
 | Script | Writes |
 |---|---|
 | `FlashLinux.sh` / `FlashWindows.bat`, **clean flash** ("y") | All firmware `_ab`, `boot_ab`, `dtbo_ab`, `vendor_boot_ab`, `vbmeta_ab`, `super`; erases `metadata` and `userdata`. **Overwrites a Linux image in `boot_a` and `dtbo_a`.** |
-| Same, **dirty flash** (Enter), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps your Linux image.** |
+| Same, **dirty flash** (Enter), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps the Linux image in `boot_a` and `dtbo_a`** (`vendor_boot_a` and `vbmeta_a` get the beta4 images again). Not tested on a device yet. |
 | Same, dirty flash, **beta5 and older** | Like a clean flash without the erase: `boot_ab` and `dtbo_ab`. Flash your Linux image to `boot_a` again after the update, and erase `dtbo_a` again. |
 
 - No script changes the partition table (GPT).

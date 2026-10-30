@@ -1,5 +1,9 @@
 # oplus-services.jar: what did the port author change? (beta4 = C.05 repack vs C.06 stock)
 
+> **Historical analysis (2026-10-22).** It answers one question: did the beta4 author change `oplus-services.jar`?
+> The current build patches this jar in several steps (base, baked, 2w, 3f, 3s, 3t). Refer to
+> `docs/ARCHITECTURE.md`, section 2.3.
+
 Method: androguard 9.x in venv (scripts in this dir: strs.py, mdiff.py, cmp.py, show.py). All 3 dex files per jar, 124 167 (beta4) vs 124 201 (C.06) methods compared by full disassembly text.
 
 ## Result in one line

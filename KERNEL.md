@@ -20,7 +20,7 @@ https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`).
 | Branch | Contents |
 |---|---|
 | `oppo` | The kernel that the port uses (with OPPO UI First). |
-| `own` | The same kernel without the OPPO UI First code. |
+| `own` | An older base (walt-r7 level, SukiSU 4.2.1) without the OPPO code (UI First, Hans), without `ovnet` and without SukiSU 4.3.0 and KPM. Not for beta6. |
 
 ## 3. Settings
 
@@ -45,8 +45,13 @@ blocks the Android freezer: no app is frozen. Check: `getprop sys.hans.enable` =
 
 ## 5. Build
 
-- Use the build script in the kernel repository. Refer to its `README.md`.
-- To use the scripts in this repository, refer to [BUILD.md](BUILD.md), section 4.
+- Compiler: AOSP clang r547379 (clang 20).
+- Use the build script in the kernel repository (`build-pipa-cos17.sh`). Refer to its `README.md`.
+- KPM: after the build, patch the `Image` with KernelPatch `kptools` (procedure in the kernel `README.md`). The build
+  scripts do not do this step. Without it, you get `walt-r8` without KPM.
+- Pack the `Image` into a pipa `boot.img`. `pack-boot.sh` (kernel repository) takes your own `boot.img`.
+  `maintainer/kernel/mkboot.sh` takes the maintainer's partition backup (`BK`, not in this repository) and
+  `magiskboot` in `K`/`bootimg/`. Refer to [BUILD.md](BUILD.md), section 4.
 
 WARNING: Pack the kernel only with `pack-boot.sh` (kernel repository) or `maintainer/kernel/mkboot.sh`. A
 `magiskboot repack` alone changes the patch level, and the tablet does not boot.

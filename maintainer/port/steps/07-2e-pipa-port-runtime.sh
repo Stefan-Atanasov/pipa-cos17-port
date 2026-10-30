@@ -4,8 +4,8 @@
 #
 # * /system_ext/pipa_port (port-rom/pipa_port: face HAL + crop add-on, charger shim, pen tools,
 #   service.sh = module v1.3 with ROM paths, early.sh) started by /system_ext/etc/init/pipa_port.rc
-#   in the new domain pipa_port. The domain is PERMISSIVE in 2e only: boot it once, collect the
-#   AVCs with maintainer/avc_trace.sh, and 2f adds the rules and drops typepermissive.
+#   in the new domain pipa_port. The domain is PERMISSIVE in 2e; step 3f drops typepermissive
+#   (sepolicy/pipa_port_enforce.py + pipa_port_rules.cil), 3g and 3w add rules.
 # * B13: my_product/build.prop ro.panel.pad_orientation 0 -> 90 (first WM rotation landscape);
 #   my_product/media/bootanimation/{,r}bootanimation.zip with the logo centred (offsety 0).
 # * traced off by build.prop (the kernel has no vsock; it crash-looped every 5 s).

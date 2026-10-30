@@ -7,7 +7,7 @@
 # Updating upstream later: `git fetch lineage && git merge lineage/lineage-24.0` on own (same rules as the first merge:
 # core = Lineage, device drivers = ours), then merge own into oppo. Details: kernel/WALT-KERNEL.md.
 set -euo pipefail
-K=${K:-$HOME/Documents/pipa/port-work/kernel}
+K=${K:-${PIPA_ROOT:-$(cd "$(dirname "$0")/../../.." && pwd)}/port-work/kernel}
 C=$(cd "$(dirname "$0")/../.." && pwd)            # COS17
 B=$C/kernel/walt-own.bundle
 LINEAGE=https://github.com/LineageOS/android_kernel_xiaomi_sm8250

@@ -49,9 +49,9 @@ done
 [ -n "$TAG" ] && [ -n "$DONOR_IMG" ] || die "usage: sudo sh port.sh <tag> <donor-img-dir> [--until <step>] [--keep-tree]"
 DONOR_IMG=$(cd "$DONOR_IMG" 2>/dev/null && pwd) || die "donor image dir not found: $DONOR_IMG"
 
-PIPA_ROOT=${PIPA_ROOT:-/home/stefan/Documents/pipa}
+PIPA_ROOT=${PIPA_ROOT:-$(cd "$HERE/../.." && pwd)}   # default: the folder that holds COS17/
 P=$PIPA_ROOT/port-work
-OWNER=${PIPA_OWNER:-stefan:stefan}
+OWNER=${PIPA_OWNER:-$(stat -c %U:%G "$HERE/..")}       # default: the owner of COS17/
 PORT_OVERLAY_SRC=${PORT_OVERLAY_SRC:-$HERE/../port-overlay}  # frozen beta4 files for PORT-EDITS.tsv (base step)
 PARTS=$HERE/../work/parts                                   # beta4 vendor/odm images (slot B)
 ROM=$HERE/../port-rom
@@ -90,9 +90,17 @@ ok=1
 say() { printf '%-36s %s\n' "$1" "$2"; }
 need() { if [ -e "$2" ]; then say "$1" "ok"; else say "$1" "MISSING: $2"; ok=0; fi; }
 free_gb() { df --output=avail -k "$P" | tail -1 | awk '{printf "%d", $1/1048576}'; }
+[ -d "$P" ] || mkdir -p "$P" 2>/dev/null || die "cannot make $P (make it first)"
 
 echo "== preflight (tag $TAG, donor $DONOR_IMG, steps up to $LASTSTEP)"
-if mountpoint -q /mnt/reference; then say "HDD /mnt/reference" ok; else say "HDD /mnt/reference" "NOT MOUNTED (work/parts, donor symlinks)"; ok=0; fi
+# the maintainer keeps bulky inputs on the HDD /mnt/reference behind symlinks: check it only when an input is there
+hdd=0
+for p in "$PARTS" "$DONOR_IMG" "$PORT_OVERLAY_SRC" "$P/donor-c06-vendor"; do
+    case $(readlink -f "$p" 2>/dev/null || echo "$p") in /mnt/reference/*) hdd=1 ;; esac
+done
+if [ $hdd = 0 ]; then say "HDD /mnt/reference" "not used"
+elif mountpoint -q /mnt/reference; then say "HDD /mnt/reference" ok
+else say "HDD /mnt/reference" "NOT MOUNTED (an input links to it)"; ok=0; fi
 for t in fsck.erofs mkfs.erofs dump.erofs lpmake python3 getfattr setfattr awk find df md5sum; do
     if command -v "$t" >/dev/null 2>&1; then :; else say "tool $t" "MISSING"; ok=0; fi
 done
@@ -110,8 +118,11 @@ if [ -f "$PARTS/odm_b.img" ]; then
     have=$(md5sum < "$PARTS/odm_b.img" | cut -c1-32)
     if [ "$have" = "$ODM_MD5" ]; then say "odm_b.img md5" ok; else say "odm_b.img md5" "$have, expected $ODM_MD5"; ok=0; fi
 fi
-# every step lists its own inputs in "#NEEDS:" lines (paths may use the exported variables)
+# every step lists its own inputs in "#NEEDS:" lines (paths may use the exported variables); an optional step
+# ("#OPTIONAL: <VAR>") does nothing unless <VAR>=1, so its inputs are checked only then
 for f in $SELECTED; do
+    var=$(sed -n 's/^#OPTIONAL:[[:space:]]*//p' "$f" | head -n 1)
+    if [ -n "$var" ]; then eval "val=\${$var:-0}"; [ "$val" = 1 ] || continue; fi
     grep '^#NEEDS:' "$f" | sed 's/^#NEEDS:[[:space:]]*//' | while read -r line; do
         eval "set -- $line"
         for path in "$@"; do

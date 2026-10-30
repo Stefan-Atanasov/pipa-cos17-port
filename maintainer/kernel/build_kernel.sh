@@ -4,7 +4,7 @@
 #   TREE=... KCONFIG_EXTRA="-e PRINTK_TIME" bash ...   (other tree / extra scripts/config args)
 # Output: <tree>/out/arch/arm64/boot/{Image,dtb,dtbo.img}. Notes: kernel/KERNEL-RESEARCH.md
 set -euo pipefail
-K=${K:-$HOME/Documents/pipa/port-work/kernel}
+K=${K:-${PIPA_ROOT:-$(cd "$(dirname "$0")/../../.." && pwd)}/port-work/kernel}
 TREE=${TREE:-$K/e404-own}
 export PATH="$K/clang-r547379/bin:$PATH" KBUILD_BUILD_USER=stefan KBUILD_BUILD_HOST=pipa-cos17
 A=(ARCH=arm64 O=out CC=clang LLVM=1 LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
