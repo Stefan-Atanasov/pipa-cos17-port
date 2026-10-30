@@ -68,6 +68,11 @@ s = s.replace(old, 'if [[ "$WIPE" == true ]]; then BS=_ab; else BS=_b; echo "[*]
 old = 'flash dtbo_ab "$FW_DIR/dtbo.img"\n'
 assert s.count(old) == 1
 s = s.replace(old, 'flash "dtbo$BS" "$FW_DIR/dtbo.img"\n')
+# clean flash: also erase frp. A screen lock of the old ROM stays in frp; then ColorOS cannot set a PIN
+# ("Screen lock was already changed"). Not fatal: userdata is already erased at this point.
+old = '    erase_partition userdata\n'
+assert s.count(old) == 1
+s = s.replace(old, old + '    "$FASTBOOT" erase frp || echo "[!] Could not erase frp. If you cannot set a screen lock, run: fastboot erase frp"\n')
 open(dst, 'w', encoding='utf-8').write(s)
 EOF
 chmod +x "$OUT/FlashLinux.sh"
@@ -89,6 +94,10 @@ s = s.replace(old, 'if /I "%WIPE%"=="y" (set "BS=_ab") else (set "BS=_b" & echo 
 old = 'call :flash dtbo_ab "%FW_DIR%\\dtbo.img" || goto :abort\r\n'
 assert s.count(old) == 1
 s = s.replace(old, 'call :flash dtbo%BS% "%FW_DIR%\\dtbo.img" || goto :abort\r\n')
+# clean flash: also erase frp (see the Linux script)
+old = '    call :erase userdata || goto :abort\r\n'
+assert s.count(old) == 1
+s = s.replace(old, old + '    "%FASTBOOT%" erase frp || echo [!] Could not erase frp. If you cannot set a screen lock, run: fastboot erase frp\r\n')
 open(dst, 'wb').write(s.encode('gbk'))
 EOF
 

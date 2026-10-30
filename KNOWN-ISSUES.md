@@ -41,6 +41,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 | Problem | Symptom | Workaround | Status |
 |---|---|---|---|
+| Screen lock after a clean flash | You cannot set a PIN, pattern or password: "Screen lock was already changed. Try again with the new screen lock." Face unlock then also does not work. Probably when the tablet came from another ROM with a screen lock. | `adb reboot bootloader`, `fastboot erase frp`, `fastboot reboot`. Your data stays. | Cause: the beta6 clean flash does not erase `frp`, which keeps the screen lock of the old ROM. This workaround worked on beta4 (maintainer); a beta6 user report (2026-10-30) waits for a result. Next package: the clean flash erases `frp`. |
 | Wi-Fi start | Wi-Fi sometimes does not turn on. | Reboot the tablet. | Open. No recovery path in the driver configuration. |
 | Navigation bar | Some apps draw a part of the screen behind the navigation bar. | None. | Open. Device dumps from an affected app are necessary. |
 | Video apps | Some video apps show a black picture after you leave and open them again. | Restart the app. | Open. Not reproduced on the development build. Steps to reproduce are necessary. |
