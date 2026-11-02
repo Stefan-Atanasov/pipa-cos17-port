@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- pipa port 4f: framework values for Circle to Search (as Pixel's PixelConfigOverlayCommon_GMS) -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.port.pipa.overlay.contextualsearch"
+    android:versionCode="1" android:versionName="1">
+    <overlay android:targetPackage="android" android:isStatic="true" android:priority="900" />
+    <application android:hasCode="false" />
+</manifest>

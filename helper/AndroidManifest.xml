@@ -4,8 +4,8 @@
      ActivityManager starts it at boot and never kills it. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.port.pipa.helper"
-    android:versionCode="6"
-    android:versionName="0.6">
+    android:versionCode="8"
+    android:versionName="0.8">
 
     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
 
@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- lid_behavior from the "lock with cover" switch (privapp whitelist in the ROM) -->
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <!-- Circle to Search (contextual_search service; privapp whitelist in the ROM) -->
+    <uses-permission android:name="android.permission.ACCESS_CONTEXTUAL_SEARCH" />
 
     <application
         android:name=".HelperApp"
@@ -35,6 +37,15 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <!-- Circle to Search on a gesture-bar long press when the helper is the default assistant (4e) -->
+        <activity android:name=".CircleSearchActivity" android:exported="true" android:label="Circle to Search"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" android:excludeFromRecents="true"
+            android:noHistory="true" android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.ASSIST" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <receiver android:name=".BootReceiver" android:exported="false" android:directBootAware="true">
             <intent-filter>
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />

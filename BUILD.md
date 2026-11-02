@@ -170,7 +170,7 @@ Options:
 | `PORT_ODM_C06=1` | Also apply step 3k (`odm` interconnect stack from C.06). Built, not tested. |
 | `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `beta6-noenc`). Experimental. Clean flash only. |
 
-Without options, steps 2u, 3k and 3x do nothing. Thus the default build ends at 3w (beta6). Give the variables
+Without options, steps 2u, 3k and 3x do nothing. Thus the default build ends at 4h (beta6 ended at 3w). Give the variables
 through `sudo env`, for example `sudo env PORT_NOENCRYPT=1 sh COS17/maintainer/port/port.sh ...`.
 
 The output is in `port-work/<tag>/`:

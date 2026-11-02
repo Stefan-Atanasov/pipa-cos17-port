@@ -1,0 +1,9 @@
+; ---- pipa port 3y (2026-11-02, BUGS-TODO 40): log noise from vendor domains / vendor-only types ----
+(allow vendor_hal_perf_default sysfs_zram_202604 (dir (search getattr)))
+(allow vendor_hal_perf_default sysfs_zram_202604 (file (read getattr open)))
+(allow vendor_hal_perf_default sysfs_fs_f2fs_202604 (dir (search getattr open read)))
+(allow vendor_hal_perf_default sysfs_fs_f2fs_202604 (file (read getattr open)))
+(allow appdomain vendor_system_prop (file (read getattr map open)))
+(allow vendor_hal_perf_default oplus_scheduler_sched_assist_proc (dir (search getattr)))
+(allow vendor_hal_perf_default oplus_scheduler_sched_assist_proc (file (read write getattr open)))
+(allow vendor_qtidataservices_app default_prop_202604 (file (read getattr map open)))

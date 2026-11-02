@@ -239,6 +239,14 @@ if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
     touch "$STATE/smooth_default_set"
     log "first-boot defaults: window blur off, material blur off, animation blur off, on-screen keyboard on"
 fi
+# 4g Circle to Search (BUGS-TODO 49): the gesture-bar long press starts the default assistant; the pipa helper's
+# ACTION_ASSIST activity starts Circle to Search through the contextual_search service. Once per install, and only when
+# the Google app is installed (else there is no Circle to Search); the user can choose another assistant later.
+if [ "${CTS_ASSISTANT:-1}" = 1 ] && [ ! -e "$STATE/cts_assistant_set" ] && \
+   pm path com.google.android.googlequicksearchbox </dev/null >/dev/null 2>&1; then
+    cmd role add-role-holder android.app.role.ASSISTANT com.port.pipa.helper 0 </dev/null >/dev/null 2>&1 && \
+        touch "$STATE/cts_assistant_set" && log "Circle to Search: pipa helper is the default assistant"
+fi
 # The ROM's default-permissions entry only applies on a first boot.
 if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1; then
     pm grant com.port.pipa.helper android.permission.POST_NOTIFICATIONS >/dev/null 2>&1
@@ -528,6 +536,42 @@ pen_keys_start() {
     echo "$(date) started pen_keys.sh" >> "$PEN_LOG"
 }
 
+# ------------------------------------------------------------------ charge hold
+# 3z (BUGS-TODO 50): ColorOS "Custom charging limit" and "Smart charging" send setChgConfig to the OPPO charger HAL,
+# and the OPPO kernel holds the level. The charger shim only records the calls in /data/misc/pipa_port:
+#   chg_cfg14 = "2++<on>+<level>" (charging limit; UI test 2026-11-02: "2++1+90" on, "2++0+90" off)
+#   chg_cfg5  = "4++<a>+<level>+<b>+<level>" (charge protection controllers, Smart charging: 80)
+# Here: stop charging at the lowest active level with battery_charging_enabled=0 (the tablet runs from the charger,
+# the battery level stays), charge again at <level>-3. Every 30 s, also with the screen off.
+CHG_EN=/sys/class/power_supply/battery/battery_charging_enabled
+CHG_CAP=/sys/class/power_supply/battery/capacity
+chg_held=0; v=; read -r v < "$CHG_EN" 2>/dev/null; [ "$v" = 0 ] && chg_held=1
+chg_limit() {   # <on> <level>: keep the lowest active level in $lim
+    case $1 in 1) ;; *) return ;; esac
+    case $2 in ""|*[!0-9]*) return ;; esac
+    [ "$2" -ge 20 ] && [ "$2" -lt "$lim" ] && lim=$2
+}
+chg_hold() {
+    [ -w "$CHG_EN" ] || return
+    local v= c= want=1 IFS=+
+    lim=100
+    read -r v < "$STATE/chg_cfg14" 2>/dev/null
+    case $v in 2++*) set -- ${v#2++}; chg_limit "$1" "$2" ;; esac
+    v=; read -r v < "$STATE/chg_cfg5" 2>/dev/null
+    case $v in 4++*) set -- ${v#4++}; chg_limit "$1" "$2"; chg_limit "$3" "$4" ;; esac
+    read -r c < "$CHG_CAP" 2>/dev/null
+    case $c in ''|*[!0-9]*) return ;; esac
+    if [ $lim -lt 100 ]; then
+        if [ "$c" -ge $lim ]; then want=0
+        elif [ $chg_held = 1 ] && [ "$c" -gt $((lim - 3)) ]; then want=0; fi
+    fi
+    if [ $want = 0 ] && [ $chg_held = 0 ]; then
+        echo 0 > "$CHG_EN" && chg_held=1 && log "charge hold: stop at $c % (limit $lim)"
+    elif [ $want = 1 ] && [ $chg_held = 1 ]; then
+        echo 1 > "$CHG_EN" && chg_held=0 && log "charge hold: charge again at $c % (limit $lim)"
+    fi
+}
+
 [ "${PEN_WATCH:-1}" = 1 ] && pen_lock 0   # left over from a reboot with the pen out
 
 # ------------------------------------------------------------------ main loop
@@ -535,7 +579,10 @@ pen_keys_start() {
 # one builtin read; in suspend the timer does not run, so the shorter sleep costs no wakeups.
 armed=0; conn=; pub=; tick=0; resend=2; dk=; KB_DEVS=-
 settings put global pipa_pen_fluid "${PEN_FLUID:-1}" </dev/null >/dev/null 2>&1
+ctick=0
 while true; do
+    if [ "${CHARGE_HOLD:-1}" = 1 ] && [ $((ctick % 30)) = 0 ]; then chg_hold; fi
+    ctick=$((ctick + 1))
     if ! screen_on; then
         armed=0
         nap 1

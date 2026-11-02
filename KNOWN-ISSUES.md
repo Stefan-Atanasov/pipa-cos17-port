@@ -2,7 +2,7 @@
 
 This document lists the known problems of the public release **beta6** (2026-10-30, ROM `port.sh` up to step 3w +
 kernel walt-r8kpm) and what beta6 fixed against beta5. Each entry gives the symptom, a workaround if there is one, and
-the status. Updated 2026-10-30.
+the status. Updated 2026-11-02.
 
 **Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
@@ -55,6 +55,10 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Pen back button | It no longer takes a screenshot. | None necessary: it is the standard second stylus button now (apps decide what it does). | Changed on purpose in beta6. |
 | Network sharing with a phone | The tablet does not use the phone's network while Wi-Fi is connected. | Turn Wi-Fi off. After a reboot, if the phone's SIM does not show, turn the sharing off and on in the phone link once. | Normal Android behaviour (mobile data only without Wi-Fi). Works: tested 2026-10-30. |
 | Game Assistant latency | Game Assistant shows about 200 ms network latency. | None necessary. | It measures to a server in China; the network is not slow. |
+| HeyTap account | A ColorOS CN tablet and a global OPPO/OnePlus phone show as two different accounts. | None. | By design: CN and global HeyTap are separate servers. |
+| OPPO earbuds | No pop-up when you open the earbuds case. | Install the OPPO wireless earbuds app from the OPPO store and keep it. | Workaround from a user (2026-11-02). |
+| Circle to Search | beta6: a long press on the gesture bar does not open Circle to Search. | Next release: install the Google app (Play Store) and reboot once. The pipa helper then becomes the default assistant and the long press opens Circle to Search. If you choose a different assistant, the long press opens that one. | Fixed for the next release (test build pt21). |
+| Reports from 2026-11-02 | Touch lag while charging, charging limit / smart charging, gyroscope, USB-C display out, file sharing tablet → phone, black wallpaper after a change, Dolby falls back to Xiaomi Sound, screen recorder stutter, random flicker. | None yet. | Open. Not reproduced yet. Add the build, kernel and steps in the bug doc. |
 
 ## For maintainers
 
@@ -66,6 +70,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Face unlock and `pipa_port` enforcing | Since 3g the face camera worker had no rules (black enroll preview, no unlock) in the test builds; 3w adds them. Code that the service starts needs rules in `pipa_port_rules.cil`. |
 | `pipa_port` SELinux domain | Enforcing since 3f (3g and 3w added rules). Rules: `maintainer/sepolicy/pipa_port_rules.cil`. |
 | Live SELinux rules with `ksud sepolicy patch` | Kernel walt-r8kpm hangs (watchdog reset). Compile on the tablet with `secilc` and test with a ROM build. |
+| Step 4h and the boot image | `oplus-framework.jar` (boot jar) is patched too: the same odrefresh compile on the first boot. Debug logs again: `setprop persist.sys.assert.panic true`. |
 | Step 3o and the boot image | `framework.jar` is patched: odrefresh compiles the framework boot image into `/data` on the first boot (about 1 min longer). |
 | Step 3k (odm interconnect from C.06) | Optional (`PORT_ODM_C06=1`). Built, not tested. |
 | OPPO performance service (`vendor-oplus-hardware-performance-V1-service`) | SELinux blocks its read of `/proc/version`, so it does not know the kernel paths. A live fix works but gave no measured gain. |

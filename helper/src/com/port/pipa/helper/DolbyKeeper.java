@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioDeviceCallback;
+import android.media.AudioDeviceInfo;
+import android.media.AudioManager;
 import android.media.audiofx.AudioEffect;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -27,6 +30,10 @@ import java.util.UUID;
  * "DS on" is param 5, set value {0, 1, on}, get value {0} -> int at offset 0 (> 0 = on);
  * all ints little-endian. setParameter/getParameter(int, byte[]) are hidden API, reached by
  * reflection as MiSound does.
+ *
+ * 0.7 (BUGS-TODO 42, "Dolby sometimes falls back to Xiaomi Sound"): the check ran only at screen-on, so an
+ * audioserver restart or an output change with the screen on left the effect off until the next screen-on.
+ * Now also on each audio device change (headphones, Bluetooth, USB) and every 60 s while the screen is on.
  */
 final class DolbyKeeper {
     private static final String TAG = "PipaHelper.Dolby";
@@ -36,6 +43,7 @@ final class DolbyKeeper {
     private static final int PRIORITY = -1; // below MiSound (0), so its toggle keeps control
     private static final int MAX_TRIES = 20; // creation retries per trigger, 3 s apart
     private static final long RETRY_MS = 3000;
+    private static final long CHECK_MS = 60000; // health check period while the screen is on
 
     private final Context ctx;
     private final Handler handler;
@@ -50,15 +58,39 @@ final class DolbyKeeper {
         handler = new Handler(t.getLooper());
     }
 
+    private final Runnable periodic = new Runnable() {
+        @Override
+        public void run() {
+            trigger();
+            handler.postDelayed(this, CHECK_MS);
+        }
+    };
+
     void start() {
-        // Cheap health check whenever the screen turns on (audioserver restarts kill the handle).
+        // Cheap health check whenever the screen turns on (audioserver restarts kill the handle), then every
+        // CHECK_MS until the screen turns off.
+        IntentFilter f = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        f.addAction(Intent.ACTION_SCREEN_OFF);
         ctx.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent i) {
+                handler.removeCallbacks(periodic);
+                if (Intent.ACTION_SCREEN_ON.equals(i.getAction())) handler.post(periodic);
+            }
+        }, f, null, handler);
+        // A new output (headphones, Bluetooth, USB) moves the session 0 effect chain: check again.
+        ctx.getSystemService(AudioManager.class).registerAudioDeviceCallback(new AudioDeviceCallback() {
+            @Override
+            public void onAudioDevicesAdded(AudioDeviceInfo[] d) {
                 trigger();
             }
-        }, new IntentFilter(Intent.ACTION_SCREEN_ON), null, handler);
-        trigger();
+
+            @Override
+            public void onAudioDevicesRemoved(AudioDeviceInfo[] d) {
+                trigger();
+            }
+        }, handler);
+        handler.post(periodic);
     }
 
     private void trigger() {

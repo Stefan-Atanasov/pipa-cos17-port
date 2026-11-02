@@ -148,3 +148,7 @@
 (allow pipa_port surfaceflinger (fd (use)))
 (allow pipa_port hal_graphics_composer_default (fd (use)))
 (allow pipa_port vendor_perfservice (binder (call)))
+;; 3z (2026-11-02, BUGS-TODO 50): charge hold (service.sh chg_hold) writes battery_charging_enabled
+(allow pipa_port vendor_sysfs_battery_supply (file (write getattr)))
+;; 4g (2026-11-02, BUGS-TODO 49): `cmd role` makes the pipa helper the default assistant once (Circle to Search)
+(allow pipa_port role_service (service_manager (find)))

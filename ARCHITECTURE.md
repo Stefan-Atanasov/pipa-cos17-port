@@ -53,7 +53,7 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 3w (beta6).
+- Thus the last step that changes the default build is 4h (beta6 ended at 3w).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.
   Steps 3u, 3v and 3w do not call it. Thus beta6 shows `3t`. When this value changes, `early.sh` clears the package
@@ -120,6 +120,16 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 3v | step only | The `pipa_port` main loop starts about 1 s after `sys.boot_completed` (was about 24 s). The colour restore runs in the background. |
 | 3w | step only | 27 `pipa_port` SELinux rules for the face camera worker (enroll preview, face unlock). Pen back button = standard stylus second button (`keys.conf`). beta6. |
 | 3x | step only | Optional (section 2.2). `vendor/etc/fstab.qcom`: `/data` without file and metadata encryption. Clean flash only. |
+| 3y | step only | SELinux noise: rules and `dontaudit` for the denial loops of the bug doc (tcm socket, vendor props, OPPO scheduler nodes; Android 17 `priv_app_36`/`platform_app_36` domains). |
+| 3z | step only | Charge limit and smart charging: the charger shim records the ColorOS settings, `pipa_port` stops and starts charging at the limit (`battery_charging_enabled`). |
+| 4a | step only | `vendor/etc/media_codecs_c2.xml`: hardware HEVC decoder up to 4096x4096 (the O-Live wallpapers are 2500x2500). |
+| 4b | step only | pipa helper 0.7: Dolby check on each audio device change and every 60 s with the screen on. |
+| 4c | step only | Melody (OPPO earbuds app) from the donor `my_stock/del-app`. |
+| 4d | step only | CN Google services on by default (first boot of a clean flash). |
+| 4e | step only | Circle to Search: launcher and SystemUI patches (in place, signature kept), two feature files. |
+| 4f | step only | Overlay `PipaContextualSearchOverlay`: the `contextual_search` service uses the Google app. |
+| 4g | step only | pipa helper 0.8 = default assistant (once, when the Google app is installed); it starts Circle to Search. |
+| 4h | step only | Touch log spam: `persist.sys.assert.panic=false`; no urcc HAL lookup (oplus-framework); Osense, WindowStateExtImpl and PMS log calls removed. oplus-framework is a boot jar: odrefresh compiles on the first boot. |
 
 ### 2.4 Where properties go
 

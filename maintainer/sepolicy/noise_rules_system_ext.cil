@@ -1,0 +1,50 @@
+;; pipa port 3y (2026-11-02, BUGS-TODO 40): log noise from denials in platform domains (not pipa_port).
+;; Source: full logcat of beta6 (3t), 47 h uptime, 2239 denials. The HyperOS vendor policy has no OPPO rules; Android 17
+;; also puts targetSdk 36 apps into the new domains priv_app_36 / platform_app_36, which the vendor rules for
+;; priv_app / platform_app do not reach (mapping 202604: priv_app_202604 = priv_app only).
+;; ColorOS code reads ro.vendor.oplus.* / ro.odm.* props; the HyperOS vendor labels them vendor_default_prop
+;; (system_suspend 653, system_server 122, zygote 117 denials)
+(allow system_suspend vendor_default_prop (file (read getattr map open)))
+(allow system_server vendor_default_prop (file (read getattr map open)))
+(allow zygote vendor_default_prop (file (read getattr map open)))
+(allow logd bluetooth_prop (file (read getattr map open)))
+(allow priv_app bluetooth_prop (file (read getattr map open)))
+(allow priv_app_36 bluetooth_prop (file (read getattr map open)))
+(allow platform_app bluetooth_prop (file (read getattr map open)))
+(allow platform_app_36 bluetooth_prop (file (read getattr map open)))
+;; Qualcomm dpmd /dev/socket/tcm: the "TcmReceiver" thread of ColorOS apps retries in a loop (1083 denials)
+(allow priv_app vendor_dpmtcm_socket (sock_file (write)))
+(allow priv_app vendor_dpmd (unix_stream_socket (connectto)))
+(allow priv_app_36 vendor_dpmtcm_socket (sock_file (write)))
+(allow priv_app_36 vendor_dpmd (unix_stream_socket (connectto)))
+(allow platform_app vendor_dpmtcm_socket (sock_file (write)))
+(allow platform_app vendor_dpmd (unix_stream_socket (connectto)))
+(allow platform_app_36 vendor_dpmtcm_socket (sock_file (write)))
+(allow platform_app_36 vendor_dpmd (unix_stream_socket (connectto)))
+(allow system_app vendor_dpmtcm_socket (sock_file (write)))
+(allow system_app vendor_dpmd (unix_stream_socket (connectto)))
+(allow oplus_phonemanager_app vendor_dpmtcm_socket (sock_file (write)))
+(allow oplus_phonemanager_app vendor_dpmd (unix_stream_socket (connectto)))
+(allow oplus_backuprestore_app vendor_dpmtcm_socket (sock_file (write)))
+(allow oplus_backuprestore_app vendor_dpmd (unix_stream_socket (connectto)))
+;; OPPO scheduler hints (/proc/oplus_scheduler/sched_assist, kernel walt): the binder UX path of all apps
+;; ("SchedAssist: ... mSharedBinderUxFd=-1 is invalid" in the public bug doc). ColorOS gives this to some app domains only.
+(allow appdomain oplus_scheduler_sched_assist_proc (dir (search getattr open read)))
+(allow appdomain oplus_scheduler_sched_assist_proc (file (read write getattr open ioctl)))
+(allow vendor_qtelephony oplus_scheduler_sched_assist_proc (dir (search getattr open read)))
+(allow vendor_qtelephony oplus_scheduler_sched_assist_proc (file (read write getattr open ioctl)))
+;; /proc/oplus_frame_boost (same ioctls as platform_app in the ColorOS policy)
+(allow priv_app_36 proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx priv_app_36 proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))
+(allow platform_app_36 proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx platform_app_36 proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))
+(allow radio proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx radio proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))
+(allow system_app proc_frame_boost_sys_ctrl (file (read write getattr open)))
+;; raw SCSI (/dev/sg3) from system_server: OPPO storage health, not needed
+(dontaudit system_server vendor_sg_device (chr_file (read write open ioctl)))
+;; second capture (pt19 boot, 2026-11-02): per-app UX nodes (ux_task_app) and system_suspend battery stats
+(allow appdomain oplus_ux_task_app_proc (file (read write getattr open ioctl)))
+(allow vendor_qtelephony oplus_ux_task_app_proc (file (read write getattr open ioctl)))
+(allow system_suspend sysfs (file (read getattr open)))
+(allow system_suspend vendor_sysfs_battery_supply (file (read getattr open)))
