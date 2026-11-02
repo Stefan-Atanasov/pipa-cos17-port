@@ -53,7 +53,7 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 4l (beta6 ended at 3w).
+- Thus the last step that changes the default build is 4o (beta6 ended at 3w).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.
   Steps 3u, 3v and 3w do not call it. Thus beta6 shows `3t`. When this value changes, `early.sh` clears the package
@@ -134,6 +134,9 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 4j | step only | `persist.sys.display.enable_on_connect.external_force=true`: a USB-C monitor is enabled without the consent dialog that ColorOS does not show. |
 | 4k | step only | OShare (`maintainer/oshare/patch_oshare.py`, in place, signature kept): `b0.y()` accepts the BLE peer when the TEE has no OPPO key, so tablet → OPPO phone works without the interconnect. |
 | 4l | step only | No `cn.google.services` (GMS turns on Quick Share); pipa_port: Quick Share components on once (`QUICK_SHARE`), App Market updates of OShare removed at boot (`OSHARE_ROLLBACK`). |
+| 4m | step only | Charge hold reads the type 5 stop field. Charger shim reads sysfs telemetry and health, writes records with `.tmp` + rename, reports failed writes, and removes a record older than the boot. |
+| 4n | step only | `uifirst-policy/qos_block.cil`: QoS proc label, system_server access and ioctl allowlist. `ro.oplus.osense.uaf_qos_enable=true`. |
+| 4o | step only | Own IOplusTouch V2 service maps game mode, tap, swipe, smoothness, edge, corner, IME grip and direction to Xiaomi touch modes. Rotation tested. Games-app slider test open. |
 
 ### 2.4 Where properties go
 

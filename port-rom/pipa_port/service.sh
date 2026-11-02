@@ -197,6 +197,23 @@ if [ "${CHARGER_SHIM:-1}" = 1 ] && ! pgrep -f shim.ShimHost >/dev/null 2>&1; the
     ) &
 fi
 
+# --------------------------------------------------------------- touch shim
+# 4o (BUGS-TODO 51): no vendor.oplus.hardware.touch.IOplusTouch on pipa. TouchHost (maintainer/touchshim) maps the
+# OPPO touch nodes for game mode, sensitivity, edge rejection and direction to Xiaomi touch modes through
+# xiaomi_touch_ioctl; the registrar adds it through a cross-process proxy, as for the charger.
+if [ "${TOUCH_SHIM:-1}" = 1 ] && [ -f $MODDIR/touchshim.jar ] && ! pgrep -f pipa.touch.TouchHost >/dev/null 2>&1; then
+    (
+        sleep 4
+        L=/data/local/tmp/touchshim.log
+        while true; do
+            ( sleep 3; CLASSPATH=$MODDIR/touchshim.jar app_process /system/bin pipa.touch.TouchHost register >> $L 2>&1 ) &
+            CLASSPATH=$MODDIR/touchshim.jar app_process /system/bin pipa.touch.TouchHost >> $L 2>&1
+            echo "$(date) touch shim host exited, restart in 5s" >> $L
+            sleep 5
+        done
+    ) &
+fi
+
 # ------------------------------------------------------------ cryptoeng shim
 # No vendor.oplus.hardware.cryptoeng.ICryptoeng on pipa (OPPO keeps the privacy password in a TEE app), so the
 # privacy password, app lock and hidden apps failed without a message. CryptoEngShim (maintainer/cryptoeng) answers
@@ -564,7 +581,9 @@ pen_keys_start() {
 # 3z (BUGS-TODO 50): ColorOS "Custom charging limit" and "Smart charging" send setChgConfig to the OPPO charger HAL,
 # and the OPPO kernel holds the level. The charger shim only records the calls in /data/misc/pipa_port:
 #   chg_cfg14 = "2++<on>+<level>" (charging limit; UI test 2026-11-02: "2++1+90" on, "2++0+90" off)
-#   chg_cfg5  = "4++<a>+<level>+<b>+<level>" (charge protection controllers, Smart charging: 80)
+#   chg_cfg5  = "4++<stop>+<level>+<mode>+<level>" (Battery app SmartChargeProtectionController: stop 1 = hold,
+#               0 = release; mode 0 = smart charging (level 80; the app releases by alarm before the predicted
+#               unplug time, from OplusDeepThinker), mode 1 = charging limit). Only <stop> starts a hold.
 # Here: stop charging at the lowest active level with battery_charging_enabled=0 (the tablet runs from the charger,
 # the battery level stays), charge again at <level>-3. Every 30 s, also with the screen off.
 CHG_EN=/sys/class/power_supply/battery/battery_charging_enabled
@@ -582,7 +601,7 @@ chg_hold() {
     read -r v < "$STATE/chg_cfg14" 2>/dev/null
     case $v in 2++*) set -- ${v#2++}; chg_limit "$1" "$2" ;; esac
     v=; read -r v < "$STATE/chg_cfg5" 2>/dev/null
-    case $v in 4++*) set -- ${v#4++}; chg_limit "$1" "$2"; chg_limit "$3" "$4" ;; esac
+    case $v in 4++*) set -- ${v#4++}; chg_limit "$1" "$2" ;; esac
     read -r c < "$CHG_CAP" 2>/dev/null
     case $c in ''|*[!0-9]*) return ;; esac
     if [ $lim -lt 100 ]; then

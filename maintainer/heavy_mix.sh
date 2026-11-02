@@ -14,8 +14,9 @@
 # Appends one row to ~/Documents/pipa/port-work/perf-ab/heavy.csv.
 ADB=${ADB:-adb -s 83836a90}
 L=${1:?label}; N=${2:-16}
-ICONS=${ICONS:-"Settings|Photos|YouTube|Opera|Play Store"}   # "|"-separated labels (text or content-desc; dock too)
-PKGS=${PKGS:-"com.oplus.wirelesssettings com.coloros.gallery3d app.morphe.android.youtube com.opera.browser com.android.vending com.spotify.music"}
+ICONS=${ICONS:-"Settings|Photos|YouTube|Browser|Play Store"}   # "|"-separated labels (text or content-desc; dock too)
+PKGS=${PKGS:-"com.oplus.wirelesssettings com.google.android.apps.photos com.google.android.youtube com.heytap.browser com.android.vending com.spotify.music"}
+# (2026-11-02: Opera removed -> Browser in the dock; YouTube Morphe -> stock YouTube; "Photos" on the home screen = Google Photos, not the ColorOS gallery)
 OPEN=${OPEN:-0.6}; FL=${FL:-0.35}; GAP=${GAP:-0.3}
 sh_() { $ADB shell "$*" | tr -d '\r'; }
 
@@ -29,10 +30,13 @@ fi
 # NOCLEAN=1 keeps the open apps (memory-pressure runs after maintainer/mem_fill.sh).
 [ "${NOCLEAN:-0}" = 1 ] || sh_ 'input keyevent 3; for p in $(dumpsys activity recents | grep -oE "realActivity=\{[^/]+" | cut -d{ -f2 | sort -u); do
 	case $p in com.android.launcher|com.android.systemui|app.revanced.android.gms) ;; *) am force-stop $p ;; esac; done'
-# (app.revanced.android.gms = microG, YouTube Morphe needs it running)
+# (app.revanced.android.gms = microG for YouTube Morphe; since 2026-11-02 the tablet has the stock YouTube)
 sleep 2
 sh_ 'monkey -p com.spotify.music -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1'; sleep 4
-sh_ 'dumpsys media_session | grep -q "state=PLAYING" || input keyevent 126'; sleep 2
+for _ in 1 2 3; do   # Spotify can need a few seconds after a cold start before play works
+	sh_ 'dumpsys media_session | grep -q "state=PLAYING"' && break
+	sh_ 'input keyevent 126'; sleep 3
+done
 sh_ 'input keyevent 3'; sleep 2
 find_xy() {   # icon centres by label; the dock's recent-apps section shifts the dock icons, so re-read every round
 	sh_ 'uiautomator dump /data/local/tmp/stress_ui.xml >/dev/null 2>&1'
@@ -41,11 +45,16 @@ import re, sys
 want = sys.argv[1].split("|"); x = sys.stdin.read(); pos = {}
 for m in re.finditer(r"<node [^>]*?text=\"([^\"]*)\"[^>]*?content-desc=\"([^\"]*)\"[^>]*?bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"", x):
     t, cd, a, b, c, d = m.groups(); t = t or cd
-    if t in want and t not in pos: pos[t] = "%d,%d" % ((int(a) + int(c)) // 2, (int(b) + int(d)) // 2)
-print(" ".join(pos[w] for w in want if w in pos))' "$ICONS")
+    # a label can show twice (App suggestions widget = small icon): keep the largest node
+    if t in want and (int(c) - int(a)) * (int(d) - int(b)) > pos.get(t, (0, ""))[0]:
+        pos[t] = ((int(c) - int(a)) * (int(d) - int(b)), "%d,%d" % ((int(a) + int(c)) // 2, (int(b) + int(d)) // 2))
+print(" ".join(pos[w][1] for w in want if w in pos))' "$ICONS")
 	[ -n "$XY" ] || { echo "no icons found on the home screen"; exit 1; }
 }
 find_xy; echo "icons: $XY"
+# warm-up: open each app once, so the timed part measures smoothness and not cold starts after the clean start
+# (a cold YouTube/Photos start takes longer than OPEN; it then drew 0 frames and the run was INVALID)
+for xy in $XY; do tap ${xy%,*} ${xy#*,}; sleep 3; sh_ 'input keyevent 3'; sleep 1; done
 for p in com.android.launcher com.android.systemui $PKGS; do sh_ "dumpsys gfxinfo $p reset >/dev/null"; done
 
 if [ "${POWER:-0}" = 1 ]; then
@@ -102,6 +111,10 @@ fi
 playing=$(sh_ 'dumpsys media_session | grep -c "state=PLAYING"')
 
 raw() {   # $1 package -> "frames janky p50 p90 p99 slowui slowdraw" (janky = count)
+	# A frozen app cannot answer gfxinfo ("Failure while dumping the app" = 0 frames, INVALID). Two freezers: Android's
+	# cached-apps freezer (cgroup v2 apps/uid_*/pid_*/cgroup.freeze) and Hans (v1 /dev/freezer/frozen). Thaw both.
+	sh_ "su -c 'for p in \$(pidof $1); do echo 0 > /sys/fs/cgroup/apps/uid_\$(stat -c %u /proc/\$p)/pid_\$p/cgroup.freeze
+		echo \$p > /dev/freezer/thaw/cgroup.procs; done' 2>/dev/null"; sleep 0.2
 	sh_ "dumpsys gfxinfo $1" | awk '
 	/Total frames rendered/ {f=$4} /Janky frames:/ {j=$3}
 	/^50th percentile/ {p50=$3} /^90th percentile/ {p90=$3} /^99th percentile/ {p99=$3}
@@ -117,7 +130,8 @@ echo "launcher  frames janky% p50 p90 p99 slowUI slowDraw: $la"
 echo "systemui  frames janky% p50 p90 p99 slowUI slowDraw: $ui"
 echo "apps      frames janky% - - maxp99 slowUI slowDraw: $apps"
 few=$(for p in $PKGS; do [ $p = com.spotify.music ] && continue; n=$(raw $p | awk '{print $1}'); [ "${n:-0}" -lt 50 ] && printf "%s(%s) " "${p##*.}" "${n:-0}"; done)
-[ -n "$few" ] || [ "$playing" = 0 ] && echo "INVALID: apps that hardly opened: ${few:-none}; music_playing=$playing (a floating window or dialog may block the taps)"
+# music_playing is only reported: since 2026-11-02 Spotify often does not start playing in the script (not found yet)
+[ -n "$few" ] && echo "INVALID: apps that hardly opened: $few(a floating window or dialog may block the taps)"
 PA=${PIPA_ROOT:-$(cd "$(dirname "$0")/../.." && pwd)}/port-work/perf-ab
 mkdir -p "$PA"
 echo "$(date +%F_%T),$L,$N,$playing,$secs,$(echo $la | tr ' ' ','),$(echo $ui | tr ' ' ','),$(echo $apps | tr ' ' ','),$watts" >> "$PA/heavy.csv"

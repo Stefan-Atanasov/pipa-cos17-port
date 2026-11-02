@@ -2,10 +2,12 @@
  * and InputReader see a real touch (unlike `input swipe`, which is injected above the kernel).
  *   kgest tap X Y                    (display pixels, landscape rotation 90, like ktap.sh)
  *   kgest swipe X1 Y1 X2 Y2 MS       (moves every 4 ms ~ 240 Hz touch report rate, ease-out like a fling)
- * Device: $KTAP_DEV (default /dev/input/event8, NVTCapacitiveTouchScreen, panel 1800x2880 px, 10 units/px).
+ * Device: $KTAP_DEV, else the event node named NVTCapacitiveTouchScreen (panel 1800x2880 px, 10 units/px). The event
+ * number changes: since walt-r9 the keypad devices exist only while the keypad is attached (event8 -> event4).
  * Build: maintainer/kgest/build.sh (NDK). Needs root. */
 #include <fcntl.h>
 #include <linux/input.h>
+#include <sys/ioctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,11 +49,26 @@ static void sleep_us(long us)
 	nanosleep(&t, NULL);
 }
 
+static int open_touch(void)
+{
+	char path[32], name[64];
+	for (int i = 0; i < 32; i++) {
+		snprintf(path, sizeof(path), "/dev/input/event%d", i);
+		int f = open(path, O_WRONLY);
+		if (f < 0)
+			continue;
+		if (ioctl(f, EVIOCGNAME(sizeof(name)), name) > 0 && !strcmp(name, "NVTCapacitiveTouchScreen"))
+			return f;
+		close(f);
+	}
+	return -1;
+}
+
 int main(int argc, char **argv)
 {
 	const char *dev = getenv("KTAP_DEV");
-	fd = open(dev ? dev : "/dev/input/event8", O_WRONLY);
-	if (fd < 0) { perror("open"); return 1; }
+	fd = dev ? open(dev, O_WRONLY) : open_touch();
+	if (fd < 0) { fprintf(stderr, "kgest: touchscreen not found\n"); return 1; }
 	if (argc == 4 && !strcmp(argv[1], "tap")) {
 		down(atoi(argv[2]), atoi(argv[3]));
 		sleep_us(40000);

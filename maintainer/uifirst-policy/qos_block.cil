@@ -1,0 +1,19 @@
+;; pipa port 4n: OPPO QoS proc nodes (kernel walt-r12+).
+(type oplus_qos_sched_proc)
+(roletype object_r oplus_qos_sched_proc)
+(typeattributeset proc_type (oplus_qos_sched_proc))
+(typeattributeset fs_type (oplus_qos_sched_proc))
+(genfscon proc "/oplus_qos_sched" (u object_r oplus_qos_sched_proc ((s0) (s0))))
+(genfscon proc "/oplus_qos_sched/qos_level" (u object_r oplus_qos_sched_proc ((s0) (s0))))
+(genfscon proc "/oplus_qos_sched/qos_lut" (u object_r oplus_qos_sched_proc ((s0) (s0))))
+(genfscon proc "/oplus_qos_sched/qos_task_latency" (u object_r oplus_qos_sched_proc ((s0) (s0))))
+(genfscon proc "/oplus_qos_sched/qos_task_prio" (u object_r oplus_qos_sched_proc ((s0) (s0))))
+(genfscon proc "/oplus_qos_sched/qos_task_uclamp" (u object_r oplus_qos_sched_proc ((s0) (s0))))
+(allow system_server oplus_qos_sched_proc (dir (search)))
+(allow system_server oplus_qos_sched_proc (file (open read write getattr ioctl map)))
+;; the platform has ioctl allowlists for proc_type: list qos_sched.so's commands (_IOW('p',1) LUT update, mmap'ed
+;; afterwards; _IOW('q',1..3) tid / pid / tid array level). Seen on pt25: ioctlcmd=0x7001 denied, "sync failed".
+(allowx system_server oplus_qos_sched_proc (ioctl file (0x7001 0x7101 0x7102 0x7103)))
+;; No cgroup rules are needed. Checked plat_sepolicy.cil and the pt24 system_ext policy.
+;; Platform base_typeattr_409 = domain minus appdomain and rs includes system_server.
+;; It grants file write/open on cgroup and cgroup_v2. Direct rules grant read/getattr and dir search.

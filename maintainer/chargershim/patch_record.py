@@ -8,6 +8,13 @@ The original shim (binary only) answers every ICharger setter with 0 and does no
   setPsyMmiChgEn("0"/"1")                -> chg_mmi
   setCustomSelectChgMode(mode, on)       -> chg_sel<mode> ("0"/"1"; 3 = smart rapid charging, 4 = single speed)
   setSmartChgMode(s)                     -> chg_smart
+Each record is written to chg_<name>.tmp and renamed (the 30 s poller never sees a half-written file); the setter returns
+0 (setChgConfig 12: 1, the EngineerMode caller tests == 1) when it worked, -1 (the framework's failure value) when not.
+When the shim starts, a chg_cfg5 older than this boot (mtime < now - elapsedRealtime) is deleted: a hold from before the
+reboot must not stop charging before the Battery app sends a fresh command (a restart of the shim keeps a fresh one).
+The telemetry getters read /sys/class/power_supply/battery (charge_full*: bms as fallback):
+  getPsyBatteryLevel %, getPsyBatteryTemp 0.1 degC, getPsyBatteryRm / Fcc mAh, getPsyBatteryCurrentNow mA,
+  getBatteryVoltageNow mV, getUIsohValue = health % = charge_full / charge_full_design (100 without data, the app's default).
 Disassembles with baksmali, edits the smali text, assembles with smali (-j 1: same dex on each run).
 usage: patch_record.py <in.jar> <out.jar> <baksmali.jar> <smali.jar>
 """
@@ -24,8 +31,8 @@ s = open(helper).read()
 if "record(Ljava/lang/String;Ljava/lang/String;)V" in s:
     sys.exit("already patched")
 s += """
-.method public static record(Ljava/lang/String;Ljava/lang/String;)V
-    .registers 5
+.method public static record(Ljava/lang/String;Ljava/lang/String;)Z
+    .registers 7
     :try_start_0
     new-instance v1, Ljava/lang/StringBuilder;
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
@@ -34,26 +41,115 @@ s += """
     invoke-virtual {v1, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     move-result-object v1
+    new-instance v2, Ljava/lang/StringBuilder;
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const-string v3, ".tmp"
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v2
     new-instance v0, Ljava/io/FileOutputStream;
-    invoke-direct {v0, v1}, Ljava/io/FileOutputStream;-><init>(Ljava/lang/String;)V
+    invoke-direct {v0, v2}, Ljava/io/FileOutputStream;-><init>(Ljava/lang/String;)V
     invoke-static {p1}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
-    move-result-object v2
-    invoke-virtual {v2}, Ljava/lang/String;->getBytes()[B
-    move-result-object v2
-    invoke-virtual {v0, v2}, Ljava/io/FileOutputStream;->write([B)V
+    move-result-object v3
+    invoke-virtual {v3}, Ljava/lang/String;->getBytes()[B
+    move-result-object v3
+    invoke-virtual {v0, v3}, Ljava/io/FileOutputStream;->write([B)V
     invoke-virtual {v0}, Ljava/io/FileOutputStream;->close()V
+    new-instance v0, Ljava/io/File;
+    invoke-direct {v0, v2}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+    new-instance v3, Ljava/io/File;
+    invoke-direct {v3, v1}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v0, v3}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
+    move-result v0
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+    return v0
+    :catch_0
+    const/4 v0, 0x0
+    return v0
+.end method
+
+.method public static bootCheck()V
+    .registers 7
+    :try_start_0
+    new-instance v0, Ljava/io/File;
+    const-string v1, "/data/misc/pipa_port/chg_cfg5"
+    invoke-direct {v0, v1}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v0}, Ljava/io/File;->lastModified()J
+    move-result-wide v1
+    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
+    move-result-wide v3
+    invoke-static {}, Landroid/os/SystemClock;->elapsedRealtime()J
+    move-result-wide v5
+    sub-long/2addr v3, v5
+    cmp-long v1, v1, v3
+    if-gez v1, :done
+    invoke-virtual {v0}, Ljava/io/File;->delete()Z
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
     :catch_0
+    :done
     return-void
 .end method
+
+.method public static cap(Ljava/lang/String;)I
+    .registers 4
+    new-instance v0, Ljava/lang/StringBuilder;
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+    const-string v1, "/sys/class/power_supply/battery/"
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v0
+    const/4 v2, 0x0
+    invoke-static {v0, v2}, Lshim/Helper;->readInt(Ljava/lang/String;I)I
+    move-result v0
+    if-gtz v0, :cap_ok
+    new-instance v0, Ljava/lang/StringBuilder;
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+    const-string v1, "/sys/class/power_supply/bms/"
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v0
+    invoke-static {v0, v2}, Lshim/Helper;->readInt(Ljava/lang/String;I)I
+    move-result v0
+    :cap_ok
+    return v0
+.end method
+
+.method public static batteryHealth()I
+    .registers 3
+    const-string v0, "charge_full"
+    invoke-static {v0}, Lshim/Helper;->cap(Ljava/lang/String;)I
+    move-result v0
+    const-string v1, "charge_full_design"
+    invoke-static {v1}, Lshim/Helper;->cap(Ljava/lang/String;)I
+    move-result v1
+    const/16 v2, 0x64
+    if-lez v0, :h_def
+    if-lez v1, :h_def
+    mul-int/lit8 v0, v0, 0x64
+    div-int/2addr v0, v1
+    if-gt v0, v2, :h_def
+    return v0
+    :h_def
+    return v2
+.end method
 """
+# batteryFcc: charge_full with the bms fallback
+old = ('    const-string v0, "/sys/class/power_supply/battery/charge_full"\n\n    const/4 v1, 0x0\n\n'
+       '    invoke-static {v0, v1}, Lshim/Helper;->readInt(Ljava/lang/String;I)I\n\n    move-result v0\n\n    div-int/lit16')
+assert old in s
+s = s.replace(old, '    const-string v0, "charge_full"\n\n    invoke-static {v0}, Lshim/Helper;->cap(Ljava/lang/String;)I\n\n    move-result v0\n\n    div-int/lit16')
 open(helper, "w").write(s)
 
 impl = f"{tmp}/s/shim/ChargerImpl.smali"
 s = open(impl).read()
 REC = "invoke-static {%s}, Lshim/Helper;->record(Ljava/lang/String;Ljava/lang/String;)V"
-def body(sig, regs, code):
+OK = "    move-result v0\n    if-eqz v0, :rec_f\n    const/4 v0, 0x0\n    return v0\n    :rec_f\n    const/4 v0, -0x1\n    return v0\n"
+def body(sig, regs, code, tail=OK):
     global s
     a = s.index(f".method public {sig}\n")
     b = s.index(".end method", a)
@@ -62,17 +158,39 @@ def body(sig, regs, code):
     head = m[:m.index("    .annotation")]
     head = head.replace(head.split("\n")[1], f"    .registers {regs}")
     ann = m[m.index("    .annotation"):m.index(".end annotation") + len(".end annotation")]
-    s = s[:a] + head + "    " + ann + "\n" + code + "\n    const/4 v0, 0x0\n    return v0\n" + s[b:]
+    s = s[:a] + head + "    " + ann + "\n" + code + "\n" + tail + s[b:]
+def getter(sig, reader):   # return the sysfs value instead of the constant 0
+    global s
+    a = s.index(f".method public {sig}\n")
+    b = s.index(".end method", a)
+    m = s[a:b]
+    old = "    const/4 v0, 0x0\n\n    return v0"
+    assert m.count(old) == 1, sig
+    s = s[:a] + m.replace(old, f"    invoke-static {{}}, Lshim/Helper;->{reader}()I\n\n    move-result v0\n\n    return v0") + s[b:]
 
 SB = ("    new-instance v0, Ljava/lang/StringBuilder;\n    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V\n"
       "    const-string v1, \"%s\"\n    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;\n"
       "    invoke-virtual {v0, p1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;\n"
       "    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;\n    move-result-object v0\n")
-body("setChgConfig(ILjava/lang/String;I)I", 6, SB % "cfg" + "    " + REC % "v0, p2")
-body("setPsyMmiChgEn(Ljava/lang/String;)I", 3, "    const-string v0, \"mmi\"\n    " + REC % "v0, p1")
-body("setSmartChgMode(Ljava/lang/String;)I", 3, "    const-string v0, \"smart\"\n    " + REC % "v0, p1")
+REC1 = "invoke-static {%s}, Lshim/Helper;->record(Ljava/lang/String;Ljava/lang/String;)Z"
+# setChgConfig: 0 = ok, but 1 for type 12 (EngineerMode clearBattEcoData tests == 1); -1 = failed
+CFG = ("    move-result v1\n    if-eqz v1, :rec_f\n    const/4 v0, 0x0\n    const/16 v1, 0xc\n    if-ne p1, v1, :rec_r\n"
+       "    const/4 v0, 0x1\n    :rec_r\n    return v0\n    :rec_f\n    const/4 v0, -0x1\n    return v0\n")
+body("setChgConfig(ILjava/lang/String;I)I", 6, SB % "cfg" + "    " + REC1 % "v0, p2", CFG)
+body("setPsyMmiChgEn(Ljava/lang/String;)I", 3, "    const-string v0, \"mmi\"\n    " + REC1 % "v0, p1")
+body("setSmartChgMode(Ljava/lang/String;)I", 3, "    const-string v0, \"smart\"\n    " + REC1 % "v0, p1")
 body("setCustomSelectChgMode(IZ)I", 5, SB % "sel" +
-     "    const-string v1, \"0\"\n    if-eqz p2, :rec_z\n    const-string v1, \"1\"\n    :rec_z\n    " + REC % "v0, v1")
+     "    const-string v1, \"0\"\n    if-eqz p2, :rec_z\n    const-string v1, \"1\"\n    :rec_z\n    " + REC1 % "v0, v1")
+
+for sig, reader in (("getPsyBatteryLevel()I", "batteryLevel"), ("getPsyBatteryTemp()I", "batteryTemp"),
+                    ("getPsyBatteryRm()I", "batteryRm"), ("getPsyBatteryFcc()I", "batteryFcc"),
+                    ("getPsyBatteryCurrentNow()I", "batteryCurrent"), ("getBatteryVoltageNow()I", "batteryVoltage"),
+                    ("getUIsohValue()I", "batteryHealth")):
+    getter(sig, reader)
+# shim start: a hold recorded before this boot is dropped
+old = "    invoke-direct {p0}, Lvendor/oplus/hardware/charger/ICharger$Stub;-><init>()V\n"
+assert s.count(old) == 1
+s = s.replace(old, old + "\n    invoke-static {}, Lshim/Helper;->bootCheck()V\n")
 open(impl, "w").write(s)
 
 subprocess.run(["java", "-jar", smali, "a", "-j", "1", "--api", "30", f"{tmp}/s", "-o", f"{tmp}/new.dex"], check=True)
