@@ -247,6 +247,30 @@ if [ "${CTS_ASSISTANT:-1}" = 1 ] && [ ! -e "$STATE/cts_assistant_set" ] && \
     cmd role add-role-holder android.app.role.ASSISTANT com.port.pipa.helper 0 </dev/null >/dev/null 2>&1 && \
         touch "$STATE/cts_assistant_set" && log "Circle to Search: pipa helper is the default assistant"
 fi
+# 4l Quick Share (BUGS-TODO 53): the ROM no longer declares cn.google.services, so GMS treats the tablet as a
+# global device. GMS disabled its Quick Share components while the flag was there (dirty flash from 4k or older):
+# turn the 13 core ones on once; GMS manages them after that (it turned its Samsung-only and migration screens off
+# again by itself in the live test, 2026-11-02). `pm enable` from this domain works (tested with runcon).
+QS_PARTS="ReceiveSurfaceService main.MainActivityUnifiedAlias DirectShareService SharingSliceProvider
+NotificationActionActivity GcmBroadcastReceiver main.MainActivity SharingTileService SharingSyncService
+RemoteCopyShareSheetActivity main.SettingsMainActivity receive.ReceiveActivity suw2.SetupWizardActivity"
+if [ "${QUICK_SHARE:-1}" = 1 ] && [ ! -e "$STATE/quick_share_set" ] && \
+   pm path com.google.android.gms </dev/null >/dev/null 2>&1; then
+    for c in $QS_PARTS; do
+        pm enable "com.google.android.gms/com.google.android.gms.nearby.sharing.$c" </dev/null >/dev/null 2>&1
+    done
+    touch "$STATE/quick_share_set" && log "Quick Share: GMS components enabled once"
+fi
+# 4k OShare: the ROM copy is patched (tablet -> OPPO phone without the interconnect). An OPPO App Market update
+# installs an unpatched copy in /data/app; remove the update, so the patched ROM copy is used again.
+if [ "${OSHARE_ROLLBACK:-1}" = 1 ]; then
+    : > "$SGET_F"
+    pm path com.coloros.oshare </dev/null >"$SGET_F" 2>/dev/null
+    if grep -q '^package:/data/' "$SGET_F"; then
+        pm uninstall-system-updates com.coloros.oshare </dev/null >/dev/null 2>&1
+        log "OShare: an app update replaced the patched ROM copy (4k); update removed"
+    fi
+fi
 # The ROM's default-permissions entry only applies on a first boot.
 if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1; then
     pm grant com.port.pipa.helper android.permission.POST_NOTIFICATIONS >/dev/null 2>&1

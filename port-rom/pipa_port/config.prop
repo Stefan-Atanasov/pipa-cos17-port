@@ -73,6 +73,13 @@ SPEED_COMPILE=1
 
 
 
+# Google Quick Share: turn its GMS components on once (4l; GMS disabled them while the ROM said "China device").
+QUICK_SHARE=1
+
+# OPPO file sharing: remove an App Market update of OShare at boot, so the patched ROM copy (4k: tablet -> OPPO
+# phone without the interconnect) stays in use. 0 keeps updates (then sharing needs the interconnect).
+OSHARE_ROLLBACK=1
+
 # Magnetic case: closing it turns the screen off while ColorOS's smart case switch is on
 # (Settings drives global lid_behavior).
 LID_SYNC=0   # the pipa helper (LidKeeper) does this instantly in the ROM

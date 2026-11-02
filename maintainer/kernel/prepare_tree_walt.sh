@@ -16,7 +16,8 @@ LIYAFE=https://github.com/liyafe1997/kernel_xiaomi_sm8250_mod
 if [ "${1:-}" = --save ]; then
 	T=${2:-$K/walt-own}
 	# only our objects: everything reachable from own/oppo but not from the upstream branches
-	git -C "$T" bundle create "$B.new" own oppo ksu ^lineage/lineage-24.0 ^liyafe/android15-lineage22-mod
+	# sukisu-430 = the flashed kernel since walt-r8 (worktree walt-oppo); it was not saved before 2026-11-02
+	git -C "$T" bundle create "$B.new" own oppo ksu sukisu-430 ^lineage/lineage-24.0 ^liyafe/android15-lineage22-mod
 	git bundle verify "$B.new" >/dev/null 2>&1 || git -C "$T" bundle verify "$B.new"
 	mv "$B.new" "$B"; ls -la "$B"; exit 0
 fi

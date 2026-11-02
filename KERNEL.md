@@ -4,9 +4,12 @@ The port uses an own kernel (Linux 4.19.325). The public release beta6 (2026-10-
 `walt-r8kpm`: SukiSU-Ultra v4.3.0 (builtin), susfs, KPM. The source is in
 https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`).
 
-Next release: `walt-r9` = walt-r8kpm + touch charger mode. The NT36532 touch driver gets the USB state from
+Next release: `walt-r10`. `walt-r9` = walt-r8kpm + touch charger mode. The NT36532 touch driver gets the USB state from
 `power_supply` (liyafe1997's notifier) and sends 0x53 (USB in) or 0x51 (USB out) to the touch firmware. This fixes
-touch lag while charging (bug doc item 37). It is on the tablet since 2026-11-02 (`boot-walt-r9.img`).
+touch lag while charging (bug doc item 37). 
+`walt-r10` = r9 + `/proc/oplus_binder/ux_flag`: the node accepts the binder UX ioctl of ColorOS 16+ and does
+nothing. Without it, system_server logged about 5 lines/s ("mSharedBinderUxFd=-1 is invalid") while apps open.
+It is on the tablet since 2026-11-02 (`boot-walt-r10.img`).
 
 ## 1. Parts
 
