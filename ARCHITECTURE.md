@@ -53,7 +53,7 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 4r (beta6 ended at 3w).
+- Thus the last step that changes the default build is 4s (beta6 ended at 3w).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.
   Steps 3u, 3v and 3w do not call it. Thus beta6 shows `3t`. When this value changes, `early.sh` clears the package
@@ -140,6 +140,7 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 4p | step only | Bypass charging: the charger shim answers `setChgConfig(25)` with 1 and `getChgConfig(24)` from the record; `chg_hold` stops the battery charge (`battery_charging_enabled`=0, the charger powers the tablet) while a fresh `1+switch=1` exists, with a 15 % floor. Static analysis only; test open. |
 | 4q | step only | System VINTF manifest without `oplusSensor`, `urcc` and `hummingbird`: pipa has no server for them, and a declared name makes native `waitForService` clients wait for ever. Static analysis only; test open. |
 | 4r | step only | Own-code HAL shims in one host (`maintainer/halshims`): `gameopt` (game key threads get sched_assist UX, always reset), `displaypanelfeature` and `misc` (donor answers, read-only). One SELinux service type per name. Static analysis and a compile only; test open. |
+| 4s | step only | No persistent apps for hardware pipa lacks: NfcNci, SecureElement, QCC (telemetry); about 40-70 MB RAM. Test open. |
 
 ### 2.4 Where properties go
 

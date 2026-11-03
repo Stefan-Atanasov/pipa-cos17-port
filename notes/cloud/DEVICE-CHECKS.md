@@ -56,3 +56,11 @@ Only when it happens again: the capture checklist in `notes/cloud/BUG36-OTI.md` 
 5. oiface: `$ADB shell "su -c 'debuggerd -b \$(pidof oiface)'" | grep -c waitForService` = 0.
 6. Smoothness of a game before and after (`maintainer/perfetto/traced_heavy.sh <label>`, 2 runs or more, AGENTS.md).
 7. RAM: `$ADB shell "su -c 'dumpsys meminfo \$(pgrep -f pipa.hal.HalHost | head -1)'" | grep TOTAL`.
+
+## 7. RAM: persistent apps (step 4s)
+
+1. Before the build: `$ADB shell pm list features | grep -i -E "nfc|se\.omapi"` must be empty (no NFC, no OMAPI).
+2. Before and after a build with 4s: `$ADB shell dumpsys meminfo -s | head -40` (persistent processes and total), and
+   `$ADB shell dumpsys activity processes | grep -c "persistent"`. Expected: com.android.nfc, com.android.se and
+   com.qti.qcc gone, about 40-70 MB less PSS.
+3. Settings > Connections: no NFC entry (as before), Wallet/tap-to-pay not offered.
