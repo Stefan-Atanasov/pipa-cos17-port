@@ -1,0 +1,14 @@
+; pipa HAL shims (maintainer/halshims, step 4r). One service type for each shim name (least privilege: a client
+; finds only the HAL it uses on ColorOS). pipa_port (the shim host) adds the names. Every domain may already call
+; pipa_port (step 2e). The client lists come from the donor policy: the hal_*_client attributes of the donor
+; system_ext CIL, else the domains that call the HAL in the donor (notes/cloud/*.md).
+; Compile on the tablet with secilc and all 8 policy inputs before a build (AGENTS.md).
+
+(type pipa_hal_panel_service)
+(roletype object_r pipa_hal_panel_service)
+(typeattributeset service_manager_type (pipa_hal_panel_service))
+(allow pipa_port pipa_hal_panel_service (service_manager (add find)))
+; services.jar / oplus-services (system_server, incl. sensorservice and inputflinger), SurfaceFlinger, SystemUI
+(allow system_server pipa_hal_panel_service (service_manager (find)))
+(allow surfaceflinger pipa_hal_panel_service (service_manager (find)))
+(allow platform_app pipa_hal_panel_service (service_manager (find)))

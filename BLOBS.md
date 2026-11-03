@@ -13,6 +13,7 @@ release, donor OTA, tools) are in [BUILD.md](BUILD.md), section 1.3.
 | `port-rom/pipa_port/xiaomi_touch_ioctl` | Pen-wake helper | `pipa_core` / beta4 release |
 | `port-rom/pipa_port/chargershim.jar` | OPPO charger HAL shim (step 2k) | `pipa_core` / beta4 release, patched by `maintainer/chargershim/patch_auth.py` (input `chargershim-orig.jar`, also not in this repository) |
 | `maintainer/cryptoeng/cryptoeng.jar` | `ICryptoeng` shim (step 3a) | Build: `sh maintainer/cryptoeng/build.sh` (source in the same folder) |
+| `port-rom/pipa_port/halshims.jar` | OPPO HAL shims in one host (step 4r, work in progress) | Build: `sh maintainer/halshims/build.sh` (own source in `maintainer/halshims/src`) |
 | `helper/out/PipaHelper.apk` | pipa helper app (steps 2d, 2e, 2p) | Build: `sh helper/build.sh`. The signing key `helper/keys/` is private. |
 | `module/system/vendor/etc/qdcm_calib_data_*.xml` | Xiaomi panel colour calibration with PCC on (baked step) | `module/tools/patch_qdcm.py` on the pipa `vendor` files |
 | `module/system/system_ext/etc/display_brightness_config_*.xml` | ColorOS brightness table for pipa (baked step) | `module/tools/gen_brightness_table.py` |
