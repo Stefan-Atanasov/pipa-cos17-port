@@ -12,3 +12,10 @@
 (allow system_server pipa_hal_panel_service (service_manager (find)))
 (allow surfaceflinger pipa_hal_panel_service (service_manager (find)))
 (allow platform_app pipa_hal_panel_service (service_manager (find)))
+
+(type pipa_hal_misc_service)
+(roletype object_r pipa_hal_misc_service)
+(typeattributeset service_manager_type (pipa_hal_misc_service))
+(allow pipa_port pipa_hal_misc_service (service_manager (add find)))
+; oplus-services (OplusEyeProtectLcdInfoHelper, AlertSliderHw, shoulder keys) in system_server
+(allow system_server pipa_hal_misc_service (service_manager (find)))

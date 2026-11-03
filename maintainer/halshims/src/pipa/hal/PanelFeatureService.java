@@ -7,7 +7,9 @@ import java.util.*;
 /**
  * vendor.oplus.hardware.displaypanelfeature.IDisplayPanelFeature/default, AIDL V1 (notes/cloud/DISPLAY-HALS.md
  * part A). pipa has no OPPO panel driver (/sys/kernel/oplus_display). This shim answers like the donor service:
- *  - real values where pipa has them: 8 max brightness and 29 brightness (panel0-backlight), info 9 panel name;
+ *  - real values where pipa has them: 8/30 max brightness and 29 brightness (panel0-backlight);
+ *  - info 9 (panel make, used by the OPPO ALS code to pick its coefficients) only from an OPPO-format
+ *    /proc/devinfo/lcd; a Xiaomi panel string could select wrong values, so without it the answer stays -1;
  *  - probe ids answer "not supported" (0), so no OPPO-only panel feature (FOD dim layer, PWM pulse, ADFR, ...)
  *    turns on;
  *  - set ids that the callers expect to work (CABC, dynamic TE, ...) are accepted and kept for get; they change
@@ -22,10 +24,7 @@ final class PanelFeatureService extends AidlService {
     // set ids that callers send in normal use; accept, keep the value for get (A.5.2 "accept and ignore")
     private static final Set<Integer> KEEP = set(4, 7, 18, 22, 28, 68, 184, 185, 186, 192, 194, 195, 199, 201, 210,
         213, 217, 234, 235, 245, 246, 260, 265, 267);
-    // panel name candidates on pipa (first readable non-empty line wins) [device check]
-    private static final String[] PANEL_NAME = {
-        "/sys/class/drm/card0-DSI-1/panel_info", "/sys/class/mi_display/disp-DSI-0/panel_info",
-        "/proc/devinfo/lcd" };
+    private static final String DEVINFO_LCD = "/proc/devinfo/lcd";   // OPPO kernel format only [device check]
     private final Map<Integer, int[]> kept = new HashMap<>();
 
     PanelFeatureService() {
@@ -73,10 +72,8 @@ final class PanelFeatureService extends AidlService {
 
     List<String> info(int id) {
         if (id == 9) {
-            for (String p : PANEL_NAME) {
-                String s = readLine(p);
-                if (s != null && !s.isEmpty()) return Collections.singletonList(s);
-            }
+            String s = readLine(DEVINFO_LCD);
+            if (s != null && !s.isEmpty()) return Collections.singletonList(s);
         }
         return null;
     }

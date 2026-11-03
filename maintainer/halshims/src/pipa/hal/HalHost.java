@@ -17,6 +17,7 @@ public final class HalHost {
     static AidlService make(String key) {
         switch (key) {
             case "panel": return new PanelFeatureService();
+            case "misc": return new MiscService();
             default: throw new IllegalArgumentException("unknown shim " + key);
         }
     }
