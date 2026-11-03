@@ -148,7 +148,7 @@ on this hardware. So the fix column above is a fallback. The plan:
 
 | Daemon | What it does | Real fix |
 |---|---|---|
-| `horae` | OPPO skin temperature and thermal model. Reads `/proc/shell-temp`, `/proc/oplusVersion/*`, `/proc/chip/*`, GPU load (`kgsl`), battery current, backlight, `qpt` power. | Kernel: a small proc driver for `/proc/shell-temp` from the pipa skin thermal zones (and `/proc/oplusVersion/prjName`). Check the format that horae parses first. |
+| `horae` | OPPO skin temperature and thermal model (fuses battery, ambient, Wi-Fi, cellular, backlight, GPU and power into a shell temperature; drives the ColorOS thermal levels: brightness, refresh rate, game frame limits, charging). | **Decision 2026-11-03: not now.** pipa's Xiaomi `mi_thermald` stays the only thermal controller. horae's model is tuned for the OPPO Pad Mini and could throttle the UI too early on pipa. Later test: give `/proc/shell-temp` from the pipa skin zones and compare horae's temperature with the real one before it may act. |
 | `oiface` | Game booster (frame boost, key threads). | `gameopt` shim that maps to the port kernel `sched_assist` (`ux_state`, `im_flag`) and `frame_boost`. |
 | `midasd`, `ostatsd`, `ostats_pullerd` | Power and health statistics (battery history, app power use in Settings). | Check which nodes and HALs give user-visible data (battery usage pages); provide those (shim or kernel node). |
 | `oplus_gaia` | Waits for `transmessage`. | Check what it serves (`postmand` socket clients); a `transmessage` shim if a feature needs it. |
