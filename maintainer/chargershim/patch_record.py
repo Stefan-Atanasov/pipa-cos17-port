@@ -10,8 +10,14 @@ The original shim (binary only) answers every ICharger setter with 0 and does no
   setSmartChgMode(s)                     -> chg_smart
 Each record is written to chg_<name>.tmp and renamed (the 30 s poller never sees a half-written file); the setter returns
 0 (setChgConfig 12: 1, the EngineerMode caller tests == 1) when it worked, -1 (the framework's failure value) when not.
-When the shim starts, a chg_cfg5 older than this boot (mtime < now - elapsedRealtime) is deleted: a hold from before the
-reboot must not stop charging before the Battery app sends a fresh command (a restart of the shim keeps a fresh one).
+When the shim starts, a chg_cfg5 or chg_cfg25 older than this boot (mtime < now - elapsedRealtime) is deleted: a hold
+or bypass from before the reboot must not stop charging before the Battery app sends a fresh command (a restart of the
+shim keeps a fresh one).
+Bypass charging (step 4p, notes/cloud/CHARGER-HAL.md section E): setChgConfig(25, "1+switch=<0|1>") is recorded as
+chg_cfg25 like every type and returns 1 (the Battery app arms its 180 s re-send watchdog only for a non-zero return).
+getChgConfig(24) answers "1" when the last chg_cfg25 is "1+switch=1", else "0" (system_server parses it with
+Integer.parseInt; never "5", which makes the Battery app send the request again). getChgConfig(31, "24"|"25") (support
+probe) answers "1". Every other getChgConfig call goes to the original method (renamed getChgConfigOrig).
 The telemetry getters read /sys/class/power_supply/battery (charge_full*: bms as fallback):
   getPsyBatteryLevel %, getPsyBatteryTemp 0.1 degC, getPsyBatteryRm / Fcc mAh, getPsyBatteryCurrentNow mA,
   getBatteryVoltageNow mV, getUIsohValue = health % = charge_full / charge_full_design (100 without data, the app's default).
@@ -70,12 +76,11 @@ s += """
     return v0
 .end method
 
-.method public static bootCheck()V
-    .registers 7
+.method public static dropOld(Ljava/lang/String;)V
+    .registers 8
     :try_start_0
     new-instance v0, Ljava/io/File;
-    const-string v1, "/data/misc/pipa_port/chg_cfg5"
-    invoke-direct {v0, v1}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+    invoke-direct {v0, p0}, Ljava/io/File;-><init>(Ljava/lang/String;)V
     invoke-virtual {v0}, Ljava/io/File;->lastModified()J
     move-result-wide v1
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -91,6 +96,41 @@ s += """
     :catch_0
     :done
     return-void
+.end method
+
+.method public static bootCheck()V
+    .registers 1
+    const-string v0, "/data/misc/pipa_port/chg_cfg5"
+    invoke-static {v0}, Lshim/Helper;->dropOld(Ljava/lang/String;)V
+    const-string v0, "/data/misc/pipa_port/chg_cfg25"
+    invoke-static {v0}, Lshim/Helper;->dropOld(Ljava/lang/String;)V
+    return-void
+.end method
+
+.method public static bypassStatus()Ljava/lang/String;
+    .registers 4
+    :try_start_0
+    new-instance v0, Ljava/io/BufferedReader;
+    new-instance v1, Ljava/io/FileReader;
+    const-string v2, "/data/misc/pipa_port/chg_cfg25"
+    invoke-direct {v1, v2}, Ljava/io/FileReader;-><init>(Ljava/lang/String;)V
+    invoke-direct {v0, v1}, Ljava/io/BufferedReader;-><init>(Ljava/io/Reader;)V
+    invoke-virtual {v0}, Ljava/io/BufferedReader;->readLine()Ljava/lang/String;
+    move-result-object v1
+    invoke-virtual {v0}, Ljava/io/BufferedReader;->close()V
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+    if-eqz v1, :off
+    const-string v2, "1+switch=1"
+    invoke-virtual {v1, v2}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    move-result v3
+    if-eqz v3, :off
+    const-string v0, "1"
+    return-object v0
+    :catch_0
+    :off
+    const-string v0, "0"
+    return-object v0
 .end method
 
 .method public static cap(Ljava/lang/String;)I
@@ -173,8 +213,10 @@ SB = ("    new-instance v0, Ljava/lang/StringBuilder;\n    invoke-direct {v0}, L
       "    invoke-virtual {v0, p1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;\n"
       "    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;\n    move-result-object v0\n")
 REC1 = "invoke-static {%s}, Lshim/Helper;->record(Ljava/lang/String;Ljava/lang/String;)Z"
-# setChgConfig: 0 = ok, but 1 for type 12 (EngineerMode clearBattEcoData tests == 1); -1 = failed
-CFG = ("    move-result v1\n    if-eqz v1, :rec_f\n    const/4 v0, 0x0\n    const/16 v1, 0xc\n    if-ne p1, v1, :rec_r\n"
+# setChgConfig: 0 = ok, but 1 for type 12 (EngineerMode clearBattEcoData tests == 1) and type 25 (bypass: the Battery
+# app arms its re-send watchdog only for a non-zero return); -1 = failed
+CFG = ("    move-result v1\n    if-eqz v1, :rec_f\n    const/4 v0, 0x0\n    const/16 v1, 0xc\n    if-eq p1, v1, :rec_one\n"
+       "    const/16 v1, 0x19\n    if-ne p1, v1, :rec_r\n    :rec_one\n"
        "    const/4 v0, 0x1\n    :rec_r\n    return v0\n    :rec_f\n    const/4 v0, -0x1\n    return v0\n")
 body("setChgConfig(ILjava/lang/String;I)I", 6, SB % "cfg" + "    " + REC1 % "v0, p2", CFG)
 body("setPsyMmiChgEn(Ljava/lang/String;)I", 3, "    const-string v0, \"mmi\"\n    " + REC1 % "v0, p1")
@@ -187,6 +229,41 @@ for sig, reader in (("getPsyBatteryLevel()I", "batteryLevel"), ("getPsyBatteryTe
                     ("getPsyBatteryCurrentNow()I", "batteryCurrent"), ("getBatteryVoltageNow()I", "batteryVoltage"),
                     ("getUIsohValue()I", "batteryHealth")):
     getter(sig, reader)
+# getChgConfig: own answers for 24 (bypass status) and 31 "24"/"25" (support probe); the original method stays as
+# getChgConfigOrig for every other type
+GSIG = ".method public getChgConfig(ILjava/lang/String;I)Ljava/lang/String;\n"
+assert s.count(GSIG) == 1, "getChgConfig not found once"
+cls = s[s.index(".class "):s.index("\n", s.index(".class "))].split()[-1]
+assert cls.startswith("L") and cls.endswith(";"), cls
+s = s.replace(GSIG, GSIG.replace("getChgConfig(", "getChgConfigOrig("))
+s += f"""
+.method public getChgConfig(ILjava/lang/String;I)Ljava/lang/String;
+    .registers 7
+    const/16 v0, 0x18
+    if-ne p1, v0, :not24
+    invoke-static {{}}, Lshim/Helper;->bypassStatus()Ljava/lang/String;
+    move-result-object v0
+    return-object v0
+    :not24
+    const/16 v0, 0x1f
+    if-ne p1, v0, :orig
+    const-string v0, "24"
+    invoke-virtual {{v0, p2}}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v1
+    if-nez v1, :sup
+    const-string v0, "25"
+    invoke-virtual {{v0, p2}}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v1
+    if-eqz v1, :orig
+    :sup
+    const-string v0, "1"
+    return-object v0
+    :orig
+    invoke-virtual {{p0, p1, p2, p3}}, {cls}->getChgConfigOrig(ILjava/lang/String;I)Ljava/lang/String;
+    move-result-object v0
+    return-object v0
+.end method
+"""
 # shim start: a hold recorded before this boot is dropped
 old = "    invoke-direct {p0}, Lvendor/oplus/hardware/charger/ICharger$Stub;-><init>()V\n"
 assert s.count(old) == 1

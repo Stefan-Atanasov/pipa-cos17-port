@@ -585,9 +585,18 @@ pen_keys_start() {
 #               0 = release; mode 0 = smart charging (level 80; the app releases by alarm before the predicted
 #               unplug time, from OplusDeepThinker), mode 1 = charging limit). Only <stop> starts a hold.
 # Here: stop charging at the lowest active level with battery_charging_enabled=0 (the tablet runs from the charger,
-# the battery level stays), charge again at <level>-3. Every 30 s, also with the screen off.
+# the battery level stays), charge again at <level>-3.
+# 4p bypass charging (notes/cloud/CHARGER-HAL.md section E): the Battery app (BypassChargeController) sends
+#   chg_cfg25 = "1+switch=1" (switch on, plugged, level >= its threshold, screen on) and "1+switch=0" (screen off,
+#   unplug, below the threshold, boot). The shim returns 1, so the app sends switch=1 again every 180 s.
+#   Bypass = battery_charging_enabled=0 too. A chg_cfg25 older than 5-10 min (awake time) is a dead app: ignored.
+#   Safety: charge below 15 %. Unplugged (usb/online 0): charging enabled again, so the next plug-in charges.
+# Every 5 s, also with the screen off; only builtins (read, test -nt, : >).
 CHG_EN=/sys/class/power_supply/battery/battery_charging_enabled
 CHG_CAP=/sys/class/power_supply/battery/capacity
+CHG_IN=/sys/class/power_supply/usb/online
+CHG_REF=$STATE/chg_ref   # chg_ref0/1: rewritten in turn every 300 ticks; the older one is the freshness limit
+: > "${CHG_REF}0" 2>/dev/null; : > "${CHG_REF}1" 2>/dev/null; chg_par=0
 chg_held=0; v=; read -r v < "$CHG_EN" 2>/dev/null; [ "$v" = 0 ] && chg_held=1
 chg_limit() {   # <on> <level>: keep the lowest active level in $lim
     case $1 in 1) ;; *) return ;; esac
@@ -596,8 +605,11 @@ chg_limit() {   # <on> <level>: keep the lowest active level in $lim
 }
 chg_hold() {
     [ -w "$CHG_EN" ] || return
-    local v= c= want=1 IFS=+
+    local v= c= want=1 why= bp=0 IFS=+
     lim=100
+    v=; read -r v 2>/dev/null < "$STATE/chg_cfg25"
+    case $v in "1+switch=1"*) [ "$STATE/chg_cfg25" -nt "${CHG_REF}$((1 - chg_par))" ] && bp=1 ;; esac
+    v=
     read -r v < "$STATE/chg_cfg14" 2>/dev/null
     case $v in 2++*) set -- ${v#2++}; chg_limit "$1" "$2" ;; esac
     v=; read -r v < "$STATE/chg_cfg5" 2>/dev/null
@@ -607,11 +619,15 @@ chg_hold() {
     if [ $lim -lt 100 ]; then
         if [ "$c" -ge $lim ]; then want=0
         elif [ $chg_held = 1 ] && [ "$c" -gt $((lim - 3)) ]; then want=0; fi
+        [ $want = 0 ] && why="limit $lim"
     fi
+    if [ $bp = 1 ] && [ "$c" -ge 15 ]; then want=0; why=bypass; fi
+    v=; read -r v 2>/dev/null < "$CHG_IN"
+    [ "$v" = 0 ] && want=1 && why=unplugged
     if [ $want = 0 ] && [ $chg_held = 0 ]; then
-        echo 0 > "$CHG_EN" && chg_held=1 && log "charge hold: stop at $c % (limit $lim)"
+        echo 0 > "$CHG_EN" && chg_held=1 && log "charge hold: stop at $c % ($why)"
     elif [ $want = 1 ] && [ $chg_held = 1 ]; then
-        echo 1 > "$CHG_EN" && chg_held=0 && log "charge hold: charge again at $c % (limit $lim)"
+        echo 1 > "$CHG_EN" && chg_held=0 && log "charge hold: charge again at $c % (${why:-no hold})"
     fi
 }
 
@@ -624,7 +640,10 @@ armed=0; conn=; pub=; tick=0; resend=2; dk=; KB_DEVS=-
 settings put global pipa_pen_fluid "${PEN_FLUID:-1}" </dev/null >/dev/null 2>&1
 ctick=0
 while true; do
-    if [ "${CHARGE_HOLD:-1}" = 1 ] && [ $((ctick % 30)) = 0 ]; then chg_hold; fi
+    if [ "${CHARGE_HOLD:-1}" = 1 ]; then
+        if [ $((ctick % 300)) = 299 ]; then chg_par=$((1 - chg_par)); : > "${CHG_REF}$chg_par" 2>/dev/null; fi
+        [ $((ctick % 5)) = 0 ] && chg_hold
+    fi
     ctick=$((ctick + 1))
     if ! screen_on; then
         armed=0
