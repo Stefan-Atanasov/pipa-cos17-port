@@ -58,6 +58,7 @@ Get these inputs. They are not in this repository.
 |---|---|---|
 | Original release `ColorOS17 Port for pipa-beta4-20261017.7z` (by 梦归zzz) | `COS17/` | sha256 `31893e62835843a63f73b96fc095545cefded76aca684161295c15cd2490f78f` (5489788484 bytes) |
 | Donor OTA `OPD2515_11.C.06_1060_202610061842.zip` (OPPO Pad Mini, `17.0.0.103(CN01)`) | `donor/OPD2515_11.C.06/` | sha256 `aeeb3029c64f3a7251bf861325a21388c1817739c8684155ba7daa71f6beb8d5` |
+| Donor OTA `OPD2515_11.C.07_1070_202610201803.zip` (OPPO Pad Mini, `17.0.0.104(CN01)`, security patch 2026-09-01; base since pt28, 2026-11-03) | `donor/OPD2515_11.C.07/` | sha256 `e23488a76e16c1a9c3f7e2a804cb9f2b8c540b8b4166dbbdfc56c70cc2dac42d` (9213268549 bytes) |
 | SukiSU-Ultra manager `SukiSU_v4.3.0_41100-release.apk` (step 2w, release package) | `COS17/kernel/sukisu-v4.3.0/` | md5 `4dc76f1eae7bd2e6d975261d9d08baf6` |
 | SukiSU-Ultra manager `SukiSU_v4.2.1-r1_41049-release.apk` (only for the optional step 2u, `PORT_WITH_2U=1`) | `COS17/kernel/sukisu-v4.2.1-r1/` | md5 `3d7698ff8f58824d1718594366f5876b` |
 | Proprietary files (face HAL, charger shim, pen-wake helper, patched module files, boot animations) | their paths in this repository | [BLOBS.md](BLOBS.md) |

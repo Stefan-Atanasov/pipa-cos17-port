@@ -53,7 +53,7 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 4o (beta6 ended at 3w).
+- Thus the last step that changes the default build is 4r (beta6 ended at 3w). Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.
   Steps 3u, 3v and 3w do not call it. Thus beta6 shows `3t`. When this value changes, `early.sh` clears the package
@@ -137,6 +137,9 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 4m | step only | Charge hold reads the type 5 stop field. Charger shim reads sysfs telemetry and health, writes records with `.tmp` + rename, reports failed writes, and removes a record older than the boot. |
 | 4n | step only | `uifirst-policy/qos_block.cil`: QoS proc label, system_server access and ioctl allowlist. `ro.oplus.osense.uaf_qos_enable=true`. |
 | 4o | step only | Own IOplusTouch V2 service maps game mode, tap, swipe, smoothness, edge, corner, IME grip and direction to Xiaomi touch modes. Rotation tested. Games-app slider test open. |
+| 4p | step only | Bypass charging: the charger shim answers `setChgConfig(25)` with 1 and `getChgConfig(24)` from the record; `chg_hold` stops the battery charge (`battery_charging_enabled`=0, the charger powers the tablet) while a fresh `1+switch=1` exists, with a 15 % floor. The plug check reads `usb/present` (`usb/online` is 0 on a PC port). Hold tested; Battery-app switch test open. |
+| 4q | step only | System VINTF manifest without `oplusSensor`, `urcc` and `hummingbird`: pipa has no server for them, and a declared name makes native `waitForService` clients wait for ever. Boot tested (pt30). |
+| 4r | step only | Own-code HAL shims in one host (`maintainer/halshims`): `gameopt` (game key threads get sched_assist UX, always reset), `displaypanelfeature` and `misc` (donor answers, read-only), and the 4o touch shim. `gameopt` keeps the pipa vendor label `oplus_absent_service`: a second label for a name stops servicemanager at boot. Boot, registration and touch rotation tested (pt30); game test open. |
 
 ### 2.4 Where properties go
 

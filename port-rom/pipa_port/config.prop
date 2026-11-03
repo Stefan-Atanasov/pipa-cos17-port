@@ -13,6 +13,12 @@ CHARGER_SHIM=1
 # /data/misc/pipa_port/cryptoeng (3a).
 CRYPTOENG=1
 
+# Own-code OPPO HAL shims in one host process (4r, maintainer/halshims): comma list, empty = off.
+#   gameopt = game key threads get sched_assist UX (oiface, COSA); panel = displaypanelfeature answers and backlight
+#   values; misc = read-only IOplusMisc (no OPPO node writes); touch = the 4o touch shim in this host (saves one
+#   process; without "touch" here the separate 4o host runs).
+HAL_SHIMS=gameopt,panel,misc,touch
+
 # Re-arm the pen in the touch driver after every screen-on (otherwise it stops working).
 PEN_WAKE=1
 

@@ -1,0 +1,34 @@
+; pipa HAL shims (maintainer/halshims, step 4r). One service type for each shim name (least privilege: a client
+; finds only the HAL it uses on ColorOS). pipa_port (the shim host) adds the names. Every domain may already call
+; pipa_port (step 2e). The client lists come from the donor policy: the hal_*_client attributes of the donor
+; system_ext CIL, else the domains that call the HAL in the donor (notes/cloud/*.md).
+; Compile on the tablet with secilc and all 8 policy inputs before a build (AGENTS.md).
+
+(type pipa_hal_panel_service)
+(roletype object_r pipa_hal_panel_service)
+(typeattributeset service_manager_type (pipa_hal_panel_service))
+(allow pipa_port pipa_hal_panel_service (service_manager (add find)))
+; services.jar / oplus-services (system_server, incl. sensorservice and inputflinger), SurfaceFlinger, SystemUI
+(allow system_server pipa_hal_panel_service (service_manager (find)))
+(allow surfaceflinger pipa_hal_panel_service (service_manager (find)))
+(allow platform_app pipa_hal_panel_service (service_manager (find)))
+(allow system_app pipa_hal_panel_service (service_manager (find)))
+; the panel shim (pipa_port) reads the backlight node (label verified on the tablet)
+(allow pipa_port vendor_sysfs_graphics (dir (search)))
+(allow pipa_port vendor_sysfs_graphics (file (open read getattr)))
+; /proc/devinfo/lcd (panel info 9, misc flag 83): pipa has no /proc/devinfo (checked 2026-11-03), so no rule.
+
+(type pipa_hal_misc_service)
+(roletype object_r pipa_hal_misc_service)
+(typeattributeset service_manager_type (pipa_hal_misc_service))
+(allow pipa_port pipa_hal_misc_service (service_manager (add find)))
+; oplus-services (OplusEyeProtectLcdInfoHelper, AlertSliderHw, shoulder keys) in system_server
+(allow system_server pipa_hal_misc_service (service_manager (find)))
+
+; gameopt: NO own type. The pipa vendor (beta4) vendor_service_contexts already labels
+; vendor.oplus.hardware.gameopt.IGameOptHalService/default as oplus_absent_service; a second, different label in
+; system_ext_service_contexts stops servicemanager at boot (pt29 bootloop, 2026-11-03). oplus_absent_service: every
+; domain may find it (vendor policy), pipa_port may add it (pipa_port_rules.cil, 4o).
+; ux_task write (open write) and /proc/<pid>/task reads (incl. ux_state of app processes: pipa_port_rules.cil line 7,
+; "allow pipa_port domain (file (getattr open read))") are in pipa_port_rules.cil already; the lease file is in
+; /data/misc/pipa_port (the pipa_port state folder)

@@ -79,6 +79,10 @@ fi
 UX_TASK=/proc/oplus_scheduler/sched_assist/ux_task
 SS_PID=
 system_ux() {
+    # builtin check first: while the last system_server pid is alive, no pidof process (every 15 s)
+    if [ -n "${SS_PID:-}" ] && [ -r "/proc/$SS_PID/cmdline" ]; then
+        case $(< "/proc/$SS_PID/cmdline") in system_server*) return ;; esac
+    fi
     p=$(pidof system_server) || return
     [ "$p" = "$SS_PID" ] && return
     for d in /proc/$p/task/*; do   # builtin read: one cat per thread (~300) took ~6 s at each start (3v)
@@ -201,7 +205,12 @@ fi
 # 4o (BUGS-TODO 51): no vendor.oplus.hardware.touch.IOplusTouch on pipa. TouchHost (maintainer/touchshim) maps the
 # OPPO touch nodes for game mode, sensitivity, edge rejection and direction to Xiaomi touch modes through
 # xiaomi_touch_ioctl; the registrar adds it through a cross-process proxy, as for the charger.
-if [ "${TOUCH_SHIM:-1}" = 1 ] && [ -f $MODDIR/touchshim.jar ] && ! pgrep -f pipa.touch.TouchHost >/dev/null 2>&1; then
+# 4r: with "touch" in HAL_SHIMS the shared HAL host serves it (one app_process less); this block is then skipped.
+HAL_SHIMS=$(printf '%s' "${HAL_SHIMS:-}" | tr -d ' \t\r')
+case ",${HAL_SHIMS:-}," in *,touch,*) [ -f $MODDIR/halshims.jar ] && TOUCH_SHIM=0 ;; esac
+start_touch_loop() {
+    [ -f $MODDIR/touchshim.jar ] || return 0
+    pgrep -f pipa.touch.TouchHost >/dev/null 2>&1 && return 0
     (
         sleep 4
         L=/data/local/tmp/touchshim.log
@@ -211,6 +220,32 @@ if [ "${TOUCH_SHIM:-1}" = 1 ] && [ -f $MODDIR/touchshim.jar ] && ! pgrep -f pipa
             echo "$(date) touch shim host exited, restart in 5s" >> $L
             sleep 5
         done
+    ) &
+}
+[ "${TOUCH_SHIM:-1}" = 1 ] && start_touch_loop
+
+# ----------------------------------------------------------------- HAL shims
+# 4r: own-code OPPO HAL shims (maintainer/halshims) in ONE host process (HAL_SHIMS = comma list of gameopt, panel,
+# misc, touch): gameopt gives game key threads sched_assist UX and resets it; panel and misc answer like the donor
+# HALs; touch is the 4o touch shim (built into the same jar).
+# The registrar adds the official names through a cross-process proxy, as for the charger and touch shims, and
+# leaves a name alone that already has a server.
+if [ -n "${HAL_SHIMS:-}" ] && [ -f $MODDIR/halshims.jar ] && ! pgrep -f pipa.hal.HalHost >/dev/null 2>&1; then
+    (
+        sleep 4
+        L=/data/local/tmp/halshims.log
+        quick=0
+        while [ $quick -lt 5 ]; do
+            ( sleep 3; CLASSPATH=$MODDIR/halshims.jar app_process /system/bin pipa.hal.HalHost register "$HAL_SHIMS" >> $L 2>&1 ) &
+            t0=$(date +%s)
+            CLASSPATH=$MODDIR/halshims.jar app_process /system/bin pipa.hal.HalHost host "$HAL_SHIMS" >> $L 2>&1
+            if [ $(( $(date +%s) - t0 )) -lt 60 ]; then quick=$((quick + 1)); else quick=0; fi
+            echo "$(date) HAL shim host exited ($quick quick exits), restart in 5s" >> $L
+            sleep 5
+        done
+        echo "$(date) HAL shim host: 5 quick exits, stopped (see the lines above)" >> $L
+        # touch was served by this host: fall back to the stand-alone touch shim (4o)
+        case ",$HAL_SHIMS," in *,touch,*) echo "$(date) starting the stand-alone touch shim" >> $L; start_touch_loop ;; esac
     ) &
 fi
 
@@ -500,6 +535,10 @@ kb_attached() {
 }
 kb_guard() {
     if kb_attached; then want=running; else want=stopped; fi
+    # getprop is a process: only when the wanted state changes, and every 60 screen-on seconds to catch a start or
+    # stop from outside (was every 3 s, ~1200 processes an hour with the screen on)
+    [ "$want" = "${KB_WANT:-}" ] && [ $((tick - ${KB_CHECKED:-0})) -lt 60 ] && return
+    KB_WANT=$want; KB_CHECKED=$tick
     now=$(getprop init.svc.xiaomi-keyboard)
     [ -z "$now" ] || [ "$now" = "$want" ] && return
     if [ $want = running ]; then setprop ctl.start xiaomi-keyboard; else setprop ctl.stop xiaomi-keyboard; fi
@@ -585,9 +624,18 @@ pen_keys_start() {
 #               0 = release; mode 0 = smart charging (level 80; the app releases by alarm before the predicted
 #               unplug time, from OplusDeepThinker), mode 1 = charging limit). Only <stop> starts a hold.
 # Here: stop charging at the lowest active level with battery_charging_enabled=0 (the tablet runs from the charger,
-# the battery level stays), charge again at <level>-3. Every 30 s, also with the screen off.
+# the battery level stays), charge again at <level>-3.
+# 4p bypass charging (notes/cloud/CHARGER-HAL.md section E): the Battery app (BypassChargeController) sends
+#   chg_cfg25 = "1+switch=1" (switch on, plugged, level >= its threshold, screen on) and "1+switch=0" (screen off,
+#   unplug, below the threshold, boot). The shim returns 1, so the app sends switch=1 again every 180 s.
+#   Bypass = battery_charging_enabled=0 too. A chg_cfg25 older than 5-10 min (awake time) is a dead app: ignored.
+#   Safety: charge below 15 %. Unplugged (usb/present 0): charging enabled again, so the next plug-in charges.
+# Every 5 s, also with the screen off; only builtins (read, test -nt, : >).
 CHG_EN=/sys/class/power_supply/battery/battery_charging_enabled
 CHG_CAP=/sys/class/power_supply/battery/capacity
+CHG_IN=/sys/class/power_supply/usb/present   # not online: a PC port gives online 0 (pc_port is online), present 1
+CHG_REF=$STATE/chg_ref   # chg_ref0/1: rewritten in turn every 300 ticks; the older one is the freshness limit
+: > "${CHG_REF}0" 2>/dev/null; : > "${CHG_REF}1" 2>/dev/null; chg_par=0
 chg_held=0; v=; read -r v < "$CHG_EN" 2>/dev/null; [ "$v" = 0 ] && chg_held=1
 chg_limit() {   # <on> <level>: keep the lowest active level in $lim
     case $1 in 1) ;; *) return ;; esac
@@ -596,8 +644,11 @@ chg_limit() {   # <on> <level>: keep the lowest active level in $lim
 }
 chg_hold() {
     [ -w "$CHG_EN" ] || return
-    local v= c= want=1 IFS=+
+    local v= c= want=1 why= bp=0 IFS=+
     lim=100
+    v=; read -r v 2>/dev/null < "$STATE/chg_cfg25"
+    case $v in "1+switch=1"*) [ "$STATE/chg_cfg25" -nt "${CHG_REF}$((1 - chg_par))" ] && bp=1 ;; esac
+    v=
     read -r v < "$STATE/chg_cfg14" 2>/dev/null
     case $v in 2++*) set -- ${v#2++}; chg_limit "$1" "$2" ;; esac
     v=; read -r v < "$STATE/chg_cfg5" 2>/dev/null
@@ -607,11 +658,15 @@ chg_hold() {
     if [ $lim -lt 100 ]; then
         if [ "$c" -ge $lim ]; then want=0
         elif [ $chg_held = 1 ] && [ "$c" -gt $((lim - 3)) ]; then want=0; fi
+        [ $want = 0 ] && why="limit $lim"
     fi
+    if [ $bp = 1 ] && [ "$c" -ge 15 ]; then want=0; why=bypass; fi
+    v=; read -r v 2>/dev/null < "$CHG_IN"
+    [ "$v" = 0 ] && want=1 && why=unplugged
     if [ $want = 0 ] && [ $chg_held = 0 ]; then
-        echo 0 > "$CHG_EN" && chg_held=1 && log "charge hold: stop at $c % (limit $lim)"
+        echo 0 > "$CHG_EN" && chg_held=1 && log "charge hold: stop at $c % ($why)"
     elif [ $want = 1 ] && [ $chg_held = 1 ]; then
-        echo 1 > "$CHG_EN" && chg_held=0 && log "charge hold: charge again at $c % (limit $lim)"
+        echo 1 > "$CHG_EN" && chg_held=0 && log "charge hold: charge again at $c % (${why:-no hold})"
     fi
 }
 
@@ -624,7 +679,10 @@ armed=0; conn=; pub=; tick=0; resend=2; dk=; KB_DEVS=-
 settings put global pipa_pen_fluid "${PEN_FLUID:-1}" </dev/null >/dev/null 2>&1
 ctick=0
 while true; do
-    if [ "${CHARGE_HOLD:-1}" = 1 ] && [ $((ctick % 30)) = 0 ]; then chg_hold; fi
+    if [ "${CHARGE_HOLD:-1}" = 1 ]; then
+        if [ $((ctick % 300)) = 299 ]; then chg_par=$((1 - chg_par)); : > "${CHG_REF}$chg_par" 2>/dev/null; fi
+        [ $((ctick % 5)) = 0 ] && chg_hold
+    fi
     ctick=$((ctick + 1))
     if ! screen_on; then
         armed=0

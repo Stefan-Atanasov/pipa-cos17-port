@@ -58,6 +58,12 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     port-pt14)   IMG=$P/port-work/pt14/img/super.img;        MD5=d0c2830e0c0d2b7ea79d02ef5eebada8 ;;   # pt13 + 3q HDR = Natural/P3 + EDR off, 3r Standard warm, pen capsule, Game Filter, nandswap sys_admin, TEST
     port-pt18)   IMG=$P/port-work/pt18/img/super.img;        MD5=496f03bc546fa09f0ef3b27e851b71c4 ;;   # pt14 + 3s adaptive tone (CCT stream, real lux, curves, bedtime, dark locks) + pipa_port loop ioctls, TEST
     beta6)       IMG=$P/port-work/beta6/img/super.img;       MD5=d79419f9cd8be13b9610ed95394da0e2 ;;   # pt18 content + 3t battery log + 3u pen dock + 3v fast service start + 3w face rules, RELEASE
+    pt24)        IMG=$P/port-work/pt24/img/super.img;        MD5=2e0bb489e3b91e9055b257922d2012c5 ;;   # 4i-4l (screen attention, USB-C monitor, OShare, Quick Share), TEST
+    pt26)        IMG=$P/port-work/pt26/img/super.img;        MD5=7242acc38c238f30b18767af7c59b044 ;;   # pt24 + 4m charge stop field, 4n QoS, 4o touch HAL, beta7-rc1
+    pt27)        IMG=$P/port-work/pt27/img/super.img;        MD5=1494512b57d786ec4d368663fab28095 ;;   # pt26 + 4p bypass charging + service.sh process savings (cloud), TEST
+    pt28)        IMG=$P/port-work/pt28/img/super.img;        MD5=473409600266101b73b83eb07c3cdbfb ;;   # pt27 content (+ usb/present fix) on donor C.07 (17.0.0.104), TEST
+    pt29)        IMG=$P/port-work/pt29/img/super.img;        MD5=744c37c47733a9cf4cc553384d8b182e ;;   # pt28 + 4q VINTF removals + 4r HAL shim host (gameopt, panel, misc, touch), C.07, BOOTLOOP (two labels for gameopt), do not flash
+    pt30)        IMG=$P/port-work/pt30/img/super.img;        MD5=675c329137a84db5b8ed58719dae33b6 ;;   # pt29 with the gameopt label fix (4r), C.07, TEST
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot
