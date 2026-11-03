@@ -525,6 +525,10 @@ kb_attached() {
 }
 kb_guard() {
     if kb_attached; then want=running; else want=stopped; fi
+    # getprop is a process: only when the wanted state changes, and every 60 screen-on seconds to catch a start or
+    # stop from outside (was every 3 s, ~1200 processes an hour with the screen on)
+    [ "$want" = "${KB_WANT:-}" ] && [ $((tick - ${KB_CHECKED:-0})) -lt 60 ] && return
+    KB_WANT=$want; KB_CHECKED=$tick
     now=$(getprop init.svc.xiaomi-keyboard)
     [ -z "$now" ] || [ "$now" = "$want" ] && return
     if [ $want = running ]; then setprop ctl.start xiaomi-keyboard; else setprop ctl.stop xiaomi-keyboard; fi
