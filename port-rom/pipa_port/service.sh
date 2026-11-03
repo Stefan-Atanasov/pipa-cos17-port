@@ -633,7 +633,7 @@ pen_keys_start() {
 #   charge current capped by qcom-battery restrict_chg/restrict_cur at 100 mA (the smallest cap that keeps the input
 #   on; 0 and 50 mA cut the input too): the charger powers the tablet, the battery takes <= 0.1 A.
 #   A chg_cfg25 older than 5-10 min (awake time) is a dead app: ignored.
-#   Safety: charge below 15 %. Unplugged (usb/present 0): charging enabled again, so the next plug-in charges.
+#   Safety: charge below 15 %, and (4w) no bypass cap again before 20 %. Unplugged (usb/present 0): charging enabled again, so the next plug-in charges.
 # Every 5 s, also with the screen off; only builtins (read, test -nt, : >).
 CHG_EN=/sys/class/power_supply/battery/battery_charging_enabled
 CHG_CAP=/sys/class/power_supply/battery/capacity
@@ -644,6 +644,7 @@ CHG_RC=/sys/class/qcom-battery/restrict_chg
 CHG_RI=/sys/class/qcom-battery/restrict_cur
 CHG_BYPASS_UA=100000
 # chg_held: 0 = normal, 1 = charging off (charge limit), 2 = charge current capped (bypass)
+chg_low=0   # 4w: 1 = the level was below 15 %: no bypass cap before 20 %
 chg_held=0; v=; read -r v < "$CHG_EN" 2>/dev/null; [ "$v" = 0 ] && chg_held=1
 chg_ri=; read -r chg_ri < "$CHG_RI" 2>/dev/null
 v=; read -r v < "$CHG_RC" 2>/dev/null
@@ -677,7 +678,13 @@ chg_hold() {
         [ $want != 1 ] && why="limit $lim"
     fi
     # want: 1 = charge, 0 = charging off (limit reached), 2 = bypass (cap); the limit wins over bypass
-    if [ $want = 1 ] && [ $bp = 1 ] && [ "$c" -ge 15 ] && [ -w "$CHG_RI" ]; then want=2; why=bypass; fi
+    # 4w (BUGS-TODO 63): hysteresis. Below 15 % full charge; the bypass cap comes back only at 20 % (before: at
+    # 15 %, so under a game load it switched cap/charge at 14/15 % every few minutes).
+    [ "$c" -lt 15 ] && chg_low=1
+    [ "$c" -ge 20 ] && chg_low=0
+    if [ $want = 1 ] && [ $bp = 1 ] && [ "$c" -ge 15 ] && [ -w "$CHG_RI" ]; then
+        if [ $chg_low = 0 ]; then want=2; why=bypass; else why="bypass after low level: charge to 20 %"; fi
+    fi
     v=; read -r v 2>/dev/null < "$CHG_IN"
     [ "$v" = 0 ] && want=1 && why=unplugged
     local t=$want; case $want in 1) t=0 ;; 0) t=1 ;; esac   # the chg_held value that this want gives

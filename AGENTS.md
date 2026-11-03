@@ -167,6 +167,9 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   the PCC.
 - **Adaptive tone** uses the continuous Xiaomi colour stream `front_cct_strm` (33171089) since 3s
   (`maintainer/ambientlux/`). Check it with `dumpsys color_display` (`sensorDataValid`, `sensorLux`, `targetCCT`).
+- **`setprop persist.<x> ""` does not delete a persistent prop.** It stores an empty value in
+  `/data/property/persistent_properties`, and that value hides a `persist.*` default from build.prop at the next boot.
+  After a live test, set the prop to the ROM value, not to "".
 - **`dump.erofs --ls --path=<missing>` returns exit code 0.** Check its output for "read inode failed".
 - **Run smali and baksmali with `-j 1`.** With threads, the dex layout changes on each run (same code, other md5).
 - Do not kill `system_server` to apply framework changes (it causes a warm-reset crash). Reboot.

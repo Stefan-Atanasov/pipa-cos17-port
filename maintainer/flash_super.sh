@@ -66,6 +66,11 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt30)        IMG=$P/port-work/pt30/img/super.img;        MD5=675c329137a84db5b8ed58719dae33b6 ;;   # pt29 with the gameopt label fix (4r), C.07, TEST
     pt31)        IMG=$P/port-work/pt31/img/super.img;        MD5=7a3ba101b210fe469f0ef34b75a9f3ca ;;   # pt30 + charge cap (bypass, limit) + gameopt type 100 fix, C.07, TEST
     pt32)        IMG=$P/port-work/pt32/img/super.img;        MD5=db4cc06015ca68000589eb2e2b320c2b ;;   # pt31 + 4t Game Eye Care, C.07, TEST (beta7 candidate)
+    pt33)        IMG=$P/port-work/pt33/img/super.img;        MD5=6051558be69b08890cb1216dc2dd776b ;;   # pt32 + 4u About banner (17.0) + 4v gesture bar 600 ms, C.07, TEST
+    pt34)        IMG=$P/port-work/pt34/img/super.img;        MD5=ae8684ae3608440557c2001bfd179322 ;;   # pt33 + 4w bypass hysteresis (cap again at 20 %), C.07, TEST
+    pt35)        IMG=$P/port-work/pt35/img/super.img;        MD5=1f69ceb319ebac5ab489c3722c4e060f ;;   # pt34 + 3o games as RedMagic Nova (BUGS 62), C.07, TEST
+    pt36)        IMG=$P/port-work/pt36/img/super.img;        MD5=3fe1ecb2c5f9c28eca5d51d28013c2b0 ;;   # pt35 + 3o PUBG Nova + crDroid game devices (BUGS 62), C.07, TEST (beta7 candidate)
+    pt37)        IMG=$P/port-work/pt37/img/super.img;        MD5=26fe62970cbe86701de1de880b4d6fe2 ;;   # pt36 + 4x no dedup scan / Turbo Pocket, C.07, TEST (beta7 candidate)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

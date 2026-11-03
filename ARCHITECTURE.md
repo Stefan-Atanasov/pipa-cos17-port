@@ -53,7 +53,7 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 4t (beta6 ended at 3w). Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
+- Thus the last step that changes the default build is 4x (beta6 ended at 3w). Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.
   Steps 3u, 3v and 3w do not call it. Thus beta6 shows `3t`. When this value changes, `early.sh` clears the package
@@ -110,7 +110,7 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 3l | step only | `ro.mediaserver.64b.enable=true`: 64-bit mediaserver (video thumbnails work). |
 | 3m | step only | `media.settings.xml` points to `media_profiles_kona.xml` (the first zygote64 no longer stops at boot). |
 | 3n | step only | The `pipa_port` loop sleeps 1 s with the screen off: the pen is ready about 1 s after screen-on. |
-| 3o | step only | `framework.jar` (`maintainer/propspoof/`): per-app device identity. Netflix sees a Pixel 6 (Widevine L1), Google Photos sees a Pixel XL. Other apps see the real device. |
+| 3o | step only | `framework.jar` (`maintainer/propspoof/`): per-app device identity. Netflix sees a Pixel 6 (Widevine L1), Google Photos sees a Pixel XL. Games (since pt36) see a gaming device, so that they show their high frame rates: RedMagic Nova (NP03J) for Racing Master and PUBG (tested), the other games get the device of the crDroid `PixelPropsUtils` list (Apache-2.0). Only listed packages change; other apps see the real device. To add a game, add its package to `GAMES` in `PipaAppIdentity.java`. |
 | 3p | step only | `product/etc/sysconfig/pipa-photos.xml`: the feature `com.google.android.apps.photos.NEXUS_PRELOAD`. Google Photos finds an original Pixel by this feature. |
 | 3q | step only | QDCM `standard_hdr` = the Natural features with a P3 matrix (the stock HDR LUT made whites green). EDR (`oplus.software.display.enhance_brightness_with_uidimming`) off: apps got 4.9x HDR headroom without a backlight boost. |
 | 3r | step only | QDCM `hal_native` (ColorOS "Standard") = the Natural matrix with a warmer white (R 1.0, G 0.99, B 0.962). |
@@ -141,6 +141,10 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 4q | step only | System VINTF manifest without `oplusSensor`, `urcc` and `hummingbird`: pipa has no server for them, and a declared name makes native `waitForService` clients wait for ever. Boot tested (pt30). |
 | 4r | step only | Own-code HAL shims in one host (`maintainer/halshims`): `gameopt` (game key threads get sched_assist UX, always reset), `displaypanelfeature` and `misc` (donor answers, read-only), and the 4o touch shim. `gameopt` keeps the pipa vendor label `oplus_absent_service`: a second label for a name stops servicemanager at boot. Boot, registration and touch rotation tested (pt30); game test open. |
 | 4t | step only | Game Eye Care (Games app): `oplus-services.jar` adds a warm, slightly darker DisplayTransformManager level (152) while the switch is on and a game is in full screen. OPPO does it in the panel (id 228), which pipa does not have. Tested live. |
+| 4u | step only | Settings > About device shows the ColorOS banner card (`maintainer/aboutcard/patch_settings_otacard.py`, in place, signature kept): the card no longer needs `com.oplus.ota`, a tap on it starts nothing ("Version up to date"). `ro.build.version.oplusrom.display=17.0`. |
+| 4v | step only | Circle to Search after a 600 ms hold on the gesture bar (was 800 ms): `maintainer/cts/patch_navhandle_longpress.py` changes the long-press constant of the NavigationGestureDetector copies in OplusLauncher and SystemUI. |
+| 4w | step only | Bypass charging: after a charge below 15 %, the charge-current cap comes back only at 20 % (no cap/charge switching at 14/15 % under a game load). |
+| 4x | step only | `persist.sys.oplus.disableCompressDedup=1`, `persist.sys.oplus.disableTurboPocket=1`: OPPO idle maintenance keeps the file defrag but skips the dedup scan and Turbo Pocket (they need OPPO-only f2fs ioctls and an OPPO UFS driver). |
 
 ### 2.4 Where properties go
 
