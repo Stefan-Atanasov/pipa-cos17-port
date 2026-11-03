@@ -10,6 +10,10 @@ app_process. Build: `sh build.sh` (JDK 21, Android SDK platform `android-37.0`, 
 | `gameopt` | `vendor.oplus.hardware.gameopt.IGameOptHalService/default` V2 | Game key threads, GL thread and critical threads get sched_assist UX (`/proc/oplus_scheduler/sched_assist/ux_task`), as OPPO's HAL does. Bounded and always reset. | `notes/cloud/GAMEOPT.md`, `GAMEOPT-SHIM.md` |
 | `panel` | `vendor.oplus.hardware.displaypanelfeature.IDisplayPanelFeature/default` V1 | Backlight values (ids 8, 29); probe ids "not supported"; accepted ids kept; -1 for the rest. | `notes/cloud/DISPLAY-HALS.md` part A |
 | `misc` | `vendor.oplus.hardware.misc.IOplusMisc/default` V1 | Read-only; OPPO node flags only where pipa has the same node; no writes, no calibration saves. | `notes/cloud/MISC-SENSOR.md` part A |
+| `touch` | `vendor.oplus.hardware.touch.IOplusTouch/default` V2 | The 4o touch shim (`maintainer/touchshim/TouchService.java`, built into this jar). Without `touch` in `HAL_SHIMS` the separate 4o host runs. | `maintainer/touchshim/README.md` |
+
+Not merged on purpose: the cryptoeng shim (privacy password and app-lock records; a separate process keeps them
+apart from the other shims). The charger shim has no source in this repository (BLOBS.md).
 
 Not built, with the reason in the notes: `oplusSensor` (4q, no pipa data; never forward `setPhoneMode`), `transmessage`,
 `handlefactory`, `cwb` (telemetry or OPPO-only hardware), `urcc` (encrypted OPPO policy; measure first).

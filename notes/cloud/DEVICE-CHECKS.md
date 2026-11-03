@@ -45,8 +45,9 @@ Only when it happens again: the capture checklist in `notes/cloud/BUG36-OTI.md` 
    host secilc is too old for `nlmsg`, and a source build was not allowed). By hand: every type and attribute that
    the file uses exists in the donor policy (`hal_gameopt_aidl_client` in system_ext; `service_manager_type`,
    `system_server`, `surfaceflinger`, `platform_app` in the platform policy). A non-zero exit means an error.
-1. `$ADB shell "su -c 'cat /data/local/tmp/halshims.log'"`: `pipa HAL host ready: gameopt,panel,misc` and three
-   `registered` lines. `service check vendor.oplus.hardware.gameopt.IGameOptHalService/default` = found.
+1. `$ADB shell "su -c 'cat /data/local/tmp/halshims.log'"`: `pipa HAL host ready: gameopt,panel,misc,touch` and four
+   `registered` lines. No `pipa.touch.TouchHost` process runs (`ps -A | grep -c TouchHost` = 0); the 4o touch tests
+   (rotation, game mode) still work. `service check vendor.oplus.hardware.gameopt.IGameOptHalService/default` = found.
 2. SELinux: `$ADB logcat -d | grep -E "avc.*pipa_hal_"` must be empty (else add the `find` rule for that domain).
 3. gameopt: start a game from the Games app. Then
    `$ADB shell "su -c 'cat /data/misc/pipa_port/gameopt_leases'"` lists the boosted threads (pid tid start bit), and

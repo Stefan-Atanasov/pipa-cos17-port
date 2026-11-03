@@ -10,6 +10,8 @@
 #            "not supported", accepted ids kept, -1 for the rest (donor behaviour for an unknown id).
 #   misc     vendor.oplus.hardware.misc.IOplusMisc/default (V1): read-only, OPPO node flags only where pipa has the
 #            same node; ends the HIDL getService(true) fallback.
+#   touch    the 4o touch shim (same code, built into this jar): one app_process less. Its service name keeps the
+#            4o label (oplus_absent_service); service.sh skips the separate 4o host.
 # Static analysis: notes/cloud/GAMEOPT.md, GAMEOPT-SHIM.md, DISPLAY-HALS.md, MISC-SENSOR.md. pipa_port service.sh
 # starts the host and the registrar (HAL_SHIMS in config.prop). One service type for each name
 # (maintainer/halshims/halshims.cil).
@@ -23,6 +25,7 @@ SE=$T/system_ext
 install -o 0 -g 0 -m 644 "$ROM/pipa_port/halshims.jar" "$SE/pipa_port/halshims.jar"
 setfattr -n security.selinux -v "$(getfattr -n security.selinux --only-values "$SE/pipa_port/chargershim.jar")" "$SE/pipa_port/halshims.jar"
 need_grep 'pipa/hal/GameOptService' "$SE/pipa_port/halshims.jar"
+need_grep 'pipa/touch/TouchService' "$SE/pipa_port/halshims.jar"
 
 echo "== SELinux: one service type for each shim"
 for f in etc/selinux/system_ext_sepolicy.cil etc/selinux/system_ext_sepolicy_debug.cil; do

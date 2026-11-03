@@ -7,7 +7,9 @@ SDK=${ANDROID_HOME:-$HOME/Android/Sdk}
 ANDROID=$SDK/platforms/android-37.0/android.jar
 D8=$SDK/build-tools/37.0.0/d8
 rm -rf out && mkdir -p out/classes out/dex
-javac --release 17 -Xlint:all -Werror -Xlint:-options -cp "$ANDROID" -d out/classes $(find src -name '*.java' | sort)
+# the touch shim (step 4o) is built into this host too (key "touch"); its source stays in maintainer/touchshim
+javac --release 17 -Xlint:all -Werror -Xlint:-options -Xlint:-deprecation -cp "$ANDROID" -d out/classes \
+    $(find src -name '*.java' | sort) ../touchshim/TouchService.java
 "$D8" --release --min-api 35 --lib "$ANDROID" --output out/dex $(find out/classes -name '*.class' | sort)
 python3 -I - <<'PY'
 from pathlib import Path

@@ -201,6 +201,8 @@ fi
 # 4o (BUGS-TODO 51): no vendor.oplus.hardware.touch.IOplusTouch on pipa. TouchHost (maintainer/touchshim) maps the
 # OPPO touch nodes for game mode, sensitivity, edge rejection and direction to Xiaomi touch modes through
 # xiaomi_touch_ioctl; the registrar adds it through a cross-process proxy, as for the charger.
+# 4r: with "touch" in HAL_SHIMS the shared HAL host serves it (one app_process less); this block is then skipped.
+case ",${HAL_SHIMS:-}," in *,touch,*) [ -f $MODDIR/halshims.jar ] && TOUCH_SHIM=0 ;; esac
 if [ "${TOUCH_SHIM:-1}" = 1 ] && [ -f $MODDIR/touchshim.jar ] && ! pgrep -f pipa.touch.TouchHost >/dev/null 2>&1; then
     (
         sleep 4
@@ -216,7 +218,8 @@ fi
 
 # ----------------------------------------------------------------- HAL shims
 # 4r: own-code OPPO HAL shims (maintainer/halshims) in ONE host process (HAL_SHIMS = comma list of gameopt, panel,
-# misc): gameopt gives game key threads sched_assist UX and resets it; panel and misc answer like the donor HALs.
+# misc, touch): gameopt gives game key threads sched_assist UX and resets it; panel and misc answer like the donor
+# HALs; touch is the 4o touch shim (built into the same jar).
 # The registrar adds the official names through a cross-process proxy, as for the charger and touch shims, and
 # leaves a name alone that already has a server.
 if [ -n "${HAL_SHIMS:-}" ] && [ -f $MODDIR/halshims.jar ] && ! pgrep -f pipa.hal.HalHost >/dev/null 2>&1; then
