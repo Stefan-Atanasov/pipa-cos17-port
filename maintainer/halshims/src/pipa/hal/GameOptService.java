@@ -112,8 +112,9 @@ final class GameOptService extends AidlService {
     private void gameInfo(int type, String info) {
         try {
             if (type == 100) {
-                JSONObject o = new JSONObject(info);
-                int status = o.optInt("pkgStatus", -1), pid = o.optInt("pid", 0);
+                // not real JSON: values are unquoted, e.g. {"package":com.x,"pid":-1,"pkgStatus":1,
+                // "secondPackage":com.android.launcher:13059} (seen 2026-11-03): read the two numbers by pattern
+                int status = intField(info, "pkgStatus", -1), pid = intField(info, "pid", 0);
                 if (status == 1) { if (pid > 0) reset(pid); else resetAll(); }        // background
                 else if (status == 3) { resetAll(); if (pid > 0) lease(pid, true); }   // new game to foreground
                 else if ((status == 11 || status == 12) && pid > 0) lease(pid, true);  // foreground: renew
@@ -157,6 +158,12 @@ final class GameOptService extends AidlService {
                     }
             }
         } catch (JSONException | NumberFormatException e) { Log.w("gameopt", "key thread: " + e); }
+    }
+
+    /** "name":<int> anywhere in the text (OPPO's type 100 info is not valid JSON) */
+    private static int intField(String s, String name, int dflt) {
+        Matcher m = Pattern.compile("\"" + name + "\"\\s*:\\s*\"?(-?\\d+)").matcher(s);
+        return m.find() ? Integer.parseInt(m.group(1)) : dflt;
     }
 
     private static int parseInt(Object v) {

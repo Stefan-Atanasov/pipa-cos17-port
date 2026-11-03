@@ -628,7 +628,11 @@ pen_keys_start() {
 # 4p bypass charging (notes/cloud/CHARGER-HAL.md section E): the Battery app (BypassChargeController) sends
 #   chg_cfg25 = "1+switch=1" (switch on, plugged, level >= its threshold, screen on) and "1+switch=0" (screen off,
 #   unplug, below the threshold, boot). The shim returns 1, so the app sends switch=1 again every 180 s.
-#   Bypass = battery_charging_enabled=0 too. A chg_cfg25 older than 5-10 min (awake time) is a dead app: ignored.
+#   Bypass is NOT battery_charging_enabled=0: with charging off the smb5 runs the tablet mostly from the battery
+#   (wall PD charger 2026-11-03: input 0.2-0.4 A, battery still +0.45 A, = unplugged). Bypass = charging on with the
+#   charge current capped by qcom-battery restrict_chg/restrict_cur at 100 mA (the smallest cap that keeps the input
+#   on; 0 and 50 mA cut the input too): the charger powers the tablet, the battery takes <= 0.1 A.
+#   A chg_cfg25 older than 5-10 min (awake time) is a dead app: ignored.
 #   Safety: charge below 15 %. Unplugged (usb/present 0): charging enabled again, so the next plug-in charges.
 # Every 5 s, also with the screen off; only builtins (read, test -nt, : >).
 CHG_EN=/sys/class/power_supply/battery/battery_charging_enabled
@@ -636,7 +640,16 @@ CHG_CAP=/sys/class/power_supply/battery/capacity
 CHG_IN=/sys/class/power_supply/usb/present   # not online: a PC port gives online 0 (pc_port is online), present 1
 CHG_REF=$STATE/chg_ref   # chg_ref0/1: rewritten in turn every 300 ticks; the older one is the freshness limit
 : > "${CHG_REF}0" 2>/dev/null; : > "${CHG_REF}1" 2>/dev/null; chg_par=0
+CHG_RC=/sys/class/qcom-battery/restrict_chg
+CHG_RI=/sys/class/qcom-battery/restrict_cur
+CHG_BYPASS_UA=100000
+# chg_held: 0 = normal, 1 = charging off (charge limit), 2 = charge current capped (bypass)
 chg_held=0; v=; read -r v < "$CHG_EN" 2>/dev/null; [ "$v" = 0 ] && chg_held=1
+chg_ri=; read -r chg_ri < "$CHG_RI" 2>/dev/null
+v=; read -r v < "$CHG_RC" 2>/dev/null
+if [ "$v" = 1 ] && [ "$chg_ri" = "$CHG_BYPASS_UA" ]; then chg_held=2; chg_ri=1000000; fi   # our cap from before a restart
+chg_uncap() { echo 0 > "$CHG_RC"; [ -n "$chg_ri" ] && echo "$chg_ri" > "$CHG_RI"; }
+chg_capon() { read -r chg_ri < "$CHG_RI" 2>/dev/null; echo "$CHG_BYPASS_UA" > "$CHG_RI" && echo 1 > "$CHG_RC"; }
 chg_limit() {   # <on> <level>: keep the lowest active level in $lim
     case $1 in 1) ;; *) return ;; esac
     case $2 in ""|*[!0-9]*) return ;; esac
@@ -655,19 +668,26 @@ chg_hold() {
     case $v in 4++*) set -- ${v#4++}; chg_limit "$1" "$2" ;; esac
     read -r c < "$CHG_CAP" 2>/dev/null
     case $c in ''|*[!0-9]*) return ;; esac
+    # limit: above it charging off (the battery drains slowly); at it, or held and less than 3 % below it, the charge
+    # current is capped (the charger powers the tablet, the battery takes <= 0.1 A); without the cap node: off
     if [ $lim -lt 100 ]; then
-        if [ "$c" -ge $lim ]; then want=0
-        elif [ $chg_held = 1 ] && [ "$c" -gt $((lim - 3)) ]; then want=0; fi
-        [ $want = 0 ] && why="limit $lim"
+        if [ "$c" -gt $lim ]; then want=0
+        elif [ "$c" -ge $lim ] || { [ $chg_held != 0 ] && [ "$c" -gt $((lim - 3)) ]; }; then want=2; fi
+        [ $want = 2 ] && [ ! -w "$CHG_RI" ] && want=0
+        [ $want != 1 ] && why="limit $lim"
     fi
-    if [ $bp = 1 ] && [ "$c" -ge 15 ]; then want=0; why=bypass; fi
+    # want: 1 = charge, 0 = charging off (limit reached), 2 = bypass (cap); the limit wins over bypass
+    if [ $want = 1 ] && [ $bp = 1 ] && [ "$c" -ge 15 ] && [ -w "$CHG_RI" ]; then want=2; why=bypass; fi
     v=; read -r v 2>/dev/null < "$CHG_IN"
     [ "$v" = 0 ] && want=1 && why=unplugged
-    if [ $want = 0 ] && [ $chg_held = 0 ]; then
-        echo 0 > "$CHG_EN" && chg_held=1 && log "charge hold: stop at $c % ($why)"
-    elif [ $want = 1 ] && [ $chg_held = 1 ]; then
-        echo 1 > "$CHG_EN" && chg_held=0 && log "charge hold: charge again at $c % (${why:-no hold})"
-    fi
+    local t=$want; case $want in 1) t=0 ;; 0) t=1 ;; esac   # the chg_held value that this want gives
+    [ "$t" = "$chg_held" ] && return
+    case $chg_held in 1) echo 1 > "$CHG_EN" ;; 2) chg_uncap ;; esac
+    case $want in
+        0) echo 0 > "$CHG_EN" && chg_held=1 && log "charge hold: stop at $c % ($why)" ;;
+        2) chg_capon && chg_held=2 && log "charge hold: cap at $c % ($why, charge current $CHG_BYPASS_UA uA)" ;;
+        *) chg_held=0; log "charge hold: charge again at $c % (${why:-no hold})" ;;
+    esac
 }
 
 [ "${PEN_WATCH:-1}" = 1 ] && pen_lock 0   # left over from a reboot with the pen out
