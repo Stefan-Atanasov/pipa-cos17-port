@@ -40,6 +40,11 @@ Only when it happens again: the capture checklist in `notes/cloud/BUG36-OTI.md` 
 
 ## 6. HAL shims (branch `cloud/halshims`, step 4r, after a build)
 
+0. **Before the build:** compile the policy on the tablet with `/system/bin/secilc` and all 8 inputs plus
+   `maintainer/halshims/halshims.cil` (AGENTS.md). The cloud session could not run a secilc for Android 17 CIL (the
+   host secilc is too old for `nlmsg`, and a source build was not allowed). By hand: every type and attribute that
+   the file uses exists in the donor policy (`hal_gameopt_aidl_client` in system_ext; `service_manager_type`,
+   `system_server`, `surfaceflinger`, `platform_app` in the platform policy). A non-zero exit means an error.
 1. `$ADB shell "su -c 'cat /data/local/tmp/halshims.log'"`: `pipa HAL host ready: gameopt,panel,misc` and three
    `registered` lines. `service check vendor.oplus.hardware.gameopt.IGameOptHalService/default` = found.
 2. SELinux: `$ADB logcat -d | grep -E "avc.*pipa_hal_"` must be empty (else add the `find` rule for that domain).
