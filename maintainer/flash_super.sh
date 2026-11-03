@@ -65,6 +65,7 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt29)        IMG=$P/port-work/pt29/img/super.img;        MD5=744c37c47733a9cf4cc553384d8b182e ;;   # pt28 + 4q VINTF removals + 4r HAL shim host (gameopt, panel, misc, touch), C.07, BOOTLOOP (two labels for gameopt), do not flash
     pt30)        IMG=$P/port-work/pt30/img/super.img;        MD5=675c329137a84db5b8ed58719dae33b6 ;;   # pt29 with the gameopt label fix (4r), C.07, TEST
     pt31)        IMG=$P/port-work/pt31/img/super.img;        MD5=7a3ba101b210fe469f0ef34b75a9f3ca ;;   # pt30 + charge cap (bypass, limit) + gameopt type 100 fix, C.07, TEST
+    pt32)        IMG=$P/port-work/pt32/img/super.img;        MD5=db4cc06015ca68000589eb2e2b320c2b ;;   # pt31 + 4t Game Eye Care, C.07, TEST (beta7 candidate)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

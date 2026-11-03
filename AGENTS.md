@@ -89,6 +89,12 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 
 ## Known gotchas
 
+- **A service name may have only ONE label in all `service_contexts` files** (plat, system_ext, product, vendor, odm).
+  Two different labels stop servicemanager at boot. The pipa vendor labels `vendor.oplus.hardware.gameopt...` as
+  `oplus_absent_service`. Step 4r checks this; do the same check for a new service context.
+- **Charging off is not a bypass on pipa.** With `battery_charging_enabled=0` the tablet runs mostly from the battery
+  even on a wall charger. Keep charging on and cap the charge current (`/sys/class/qcom-battery/restrict_chg=1`,
+  `restrict_cur=100000`; 0 and 50000 cut the input too).
 - **`cmd` tools in the `pipa_port` domain.** `input`, `am`, `settings`, `pm` and `cmd` send their stdin, stdout and
   stderr to system_server over binder. If system_server cannot use the label of a descriptor, the call fails with
   `Failed transaction (2147483646)` and no log. In `pipa_port` scripts, redirect all three to `/dev/null`. Thus
