@@ -79,6 +79,10 @@ fi
 UX_TASK=/proc/oplus_scheduler/sched_assist/ux_task
 SS_PID=
 system_ux() {
+    # builtin check first: while the last system_server pid is alive, no pidof process (every 15 s)
+    if [ -n "${SS_PID:-}" ] && [ -r "/proc/$SS_PID/cmdline" ]; then
+        case $(< "/proc/$SS_PID/cmdline") in system_server*) return ;; esac
+    fi
     p=$(pidof system_server) || return
     [ "$p" = "$SS_PID" ] && return
     for d in /proc/$p/task/*; do   # builtin read: one cat per thread (~300) took ~6 s at each start (3v)
