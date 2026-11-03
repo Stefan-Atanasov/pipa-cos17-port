@@ -170,6 +170,15 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **`setprop persist.<x> ""` does not delete a persistent prop.** It stores an empty value in
   `/data/property/persistent_properties`, and that value hides a `persist.*` default from build.prop at the next boot.
   After a live test, set the prop to the ROM value, not to "".
+- **Our boot jar edits (3o framework.jar, 4h oplus-framework.jar) invalidate the donor's prebuilt boot image.** ART
+  rejects it at runtime (artd: `dex file checksum ... does not match ... framework.jar`), but `odrefresh --check` says
+  ok, so nothing rebuilds it. 4z removes the whole prebuilt boot image (`system/framework/{,arm,arm64}/boot*`); odrefresh
+  then compiles one on /data at the first boot (odsign signs it). Removing only a part makes dex2oat abort at boot.
+  After a failed compile odrefresh waits (`/data/misc/odrefresh/compilation-log.txt`, status 81) before it tries again.
+  Artifacts from a manual `odrefresh --force-compile` are not signed: odsign deletes them at the next boot.
+- **Do not start apps with `monkey -p <pkg> 1` in tests.** monkey injects a rotation event (rotation locked to 0 =
+  portrait on pipa for ~100 ms): a rotation animation and composer errors that real launches do not have. Use
+  `am start -n <pkg>/<activity>` or a real tap (`maintainer/kgest`).
 - **`dump.erofs --ls --path=<missing>` returns exit code 0.** Check its output for "read inode failed".
 - **Run smali and baksmali with `-j 1`.** With threads, the dex layout changes on each run (same code, other md5).
 - Do not kill `system_server` to apply framework changes (it causes a warm-reset crash). Reboot.

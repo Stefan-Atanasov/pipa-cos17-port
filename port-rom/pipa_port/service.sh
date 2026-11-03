@@ -99,16 +99,19 @@ system_ux() {
 # ------------------------------------------------------------ full AOT compile of the UI apps
 # bg-dexopt compiles speed-profile (hot methods only); first showings (QS panel, Settings, launcher) then run partly
 # interpreted. dalvik.vm.systemuicompilerfilter=speed (product build.prop) keeps SystemUI at speed in later dexopts;
-# compile these once per ROM build, 3 minutes after boot, in the background. ART does not downgrade a speed compile in bg-dexopt.
-SPEED_STATE=$STATE/speed_compiled
+# compile them 3 minutes after boot, in the background, when ART does not report status=speed. ART does not downgrade a
+# speed compile in bg-dexopt. 4y (2026-11-03): the check was "fingerprint + system_ext date changed", but port builds
+# keep both (donor values), so no build after pt28 compiled: SystemUI, launcher and Settings ran from the APK (JIT) after
+# each dirty flash (launch test: launcher janky frames 35 % -> 16 % after the compile). Now the check reads the ART
+# state of each app (`pm art dump` into a file: no pipes in this domain).
 speed_compile() {
-    fp=$(getprop ro.build.fingerprint)$(getprop ro.system_ext.build.date.utc)
-    [ "$(cat "$SPEED_STATE" 2>/dev/null)" = "$fp" ] && return
     sleep 180
     for p in ${SPEED_APPS:-com.android.systemui com.android.settings com.oplus.wirelesssettings com.android.launcher}; do
+        pm art dump "$p" </dev/null >"$SGET_F.art" 2>/dev/null
+        if grep -q 'arm64: \[status=speed\]' "$SGET_F.art" 2>/dev/null; then continue; fi
         cmd package compile -m speed -f "$p" </dev/null >/dev/null 2>&1 && log "compiled $p (speed)"
     done
-    echo "$fp" > "$SPEED_STATE"
+    rm -f "$SGET_F.art"
 }
 [ "${SPEED_COMPILE:-1}" = 1 ] && ( speed_compile ) &
 

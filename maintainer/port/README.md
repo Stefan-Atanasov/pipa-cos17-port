@@ -202,6 +202,8 @@ they changed (for example 3a to 3c built `system` again without a change).
 | 75 | 4v | none (new) | system_ext |
 | 76 | 4w | none (new) | system_ext |
 | 77 | 4x | none (new) | product |
+| 78 | 4y | none (new) | system_ext |
+| 79 | 4z | none (new) | system |
 
 The order of `build_port.sh` is the order of the numbers.
 

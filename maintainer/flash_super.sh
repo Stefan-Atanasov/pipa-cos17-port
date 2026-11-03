@@ -71,6 +71,8 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt35)        IMG=$P/port-work/pt35/img/super.img;        MD5=1f69ceb319ebac5ab489c3722c4e060f ;;   # pt34 + 3o games as RedMagic Nova (BUGS 62), C.07, TEST
     pt36)        IMG=$P/port-work/pt36/img/super.img;        MD5=3fe1ecb2c5f9c28eca5d51d28013c2b0 ;;   # pt35 + 3o PUBG Nova + crDroid game devices (BUGS 62), C.07, TEST (beta7 candidate)
     pt37)        IMG=$P/port-work/pt37/img/super.img;        MD5=26fe62970cbe86701de1de880b4d6fe2 ;;   # pt36 + 4x no dedup scan / Turbo Pocket, C.07, TEST (beta7 candidate)
+    pt39)        IMG=$P/port-work/pt39/img/super.img;        MD5=066d526c878d53079d2a2e7917bfce17 ;;   # pt38 + 4z boot image on /data (stale boot-framework removed), C.07, TEST
+    pt40)        IMG=$P/port-work/pt40/img/super.img;        MD5=7449ec281f79fa3de6ec4dbd46d00892 ;;   # pt37 + 4y + 4z (no prebuilt boot image: odrefresh builds it on /data), C.07, TEST
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot
