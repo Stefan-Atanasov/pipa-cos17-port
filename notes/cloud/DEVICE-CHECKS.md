@@ -1,0 +1,39 @@
+# Device checks for the cloud branches (2026-11-03)
+
+The cloud session had no tablet. Each check below is read-only (no flash, no reboot, no write), unless it says so.
+Use `ADB="adb -s <serial>"`. Root commands run through `su -c`. The results decide which shims to build.
+
+## 1. Blocked waits (decide the gameopt stub and confirm 4q)
+
+1. Start a game from the Games app. Wait 30 s.
+2. `$ADB shell "su -c 'debuggerd -b \$(pidof oiface)'" | grep -B2 -A12 -i waitForService`
+   - A thread in `AServiceManager_waitForService` with `gameopt` = oiface is blocked: build the gameopt stub
+     (`notes/cloud/GAMEOPT.md`). No hit = skip the stub.
+3. `$ADB shell getprop ro.oplus.os_type` and `$ADB logcat -d | grep -i -E "ISensorFeature|isDeclared"`
+4. `$ADB shell "su -c 'debuggerd -b \$(pidof system_server)'" | grep -B3 -A12 -i -E "SensorFeature|Urcc"`
+   - A blocked thread confirms the need for step 4q (`notes/cloud/OPLUSSENSOR.md`). 4q is cheap; keep it either way.
+5. `$ADB shell "su -c 'grep -l liboplus-uah-client /proc/[0-9]*/maps'"` (which process loads the urcc client).
+
+## 2. Display features (decide the Java colour-matrix patch)
+
+1. `$ADB shell setprop log.tag.HidlDisplayPanelFeature V`, then `$ADB logcat -c`.
+2. Turn on, one after the other: Eye Protect, Read Mode, Reduce White Point, Game Eye Care (Games app).
+3. `$ADB logcat -d | grep -E "setDisplayPanelFeatureValue|HidlDisplayPanelFeature"`: write down the ids for each switch.
+4. For Read Mode and Reduce White Point: does the picture change? (photo with the switch off and on.)
+   No change = add it to the Java patch (`notes/cloud/DISPLAY-HALS.md` 4.3).
+5. `$ADB logcat -d | grep -c "displayPanelFeature is NULL"` after 1 minute of normal use (cost of the missing HAL).
+6. `$ADB logcat -d | grep -i "using Hidl MiscService"` (the misc fallback; expected: no hang).
+7. Set the log tag back: `$ADB shell setprop log.tag.HidlDisplayPanelFeature ""`.
+
+## 3. Bypass charging (branch `cloud/bypass-4p`, after a build)
+
+`maintainer/chargershim/patch_record.py` must run first (the shim jar is not in git). Then build to 4p, flash, and use
+`notes/cloud/CHARGER-HAL.md` section E.4.
+
+## 4. DP test kernel (kernel repo, branch `cloud/dp-test`)
+
+`fastboot boot` only (writes nothing). Steps and dmesg guide: `notes/DP-TEST.md` in the kernel repo.
+
+## 5. Bug 36 (stuck 120 Hz)
+
+Only when it happens again: the capture checklist in `notes/cloud/BUG36-OTI.md` section 5, before any restart.
