@@ -2,7 +2,7 @@
 
 Scope: wire protocol, donor behaviour, clients, value on pipa, shim tables where value is HIGH/MED, device checks.
 Method: static only (no device). Tags: [seen] = read in donor files; [inferred] = from names or structure; [unknown] = not resolved.
-No donor code is quoted. Sources: `donor {odm,vendor,system,system_ext}`, dumps in (cloud work folder), pipa kernel `/home/user/kernel_xiaomi_pipa_cos17` (branch oppo).
+No donor code is quoted. Sources: `donor {odm,vendor,system,system_ext}`, dumps in (cloud work folder), pipa kernel `kernel_xiaomi_pipa_cos17` (branch oppo).
 
 ## 0. Verdicts
 

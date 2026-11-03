@@ -1,6 +1,6 @@
 # SPEC-MISC-SENSOR: shims for `vendor.oplus.hardware.misc` and `vendor.oplus.hardware.oplusSensor`
 
-Static analysis only. No device, no network. Donor tree `/home/user/donor/fs` (C.07 per the older notes; the port docs say C.06 [unknown: diff]).
+Static analysis only. No device, no network. Donor tree (C.07 per the older notes; the port docs say C.06 [unknown: diff]).
 Marks: [seen] read in files. [inferred] follows from code or names. [unknown] needs the device.
 Model for the shims: `maintainer/touchshim/TouchService.java` and its README. Same method: Java binder service, own wire code, donor interface hash, system-stability binder, SELinux label `oplus_absent_service`.
 Rule for both shims: the shim never calls a sensor HAL, never enables a sensor, and never writes a node that is not on a whitelist. The whitelist is EMPTY in phase 1.
