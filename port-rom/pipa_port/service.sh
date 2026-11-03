@@ -214,6 +214,28 @@ if [ "${TOUCH_SHIM:-1}" = 1 ] && [ -f $MODDIR/touchshim.jar ] && ! pgrep -f pipa
     ) &
 fi
 
+# ----------------------------------------------------------------- HAL shims
+# 4r: own-code OPPO HAL shims (maintainer/halshims) in ONE host process (HAL_SHIMS = comma list of gameopt, panel,
+# misc): gameopt gives game key threads sched_assist UX and resets it; panel and misc answer like the donor HALs.
+# The registrar adds the official names through a cross-process proxy, as for the charger and touch shims, and
+# leaves a name alone that already has a server.
+if [ -n "${HAL_SHIMS:-}" ] && [ -f $MODDIR/halshims.jar ] && ! pgrep -f pipa.hal.HalHost >/dev/null 2>&1; then
+    (
+        sleep 4
+        L=/data/local/tmp/halshims.log
+        quick=0
+        while [ $quick -lt 5 ]; do
+            ( sleep 3; CLASSPATH=$MODDIR/halshims.jar app_process /system/bin pipa.hal.HalHost register "$HAL_SHIMS" >> $L 2>&1 ) &
+            t0=$(date +%s)
+            CLASSPATH=$MODDIR/halshims.jar app_process /system/bin pipa.hal.HalHost host "$HAL_SHIMS" >> $L 2>&1
+            if [ $(( $(date +%s) - t0 )) -lt 60 ]; then quick=$((quick + 1)); else quick=0; fi
+            echo "$(date) HAL shim host exited ($quick quick exits), restart in 5s" >> $L
+            sleep 5
+        done
+        echo "$(date) HAL shim host: 5 quick exits, stopped (see the lines above)" >> $L
+    ) &
+fi
+
 # ------------------------------------------------------------ cryptoeng shim
 # No vendor.oplus.hardware.cryptoeng.ICryptoeng on pipa (OPPO keeps the privacy password in a TEE app), so the
 # privacy password, app lock and hidden apps failed without a message. CryptoEngShim (maintainer/cryptoeng) answers

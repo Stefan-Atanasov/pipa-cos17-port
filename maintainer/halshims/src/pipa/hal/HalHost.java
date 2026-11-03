@@ -18,6 +18,7 @@ public final class HalHost {
         switch (key) {
             case "panel": return new PanelFeatureService();
             case "misc": return new MiscService();
+            case "gameopt": return new GameOptService();
             default: throw new IllegalArgumentException("unknown shim " + key);
         }
     }

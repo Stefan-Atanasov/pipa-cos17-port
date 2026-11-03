@@ -37,3 +37,16 @@ Use `ADB="adb -s <serial>"`. Root commands run through `su -c`. The results deci
 ## 5. Bug 36 (stuck 120 Hz)
 
 Only when it happens again: the capture checklist in `notes/cloud/BUG36-OTI.md` section 5, before any restart.
+
+## 6. HAL shims (branch `cloud/halshims`, step 4r, after a build)
+
+1. `$ADB shell "su -c 'cat /data/local/tmp/halshims.log'"`: `pipa HAL host ready: gameopt,panel,misc` and three
+   `registered` lines. `service check vendor.oplus.hardware.gameopt.IGameOptHalService/default` = found.
+2. SELinux: `$ADB logcat -d | grep -E "avc.*pipa_hal_"` must be empty (else add the `find` rule for that domain).
+3. gameopt: start a game from the Games app. Then
+   `$ADB shell "su -c 'cat /data/misc/pipa_port/gameopt_leases'"` lists the boosted threads (pid tid start bit), and
+   for one tid `$ADB shell "su -c 'cat /proc/<pid>/task/<tid>/ux_state'"` has bit 1 or 2 set.
+4. gameopt reset: go home (game in the background). The lease file is empty and the `ux_state` bit is clear.
+5. oiface: `$ADB shell "su -c 'debuggerd -b \$(pidof oiface)'" | grep -c waitForService` = 0.
+6. Smoothness of a game before and after (`maintainer/perfetto/traced_heavy.sh <label>`, 2 runs or more, AGENTS.md).
+7. RAM: `$ADB shell "su -c 'dumpsys meminfo \$(pgrep -f pipa.hal.HalHost | head -1)'" | grep TOTAL`.

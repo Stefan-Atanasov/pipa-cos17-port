@@ -19,3 +19,12 @@
 (allow pipa_port pipa_hal_misc_service (service_manager (add find)))
 ; oplus-services (OplusEyeProtectLcdInfoHelper, AlertSliderHw, shoulder keys) in system_server
 (allow system_server pipa_hal_misc_service (service_manager (find)))
+
+(type pipa_hal_gameopt_service)
+(roletype object_r pipa_hal_gameopt_service)
+(typeattributeset service_manager_type (pipa_hal_gameopt_service))
+(allow pipa_port pipa_hal_gameopt_service (service_manager (add find)))
+; the donor client list (system_ext attribute hal_gameopt_aidl_client: surfaceflinger oiface oplus_game_service)
+(allow hal_gameopt_aidl_client pipa_hal_gameopt_service (service_manager (find)))
+; ux_task write (open write) and /proc/<pid>/task reads are in pipa_port_rules.cil already; the lease file is in
+; /data/misc/pipa_port (the pipa_port state folder)
