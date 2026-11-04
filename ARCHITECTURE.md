@@ -145,6 +145,11 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 4v | step only | Circle to Search after a 600 ms hold on the gesture bar (was 800 ms): `maintainer/cts/patch_navhandle_longpress.py` changes the long-press constant of the NavigationGestureDetector copies in OplusLauncher and SystemUI. |
 | 4w | step only | Bypass charging: after a charge below 15 %, the charge-current cap comes back only at 20 % (no cap/charge switching at 14/15 % under a game load). |
 | 4x | step only | `persist.sys.oplus.disableCompressDedup=1`, `persist.sys.oplus.disableTurboPocket=1`: OPPO idle maintenance keeps the file defrag but skips the dedup scan and Turbo Pocket (they need OPPO-only f2fs ioctls and an OPPO UFS driver). |
+| 5a | step only | `services.jar` (`maintainer/extdisplay/patch_ext_modes.sh`): external display modes without FLAG_SIZE_OVERRIDE, so a USB-C monitor can use its high refresh modes (e.g. 2560x1440@120). |
+| 5b | step only | `persist.wm.debug.enforce_display_extended_mode=true` + pipa_port `EXT_DISPLAY` (`mirror_built_in_display=0` once): a USB-C monitor is an extended ColorOS screen with its own taskbar (the stock check wants 12 GB RAM). |
+| 5c | step only | `oplus-services.jar` (`maintainer/flexwin/patch_float_limit.sh`): more than one floating window also with launcher animation tier 3/4. |
+| 5d | step only | PC Screen Extend / Mirror (OPPO PC Connect): patched `odmf.jar` (`maintainer/odmf/patch_odmf_pcextend.sh`, no `color-format` 19 in surface decode mode) in `/system_ext/pipa_port/odmf/`; `pipa_port.rc` bind-mounts it over the signed odmf opex overlay folder. |
+| 5e | step only | `oplus-services.jar` (`maintainer/extdisplay/patch_ext_density.sh`): a USB-C monitor keeps its native size; density = short side x 200 / 1440 (1440p: 200 dpi, like Windows 125 %). |
 
 ### 2.4 Where properties go
 

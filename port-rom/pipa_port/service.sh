@@ -316,6 +316,13 @@ if [ "${QUICK_SHARE:-1}" = 1 ] && [ ! -e "$STATE/quick_share_set" ] && \
     done
     touch "$STATE/quick_share_set" && log "Quick Share: GMS components enabled once"
 fi
+# 5b external display (BUGS-TODO 54): ColorOS extends to a USB-C monitor (own screen with taskbar) instead of a mirror.
+# The ROM sets persist.wm.debug.enforce_display_extended_mode (the ColorOS mode needs >= 12 GB RAM or that prop);
+# Android mirrors while Settings.Secure mirror_built_in_display is 1. Once per install; the user can set it back.
+if [ "${EXT_DISPLAY:-1}" = 1 ] && [ ! -e "$STATE/ext_display_set" ]; then
+    settings put secure mirror_built_in_display 0 </dev/null >/dev/null 2>&1 && \
+        touch "$STATE/ext_display_set" && log "external display: extend (mirror_built_in_display 0) once"
+fi
 # 4k OShare: the ROM copy is patched (tablet -> OPPO phone without the interconnect). An OPPO App Market update
 # installs an unpatched copy in /data/app; remove the update, so the patched ROM copy is used again.
 if [ "${OSHARE_ROLLBACK:-1}" = 1 ]; then

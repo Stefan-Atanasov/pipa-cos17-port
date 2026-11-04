@@ -179,6 +179,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Do not start apps with `monkey -p <pkg> 1` in tests.** monkey injects a rotation event (rotation locked to 0 =
   portrait on pipa for ~100 ms): a rotation animation and composer errors that real launches do not have. Use
   `am start -n <pkg>/<activity>` or a real tap (`maintainer/kgest`).
+- **OPPO "opex" packages (`system_ext/opex/*.opex`) are signed** (zip + ext4 `opex.img`, sha256 in `description.cfg`). init mounts each one over `/system_ext/{framework,lib64}/oplusex/<pkg>`. Do not change an opex: ship the patched file in `/system_ext/pipa_port/` and bind-mount its folder from `pipa_port.rc` on `oplus.opex.done=1` (step 5d).
 - **`dump.erofs --ls --path=<missing>` returns exit code 0.** Check its output for "read inode failed".
 - **Run smali and baksmali with `-j 1`.** With threads, the dex layout changes on each run (same code, other md5).
 - Do not kill `system_server` to apply framework changes (it causes a warm-reset crash). Reboot.

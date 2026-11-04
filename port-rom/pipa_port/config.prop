@@ -81,6 +81,8 @@ SPEED_COMPILE=1
 
 # Google Quick Share: turn its GMS components on once (4l; GMS disabled them while the ROM said "China device").
 QUICK_SHARE=1
+# 5b: a USB-C monitor is an extended screen, not a mirror (once per install)
+EXT_DISPLAY=1
 
 # OPPO file sharing: remove an App Market update of OShare at boot, so the patched ROM copy (4k: tablet -> OPPO
 # phone without the interconnect) stays in use. 0 keeps updates (then sharing needs the interconnect).

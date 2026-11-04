@@ -73,6 +73,7 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt37)        IMG=$P/port-work/pt37/img/super.img;        MD5=26fe62970cbe86701de1de880b4d6fe2 ;;   # pt36 + 4x no dedup scan / Turbo Pocket, C.07, TEST (beta7 candidate)
     pt39)        IMG=$P/port-work/pt39/img/super.img;        MD5=066d526c878d53079d2a2e7917bfce17 ;;   # pt38 + 4z boot image on /data (stale boot-framework removed), C.07, TEST
     pt40)        IMG=$P/port-work/pt40/img/super.img;        MD5=7449ec281f79fa3de6ec4dbd46d00892 ;;   # pt37 + 4y + 4z (no prebuilt boot image: odrefresh builds it on /data), C.07, TEST
+    pt41)        IMG=$P/port-work/pt41/img/super.img;        MD5=59bc28c6a5c5db2ed09e3ccb62220504 ;;   # pt40 + 5a-5e (USB-C monitor 120 Hz, extended screen, float limit, PC Extend/Mirror odmf, monitor 200 dpi), C.07, TEST (beta7 candidate)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot
