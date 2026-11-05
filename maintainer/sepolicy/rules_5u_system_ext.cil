@@ -10,3 +10,6 @@
 (allow pipa_port self (netlink_selinux_socket (create bind read write getattr setopt)))
 ; the service shell looks up /system/bin/idmap2 in PATH (getattr, harmless; seen since beta7, device_check FAIL)
 (dontaudit pipa_port idmap_exec (file (getattr)))
+; beta7.1 once-switch (Fast + Visual blur + Contour glow on every install): SystemUI reads the blur setting at its start;
+; pipa_port restarts it one time when the switch changed something (am force-stop does not stop the persistent app).
+(allow pipa_port platform_app (process (sigkill)))

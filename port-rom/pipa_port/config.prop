@@ -44,6 +44,8 @@ STYLUS_BUTTONS_DEFAULT=1
 SMOOTH_DEFAULT=1
 # once per install: OPPO secure keyboard for password fields off (Settings.Secure security_window=0; beta8)
 SECURE_KEYBOARD_OFF=1
+# beta7.1: once on every install (also dirty flash): Fast animations + Visual blur + Contour glow on.
+BLUR_TIER_ONCE=1
 
 # Grant the pipa helper app its notification and overlay permissions.
 HELPER_GRANTS=1

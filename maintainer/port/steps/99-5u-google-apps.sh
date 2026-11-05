@@ -16,6 +16,8 @@
 #   finds no input_method service in the pipa_port domain. Only over Sogou or no keyboard (dirty flash keeps the
 #   user's keyboard).
 # Inputs: about 500 MB (super has room: 6.8 of 9.1 GB used at pt57).
+# * beta7.1 (pt62): service.sh switches Fast + Visual blur + Contour glow on once on every install (dirty flash too)
+#   and restarts SystemUI + launcher once when that changed something (rule: pipa_port sigkill platform_app).
 #NEEDS: "$HERE/../../port-inputs/apps-5u/SHA256SUMS" "$HERE/sepolicy/rules_5u_system_ext.cil"
 set -eu
 . "$PORT/lib.sh"

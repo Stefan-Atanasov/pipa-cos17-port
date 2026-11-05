@@ -3,7 +3,7 @@
 This document gives the procedures to build, flash and roll back the ROM and the kernel. It also gives the
 procedure to make a release package. For the parts of the ROM, refer to [ARCHITECTURE.md](ARCHITECTURE.md).
 
-The public release **beta7.1** is a `port.sh` run with the default options (last active step 5u) and kernel
+The public release **beta7.1** is a `port.sh` run with the default options (last active step 5v) and kernel
 `walt-r17`.
 
 NOTE: The scripts were made and tested on one PC (the maintainer's). Section 1.4 tells how they find their folders.
@@ -336,11 +336,11 @@ bash maintainer/build_release.sh <tag> --pkg <name> --boot <boot.img> --name "<v
 Commands for beta7.1 (`K` is the SukiSU manager APK, `B` is the kernel image `boot-walt-r17.img`):
 
 ```sh
-KSU_APK=$K bash maintainer/build_release.sh pt61 --boot $B --pkg beta7.1 --name beta7.1 --7z
-KSU_APK=$K bash maintainer/build_release.sh pt61-noenc --boot $B --pkg beta7.1-noenc --name beta7.1-noenc --7z
+KSU_APK=$K bash maintainer/build_release.sh pt63 --boot $B --pkg beta7.1 --name beta7.1 --7z
+KSU_APK=$K bash maintainer/build_release.sh pt63-noenc --boot $B --pkg beta7.1-noenc --name beta7.1-noenc --7z
 ```
 
-`pt61` is the default build. `pt61-noenc` is the same build with `PORT_NOENCRYPT=1` (step 3x).
+`pt63` is the default build. `pt63-noenc` is the same build with `PORT_NOENCRYPT=1` (step 3x).
 
 The script needs the extracted beta4 release in `COS17/` (section 1.3), the SukiSU manager APK (`KSU_APK`, default
 the v4.3.0 APK) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.

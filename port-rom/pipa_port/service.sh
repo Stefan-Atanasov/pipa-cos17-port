@@ -321,6 +321,27 @@ if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
     touch "$STATE/smooth_default_set"
     log "first-boot defaults: window blur off, visual blur + contour glow on, animation blur off, on-screen keyboard on"
 fi
+# beta7.1 (user 2026-11-05): "Fast" animations (tier 3) + Visual blur + Contour glow once on EVERY install, also on a dirty
+# flash from beta6/beta7 (2q had set material blur 0 at their first boot, and ColorOS hid the switch at tier 3). The
+# user can change all three again (Animations tile, Personalization > More > Textured visual effects).
+# SystemUI and the launcher read the blur setting at their start: restart both once when something changed (dirty
+# flash). A clean flash has the same values already (first-boot defaults above): no restart.
+if [ "${BLUR_TIER_ONCE:-1}" = 1 ] && [ ! -e "$STATE/blur_tier_71_set" ]; then
+    old="$(sget global pipa_anim_level) $(sget system system_material_blur_enable) $(sget system system_material_stroke_enable)"
+    {
+        settings put global pipa_anim_level 3
+        settings put system system_material_blur_enable 1
+        settings put system system_material_stroke_enable 1
+    } </dev/null >/dev/null 2>&1
+    touch "$STATE/blur_tier_71_set"
+    case "$old" in
+        "null 1 1"|"3 1 1") log "beta7.1 once: Fast + visual blur + contour glow already set" ;;
+        *)  kill -9 $(pidof com.android.systemui) 2>/dev/null
+            am force-stop com.android.launcher </dev/null >/dev/null 2>&1
+            am start -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null >/dev/null 2>&1
+            log "beta7.1 once: animations Fast (tier 3), visual blur + contour glow on (was: $old); SystemUI + launcher restarted" ;;
+    esac
+fi
 # 4g Circle to Search (BUGS-TODO 49): the gesture-bar long press starts the default assistant; the pipa helper's
 # ACTION_ASSIST activity starts Circle to Search through the contextual_search service. Once per install, and only when
 # the Google app is installed (else there is no Circle to Search); the user can choose another assistant later.

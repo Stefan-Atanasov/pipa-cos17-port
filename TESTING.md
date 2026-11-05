@@ -42,7 +42,7 @@ ADB="adb -s <serial>" sh maintainer/device_check.sh <tag>
 - The report is in `port-work/device-checks/<date>-<tag>.txt`.
 - If `port-work/<tag>/report/` exists (a `port.sh` build on this PC), the script also compares the file md5 values on
   the tablet with the build manifests.
-- Expected result for beta7.1: 56-58 pass, 0 fail (clean flash of pt61: 57 pass, 0 fail, 1 warning) (a warning for the IFace start burst in the first minute after a boot is normal).
+- Expected result for beta7.1: 56-58 pass, 0 fail (clean flash of pt61: 57 pass, 0 fail, 1 warning; pt63 dirty: 56 pass, 0 fail, 2 warnings) (a warning for the IFace start burst in the first minute after a boot is normal).
 
 The script checks, among other items:
 

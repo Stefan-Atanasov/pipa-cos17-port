@@ -13,7 +13,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **beta7.1** (2026-11-05): `port.sh` default build (last active step 5u) + kernel `walt-r17` |
+| Current release | **beta7.1** (2026-11-05): `port.sh` default build (last active step 5v) + kernel `walt-r17` |
 | Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. |
 | Previous release | beta7 (2026-11-05, withdrawn: a clean flash gave a grey screen; step 5r) and beta6 (2026-10-30, step 3w + kernel `walt-r8kpm`) |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |

@@ -2,7 +2,7 @@
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt61 = beta7.1** (`port.sh` up to step 5u), kernel **walt-r17** (same as beta7). Donor: OPPO OPD2515
+Build: ROM **pt63 = beta7.1** (`port.sh` up to step 5v), kernel **walt-r17** (same as beta7). Donor: OPPO OPD2515
 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01); pipa vendor/odm/firmware from beta4. Root: SukiSU-Ultra
 **v4.3.0-r1** (builtin).
 
@@ -17,13 +17,15 @@ Build: ROM **pt61 = beta7.1** (`port.sh` up to step 5u), kernel **walt-r17** (sa
   them). Before, the ROM had only an old Play Store stub, and you had to install the real one from the App Market.
   Gboard becomes the keyboard (only over the CN keyboard Sogou: a dirty flash keeps your keyboard). Circle to Search
   works right after the Google app is installed (hold the gesture bar).
-- **Blur on by default:** Visual blur and Contour glow are on after a clean flash (with the "Fast" animations; no
-  measured cost). The switches are in Personalization -> More -> Textured visual effects (ColorOS hid them with
-  "Fast").
+- **Blur on by default:** "Fast" animations, Visual blur and Contour glow are switched on once after the flash (clean
+  flash and update with "keep data"; no measured cost). The switches are in Personalization -> More -> Textured visual
+  effects (ColorOS hid them with "Fast"). You can change them again after that.
 - **Animations tile:** "Fast" (default) and "Slow" (ColorOS's full animation set, tier 2; was "ColorOS" = tier 1).
+- **No "Set charging limit to 80%" pop-up after each boot** (the battery app read a wrong charger value at boot). Your
+  own charging limit in Settings > Battery still works.
 - **Secure keyboard off:** password fields use your normal keyboard (Settings > Additional settings > Keyboard & input
   method > Secure keyboard turns it on again).
-- Update from beta7 or beta6: flash with Enter ("keep data"). Your settings stay (blur, keyboard).
+- Update from beta7 or beta6: flash with Enter ("keep data"). Your keyboard stays; animations go to "Fast" and blur on one time.
 
 ## Highlights of beta7 (changes since beta6)
 
@@ -70,7 +72,7 @@ Build: ROM **pt61 = beta7.1** (`port.sh` up to step 5u), kernel **walt-r17** (sa
   manager in the background (about 1 minute). Let it finish.
 - **If the flash stops with "Failed to set slot B":** the bootloader sometimes reports no slots. Run
   `fastboot reboot bootloader`, then start the flash script again. Nothing was written at that point.
-- **Technical:** ROM md5 `b0fd604aeec329ce610063b0e7930e28`, boot image md5 `70e4816be872995be0da7549348cdccd`. Source and step list:
+- **Technical:** ROM md5 `acd73e2e27e955b779d56e2db1af5d01`, boot image md5 `70e4816be872995be0da7549348cdccd`. Source and step list:
   https://github.com/Stefan-Atanasov/pipa-cos17-port
 - **KernelSU modules:** script modules (`service.sh`, `post-fs-data.sh`) and `system.prop` work. Modules that
   replace system files (a `system/` folder) need a KernelSU metamodule; none is included. Modules with their own
@@ -100,6 +102,10 @@ Build: ROM **pt61 = beta7.1** (`port.sh` up to step 5u), kernel **walt-r17** (sa
       assistant set, Visual blur + Contour glow on, blur switches visible with "Fast"
 - [x] Automated check 57 pass, 0 fail (1 warning: a ColorOS log size value); no crash, no ANR, no denial from the port
 - [x] Dirty flash over beta7-based data: installed apps and the keyboard kept, no second install
+- [x] Dirty flash over a simulated beta6 user (tier 3, Visual blur and Contour glow off, stock Wallpapers): after the
+      boot Fast + blur + glow on, SystemUI and launcher restarted once, the blur switches visible; automated check 56
+      pass, 0 fail
+- [x] Charging pop-up: no pop-up after a boot on USB power (pt63, dirty flash), battery app runs, no crash
 - [ ] Night standby on this build (beta6: 0.21 %/h)
 
 ## Tests beta7 (maintainer device, 2026-11-04/05)
