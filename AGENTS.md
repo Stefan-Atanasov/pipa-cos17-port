@@ -100,6 +100,13 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   `Failed transaction (2147483646)` and no log. In `pipa_port` scripts, redirect all three to `/dev/null`. Thus
   `$(settings get ...)` cannot work there: use `sget` in `service.sh` (`settings get` into a
   file in `/data/local/tmp`).
+- **Test each new `pipa_port` command in its domain:** `su -c 'runcon u:r:pipa_port:s0 sh -c "<cmd> </dev/null
+  >/data/local/tmp/x.txt 2>&1"'`, then read the file. `pm install <file>` needs the selinux_check_access rules of step
+  5u and an APK labelled `system_file`; `ime` finds no service there (use `settings put secure default_input_method`);
+  `getprop sys.user.0.*` reads empty.
+- **A dirty flash never runs the setup wizard.** Test each release with a clean flash (wipe). beta7 removed
+  FindMyPhone, and the setup wizard `com.coloros.bootreg` crashed in a loop without its provider (grey screen); dirty
+  flashes did not show it. Crash reports are in `/data/system/dropbox/system_app_crash@*` (TWRP can read them).
 - **SELinux denials are in logcat (tag `auditd`) and dmesg** (the WALT kernel has `CONFIG_AUDIT=y`). The default audit
   rate (5/s) drops most denials: for a capture, set `persist.logd.audit.rate` to 2000 and reboot. init checks property
   sets in user space and logs nothing for a permissive domain: test property rules with a boot.

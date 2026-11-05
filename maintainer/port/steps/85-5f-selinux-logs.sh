@@ -8,8 +8,8 @@
 # * vendor/etc/selinux/vendor_sepolicy.cil + sepolicy/rules_5f_vendor.cil: ueventd firmware dir, init USB supply
 #   nodes; dontaudit for diag, thermald HBM node, Qualcomm init shell and persist mount probes.
 #   Both compiled on the tablet with secilc (the init file set, exit 0) before the build.
-# * my_stock/priv-app/FindMyPhone removed (BUGS 67): it needs OPPO RPMB/TEE storage that pipa does not have and
-#   retried in a loop at boot (~200 error lines). The user does not need it.
+# * my_stock/priv-app/FindMyPhone is NOT removed (pt57): the setup wizard needs its provider (see below). BUGS 67:
+#   it cannot work on pipa (no OPPO RPMB/TEE storage) and retries at boot (~200 error lines).
 #NEEDS: "$HERE/sepolicy/rules_5f_system_ext.cil" "$HERE/sepolicy/rules_5f_vendor.cil"
 set -eu
 . "$PORT/lib.sh"
@@ -32,10 +32,10 @@ need_grep "^(type vendor_diag_device)" "$CIL"
 cat "$R/vendor_sepolicy.cil.new" > "$CIL"; rm -f "$R/vendor_sepolicy.cil.new"
 echo "edited  vendor/etc/selinux/vendor_sepolicy.cil"
 
-echo "== remove Find My Device (com.coloros.findmyphone)"
+# FindMyPhone stays (pt57, 2026-11-05): the setup wizard com.coloros.bootreg (GuidePage.initDeferredGuideWork)
+# registers an observer on com.coloros.findmyphone.provider.SharedProvider and crashes in a loop without it
+# = grey screen after a clean flash (beta7). A dirty flash skips the setup wizard.
 D=$T/system/my_stock/priv-app/FindMyPhone
-[ -f "$D/FindMyPhone.apk" ] || die "no $D/FindMyPhone.apk"
-rm -rf "$D"
-echo "removed my_stock/priv-app/FindMyPhone"
+[ -f "$D/FindMyPhone.apk" ] || die "no $D/FindMyPhone.apk (the setup wizard needs its provider)"
 
 set_layer "$STEP"

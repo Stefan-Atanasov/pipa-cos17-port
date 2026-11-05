@@ -89,6 +89,9 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt55)        IMG=$P/port-work/pt55/img/super.img;        MD5=95724aca3367900ab5c405e1136dfb5a ;;   # pt54 + 5q game service UI First ioctl (test; image deleted 2026-11-05)
     pt56)        IMG=$P/port-work/pt56/img/super.img;        MD5=46b49fb8d81a7c75e719afad447103e7 ;;   # pt55 + 5r OShare store guard = beta7 (release)
     pt56-madb)   IMG=$P/port-work/pt56-madb/img/super.img;   MD5=92f7336fcd93859226f9cea7e7cac07d ;;   # pt56 + 5s maintainer adb key (NEVER publish)
+    pt57)        IMG=$P/port-work/pt57/img/super.img;        MD5=c343e0fbfaa77283c327d18ca0058f14 ;;   # pt56 with FindMyPhone kept (setup wizard needs its provider) = beta7 hotfix
+    pt60)        IMG=$P/port-work/pt60/img/super.img;        MD5=91eee7199de0d6e1286fc5bde173edb1 ;;   # pt57 + 5t blur switches/defaults, SukiSU retry, helper 1.1 + 5u Play Store/Gboard/Google + pipa_port selinux_check_access
+    pt61)        IMG=$P/port-work/pt61/img/super.img;        MD5=b0fd604aeec329ce610063b0e7930e28 ;;   # pt60 + 5u rules map/selinuxfs + dontaudit idmap2 (beta7.1 candidate)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

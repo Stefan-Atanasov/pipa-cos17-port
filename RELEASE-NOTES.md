@@ -1,17 +1,37 @@
-# ColorOS 17 for Xiaomi Pad 6 (pipa) — beta7 (2026-11-05)
+# ColorOS 17 for Xiaomi Pad 6 (pipa) — beta7.1 (2026-11-05)
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt56 = beta7** (`port.sh` up to step 5r), kernel **walt-r17**. Donor: OPPO OPD2515 `17.0.0.104(CN01)`
-(C.07, security patch 2026-09-01); pipa vendor/odm/firmware from beta4. Root: SukiSU-Ultra **v4.3.0-r1** (builtin).
+Build: ROM **pt61 = beta7.1** (`port.sh` up to step 5u), kernel **walt-r17** (same as beta7). Donor: OPPO OPD2515
+`17.0.0.104(CN01)` (C.07, security patch 2026-09-01); pipa vendor/odm/firmware from beta4. Root: SukiSU-Ultra
+**v4.3.0-r1** (builtin).
 
-## Highlights (changes since beta6)
+## What's new in beta7.1 (fixes for beta7)
+
+- **Clean flash fixed:** beta7 showed a grey screen after a clean flash (the setup wizard crashed: it needs Find My
+  Device, which beta7 removed). Find My Device is back (it still cannot be switched on). A dirty flash from beta6 was
+  not affected.
+- **SukiSU manager on a clean flash:** beta7 could not install it on the first boot (an SELinux check blocked every
+  install from the port service). Fixed; the manager is there right after the setup.
+- **Play Store, Gboard and the Google app are installed on the first boot** (stable versions; Play Store updates
+  them). Before, the ROM had only an old Play Store stub, and you had to install the real one from the App Market.
+  Gboard becomes the keyboard (only over the CN keyboard Sogou: a dirty flash keeps your keyboard). Circle to Search
+  works right after the Google app is installed (hold the gesture bar).
+- **Blur on by default:** Visual blur and Contour glow are on after a clean flash (with the "Fast" animations; no
+  measured cost). The switches are in Personalization -> More -> Textured visual effects (ColorOS hid them with
+  "Fast").
+- **Animations tile:** "Fast" (default) and "Slow" (ColorOS's full animation set, tier 2; was "ColorOS" = tier 1).
+- **Secure keyboard off:** password fields use your normal keyboard (Settings > Additional settings > Keyboard & input
+  method > Secure keyboard turns it on again).
+- Update from beta7 or beta6: flash with Enter ("keep data"). Your settings stay (blur, keyboard).
+
+## Highlights of beta7 (changes since beta6)
 
 - **New donor C.07** (OPPO 17.0.0.104, security patch 2026-09-01).
 - **Faster UI after a flash:** the port compiles SystemUI, Settings and the launcher again after each flash, and
   Android builds a matching framework boot image at the first boot. Before, a clean flash ran these apps without
   compiled code (slow Settings, laggy launcher) until the nightly compile. Measured: launcher janky frames 35 % -> 16 %.
-- **Animations tile with two states:** "Fast" (default, smoothest) and "ColorOS" (OPPO's own, slower). Blur stays
+- **Animations tile with two states:** "Fast" (default, smoothest) and "Slow" (beta7.1; beta7 had "ColorOS"). Blur stays
   on in both: the home screen dock and folders and the Quick Settings panel now have blur also with "Fast". Measured
   cost: none at normal speed, about 1 point of launcher jank when you open and close apps very fast.
 - **Several floating windows at a time** also with the "Fast" animations (before: a second window closed the first).
@@ -23,7 +43,7 @@ Build: ROM **pt56 = beta7** (`port.sh` up to step 5r), kernel **walt-r17**. Dono
   `GAME_THERMAL_SCENE` in `/data/misc/pipa_port/config.prop` (13 = hotter, 0 = off).
 - **Clean logs:** no SELinux denials from the ROM in a full test (boot, apps, camera, recording, split screen,
   floating windows, Wi-Fi/Bluetooth/airplane toggles, idle). OPPO's UI First boost hints now reach SurfaceFlinger,
-  system_server, camera, media and more apps. Find My Device is removed (it needs OPPO secure storage).
+  system_server, camera, media and more apps.
 - **Bedtime mode** no longer turns itself on again after you turn it off.
 - **App updates:** you can update apps from the Play Store and the App Market. The App Market can no longer
   replace the port's patched OPPO Share (file sharing with the phone without the phone link).
@@ -44,11 +64,13 @@ Build: ROM **pt56 = beta7** (`port.sh` up to step 5r), kernel **walt-r17**. Dono
 ## Notes
 
 - **The first boot takes about 1 minute longer** than usual: Android compiles the framework. Do not reboot it.
-- Update from beta6: flash with Enter ("keep data"). From another ROM: "y" (clean flash). A clean flash
-  erases data. Do not change between this package and the `beta7-noenc` package with "keep data".
+- Update from beta6 or beta7: flash with Enter ("keep data"). From another ROM: "y" (clean flash). A clean flash
+  erases data. Do not change between this package and the `beta7.1-noenc` package with "keep data".
+- **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU
+  manager in the background (about 1 minute). Let it finish.
 - **If the flash stops with "Failed to set slot B":** the bootloader sometimes reports no slots. Run
   `fastboot reboot bootloader`, then start the flash script again. Nothing was written at that point.
-- **Technical:** ROM md5 `46b49fb8d81a7c75e719afad447103e7`, boot image md5 `70e4816be872995be0da7549348cdccd`. Source and step list:
+- **Technical:** ROM md5 `b0fd604aeec329ce610063b0e7930e28`, boot image md5 `70e4816be872995be0da7549348cdccd`. Source and step list:
   https://github.com/Stefan-Atanasov/pipa-cos17-port
 - **KernelSU modules:** script modules (`service.sh`, `post-fs-data.sh`) and `system.prop` work. Modules that
   replace system files (a `system/` folder) need a KernelSU metamodule; none is included. Modules with their own
@@ -65,12 +87,22 @@ Build: ROM **pt56 = beta7** (`port.sh` up to step 5r), kernel **walt-r17**. Dono
 - **Navigation bar:** some apps draw content behind it.
 - **HeyTap:** this CN ROM and global OPPO/OnePlus phones use separate account servers.
 - **Play Integrity:** only BASIC integrity. No keybox is included.
-- **Find My Device** and **cloud password sync** are not available (they need OPPO secure storage).
+- **Find My Device** (it cannot be switched on) and **cloud password sync** are not available (they need OPPO secure
+  storage).
 - **USB-C monitor:** colours on the monitor are a bit warm (the tablet's colour correction applies to all screens).
 - Open reports that could not be reproduced: silent microphone recordings, recorder stutter, random screen flicker.
 - Public list: https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/KNOWN-ISSUES.md
 
-## Tests (maintainer device, 2026-11-04/05)
+## Tests beta7.1 (maintainer device, 2026-11-05)
+
+- [x] Clean flash (wipe like the flash script, beta7 firmware and kernel): setup wizard OK, SukiSU manager, Play Store,
+      Google app and Gboard installed in the first minute (each on the first try), Gboard default, Circle to Search
+      assistant set, Visual blur + Contour glow on, blur switches visible with "Fast"
+- [x] Automated check 57 pass, 0 fail (1 warning: a ColorOS log size value); no crash, no ANR, no denial from the port
+- [x] Dirty flash over beta7-based data: installed apps and the keyboard kept, no second install
+- [ ] Night standby on this build (beta6: 0.21 %/h)
+
+## Tests beta7 (maintainer device, 2026-11-04/05)
 
 "automated" = `device_check.sh`; "capture" = all SELinux denials logged (audit rate 2000) during a scripted session.
 
@@ -87,6 +119,5 @@ Build: ROM **pt56 = beta7** (`port.sh` up to step 5r), kernel **walt-r17**. Dono
 - [x] USB-C monitor 120 Hz, extended desktop, 200 dpi, PC Screen Extend / Mirror (GO27Q24)
 - [x] Root (SukiSU v4.3.0-r1), susfs initialised, manager and ksud on the same version
 - [x] Framework boot image built on /data and signed; SystemUI, Settings, launcher compiled
-- [ ] Clean flash of the release package
 - [ ] Night standby on this build (beta6: 0.21 %/h)
 - [ ] Keyboard case (no tester)

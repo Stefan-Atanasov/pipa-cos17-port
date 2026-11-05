@@ -13,9 +13,9 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **beta7** (2026-11-05): `port.sh` default build (last active step 5r) + kernel `walt-r17` |
-| Experimental | `beta7-noenc`: beta7 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. |
-| Previous release | beta6 (2026-10-30, step 3w + kernel `walt-r8kpm`) |
+| Current release | **beta7.1** (2026-11-05): `port.sh` default build (last active step 5u) + kernel `walt-r17` |
+| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. |
+| Previous release | beta7 (2026-11-05, withdrawn: a clean flash gave a grey screen; step 5r) and beta6 (2026-10-30, step 3w + kernel `walt-r8kpm`) |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
 | Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-r17`: SukiSU-Ultra v4.3.0-r1, susfs. |
@@ -31,11 +31,11 @@ The package has `FlashLinux.sh` and `FlashWindows.bat`. Read `RELEASE-NOTES.md` 
 first. The flash script asks one question:
 
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
-- Enter: dirty flash ("keep data"). Use it for an update from beta6.
+- Enter: dirty flash ("keep data"). Use it for an update from beta7 or beta6.
 
 Clean flash from a different ROM: the flash scripts also erase `frp` (since 2026-10-30, 17:00). If `frp` is not
 erased, the screen lock of the old ROM stays there, and ColorOS cannot set a new PIN ("Screen lock was already
-changed"). The beta7 scripts erase `frp`. If you used an older script for a clean flash, erase `frp` one time
+changed"). The beta7 and beta7.1 scripts erase `frp`. If you used an older script for a clean flash, erase `frp` one time
 (your data stays):
 
 ```
@@ -51,7 +51,7 @@ write the firmware (bootloader, modem, `vbmeta`) in a dirty flash.
 
 WARNING: The first boot takes about 1 minute longer than usual. Do not reboot during this time.
 
-Release paths that are not tested yet for beta7: refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
+Release paths that are not tested yet for beta7.1: refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
 
 ## Known issues and bug reports
 
@@ -127,5 +127,5 @@ The own scripts, sources and documents in this repository are under the Apache L
 ## Credits
 
 - 梦归zzz: the original ColorOS 17 port for pipa and the `pipa_core` module.
-- Stefan-Atanasov: maintenance, beta5 to beta7, ROM fixes, kernel.
+- Stefan-Atanasov: maintenance, beta5 to beta7.1, ROM fixes, kernel.
 - LineageOS, liyafe1997, kvsnr113 (E404 kernel), SukiSU-Ultra, susfs, KernelPatch, OPPO (open-source kernel).

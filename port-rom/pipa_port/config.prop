@@ -51,6 +51,8 @@ HELPER_GRANTS=1
 # Once per install: install the SukiSU-Ultra manager (system_ext/pipa_port/SukiSU.apk) as a normal app, so that
 # KernelSU finds it under /data/app (2w).
 KSU_MANAGER=1
+# Play Store + Gboard + Google app (5u): install the APKs in /system_ext/pipa_port/apps/<package>/ once per install (Play updates them).
+BUNDLED_APPS=1
 
 # Link /dev/input/event12 to the keyboard case while it is attached (xiaomi-keyboard
 # checks that exact name for fold detection).

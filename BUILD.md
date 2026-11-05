@@ -3,7 +3,7 @@
 This document gives the procedures to build, flash and roll back the ROM and the kernel. It also gives the
 procedure to make a release package. For the parts of the ROM, refer to [ARCHITECTURE.md](ARCHITECTURE.md).
 
-The public release **beta7** is a `port.sh` run with the default options (last active step 5r) and kernel
+The public release **beta7.1** is a `port.sh` run with the default options (last active step 5u) and kernel
 `walt-r17`.
 
 NOTE: The scripts were made and tested on one PC (the maintainer's). Section 1.4 tells how they find their folders.
@@ -61,6 +61,7 @@ Get these inputs. They are not in this repository.
 | Donor OTA `OPD2515_11.C.07_1070_202610201803.zip` (OPPO Pad Mini, `17.0.0.104(CN01)`, security patch 2026-09-01; base since pt28, 2026-11-03) | `donor/OPD2515_11.C.07/` | sha256 `e23488a76e16c1a9c3f7e2a804cb9f2b8c540b8b4166dbbdfc56c70cc2dac42d` (9213268549 bytes) |
 | SukiSU-Ultra manager `SukiSU_v4.3.0_41100-release.apk` (step 2w, release package) | `COS17/kernel/sukisu-v4.3.0/` | md5 `4dc76f1eae7bd2e6d975261d9d08baf6` |
 | SukiSU-Ultra manager `SukiSU_v4.2.1-r1_41049-release.apk` (only for the optional step 2u, `PORT_WITH_2U=1`) | `COS17/kernel/sukisu-v4.2.1-r1/` | md5 `3d7698ff8f58824d1718594366f5876b` |
+| Google apps for step 5u (Play Store, Gboard, Google app: base APK and splits, from Google Play) | `COS17/port-inputs/apps-5u/<package>/` (about 500 MB, not in git) | `SHA256SUMS` in the folder; a file `version` (versionCode) in each package folder |
 | Proprietary files (face HAL, charger shim, pen-wake helper, patched module files, boot animations) | their paths in this repository | [BLOBS.md](BLOBS.md) |
 
 Prepare them in this sequence:
@@ -113,6 +114,14 @@ sh maintainer/cryptoeng/build.sh    # maintainer/cryptoeng/cryptoeng.jar (step 3
    WARNING: `helper/build.sh` makes a new signing key in `helper/keys/` if there is no key. Keep this key. The ROM
    and all later helper updates must use the same key. Do not share `helper/keys/`: with this key, a person can sign
    a helper update that the ROM accepts.
+
+   Refresh the folder `port-inputs/apps-5u` (step 5u) when you want newer Google apps:
+   1. On the tablet, install or update Play Store, Gboard and the Google app from Google Play.
+   2. For each package, get the files with `adb shell pm path <package>`. Pull each file with `adb pull` into
+      `port-inputs/apps-5u/<package>/` (the base APK and all splits).
+   3. Write the versionCode of the package in the file `version` in the same folder.
+   4. Make `SHA256SUMS` again (`sha256sum` of all files in the folder).
+   5. Check the Google signature of each APK with `apksigner verify --print-certs`.
 
 The `vendor` and `odm` partitions stay at beta4. The donor and the other known ROMs have no matching files for them.
 
@@ -169,10 +178,10 @@ Options:
 | `PORT_OVERLAY_SRC=<dir>` | A different `port-overlay` folder. It must have `system/` and `system_ext/`. |
 | `PORT_WITH_2U=1` | Also apply step 2u (SukiSU preload). Not used for releases. |
 | `PORT_ODM_C06=1` | Also apply step 3k (`odm` interconnect stack from C.06). Built, not tested. |
-| `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `beta7-noenc`). Experimental. Clean flash only. |
+| `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `beta7.1-noenc`). Experimental. Clean flash only. |
 | `PORT_MAINTAINER_ADB=1` | Also apply step 5s (the build host's adb key, USB debugging on at the first boot) for unattended clean-flash tests on your own tablet. Never publish such a build: `build_release.sh` refuses it. |
 
-Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 5r (beta7; beta6 ended at 3w). Give the variables
+Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 5u (beta7.1; beta7 ended at 5r; beta6 ended at 3w). Give the variables
 through `sudo env`, for example `sudo env PORT_NOENCRYPT=1 sh COS17/maintainer/port/port.sh ...`.
 
 The output is in `port-work/<tag>/`:
@@ -184,7 +193,7 @@ The output is in `port-work/<tag>/`:
 | `report/<partition>.tsv` | File manifest of each partition (path, mode, owner, md5, labels). |
 | `report/steps/*.log` | Output of each step. |
 
-Reference sizes of the beta7 run (donor C.07): `super.img` 6757022172 bytes; `system.img` 5007507456, `system_ext.img`
+Reference sizes of the beta7 run (beta7.1 is nearly the same size) (donor C.07): `super.img` 6757022172 bytes; `system.img` 5007507456, `system_ext.img`
 1032421376, `product.img` 146214912, `vendor.img` 550653952, `odm.img` 20144128 bytes.
 
 NOTE: `mkfs.erofs` puts a random UUID in each image. Two builds with the same content have different image md5 values.
@@ -212,6 +221,11 @@ There is no resume. After a fix, start the run again from the beginning.
 2. Write a new step file in `maintainer/port/steps/`. The procedure is in `maintainer/port/README.md` ("How to add a
    step").
 3. Build with `port.sh`. Test with `--until <step> --keep-tree` first.
+4. Test each new command of the `pipa_port` service in its domain: `su -c 'runcon u:r:pipa_port:s0 <command>'`. Write the
+   output to a file. A command that works as root can fail in the domain (step 5u: `pm install <file>` failed until
+   the SELinux rules were added).
+5. Test a release build with a clean flash. A dirty flash never runs the setup wizard. Thus it hides errors of the
+   wizard (beta7: grey screen after a clean flash).
 
 ### 2.4 Old method: add a ROM layer (history)
 
@@ -238,7 +252,7 @@ sh maintainer/flash_super.sh -y port-work/<tag>/img/super.img <md5>
    flashes the original beta4 `super`. The other names in the script are the maintainer's images.
 
 - `-y` answers the confirmation question. It is necessary when there is no terminal.
-- `flash_super.sh` cannot change the encryption of `/data`. For `beta7-noenc` (step 3x), use the release package and
+- `flash_super.sh` cannot change the encryption of `/data`. For `beta7.1-noenc` (step 3x), use the release package and
   a clean flash (section 5).
 - The kernel must agree with the ROM. Refer to [KERNEL.md](KERNEL.md), section 4.
 
@@ -314,10 +328,19 @@ bash maintainer/build_release.sh <tag> --pkg <name> --boot <boot.img> --name "<v
 ```
 
 - `<tag>`: the `port.sh` tag. The script takes `port-work/<tag>/img/super.img`.
-- `--pkg`: the package name, for example `beta7` (default: the tag). The script takes the release notes
+- `--pkg`: the package name, for example `beta7.1` (default: the tag). The script takes the release notes
   `COS17/RELEASE-NOTES-<pkg>.md`. If this file does not exist, the script stops.
 - `--boot`: the kernel image. Without it, the package has the beta4 kernel.
 - `--no-super`: no `super.img` (to test the packaging).
+
+Commands for beta7.1 (`K` is the SukiSU manager APK, `B` is the kernel image `boot-walt-r17.img`):
+
+```sh
+KSU_APK=$K bash maintainer/build_release.sh pt61 --boot $B --pkg beta7.1 --name beta7.1 --7z
+KSU_APK=$K bash maintainer/build_release.sh pt61-noenc --boot $B --pkg beta7.1-noenc --name beta7.1-noenc --7z
+```
+
+`pt61` is the default build. `pt61-noenc` is the same build with `PORT_NOENCRYPT=1` (step 3x).
 
 The script needs the extracted beta4 release in `COS17/` (section 1.3), the SukiSU manager APK (`KSU_APK`, default
 the v4.3.0 APK) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.

@@ -150,7 +150,7 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 5c | step only | `oplus-services.jar` (`maintainer/flexwin/patch_float_limit.sh`): more than one floating window also with launcher animation tier 3/4. |
 | 5d | step only | PC Screen Extend / Mirror (OPPO PC Connect): patched `odmf.jar` (`maintainer/odmf/patch_odmf_pcextend.sh`, no `color-format` 19 in surface decode mode) in `/system_ext/pipa_port/odmf/`; `pipa_port.rc` bind-mounts it over the signed odmf opex overlay folder. |
 | 5e | step only | `oplus-services.jar` (`maintainer/extdisplay/patch_ext_density.sh`): a USB-C monitor keeps its native size; density = short side x 200 / 1440 (1440p: 200 dpi, like Windows 125 %). |
-| 5f | step only | SELinux rules from a full capture (`maintainer/sepolicy/rules_5f_*.cil`): UI First hints for SurfaceFlinger, bootanim and apps, f2fs GC policy nodes for init and system_server, read-only props; dontaudit for probes. Find My Device removed (needs OPPO RPMB/TEE). |
+| 5f | step only | SELinux rules from a full capture (`maintainer/sepolicy/rules_5f_*.cil`): UI First hints for SurfaceFlinger, bootanim and apps, f2fs GC policy nodes for init and system_server, read-only props; dontaudit for probes. Find My Device first removed (needs OPPO RPMB/TEE); since pt57 it stays, because the ColorOS setup wizard `com.coloros.bootreg` needs its provider (without it: grey screen after a clean flash). |
 | 5g | step only | Full blur at animation tier 3: app feature `com.oplus.blur.support_upgrade_anim_material_blur` (launcher dock and folders; ColorOS allows them only at tier 1-2 without it) and `debug.systemui.gaussblur_level=2` (Quick Settings blur; SystemUI has none at tier 3). Helper 0.9: two-state Animations tile (Fast = tier 3, ColorOS = tier 1). |
 | 5h | step only | SELinux clean-up from the boot logs: the OPPO part of the perf HAL may mark system_server/cameraserver threads as UX (`ux_state`), frame boost for more app domains, read-only props; dontaudit for diag, probes and `noatsecure` (`maintainer/sepolicy/rules_5h_*.cil`). |
 | 5i | step only | SELinux round 2 from a full capture (audit rate 2000): UI First / frame boost hints for SurfaceFlinger, bootanim, mediaserver, audioserver, cameraserver and more app domains, game service GPU reads; dontaudit for probes and third-party app probes. Bedtime: each Bedtime key is restored on its own (the old restore switched Bedtime on again). |
@@ -164,6 +164,8 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 5q | step only | OPPO game service may mark game threads as UI First (ux_task_app ioctl, the set of 5i). beta7. |
 | 5r | step only | OShare versionCode 17999036 in place (`maintainer/oshare/bump_version.py`): the OPPO App Market cannot replace the patched OShare (4k). beta7. |
 | 5s | optional (`PORT_MAINTAINER_ADB=1`) | Maintainer test builds only: this host's adb key in `product/etc/security/adb_keys` and USB debugging on at the first boot, for unattended clean-flash tests. `build_release.sh` refuses such an image. Never published. |
+| 5t | step only | Blur entry and first-boot defaults. `maintainer/wallpapers/patch_blur_entry.py` patches Wallpapers.apk: Personalization > More > "Textured visual effects" shows at animation tier 3 (ColorOS hid it above tier 2). `service.sh` sets Visual blur (`system_material_blur_enable=1`) and Contour glow (`system_material_stroke_enable=1`) on at the first boot, and retries the SukiSU manager install every 60 s. Helper 1.1: Animations tile "Fast" = tier 3, "Slow" = tier 2. Secure keyboard off once (`SECURE_KEYBOARD_OFF`). beta7.1. |
+| 5u | step only | Google apps: Play Store 84932800, Gboard 176071774, Google app 301827586 (base APK and splits from `port-inputs/apps-5u`) in `/system_ext/pipa_port/apps/<package>/`. `service.sh` installs each one time as a normal app when the installed version is older. Gboard becomes the keyboard only over Sogou or no keyboard. The Circle to Search assistant is set after the install and checked every 5 minutes until the Google app exists. SELinux: `rules_5u_system_ext.cil` (AOSP `selinux_check_access` set for `pipa_port`; `pm install <file>` failed without it, thus beta7 had no SukiSU manager after a clean flash) + dontaudit idmap2 getattr. beta7.1. |
 
 ### 2.4 Where properties go
 
@@ -248,6 +250,7 @@ Each switch is 1 (on) or 0 (off). The defaults are in `port-rom/pipa_port/config
 - Give `input`, `am`, `settings` and `pm` the input `/dev/null`. Do not use pipes with these tools: in the
   `pipa_port` domain, system_server cannot use the pipe and the call fails.
 - To read a setting, use `sget` (`service.sh`). It writes the value to a file.
+- Test each new command in the domain: `su -c 'runcon u:r:pipa_port:s0 <command>'`. Write the output to a file.
 - Code that the service starts runs in the `pipa_port` domain. It needs rules in `pipa_port_rules.cil` (section 5).
 
 ## 4. The pipa helper app

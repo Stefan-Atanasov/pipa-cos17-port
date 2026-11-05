@@ -1,13 +1,24 @@
 # Known issues
 
-This document lists the known problems of the public release **beta7** (2026-11-05, ROM `port.sh` up to step 5l +
-kernel walt-r17, donor C.07) and what beta7 and beta6 fixed. Each entry gives the symptom, a workaround if there is
+This document lists the known problems of the public release **beta7.1** (2026-11-05, ROM `port.sh` up to step 5u +
+kernel walt-r17, donor C.07) and what beta7.1, beta7 and beta6 fixed. Each entry gives the symptom, a workaround if there is
 one, and the status. Updated 2026-11-05.
 
 **Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
 ## For users
+
+### Fixed in beta7.1
+
+| Problem in beta7 | Fix |
+|---|---|
+| Grey screen after a clean flash. The setup wizard `com.coloros.bootreg` crashed in a loop. A dirty flash was not affected. | 5f keeps Find My Device. The wizard needs its provider `com.coloros.findmyphone.provider.SharedProvider`. Find My Device still cannot be switched on. |
+| No SukiSU manager after a clean flash. | 5u: SELinux rule set for the `pipa_port` service (`pm install <file>` failed without it). 5t: the service retries the install every 60 s. |
+| Blur was off after a clean flash, and ColorOS hid the switches with the "Fast" animations. | 5t: Visual blur and Contour glow are on at the first boot. Personalization > More > "Textured visual effects" shows with "Fast". |
+| The ROM had only an old Play Store stub; no Gboard, no Google app. | 5u: Play Store, Gboard and the Google app install at the first boot. Gboard becomes the keyboard only over Sogou or no keyboard. Circle to Search works after the Google app is installed. |
+| Animations tile: "ColorOS" (tier 1). | Helper 1.1: "Fast" (tier 3, default) and "Slow" (tier 2). |
+| Password fields use the secure keyboard. | Secure keyboard is off one time (Settings > Additional settings > Keyboard & input method > Secure keyboard). |
 
 ### Fixed in beta7
 
@@ -70,7 +81,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Pen page | Settings → Stylus (OPPO pen page) shows the Xiaomi pen as "disconnected". | None necessary: the pen works. | By design (OPPO pen protocol). |
 | Keyboard case | Attach, detach and the auto-off when you fold the keyboard behind the tablet are not tested on beta6. | None. | Not tested (no tester). |
 | Play Integrity | Only BASIC integrity (unlocked bootloader). Apps that need DEVICE integrity do not work. | None. DEVICE needs a keybox that Google accepts; public keyboxes were rejected in a test on 2026-10-30. | By design. |
-| Dual boot with Linux | Linux cannot read the internal storage (it is encrypted). | Use a shared drive or the network, or the experimental `beta7-noenc` package. | See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md). `beta7-noenc`: clean flash only (it erases all data); not tested by a user yet. Do not update between `beta7` and `beta7-noenc` with "keep data". Data on the tablet has no encryption. |
+| Dual boot with Linux | Linux cannot read the internal storage (it is encrypted). | Use a shared drive or the network, or the experimental `beta7.1-noenc` package. | See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md). `beta7.1-noenc`: clean flash only (it erases all data); not tested by a user yet. Do not update between `beta7.1` and `beta7.1-noenc` with "keep data". Data on the tablet has no encryption. |
 | Pen back button | It no longer takes a screenshot. | None necessary: it is the standard second stylus button now (apps decide what it does). | Changed on purpose in beta6. |
 | Network sharing with a phone | The tablet does not use the phone's network while Wi-Fi is connected. | Turn Wi-Fi off. After a reboot, if the phone's SIM does not show, turn the sharing off and on in the phone link once. | Normal Android behaviour (mobile data only without Wi-Fi). Works: tested 2026-10-30. |
 | Game Assistant latency | Game Assistant shows about 200 ms network latency. | None necessary. | It measures to a server in China; the network is not slow. |
@@ -83,7 +94,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Screen share | A striped picture during screen sharing (seen twice). | Stop and start the share. | Open, not reproduced. |
 | USB-C monitor colours | The monitor looks a bit warm. | None. | By design: the tablet's colour correction applies to all screens. |
 | Monitor sound | No sound on a monitor without speakers. | Use the tablet speakers or headphones. | Android sends the sound to the USB-C monitor. |
-| Find My Device, cloud password sync | Not available. | None. | They need OPPO secure storage (RPMB/TEE) that the Xiaomi hardware does not have. Find My Device is removed. |
+| Find My Device, cloud password sync | Not available. | None. | They need OPPO secure storage (RPMB/TEE) that the Xiaomi hardware does not have. Find My Device stays in the ROM because the setup wizard needs it, but it cannot be switched on. |
 | KernelSU modules | A module that replaces system files does nothing. | Script modules and `system.prop` work. | SukiSU 4.3 needs a metamodule for file overlays; none is included. `sepolicy.rule` modules are not tested. |
 | Flash script stops: "Failed to set slot B" | The bootloader sometimes reports no slots. | `fastboot reboot bootloader`, then start the script again. Nothing was written. | Seen two times on the maintainer's tablet. |
 
@@ -91,9 +102,9 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 | Item | Status |
 |---|---|
-| Release paths of the beta7 package | Not tested as a package: update from beta6 ("keep data", SukiSU manager 4.3.0 → 4.3.0-r1), clean flash, and "keep data" leaves `boot_a`/`dtbo_a` unchanged. The tablet came to beta7 through dirty flashes of test builds (pt41-pt50). Reports welcome. |
-| Clean flash of a release package | Last tested on 2026-10-25 (2u package, before beta5). |
-| Step 3x (unencrypted `/data`, `PORT_NOENCRYPT=1`) | Built as `beta6-noenc` and `beta7-noenc`, not tested by a user. Clean flash only. |
+| Release paths of the beta7.1 package | Tested with the image pt61 (not as a package): clean flash (setup, installs, device_check 57 pass / 0 fail / 1 warn) and a dirty flash over beta7-based data (pt60, nearly the same code). Not tested: the package scripts, an update from beta6, "keep data" leaves `boot_a`/`dtbo_a` unchanged, night standby on beta7.1. Reports welcome. |
+| Clean flash of a release package | Image pt61 tested with a clean flash on 2026-11-05 (wipe like the flash script, beta7 firmware and kernel). On the same day, the steps of the package flash script (same script as beta7.1) ran by hand with the beta7 package: beta7.1 changes only `super.img`. |
+| Step 3x (unencrypted `/data`, `PORT_NOENCRYPT=1`) | Built as `beta6-noenc`, `beta7-noenc` (withdrawn) and `beta7.1-noenc` (pt61-noenc), not tested by a user. Clean flash only. |
 | Face unlock and `pipa_port` enforcing | Since 3g the face camera worker had no rules (black enroll preview, no unlock) in the test builds; 3w adds them. Code that the service starts needs rules in `pipa_port_rules.cil`. |
 | `pipa_port` SELinux domain | Enforcing since 3f (3g and 3w added rules). Rules: `maintainer/sepolicy/pipa_port_rules.cil`. |
 | Live SELinux rules with `ksud sepolicy patch` | Kernel walt-r8kpm hangs (watchdog reset). Compile on the tablet with `secilc` (`maintainer/sepolicy/secil_test.sh`) and test with a ROM build. |

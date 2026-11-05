@@ -303,11 +303,14 @@ if [ "${SECURE_KEYBOARD_OFF:-1}" = 1 ] && [ ! -e "$STATE/secure_keyboard_off_set
 fi
 # 2q smoothness defaults, once per install (state file; the user can change them back in Developer options):
 # window blur off (SurfaceFlinger forces GPU composition of every layer below a blur: A/B -25 % dropped frames,
-# -35 % GPU misses), material blur off (launcher jank about -40 %). Animation scales stay at 1.0 since 2s (user choice).
+# -35 % GPU misses); material blur and contour glow on since 5t. Animation scales stay at 1.0 since 2s (user choice).
 if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
     {
         settings put global disable_window_blurs 1
-        settings put system system_material_blur_enable 0
+        # Visual blur + Contour glow ON (5t, user 2026-11-05: tier 3 + blur + contour glow; 5g measured no cost at
+        # tier 3). The 2q "material blur off" default (launcher jank -40 %) was from before tier 3 and 5g.
+        settings put system system_material_blur_enable 1
+        settings put system system_material_stroke_enable 1
         # ColorOS writes animationBlurrySwitch=1 itself on a first boot (before BLUR_DEFAULT sees "null"), 2v
         settings put system animationBlurrySwitch 0
         # The nanosic driver always registers "Xiaomi Keyboard" input devices, so Android thinks a hardware keyboard is
@@ -316,16 +319,20 @@ if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
         settings put secure show_ime_with_hard_keyboard 1
     } </dev/null >/dev/null 2>&1
     touch "$STATE/smooth_default_set"
-    log "first-boot defaults: window blur off, material blur off, animation blur off, on-screen keyboard on"
+    log "first-boot defaults: window blur off, visual blur + contour glow on, animation blur off, on-screen keyboard on"
 fi
 # 4g Circle to Search (BUGS-TODO 49): the gesture-bar long press starts the default assistant; the pipa helper's
 # ACTION_ASSIST activity starts Circle to Search through the contextual_search service. Once per install, and only when
 # the Google app is installed (else there is no Circle to Search); the user can choose another assistant later.
-if [ "${CTS_ASSISTANT:-1}" = 1 ] && [ ! -e "$STATE/cts_assistant_set" ] && \
-   pm path com.google.android.googlequicksearchbox </dev/null >/dev/null 2>&1; then
+# 5u: also after the bundled install (below) and every 5 minutes until the Google app is there (a clean flash had no
+# Google app at boot, so the check never ran again).
+cts_assistant() {
+    [ "${CTS_ASSISTANT:-1}" = 1 ] && [ ! -e "$STATE/cts_assistant_set" ] || return 0
+    pm path com.google.android.googlequicksearchbox </dev/null >/dev/null 2>&1 || return 1
     cmd role add-role-holder android.app.role.ASSISTANT com.port.pipa.helper 0 </dev/null >/dev/null 2>&1 && \
         touch "$STATE/cts_assistant_set" && log "Circle to Search: pipa helper is the default assistant"
-fi
+}
+cts_assistant
 # 4l Quick Share (BUGS-TODO 53): the ROM no longer declares cn.google.services, so GMS treats the tablet as a
 # global device. GMS disabled its Quick Share components while the flag was there (dirty flash from 4k or older):
 # turn the 13 core ones on once; GMS manages them after that (it turned its Samsung-only and migration screens off
@@ -368,22 +375,90 @@ fi
 # domain works (tested 2026-10-28). The user can update or uninstall it: the state file stops a second install.
 # The marker holds the versionCode of the bundled APK (empty file = 2w-3o, 4.2.1-r1). A newer bundled manager (a new
 # kernel needs it) is installed over an older one; a newer manager that the user installed stays.
+# pt58: on a clean flash the first `pm install` (about 90 s after boot, 1 s after user 0 unlock, setup wizard open)
+# failed and the next try was only at the next boot. Now the main loop tries again every 60 s (screen on, at most 30 tries), and pm's message
+# goes to the log.
 KSU_WANT=$(cat "$MODDIR/SukiSU.version" 2>/dev/null)
-if [ "${KSU_MANAGER:-1}" = 1 ] && [ -f "$MODDIR/SukiSU.apk" ] && [ -n "$KSU_WANT" ] && \
-   [ "$(cat "$STATE/ksu_manager_set" 2>/dev/null)" != "$KSU_WANT" ]; then
+KSU_TRY=0
+ksu_manager() {
+    [ "$(cat "$STATE/ksu_manager_set" 2>/dev/null)" != "$KSU_WANT" ] || return 0
+    KSU_TRY=$((KSU_TRY + 1))
     : > "$SGET_F"
     pm list packages --show-versioncode com.sukisu.ultra </dev/null >"$SGET_F" 2>/dev/null
     have=$(sed -n 's/^package:com\.sukisu\.ultra versionCode:\([0-9]*\).*/\1/p' "$SGET_F")
     if [ -n "$have" ] && [ "$have" -ge "$KSU_WANT" ]; then
         echo "$KSU_WANT" > "$STATE/ksu_manager_set"
         log "SukiSU manager $have already installed"
-    elif pm install -r "$MODDIR/SukiSU.apk" </dev/null >/dev/null 2>&1; then
+    elif pm install -r "$MODDIR/SukiSU.apk" </dev/null >"$SGET_F" 2>&1; then
         echo "$KSU_WANT" > "$STATE/ksu_manager_set"
-        log "SukiSU manager ${have:-none} -> $KSU_WANT installed"
+        log "SukiSU manager ${have:-none} -> $KSU_WANT installed (try $KSU_TRY)"
     else
-        log "SukiSU manager install failed (next boot tries again)"
+        log "SukiSU manager install failed (try $KSU_TRY): $(tail -n 1 "$SGET_F" 2>/dev/null)"
+        return 1
     fi
+}
+KSU_RETRY=0
+if [ "${KSU_MANAGER:-1}" = 1 ] && [ -f "$MODDIR/SukiSU.apk" ] && [ -n "$KSU_WANT" ]; then
+    ksu_manager || KSU_RETRY=1
 fi
+
+# 5u: Play Store, Gboard and the Google app (Circle to Search) as normal apps / updates, once per install (user
+# 2026-11-05). The APKs (base + splits, stable versions from Play) are in $MODDIR/apps/<package>/ with the versionCode
+# in "version"; Play Store updates them later (same Google signature). The ROM's Play Store is only an old updater stub
+# (my_product GooglePlayServicesUpdater, 82275402; before, the OPPO App Market had to install the real one), so an
+# older installed version is updated; the same or a newer one is not touched. An app the user uninstalls is not
+# installed again (state file). Gboard becomes the default keyboard after its install. Retried like the manager.
+APPS_DIR=$MODDIR/apps
+GBOARD=com.google.android.inputmethod.latin
+GBOARD_IME=$GBOARD/com.android.inputmethod.latin.LatinIME
+APPS_TRY=0
+bundled_apps() {
+    [ -d "$APPS_DIR" ] || return 0
+    rc=0
+    for d in "$APPS_DIR"/*; do
+        [ -d "$d" ] || continue
+        pkg=${d##*/}
+        [ -e "$STATE/app_$pkg" ] && continue
+        want=$(cat "$d/version" 2>/dev/null)
+        : > "$SGET_F"
+        pm list packages --show-versioncode "$pkg" </dev/null >"$SGET_F" 2>/dev/null
+        have=$(sed -n "s/^package:$pkg versionCode:\([0-9]*\).*/\1/p" "$SGET_F")
+        if [ -n "$have" ] && [ -n "$want" ] && [ "$have" -ge "$want" ]; then
+            touch "$STATE/app_$pkg"
+            log "$pkg $have already installed"
+            continue
+        fi
+        APPS_TRY=$((APPS_TRY + 1))
+        if pm install -r "$d"/*.apk </dev/null >"$SGET_F" 2>&1; then
+            touch "$STATE/app_$pkg"
+            log "$pkg ${have:-none} -> $want installed (try $APPS_TRY)"
+            if [ "$pkg" = "$GBOARD" ]; then
+                # `ime` cannot find input_method in the pipa_port domain (no service_manager rule): use the settings,
+                # which InputMethodManagerService follows (tested in the domain with runcon, 2026-11-05).
+                # Default only over ColorOS's own keyboard (Sogou) or none: a dirty flash keeps the user's keyboard.
+                case "$(sget secure default_input_method)" in
+                    null|com.sohu.inputmethod.sogouoem/*)
+                        cur=$(sget secure enabled_input_methods)
+                        case ":$cur:" in
+                            *":$GBOARD_IME:"*|*":$GBOARD_IME;"*) ;;
+                            *) [ "$cur" = null ] && cur=$GBOARD_IME || cur="$cur:$GBOARD_IME"
+                               settings put secure enabled_input_methods "$cur" </dev/null >/dev/null 2>&1 ;;
+                        esac
+                        settings put secure default_input_method "$GBOARD_IME" </dev/null >/dev/null 2>&1 && \
+                            log "Gboard is the default keyboard" ;;
+                    *) log "Gboard installed; the user's default keyboard stays" ;;
+                esac
+            fi
+        else
+            log "$pkg install failed (try $APPS_TRY): $(tail -n 1 "$SGET_F" 2>/dev/null)"
+            rc=1
+        fi
+    done
+    return $rc
+}
+APPS_RETRY=0
+[ "${BUNDLED_APPS:-1}" = 1 ] && { bundled_apps || APPS_RETRY=1; }
+cts_assistant
 
 # ------------------------------------------------- colour / adaptive / bedtime
 # ColorOS re-applies Vivid (256) at boot, and the Eye Protect app resets adaptive colour and
@@ -778,6 +853,14 @@ while true; do
     [ "${FACE_HAL:-1}" = 1 ] && face_rotation_sync
     [ "${LID_SYNC:-1}" = 1 ] && lid_check
     [ "${ANIM_TIER:-1}" = 1 ] && anim_check
+    if [ $KSU_RETRY = 1 ] && [ $((ctick % 60)) = 0 ]; then
+        if ksu_manager; then KSU_RETRY=0; elif [ $KSU_TRY -ge 30 ]; then KSU_RETRY=0; log "SukiSU manager: no more tries"; fi
+    fi
+    if [ $APPS_RETRY = 1 ] && [ $((ctick % 60)) = 30 ]; then
+        if bundled_apps; then APPS_RETRY=0; elif [ $APPS_TRY -ge 30 ]; then APPS_RETRY=0; log "bundled apps: no more tries"; fi
+        cts_assistant
+    fi
+    [ $((ctick % 300)) = 150 ] && [ ! -e "$STATE/cts_assistant_set" ] && cts_assistant
     case "${GAME_THERMAL_SCENE:-20}" in ''|0) ;; *) game_check ;; esac
     if [ "${PEN_WATCH:-1}" = 1 ]; then
         if pen_connected; then c=1; else c=0; fi

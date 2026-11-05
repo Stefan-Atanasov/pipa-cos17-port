@@ -42,7 +42,7 @@ ADB="adb -s <serial>" sh maintainer/device_check.sh <tag>
 - The report is in `port-work/device-checks/<date>-<tag>.txt`.
 - If `port-work/<tag>/report/` exists (a `port.sh` build on this PC), the script also compares the file md5 values on
   the tablet with the build manifests.
-- Expected result for beta7: 56-58 pass, 0 fail (a warning for the IFace start burst in the first minute after a boot is normal).
+- Expected result for beta7.1: 56-58 pass, 0 fail (clean flash of pt61: 57 pass, 0 fail, 1 warning) (a warning for the IFace start burst in the first minute after a boot is normal).
 
 The script checks, among other items:
 
@@ -170,10 +170,10 @@ Test each path on a tablet with a backup, or on a spare install:
 | Path | Check after the boot |
 |---|---|
 | Dirty flash ("keep data") from the previous release | Root works, SukiSU manager updated, apps and settings stay. |
-| Clean flash ("y") | Setup wizard, on-screen keyboard, root on the first boot, face enroll in portrait and landscape. |
+| Clean flash ("y") | Setup wizard (no grey screen), on-screen keyboard, root on the first boot, SukiSU manager, Play Store, Gboard and Google app installed in the first minute, face enroll in portrait and landscape. A dirty flash never runs the setup wizard: test with a clean flash. |
 | "Keep data" with a second system in slot A | `boot_a` and `dtbo_a` are not changed (compare their md5 before and after). |
 | Rollback to the previous release | The tablet boots, data stays. |
-| `beta6-noenc` (only with a clean flash) | `getprop ro.crypto.state` shows `unencrypted`. |
+| `beta7.1-noenc` (only with a clean flash) | `getprop ro.crypto.state` shows `unencrypted`. |
 
 ### 8.4 After each boot
 

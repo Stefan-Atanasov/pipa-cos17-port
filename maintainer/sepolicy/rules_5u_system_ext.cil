@@ -1,0 +1,12 @@
+; pipa port 5u: `pm install <file>` from pipa_port (SukiSU manager since 2w, Play Store/Gboard/Google app since 5u).
+; The cmd client checks for system_server that it may read the file (ShellCallback openFile ->
+; SELinux.checkSELinuxAccess): it needs the AOSP selinux_check_access set. Without it each path-based install failed:
+; "avc: could not determine enforcing mode" + "System server has no access to read file context" (beta7 clean flash:
+; no SukiSU manager; selinuxfs enforce/index/deny_unknown denials of comm=cmd).
+(allow pipa_port selinuxfs (dir (search getattr open read)))
+(allow pipa_port selinuxfs (lnk_file (read getattr)))
+(allow pipa_port selinuxfs (file (read write open getattr map)))
+(allow pipa_port kernel (security (compute_av)))
+(allow pipa_port self (netlink_selinux_socket (create bind read write getattr setopt)))
+; the service shell looks up /system/bin/idmap2 in PATH (getattr, harmless; seen since beta7, device_check FAIL)
+(dontaudit pipa_port idmap_exec (file (getattr)))
