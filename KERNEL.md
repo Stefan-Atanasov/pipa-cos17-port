@@ -1,15 +1,13 @@
 # Kernel
 
-The port uses an own kernel (Linux 4.19.325). The public release beta6 (2026-10-30) has
-`walt-r8kpm`: SukiSU-Ultra v4.3.0 (builtin), susfs, KPM. The source is in
+The port uses an own kernel (Linux 4.19.325). The public release beta7 (2026-11-05) has
+`walt-r17`: SukiSU-Ultra v4.3.0-r1 (builtin, KSU 41140), susfs. The source is in
 https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`).
 
-Next release: `walt-r10`. `walt-r9` = walt-r8kpm + touch charger mode. The NT36532 touch driver gets the USB state from
-`power_supply` (liyafe1997's notifier) and sends 0x53 (USB in) or 0x51 (USB out) to the touch firmware. This fixes
-touch lag while charging (bug doc item 37). 
-`walt-r10` = r9 + `/proc/oplus_binder/ux_flag`: the node accepts the binder UX ioctl of ColorOS 16+ and does
-nothing. Without it, system_server logged about 5 lines/s ("mSharedBinderUxFd=-1 is invalid") while apps open.
-It is on the tablet since 2026-11-02 (`boot-walt-r10.img`).
+Changes since beta6 (`walt-r8kpm`): touch charger mode (r9, touch lag while charging), the binder UX node of ColorOS
+16+ (r10), DisplayPort fixes for USB-C monitors (r11-r15: 8 bpc, the highest refresh rate the link allows), OPPO's
+`/proc/shell-temp` for the horae thermal service (r16), SukiSU-Ultra v4.3.0-r1 (r17). KPM is not patched since r14.
+After an update from beta6, open the SukiSU manager once and let it update `ksud`.
 
 ## 1. Parts
 
@@ -18,7 +16,7 @@ It is on the tablet since 2026-11-02 (`boot-walt-r10.img`).
 | Core kernel (WALT scheduler, BPF, f2fs, memory, network, binder) | LineageOS `android_kernel_xiaomi_sm8250`, branch `lineage-24.0` |
 | pipa device drivers | liyafe1997 `kernel_xiaomi_sm8250_mod` |
 | Display and touch | E404R kernel |
-| Root | SukiSU-Ultra (built in; v4.3.0 level since walt-r8), susfs 2.3.0, KPM (KernelPatch, walt-r8kpm) |
+| Root | SukiSU-Ultra (built in; v4.3.0-r1 since walt-r17), susfs 2.3.0; KPM only in walt-r8kpm to r13 |
 | OPPO UI First scheduler (`sched_assist`, frame boost) | OPPO open-source sm8250 kernel |
 | OPPO Hans app freezer channel (netlink 29, binder/signal/network reports) | OPPO open-source sm8250 kernel (OPD2101, ColorOS 14) |
 

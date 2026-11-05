@@ -13,12 +13,12 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **beta6** (2026-10-30): `port.sh` default build (last active step 3w) + kernel `walt-r8kpm` |
-| Experimental | `beta6-noenc`: beta6 without `/data` encryption, for Linux dual boot (step 3x). Not tested. Clean flash only. |
-| Previous release | beta5 (2026-10-25, layer 2v + kernel `walt-r6`) |
-| Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.103(CN01)` (C.06) |
+| Current release | **beta7** (2026-11-05): `port.sh` default build (last active step 5r) + kernel `walt-r17` |
+| Experimental | `beta7-noenc`: beta7 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. |
+| Previous release | beta6 (2026-10-30, step 3w + kernel `walt-r8kpm`) |
+| Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
-| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-r8kpm`: SukiSU-Ultra v4.3.0, susfs, KPM. |
+| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-r17`: SukiSU-Ultra v4.3.0-r1, susfs. |
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 
@@ -31,13 +31,12 @@ The package has `FlashLinux.sh` and `FlashWindows.bat`. Read `RELEASE-NOTES.md` 
 first. The flash script asks one question:
 
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
-- Enter: dirty flash ("keep data"). Use it for an update from beta5.
+- Enter: dirty flash ("keep data"). Use it for an update from beta6.
 
 Clean flash from a different ROM: the flash scripts also erase `frp` (since 2026-10-30, 17:00). If `frp` is not
 erased, the screen lock of the old ROM stays there, and ColorOS cannot set a new PIN ("Screen lock was already
-changed"). The first beta6 download does not erase `frp`: if your `FlashLinux.sh` or `FlashWindows.bat` does not
-contain the text `erase frp`, use the `beta6-frpfix` zip (it replaces the two scripts). Or, after the clean flash,
-erase `frp` one time (your data stays):
+changed"). The beta7 scripts erase `frp`. If you used an older script for a clean flash, erase `frp` one time
+(your data stays):
 
 ```
 adb reboot bootloader
@@ -52,7 +51,7 @@ write the firmware (bootloader, modem, `vbmeta`) in a dirty flash.
 
 WARNING: The first boot takes about 1 minute longer than usual. Do not reboot during this time.
 
-Release paths that are not tested yet for beta6: refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
+Release paths that are not tested yet for beta7: refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
 
 ## Known issues and bug reports
 
@@ -128,5 +127,5 @@ The own scripts, sources and documents in this repository are under the Apache L
 ## Credits
 
 - 梦归zzz: the original ColorOS 17 port for pipa and the `pipa_core` module.
-- Stefan-Atanasov: maintenance, beta5 and beta6, ROM fixes, kernel.
+- Stefan-Atanasov: maintenance, beta5 to beta7, ROM fixes, kernel.
 - LineageOS, liyafe1997, kvsnr113 (E404 kernel), SukiSU-Ultra, susfs, KernelPatch, OPPO (open-source kernel).
