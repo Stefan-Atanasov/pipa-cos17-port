@@ -93,7 +93,7 @@ The kernel:
 | Script | Writes |
 |---|---|
 | `FlashLinux.sh` / `FlashWindows.bat`, **clean flash** ("y") | All firmware `_ab`, `boot_ab`, `dtbo_ab`, `vendor_boot_ab`, `vbmeta_ab`, `super`; erases `metadata` and `userdata`. **Overwrites a Linux image in `boot_a` and `dtbo_a`.** |
-| Same, **dirty flash** (Enter), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps the Linux image in `boot_a` and `dtbo_a`** (`vendor_boot_a` and `vbmeta_a` get the beta4 images again). Not tested on a device yet. |
+| Same, **dirty flash** (Enter on Linux, `N` on Windows), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps the Linux image in `boot_a` and `dtbo_a`** (`vendor_boot_a` and `vbmeta_a` get the beta4 images again). Not tested on a device yet. |
 | Same, dirty flash, **beta5 and older** | Like a clean flash without the erase: `boot_ab` and `dtbo_ab`. Flash your Linux image to `boot_a` again after the update, and erase `dtbo_a` again. |
 
 - No script changes the partition table (GPT).
@@ -128,7 +128,7 @@ Switch the OS in the bootloader: `fastboot set_active a` (Linux), `fastboot set_
 
 - ColorOS does not start: in fastboot, `fastboot set_active b`. Then reboot.
 - TWRP: Power + Volume up **with slot B active** (TWRP is only in `boot_b`).
-- Bootloop after a port update: flash the release again with "keep data" (Enter).
+- Bootloop after a port update: flash the release again with "keep data" (Enter on Linux, `N` on Windows).
 - Linux does not start after a port update (beta5 or older scripts): flash your Linux boot image to `boot_a` again and
   erase `dtbo_a` again.
 

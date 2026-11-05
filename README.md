@@ -31,7 +31,8 @@ The package has `FlashLinux.sh` and `FlashWindows.bat`. Read `RELEASE-NOTES.md` 
 first. The flash script asks one question:
 
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
-- Enter: dirty flash ("keep data"). Use it for an update from beta7 or beta6.
+- Dirty flash ("keep data"): press Enter in `FlashLinux.sh`, or `N` in `FlashWindows.bat` (Enter does nothing there).
+  Use it for an update from beta7 or beta6.
 
 Clean flash from a different ROM: the flash scripts also erase `frp` (since 2026-10-30, 17:00). If `frp` is not
 erased, the screen lock of the old ROM stays there, and ColorOS cannot set a new PIN ("Screen lock was already

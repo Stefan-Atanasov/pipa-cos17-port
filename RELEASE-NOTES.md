@@ -25,7 +25,7 @@ Build: ROM **pt63 = beta7.1** (`port.sh` up to step 5v), kernel **walt-r17** (sa
   own charging limit in Settings > Battery still works.
 - **Secure keyboard off:** password fields use your normal keyboard (Settings > Additional settings > Keyboard & input
   method > Secure keyboard turns it on again).
-- Update from beta7 or beta6: flash with Enter ("keep data"). Your keyboard stays; animations go to "Fast" and blur on one time.
+- Update from beta7 or beta6: flash with "keep data" (Enter on Linux, `N` on Windows). Your keyboard stays; animations go to "Fast" and blur on one time.
 
 ## Highlights of beta7 (changes since beta6)
 
@@ -66,7 +66,7 @@ Build: ROM **pt63 = beta7.1** (`port.sh` up to step 5v), kernel **walt-r17** (sa
 ## Notes
 
 - **The first boot takes about 1 minute longer** than usual: Android compiles the framework. Do not reboot it.
-- Update from beta6 or beta7: flash with Enter ("keep data"). From another ROM: "y" (clean flash). A clean flash
+- Update from beta6 or beta7: flash with "keep data" (Enter on Linux, `N` on Windows). From another ROM: "y" (clean flash). A clean flash
   erases data. Do not change between this package and the `beta7.1-noenc` package with "keep data".
 - **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU
   manager in the background (about 1 minute). Let it finish.
