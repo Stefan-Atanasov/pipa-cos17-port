@@ -1,0 +1,4 @@
+; pipa port 5q: the OPPO game service marks game threads as UI First (ux_task_app ioctl 0x2701), seen after 5p opened
+; the oiface path for SDK 34 games. The same set as the other domains in 5i.
+(allow oplus_game_service oplus_ux_task_app_proc (file (ioctl read write getattr open)))
+(allowx oplus_game_service oplus_ux_task_app_proc (ioctl file ((range 0x2700 0x2701))))

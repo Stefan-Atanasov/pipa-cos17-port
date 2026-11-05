@@ -1,0 +1,4 @@
+;; pipa port 5l (2026-11-04): pipa_port selects Xiaomi's mi_thermald scene (thermal_message/sconfig) while a game is
+;; in the foreground (helper pipa_game_fg, config.prop GAME_THERMAL_SCENE).
+(allow pipa_port sysfs_thermal (dir (search getattr)))
+(allow pipa_port sysfs_thermal (file (getattr open read write)))

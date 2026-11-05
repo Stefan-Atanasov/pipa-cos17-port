@@ -109,6 +109,10 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   from a boot only; the face camera worker had none until 3w. To find missing rules: `setprop persist.logd.audit.rate
   2000` and `persist.logd.size 16M`, reboot, use the feature, list the `scontext=u:r:pipa_port` denials. Set both
   properties back to "" after.
+- **Face HAL:** facehal-rs (prebuilt) writes its own log to `/data/vendor_de/0/facedata/facehal.log` (root); logcat
+  has almost nothing from it. The service preloads three guards from `port-module/src/`: `facecrop` (square enroll
+  preview), `eyeguard` (eye ROI at the frame edge), `camguard` (5n: in the dark-room retry the HAL gave an ANativeWindow
+  to the vendor camera NDK, which wants a native handle: SIGABRT).
 - Before you build a policy change, compile it on the tablet with `/system/bin/secilc` and all 8 policy inputs: the
   platform CIL, the mapping and compat CIL, the `system_ext` CIL and mapping, `product`, the vendor
   `plat_pub_versioned.cil` and `vendor_sepolicy.cil`, and `odm`. A non-zero exit means an error.
@@ -146,7 +150,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Do not run a live `ksud sepolicy patch` on kernel walt-r8kpm (SukiSU 4.3 builtin).** On 2026-10-29 two live
   rules (an `allow` and a `dontaudit`) hung the big cores; the watchdog reset the tablet 20 s later (pstore:
   `Watchdog bark`, cpu alive mask 0f). Compile a policy change on the tablet with `secilc` and test it with a ROM build.
-- **Never replace `/data/adb/ksud`.** Update it only with a kernel that agrees with it, through the SukiSU manager.
+- **Never replace `/data/adb/ksud`** with anything else. Update it only with a kernel that agrees with it, with the `ksud` that the SukiSU manager APK carries (its `install` command, as the manager does).
 - **If the device does not boot:** the boot image has TWRP (Power + Volume up). TWRP ADB has root and a decrypted
   `/data`.
 - **Patching a system app (APK).** Many OPPO system apps (for example IPeManager) are signed with the platform key.
@@ -181,6 +185,18 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   `am start -n <pkg>/<activity>` or a real tap (`maintainer/kgest`).
 - **OPPO "opex" packages (`system_ext/opex/*.opex`) are signed** (zip + ext4 `opex.img`, sha256 in `description.cfg`). init mounts each one over `/system_ext/{framework,lib64}/oplusex/<pkg>`. Do not change an opex: ship the patched file in `/system_ext/pipa_port/` and bind-mount its folder from `pipa_port.rc` on `oplus.opex.done=1` (step 5d).
 - **`dump.erofs --ls --path=<missing>` returns exit code 0.** Check its output for "read inode failed".
+- **Package cache between two builds with the same `ro.pipa.port.layer`:** a dirty flash keeps Android's parsed
+  manifest of a changed system APK. Give each step a new layer (`set_layer`), or clear
+  `/data/system/package_cache/` and reboot.
+- **App logs are muted on this ROM** (`persist.sys.assert.panic=false`, step 4h). For debugging set it to `true` and
+  restart the app; set it back to `false` after.
+- **Live APK test by bind mount:** remount the bind read-only (`busybox mount -o remount,bind,ro <target>`), else
+  artd fails to compile the app (it tries to write the oat next to the APK).
+- **Xiaomi thermal scene:** `mi_thermald` reads `/sys/devices/virtual/thermal/thermal_message/sconfig`; step 5l
+  writes the game profile (`GAME_THERMAL_SCENE`). The active profile is in `/data/vendor/thermal/decrypt.txt`.
+- **Bootloader "Device does not support slots":** `fastboot reboot bootloader` fixes it (`flash_super.sh` does it).
+- **SELinux compile test:** `maintainer/sepolicy/secil_test.sh <system_ext rules> <vendor rules>` on the device.
+- **KernelSU modules (SukiSU 4.3):** script modules and `system.prop` work; `system/` overlays need a metamodule.
 - **Run smali and baksmali with `-j 1`.** With threads, the dex layout changes on each run (same code, other md5).
 - Do not kill `system_server` to apply framework changes (it causes a warm-reset crash). Reboot.
 - **Smoothness:** measure with `maintainer/perfetto/traced_heavy.sh <label>` (FrameTimeline), not only gfxinfo. Wait

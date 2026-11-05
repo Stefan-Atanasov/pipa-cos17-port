@@ -168,6 +168,9 @@ face_start() {
     # 8 (3f): libpipa_eyeguard clamps an eye ROI outside the frame in crop_eyes (src/eyeguard.c): no SIGSEGV
     pre=$FACE/lib64/libpipa_facecrop.so
     [ -f "$FACE/lib64/libpipa_eyeguard.so" ] && pre=$pre:$FACE/lib64/libpipa_eyeguard.so
+    # 5n: libpipa_camguard refuses the worker's window=standard fallback (an ANativeWindow given to the vendor camera
+    # NDK, which wants a native handle: SIGABRT in a dark room) with an error code (src/camguard.c)
+    [ -f "$FACE/lib64/libpipa_camguard.so" ] && pre=$pre:$FACE/lib64/libpipa_camguard.so
     LD_PRELOAD=$pre LD_LIBRARY_PATH=$FACE/lib64:$FACE \
         nohup "$FACE_BIN" >>/data/local/tmp/facehal.log 2>&1 &
     log "facehal started pid=$! ($cl)"
@@ -367,7 +370,8 @@ fi
 # user's choice in the loop below and put it back once here.
 COLOR_STATE=$STATE/color_mode
 ADAPTIVE_STATE=$STATE/adaptive_state
-BEDTIME_STATE=$STATE/bedtime_state
+BEDTIME_STATE=$STATE/bedtime_state   # + .<key>: one file per Bedtime key (5i); the old combined file is removed
+rm -f "$BEDTIME_STATE"
 # In the background (3v): the main loop (pen, keyboard guard, lid) starts at once, not 15 s later. The loop saves
 # the display choice only after this restore ($DISP_DONE), so the boot reset is never saved as the user's choice.
 DISP_DONE=$STATE/display.restored
@@ -388,12 +392,13 @@ if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
         done
         log "adaptive colour restored"
     fi
-    if [ "$(cat "$BEDTIME_STATE" 2>/dev/null)" = 1 ]; then
-        for k in oplus_customize_rhythm_health_enable oplus_customize_comfortable_rhythm_enable; do
-            [ "$(sget system $k)" = 1 ] || settings put system $k 1
-        done
-        log "bedtime mode restored"
-    fi
+    # Each Bedtime key is restored on its own (5i). Before, "either key is 1" set both keys to 1: the Settings
+    # switch writes only comfortable_rhythm, so the restored rhythm_health stayed 1 and the Eye Protect app
+    # switched Bedtime on again each time the user left its page (user 2026-11-04).
+    for k in oplus_customize_rhythm_health_enable oplus_customize_comfortable_rhythm_enable; do
+        [ "$(cat "$BEDTIME_STATE.$k" 2>/dev/null)" = 1 ] || continue
+        [ "$(sget system $k)" = 1 ] || { settings put system $k 1; log "bedtime $k restored"; }
+    done
 fi
 rm -f "$SGET_F"
 : > "$DISP_DONE"
@@ -410,11 +415,10 @@ remember_display() {
     if [ "${ADAPTIVE_RESTORE:-1}" = 1 ]; then
         av=$(sget system setting_enable_color_temperature_regulation)
         case "$av" in 0|1) [ "$av" = "$(cat "$ADAPTIVE_STATE" 2>/dev/null)" ] || echo "$av" > "$ADAPTIVE_STATE" ;; esac
-        # Bedtime is on if either the standalone or the Eye Comfort-dependent switch is on
-        case "$(sget system oplus_customize_rhythm_health_enable)$(sget system oplus_customize_comfortable_rhythm_enable)" in
-            *1*) bt=1 ;; *0*) bt=0 ;; *) bt= ;;
-        esac
-        [ -n "$bt" ] && [ "$bt" != "$(cat "$BEDTIME_STATE" 2>/dev/null)" ] && echo "$bt" > "$BEDTIME_STATE"
+        for k in oplus_customize_rhythm_health_enable oplus_customize_comfortable_rhythm_enable; do
+            bt=$(sget system $k)
+            case "$bt" in 0|1) [ "$bt" = "$(cat "$BEDTIME_STATE.$k" 2>/dev/null)" ] || echo "$bt" > "$BEDTIME_STATE.$k" ;; esac
+        done
     fi
 }
 
@@ -488,6 +492,26 @@ anim_check() {
     am force-stop com.android.launcher </dev/null >/dev/null 2>&1
     am start -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null >/dev/null 2>&1
     log "launcher animation tier -> $want"
+}
+# Xiaomi thermal scene (5l). mi_thermald picks its profile from thermal_message/sconfig; on HyperOS PowerKeeper sets
+# it, on ColorOS nobody does (-1 = daily profile: CPU caps from 38 C skin). The helper sets global pipa_game_fg = 1
+# while an app with appCategory "game" is in the foreground; then the game profile GAME_THERMAL_SCENE is used
+# (measured 2026-11-04: 20 = no CPU caps below 46 C skin, 13 = below 48 C, 10 = below 51 C). Screen off = daily.
+SCONFIG=/sys/devices/virtual/thermal/thermal_message/sconfig   # real path: /sys/class/thermal/... is a sysfs symlink
+GAME_STAMP=/data/misc/pipa_port/game.stamp
+rm -f "$GAME_STAMP"
+GAME_SC=
+game_scene() {   # $1 = scene; builtin echo only
+    [ "$1" = "$GAME_SC" ] && return
+    echo "$1" > "$SCONFIG" 2>/dev/null || return
+    GAME_SC=$1
+    log "thermal scene -> $1"
+}
+game_check() {
+    [ -e "$GAME_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$GAME_STAMP" ] && return
+    : > "$GAME_STAMP"
+    g=$(sget global pipa_game_fg) || return
+    if [ "$g" = 1 ]; then game_scene "${GAME_THERMAL_SCENE:-20}"; else game_scene -1; fi
 }
 LID_STAMP=/data/misc/pipa_port/lid.stamp
 rm -f "$LID_STAMP"
@@ -723,6 +747,7 @@ while true; do
     ctick=$((ctick + 1))
     if ! screen_on; then
         armed=0
+        [ -n "$GAME_SC" ] && [ "$GAME_SC" != -1 ] && { game_scene -1; rm -f "$GAME_STAMP"; }
         nap 1
         continue
     fi
@@ -732,6 +757,7 @@ while true; do
     [ "${FACE_HAL:-1}" = 1 ] && face_rotation_sync
     [ "${LID_SYNC:-1}" = 1 ] && lid_check
     [ "${ANIM_TIER:-1}" = 1 ] && anim_check
+    case "${GAME_THERMAL_SCENE:-20}" in ''|0) ;; *) game_check ;; esac
     if [ "${PEN_WATCH:-1}" = 1 ]; then
         if pen_connected; then c=1; else c=0; fi
         # At boot ColorOS's pen manager is not ready at once (an early message was sometimes ignored and

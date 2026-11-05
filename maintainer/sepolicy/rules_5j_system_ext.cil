@@ -1,0 +1,18 @@
+;; pipa port 5j (2026-11-04): SELinux round 3 from the pt46 capture (same workload as 5i). Core domains.
+;; Allow: UI First ux_task_app for cameraserver and the media provider app (same set as platform_app),
+;; network MTU read of system_app, dex2oat dir search in /data (app compile).
+(allow cameraserver oplus_ux_task_app_proc (file (ioctl read write getattr open)))
+(allowx cameraserver oplus_ux_task_app_proc (ioctl file ((range 0x2700 0x2701))))
+(allow mediaprovider_app oplus_ux_task_app_proc (file (ioctl read write getattr open)))
+(allowx mediaprovider_app oplus_ux_task_app_proc (ioctl file ((range 0x2700 0x2701))))
+(dontaudit priv_app cgroup (file (read)))
+(dontaudit priv_app_36 cgroup (file (read)))
+(allow system_app sysfs_net (file (read getattr open)))
+(allow dex2oat system_data_file (dir (search)))
+;; Silence only: nandswap df on the firmware mounts (5i covered dirs and fs_type only).
+(dontaudit nandswap file_type (filesystem (getattr)))
+;; Third-party apps: emulator/root checks (anti-cheat, banking). No access.
+(dontaudit untrusted_app_all proc (file (read)))
+(dontaudit untrusted_app_all proc_tty_drivers (file (read)))
+(dontaudit untrusted_app_all qemu_sf_lcd_density_prop (file (read)))
+(dontaudit untrusted_app_all serialno_prop (file (read)))

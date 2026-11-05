@@ -1,0 +1,2 @@
+;; pipa port 5k (2026-11-04): the Wi-Fi HAL looks for its tombstone dir when Wi-Fi turns off. No access.
+(dontaudit hal_wifi_default vendor_tombstone_data_file (dir (search)))

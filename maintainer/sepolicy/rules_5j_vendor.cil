@@ -1,0 +1,5 @@
+;; pipa port 5j (2026-11-04): SELinux round 3 (vendor domains).
+;; The perf HAL tries to set the UI First scene (/proc/oplus_scheduler/sched_assist/sched_assist_scene) ~2 times a
+;; second since 5h. Silenced, not allowed: pipa_port owns this node (SF_BIG_CORES bit), and a perf HAL write without
+;; SA_SCENE_OPT_SET clears bits. Allowing it is an A/B test for later (BUGS 70).
+(dontaudit vendor_hal_perf_default oplus_sched_assist_scene_proc (file (write)))

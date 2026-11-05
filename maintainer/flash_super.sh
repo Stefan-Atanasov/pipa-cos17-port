@@ -74,6 +74,19 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt39)        IMG=$P/port-work/pt39/img/super.img;        MD5=066d526c878d53079d2a2e7917bfce17 ;;   # pt38 + 4z boot image on /data (stale boot-framework removed), C.07, TEST
     pt40)        IMG=$P/port-work/pt40/img/super.img;        MD5=7449ec281f79fa3de6ec4dbd46d00892 ;;   # pt37 + 4y + 4z (no prebuilt boot image: odrefresh builds it on /data), C.07, TEST
     pt41)        IMG=$P/port-work/pt41/img/super.img;        MD5=59bc28c6a5c5db2ed09e3ccb62220504 ;;   # pt40 + 5a-5e (USB-C monitor 120 Hz, extended screen, float limit, PC Extend/Mirror odmf, monitor 200 dpi), C.07, TEST (beta7 candidate)
+    pt42)        IMG=$P/port-work/pt42/img/super.img;        MD5=29bb1aa1b6ffb47be10611a4690bac1a ;;   # pt41 + 5f (SELinux rules from a full capture: UI First hints, f2fs GC nodes; Find My Device removed), C.07, TEST (beta7 candidate)
+    pt43)        IMG=$P/port-work/pt43/img/super.img;        MD5=c6e79ee92e8deefe81cccc1f413dd470 ;;   # pt42 + 5f rules: ux_flag read, tcp sysctls, dontaudit vendor_init name props, C.07, TEST (beta7 candidate)
+    pt44)        IMG=$P/port-work/pt44/img/super.img;        MD5=dab80f305af39e81ce7fa8f328728f56 ;;   # pt43 + 5g: launcher/SystemUI blur at tier 3 (app feature + debug.systemui.gaussblur_level=2), helper 0.9 two-state tile, TEST
+    pt45)        IMG=$P/port-work/pt45/img/super.img;        MD5=c5e414ffe216431b18d6928d6c3cd030 ;;   # pt44 + 5h: SELinux clean-up (perf HAL ux_state, frame boost for more apps, dontaudit probes), TEST (beta7 candidate)
+    pt46)        IMG=$P/port-work/pt46/img/super.img;        MD5=c1f54a2d0ab43b32624f5715815a1914 ;;   # pt45 + 5i: SELinux round 2 (UI First/frame boost hints, dontaudit probes) + Bedtime restore per key, TEST (beta7 candidate)
+    pt47)        IMG=$P/port-work/pt47/img/super.img;        MD5=9bbfb1e5a850a868e18f277548f71011 ;;   # pt46 + 5j: SELinux round 3 (camera/media UX, dontaudit perf HAL scene writes, app probes), TEST (beta7 candidate)
+    pt48)        IMG=$P/port-work/pt48/img/super.img;        MD5=5545aef33ca6b84a52bd379d9fe8404e ;;   # pt47 + 5k: last SELinux items (0 denials in normal + advanced capture), TEST (beta7 candidate)
+    pt49)        IMG=$P/port-work/pt49/img/super.img;        MD5=c1dc3977c3853c5e4fca23e42b692595 ;;   # pt48 + 5l: Xiaomi game thermal profile while a game is in front (helper 1.0 GameKeeper, sconfig 20), TEST (beta7 candidate)
+    pt50)        IMG=$P/port-work/pt50/img/super.img;        MD5=3075e8c9c4af377f929b42c545503b58 ;;   # pt49 + helper QUERY_ALL_PACKAGES (game detection works), beta7
+    pt52)        IMG=$P/port-work/pt52/img/super.img;        MD5=c658bcb135eb57d866a9b7479905dbc9 ;;   # pt50 + 5m SukiSU manager r1 + 5n face worker guard, crashbox dontaudit (test; image deleted 2026-11-05)
+    pt53)        IMG=$P/port-work/pt53/img/super.img;        MD5=baa21d5c0e6d80448c13f6a11cc7b85a ;;   # pt52 + 5o last SELinux noise (test; image deleted 2026-11-05)
+    pt54)        IMG=$P/port-work/pt54/img/super.img;        MD5=2715d951f4a4a165153720fb6479308b ;;   # pt53 + 5p oiface/horae for SDK 34 games, gmscore frame boost (test)
+    pt55)        IMG=$P/port-work/pt55/img/super.img;        MD5=95724aca3367900ab5c405e1136dfb5a ;;   # pt54 + 5q game service UI First ioctl = beta7 (release)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot
@@ -95,6 +108,14 @@ $FB getvar product 2>&1 | grep -q pipa || { echo "fastboot device is not pipa, s
 
 if [ $YES = 1 ]; then ok=y; else printf 'Flash super (slot B, no wipe)? [y/N] '; read -r ok || ok=; fi
 [ "$ok" = y ] || { echo "aborted, nothing flashed (tablet stays in fastboot: 'fastboot reboot' to boot)"; exit 1; }
+# Sometimes the bootloader answers every slot getvar with "not found" ('Device does not support slots'; seen
+# 2026-11-02 and 2026-11-04). One `fastboot reboot bootloader` fixes it.
+if ! $FB getvar current-slot 2>&1 | grep -q '^current-slot: '; then
+    echo "bootloader does not report slots: rebooting the bootloader once"
+    $FB reboot bootloader; sleep 3
+    until $FB devices | grep -q fastboot; do sleep 1; done
+    $FB getvar current-slot 2>&1 | grep -q '^current-slot: ' || { echo "still no slot info, stopping (nothing flashed)"; exit 1; }
+fi
 $FB set_active b
 $FB flash super "$IMG"
 $FB set_active b

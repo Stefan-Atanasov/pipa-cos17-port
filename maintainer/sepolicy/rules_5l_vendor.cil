@@ -1,0 +1,2 @@
+;; pipa port 5l (2026-11-04): the Qualcomm time service app reads an unlabelled prop at boot (seen on walt-r16). No access.
+(dontaudit vendor_timeservice_app default_prop (file (read)))

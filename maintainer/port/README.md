@@ -209,6 +209,18 @@ they changed (for example 3a to 3c built `system` again without a change).
 | 82 | 5c | none (new) | system |
 | 83 | 5d | none (new) | system_ext |
 | 84 | 5e | none (new) | system |
+| 85 | 5f | none (new) | system, system_ext, vendor |
+| 86 | 5g | none (new) | system, system_ext |
+| 87 | 5h | none (new) | system_ext, vendor |
+| 88 | 5i | none (new) | system_ext, vendor |
+| 89 | 5j | none (new) | system_ext, vendor |
+| 90 | 5k | none (new) | system_ext, vendor |
+| 91 | 5l | none (new) | system, system_ext, vendor |
+| 92 | 5m | none (new) | system_ext |
+| 93 | 5n | none (new) | system_ext |
+| 94 | 5o | none (new) | system_ext |
+| 95 | 5p | none (new) | system_ext |
+| 96 | 5q | none (new) | system_ext |
 
 The order of `build_port.sh` is the order of the numbers.
 

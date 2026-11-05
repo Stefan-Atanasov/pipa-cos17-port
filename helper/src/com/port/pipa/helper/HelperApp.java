@@ -7,6 +7,7 @@ public final class HelperApp extends Application {
     private DolbyKeeper dolby;
     private PenKeeper pen;
     private LidKeeper lid;
+    private GameKeeper game;
 
     @Override
     public void onCreate() {
@@ -17,5 +18,7 @@ public final class HelperApp extends Application {
         pen.start();
         lid = new LidKeeper(this);
         lid.start();
+        game = new GameKeeper(this);
+        game.start();
     }
 }

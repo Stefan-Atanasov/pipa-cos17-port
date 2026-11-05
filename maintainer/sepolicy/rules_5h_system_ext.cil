@@ -1,0 +1,43 @@
+;; pipa port 5h (2026-11-04): SELinux clean-up from the pt44 boot logs (core domains).
+;; Allow: frame boost hints from the photo picker, permission dialogs, media provider and mediaserver (same rights
+;; as platform_app; the other app domains have them already).
+(allow mediaprovider proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx mediaprovider proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))
+(allow mediaprovider_app proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx mediaprovider_app proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))
+(allow permissioncontroller_app proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx permissioncontroller_app proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))
+(allow mediaserver proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx mediaserver proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))
+;; Allow: read-only props (Nearby discovery in Play services, system_server render thread), small reads of OPPO
+;; system_app services (standby battery stats, filesystems list, incremental prop, uevent socket buffer).
+(allow gmscore_app bluetooth_prop (file (read getattr map open)))
+(allow system_server oplus_health_prop (file (read getattr map open)))
+(allow system_server gboard_prop (file (read getattr map open)))
+(allow system_app incremental_prop (file (read getattr map open)))
+(allow system_app proc_filesystems (file (read getattr open)))
+(allow system_app vendor_sysfs_battery_supply (dir (search getattr)))
+(allow system_app vendor_sysfs_battery_supply (file (read getattr open)))
+(allow system_app self (netlink_kobject_uevent_socket (setopt)))
+;; Silence only (no access): probes with no use on pipa.
+;; thread_info_ctrl: the futex hook that reads it is not called in the 4.19 kernel (no effect).
+(dontaudit system_app proc (file (write)))
+(dontaudit system_app vendor_ramdump_vendor_data_file (dir (search getattr read)))
+(dontaudit system_app vendor_data_file (dir (write)))
+(dontaudit system_app vendor_thermal_normal_prop (property_service (set)))
+(dontaudit surfaceflinger default_prop (property_service (set)))
+(dontaudit system_server system_data_root_file (dir (write)))
+(dontaudit system_server proc (file (getattr)))
+(dontaudit update_engine oppo_reserve_file (dir (search)))
+(dontaudit update_engine exported_system_prop (property_service (set)))
+(dontaudit generate_runtime_prop cache_file (lnk_file (read)))
+(dontaudit vold_prepare_subdirs self (capability (fsetid)))
+(dontaudit ueventd self (capability2 (mac_admin)))
+(dontaudit mmlistservice mediaprovider_app (dir (search)))
+(dontaudit midasd mnt_user_file (dir (search)))
+;; nandswap reads of swappiness / min_free_kbytes / swaps: silenced, not allowed (with them it may change the swap
+;; settings; BUGS 70 swap A/B first).
+(dontaudit nandswap proc (file (read)))
+(dontaudit nandswap proc_swaps (file (read)))
+;; AT_SECURE on service starts (harmless).
+(dontaudit init domain (process (noatsecure)))

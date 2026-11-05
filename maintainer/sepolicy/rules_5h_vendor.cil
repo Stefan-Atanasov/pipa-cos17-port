@@ -1,0 +1,19 @@
+;; pipa port 5h (2026-11-04): SELinux clean-up from the pt44 boot logs (vendor domains).
+;; Allow: the OPPO part of the Qualcomm perf HAL marks system_server and cameraserver threads as UX
+;; (/proc/<pid>/task/<tid>/ux_state, UI First); it also reads the UFS spec version. init sets the battery "type" owner.
+(allow vendor_hal_perf_default system_server (file (open write getattr)))
+(allow vendor_hal_perf_default cameraserver (file (open write getattr)))
+(allow vendor_hal_perf_default sysfs (file (read getattr open)))
+(allow init vendor_sysfs_battery_supply (file (setattr)))
+;; Silence only (no access).
+;; kernel qipcrtr: the Qualcomm diag driver retries its QRTR socket in a kworker (no diag on a user build).
+(dontaudit kernel self (qipcrtr_socket (create)))
+(dontaudit vendor_hal_perf_default self (capability (dac_override)))
+(dontaudit vendor_dpmd netutils_wrapper (process (noatsecure)))
+(dontaudit init sysfs (file (write)))
+(dontaudit vendor_init virtual_face_prop (property_service (set)))
+(dontaudit vendor_init fingerprint_data_file (dir (getattr)))
+;; Not allowed on purpose: the factory Bluetooth MAC from persist (a new MAC breaks pen and keyboard pairing) and the
+;; bspFwUpdate firmware dir listing (it could start firmware updates).
+(dontaudit vendor_wcnss_service vendor_persist_bluetooth_file (dir (search)))
+(dontaudit bspFwUpdate vendor_firmware_file (dir (read)))

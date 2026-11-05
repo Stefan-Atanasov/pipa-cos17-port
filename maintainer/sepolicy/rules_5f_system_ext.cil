@@ -1,0 +1,59 @@
+;; pipa port 5f (2026-11-04): SELinux denials of a full pt41 capture (audit rate 2000, boot + heavy_mix + cold starts,
+;; 1557 denials, 166 kinds; port-work/device-captures/20261104-pt41/avc-cap.txt). The HyperOS vendor policy has no OPPO
+;; rules, so ColorOS code on pipa misses accesses that OPPO devices allow in their vendor policy.
+;;
+;; A. UI First (smoothness): libgui and libSchedAssistExtImpl mark render threads in
+;;    /proc/oplus_scheduler/sched_assist/im_flag_app and binder UX in /proc/oplus_binder/ux_flag (kernel walt).
+;;    SurfaceFlinger and bootanim could not search the dir; system apps (priv_app_36: Play Store, App Market) could
+;;    not write the IM flag or reach the binder node.
+(allow surfaceflinger oplus_scheduler_sched_assist_proc (dir (search getattr)))
+(allow surfaceflinger oplus_imflag_app_proc (file (open write getattr)))
+(allow bootanim oplus_scheduler_sched_assist_proc (dir (search getattr)))
+(allow bootanim oplus_imflag_app_proc (file (open write getattr)))
+(allow appdomain oplus_imflag_app_proc (file (open write getattr)))
+(allow appdomain oplus_binder_proc (dir (search getattr)))
+(allow appdomain oplus_binder_proc (file (open read write getattr)))
+;; B. init: OPPO rc files set the owner/mode of f2fs tuning nodes (gc_urgent, discard_*, iostat_enable,
+;;    reserved_blocks) and of the USB supply nodes; the HyperOS labels are sysfs_fs_f2fs / vendor_sysfs_usb_supply.
+(allow init sysfs_fs_f2fs (file (setattr)))
+;;    system_server (OplusStorageManagerFeature.changeGcDpolicy) then writes the f2fs GC policy nodes
+;;    (gc_max_sleep_time ...: EACCES 69 times a minute at idle before).
+(allow system_server sysfs_fs_f2fs (dir (search getattr open read)))
+(allow system_server sysfs_fs_f2fs (file (read write getattr open)))
+;; C. Property reads of platform daemons: ColorOS code reads OPPO / vendor props that the HyperOS vendor labels
+;;    vendor_default_prop, vendor_system_prop etc. Read only.
+(allow lmkd vendor_default_prop (file (read getattr map open)))
+(allow audioserver vendor_default_prop (file (read getattr map open)))
+(allow cameraserver vendor_default_prop (file (read getattr map open)))
+(allow system_server vendor_system_prop (file (read getattr map open)))
+(allow system_server wifi_hal_prop (file (read getattr map open)))
+(allow system_server vendor_wfd_sys_prop (file (read getattr map open)))
+(allow system_server vendor_wfd_sys_debug_prop (file (read getattr map open)))
+(allow system_server vendor_bluetooth_prop (file (read getattr map open)))
+(allow zygote vendor_display_notch_prop (file (read getattr map open)))
+(allow zygote oppo_fingerprint_prop (file (read getattr map open)))
+(allow platform_app oppo_fingerprint_prop (file (read getattr map open)))
+(allow platform_app_36 oppo_fingerprint_prop (file (read getattr map open)))
+(allow untrusted_app_all gboard_prop (file (read getattr map open)))
+(allow system_app gboard_prop (file (read getattr map open)))
+;; D. HeyTap accessory (com.heytap.accessory, platform_app) polls /sys/class/net and the cgroup root in a loop.
+(allow platform_app sysfs_net (dir (search getattr open read)))
+(allow platform_app sysfs_net (file (read getattr open)))
+(allow platform_app sysfs_net (lnk_file (read getattr)))
+(allow platform_app cgroup_v2 (dir (search getattr)))
+(allow platform_app cgroup (dir (search getattr)))
+;; D2. OPPO network tuning in system_server writes /proc/sys/net/ipv4/tcp_mtu_probing and tcp_timestamps (pt42 capture).
+(allow system_server proc_net (file (write)))
+;; D3. Xiaomi vendor rc files set ro.product.*.marketname/cert, ro.minui.*, ro.bootanim.* (no OPPO label): silence.
+(dontaudit vendor_init default_prop (property_service (set)))
+;; E. Silence only (no access): OPPO debuglog at boot (retries the misc HAL ~10 s, wants to toggle subsystem
+;;    restart and create files in /data), OPPO nandswap (pipa keeps the kernel swappiness/min_free_kbytes; a test
+;;    of OPPO's values is a separate A/B), boringssl self tests on the console.
+(dontaudit debuglog pipa_hal_misc_service (service_manager (find)))
+(dontaudit debuglog system_data_file (file (create)))
+(dontaudit nandswap proc (file (write)))
+(dontaudit nandswap mirror_data_file (dir (search)))
+(dontaudit nandswap apk_data_file (dir (search)))
+(dontaudit nandswap mnt_user_file (dir (getattr)))
+(dontaudit nandswap block_device (dir (getattr)))
+(dontaudit boringssl_self_test tmpfs (chr_file (write)))

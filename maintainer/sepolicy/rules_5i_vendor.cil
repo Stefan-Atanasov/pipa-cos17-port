@@ -1,0 +1,24 @@
+;; pipa port 5i (2026-11-04): SELinux round 2 (vendor domains), see rules_5i_system_ext.cil.
+;; Allow: the perf HAL marks mediaserver threads as UX too (ux_state, as system_server/cameraserver in 5h) and reads
+;; the kernel version; Wi-Fi HAL reads its debug prop; camera HAL reads OPPO camera props (default_prop).
+(allow vendor_hal_perf_default mediaserver (file (open write getattr)))
+(allow vendor_hal_perf_default proc_version (file (read getattr open)))
+(allow hal_wifi_default persist_vendor_debug_wifi_prop (file (read getattr map open)))
+(allow hal_camera_default default_prop (file (read getattr map open)))
+;; Silence only (no access): diag device (no diag on pipa), Xiaomi xlog device, debug toggles, probes.
+(dontaudit hal_audio_default vendor_diag_device (chr_file (read write)))
+(dontaudit hal_bluetooth_default vendor_diag_device (chr_file (read write)))
+(dontaudit hal_graphics_composer_default vendor_diag_device (chr_file (read write)))
+(dontaudit vendor_cnd vendor_diag_device (chr_file (read write)))
+(dontaudit vendor_hal_imsrtp vendor_diag_device (chr_file (read write)))
+(dontaudit hal_audio_default device (chr_file (read write)))
+(dontaudit bluetooth vendor_default_prop (property_service (set)))
+(dontaudit secure_element vendor_secure_element_vendor_data_file (dir (search)))
+(dontaudit vendor_qti_init_shell self (capability (dac_override)))
+;; page-cluster: the Qualcomm post-boot script wants 0 (zram read-ahead). Silenced, not allowed: swap A/B first.
+(dontaudit vendor_qti_init_shell proc_page_cluster (file (write)))
+(dontaudit vendor_init selinuxfs (file (write)))
+(dontaudit vendor_init init_service_status_private_prop (file (read)))
+(dontaudit vendor_hvdcp kmsg_device (chr_file (write getattr)))
+(dontaudit vendor_hal_capabilityconfigstore_qti_default vendor_cap_configstore_dbg_prop (file (read)))
+(dontaudit wifi_debug vendor_sysfs_ssr_toggle (file (write)))

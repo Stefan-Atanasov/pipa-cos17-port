@@ -150,6 +150,18 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 5c | step only | `oplus-services.jar` (`maintainer/flexwin/patch_float_limit.sh`): more than one floating window also with launcher animation tier 3/4. |
 | 5d | step only | PC Screen Extend / Mirror (OPPO PC Connect): patched `odmf.jar` (`maintainer/odmf/patch_odmf_pcextend.sh`, no `color-format` 19 in surface decode mode) in `/system_ext/pipa_port/odmf/`; `pipa_port.rc` bind-mounts it over the signed odmf opex overlay folder. |
 | 5e | step only | `oplus-services.jar` (`maintainer/extdisplay/patch_ext_density.sh`): a USB-C monitor keeps its native size; density = short side x 200 / 1440 (1440p: 200 dpi, like Windows 125 %). |
+| 5f | step only | SELinux rules from a full capture (`maintainer/sepolicy/rules_5f_*.cil`): UI First hints for SurfaceFlinger, bootanim and apps, f2fs GC policy nodes for init and system_server, read-only props; dontaudit for probes. Find My Device removed (needs OPPO RPMB/TEE). |
+| 5g | step only | Full blur at animation tier 3: app feature `com.oplus.blur.support_upgrade_anim_material_blur` (launcher dock and folders; ColorOS allows them only at tier 1-2 without it) and `debug.systemui.gaussblur_level=2` (Quick Settings blur; SystemUI has none at tier 3). Helper 0.9: two-state Animations tile (Fast = tier 3, ColorOS = tier 1). |
+| 5h | step only | SELinux clean-up from the boot logs: the OPPO part of the perf HAL may mark system_server/cameraserver threads as UX (`ux_state`), frame boost for more app domains, read-only props; dontaudit for diag, probes and `noatsecure` (`maintainer/sepolicy/rules_5h_*.cil`). |
+| 5i | step only | SELinux round 2 from a full capture (audit rate 2000): UI First / frame boost hints for SurfaceFlinger, bootanim, mediaserver, audioserver, cameraserver and more app domains, game service GPU reads; dontaudit for probes and third-party app probes. Bedtime: each Bedtime key is restored on its own (the old restore switched Bedtime on again). |
+| 5j | step only | SELinux round 3: camera and media provider UX hints, dex2oat /data search; dontaudit for the perf HAL scene writes (pipa_port owns that node) and app emulator checks. |
+| 5k | step only | Last SELinux items from an advanced capture (camera, recording, split screen, toggles). Result: 0 denials from ROM domains, apps and root. |
+| 5l | step only | Xiaomi game thermal profile while a game is in the foreground: helper 1.0 (`GameKeeper`, UID importance listener, appCategory game) sets `pipa_game_fg`; pipa_port writes `mi_thermald` `sconfig` `GAME_THERMAL_SCENE` (default 20 = no CPU caps below 46 °C skin) and -1 otherwise. |
+| 5m | step only | SukiSU-Ultra manager v4.3.0-r1 (41140) in `system_ext/pipa_port/SukiSU.apk` (the same level as kernel walt-r17); new layer. beta7. |
+| 5n | step only | Face camera worker guard `libpipa_camguard.so` (LD_PRELOAD): no SIGABRT when the HAL retries with an ANativeWindow in a dark room; dontaudit for OPPO crash log collection. beta7. |
+| 5o | step only | Last SELinux noise (dontaudit only): OPPO game service virtual device lookup, game anti-cheat /proc probes, a system app search of the Play services folder. beta7. |
+| 5p | step only | OPPO game optimizer (oiface) and horae also for games that target SDK 34 (the donor policy stops at `untrusted_app_32`); Play services frame boost hint. beta7. |
+| 5q | step only | OPPO game service may mark game threads as UI First (ux_task_app ioctl, the set of 5i). beta7. |
 
 ### 2.4 Where properties go
 

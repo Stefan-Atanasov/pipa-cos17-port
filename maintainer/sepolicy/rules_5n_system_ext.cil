@@ -1,0 +1,7 @@
+; pipa port 5n: OPPO crashbox / gaia log collection (debuglog runs `ps -A -T` and reads /proc; system_server hands it
+; a dcs_env.txt fd) after a stability event. The collection works without these reads: no audit noise.
+(dontaudit debuglog self (capability (sys_ptrace)))
+(dontaudit debuglog proc_pid_max (file (read)))
+(dontaudit system_server debuglog (fd (use)))
+; OPPO Settings/system apps probe /data/tombstones for crash counts
+(dontaudit system_app tombstone_data_file (dir (search)))

@@ -73,6 +73,10 @@ KSWAPD_NO_PRIME=1
 ANIM_TIER=1
 ANIM_LEVEL=3
 
+# Xiaomi thermal profile while a game is in the foreground (mi_thermald sconfig; 5l). 20 = no CPU caps below 46 C
+# skin (default), 13 = below 48 C (Xiaomi PUBG value), 10 = below 51 C (no limits), 0 = off (daily profile always).
+GAME_THERMAL_SCENE=20
+
 # Fully compile Settings, the Wi-Fi page and the launcher once per ROM build (SystemUI via
 # dalvik.vm.systemuicompilerfilter=speed). SPEED_APPS overrides the list.
 SPEED_COMPILE=1

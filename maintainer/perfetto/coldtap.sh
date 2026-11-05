@@ -1,7 +1,24 @@
 #!/bin/bash
-# Cold starts by real touch (kgest tap on home-screen icons of the pt40 layout, landscape): force-stop, home, tap,
-# ActivityTaskManager "Displayed" time. Push maintainer/kgest/kgest to /data/local/tmp first. Coordinates: uiautomator dump.
-A="adb -s 83836a90"
+# Cold starts by real touch (kgest tap on home-screen icons, landscape): force-stop, home, tap, ActivityTaskManager
+# "Displayed" time, 3 runs per app. Push maintainer/kgest/kgest to /data/local/tmp first.
+# Icons are found by their label (uiautomator dump of the home screen), so a new home layout needs no change.
+# An app whose icon is not on the first home page (e.g. in a folder) prints "not on home".
+A=${ADB:-adb -s 83836a90}
+$A shell "input keyevent 3"; sleep 1.5
+$A shell "uiautomator dump /data/local/tmp/home.xml >/dev/null 2>&1"
+XML=$($A shell cat /data/local/tmp/home.xml)
+pos() { # label -> "x y" (centre of the node with this text / content-desc)
+  printf '%s' "$XML" | python3 -c '
+import re,sys
+x=sys.stdin.read(); l=sys.argv[1]
+for m in re.finditer(r"<node [^>]*>", x):
+    n=m.group(0)
+    if re.search(r"(text|content-desc)=\"%s\"" % re.escape(l), n):
+        b=re.search(r"bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"", n)
+        if b:
+            a,c,d,e=map(int,b.groups()); print((a+d)//2,(c+e)//2); break
+' "$1"
+}
 run() { # label x y pkgs
   l=$1; x=$2; y=$3; shift 3; out=""
   for i in 1 2 3; do
@@ -14,9 +31,14 @@ run() { # label x y pkgs
   $A shell "input keyevent 3"
   echo "$l ($pk)$out"
 }
-run Settings 459 1290 com.android.settings
-run YouTube 895 1290 com.google.android.youtube
-run Photos 1549 1290 com.coloros.gallery3d com.google.android.apps.photos
-run PlayStore 677 1290 com.android.vending
-run AppMarket 1767 1290 com.heytap.market
-run Spotify 2203 1290 com.spotify.music
+app() { # label pkgs...
+  l=$1; shift; p=$(pos "$l")
+  if [ -z "$p" ]; then echo "$l (not on home)"; return; fi
+  run "$l" $p "$@"
+}
+app Settings com.android.settings
+app YouTube com.google.android.youtube
+app Photos com.coloros.gallery3d com.google.android.apps.photos
+app "Play Store" com.android.vending
+app "App Market" com.heytap.market
+app Spotify com.spotify.music

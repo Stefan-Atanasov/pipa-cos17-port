@@ -1,0 +1,14 @@
+; pipa port 5p: OPPO game optimizer (oiface) and horae for apps that target SDK 34. The donor policy has these rules
+; for untrusted_app_25..32 and untrusted_app (ossi_generic untrusted_app_32.te), but none for untrusted_app_34: such
+; games (e.g. Delta Force) got "connectto oiface" denied. Copies of the _32 rules, game part only.
+(allow untrusted_app_34 oiface (unix_stream_socket (connectto)))
+(allow untrusted_app_34 oiface_service (service_manager (find)))
+(allow untrusted_app_34 oplusoiface_service (service_manager (find)))
+(allow oiface untrusted_app_34 (file (read getattr open)))
+(allow oiface untrusted_app_34 (dir (read getattr open search)))
+(allow oiface untrusted_app_34 (process (setsched)))
+(allow untrusted_app_34 horae_service (service_manager (find)))
+(allow untrusted_app_34 horae (binder (call)))
+; Play services: OPPO frame boost hint, the same set as the other app domains in 5i
+(allow gmscore_app proc_frame_boost_ctrl (file (ioctl read write getattr open)))
+(allowx gmscore_app proc_frame_boost_ctrl (ioctl file ((range 0xde01 0xde03))))

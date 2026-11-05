@@ -1,13 +1,32 @@
 # Known issues
 
-This document lists the known problems of the public release **beta6** (2026-10-30, ROM `port.sh` up to step 3w +
-kernel walt-r8kpm) and what beta6 fixed against beta5. Each entry gives the symptom, a workaround if there is one, and
-the status. Updated 2026-11-02.
+This document lists the known problems of the public release **beta7** (2026-11-05, ROM `port.sh` up to step 5l +
+kernel walt-r17, donor C.07) and what beta7 and beta6 fixed. Each entry gives the symptom, a workaround if there is
+one, and the status. Updated 2026-11-05.
 
 **Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
 ## For users
+
+### Fixed in beta7
+
+| Problem in beta6 | Fix |
+|---|---|
+| Settings and the launcher are slow after a clean flash. | 4y + 4z: SystemUI, Settings and the launcher are compiled after each flash, and Android builds a matching framework boot image on the first boot. Launcher janky frames 35 % -> 16 % (measured). |
+| A second floating window closes the first. | 5c: several floating windows also with the fast animations. |
+| No blur on the home screen and in Quick Settings with the fast animations. | 5g: blur at the "Fast" animation tier (no measurable cost at normal use). The Animations tile has two states: Fast and ColorOS. |
+| USB-C monitor: no output, drops, 60 Hz only, everything too big; PC Screen Extend / Mirror black. | 4j, kernel walt-r14/r15 (8-bit colour, best refresh for the link), 5a (120 Hz), 5b (extended desktop), 5e (native size, 200 dpi), 5d (PC Screen Extend / Mirror). |
+| Games always use Xiaomi's daily thermal profile (CPU slows from 38 °C skin). | 5l: Xiaomi's game profile while a game is in front (full clocks up to 46 °C skin). `GAME_THERMAL_SCENE` in `/data/misc/pipa_port/config.prop`. |
+| Bedtime mode turns on again after you turn it off. | 5i: each Bedtime switch is restored on its own. |
+| SELinux denials and error spam in the logs. | 5f, 5h-5k: no denials from the ROM in a full and an advanced test session. OPPO's UI First boost hints now reach SurfaceFlinger, system_server, camera and media. |
+| Circle to Search does not open. | 4e + 4v: install the Google app and reboot once; hold the gesture bar for about 0.6 s. |
+| Keep the screen on while you look at it has no effect. | 4i. |
+| File sharing tablet -> OPPO phone needs the phone link. | 4k (Google Quick Share also: 4l). |
+| Games offer only 60 fps. | 3o: listed games (PUBG, Racing Master) see a gaming device. |
+| No ColorOS banner in About device. | 4u. |
+| Charging: no bypass, the charging limit is not exact. | 4m, 4p, 4w. |
+| Touch is less exact while charging. | Kernel walt-r9 (charger state for the touch firmware). |
 
 ### Fixed in beta6
 
@@ -50,34 +69,37 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Pen page | Settings → Stylus (OPPO pen page) shows the Xiaomi pen as "disconnected". | None necessary: the pen works. | By design (OPPO pen protocol). |
 | Keyboard case | Attach, detach and the auto-off when you fold the keyboard behind the tablet are not tested on beta6. | None. | Not tested (no tester). |
 | Play Integrity | Only BASIC integrity (unlocked bootloader). Apps that need DEVICE integrity do not work. | None. DEVICE needs a keybox that Google accepts; public keyboxes were rejected in a test on 2026-10-30. | By design. |
-| Material blur | With "Material blur" on, the launcher animations are less smooth. | It is off by default after a new install. To set it off again: `adb shell settings put system system_material_blur_enable 0`. | By design (GPU load). |
-| Dual boot with Linux | Linux cannot read the internal storage (it is encrypted). | Use a shared drive or the network, or the experimental `beta6-noenc` build. | See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md). `beta6-noenc`: not tested, clean flash only (it erases all data). Do not update between `beta6` and `beta6-noenc` with "keep data". Data on the tablet has no encryption. |
+| Dual boot with Linux | Linux cannot read the internal storage (it is encrypted). | Use a shared drive or the network, or the experimental `beta7-noenc` package. | See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md). `beta7-noenc`: clean flash only (it erases all data); not tested by a user yet. Do not update between `beta7` and `beta7-noenc` with "keep data". Data on the tablet has no encryption. |
 | Pen back button | It no longer takes a screenshot. | None necessary: it is the standard second stylus button now (apps decide what it does). | Changed on purpose in beta6. |
 | Network sharing with a phone | The tablet does not use the phone's network while Wi-Fi is connected. | Turn Wi-Fi off. After a reboot, if the phone's SIM does not show, turn the sharing off and on in the phone link once. | Normal Android behaviour (mobile data only without Wi-Fi). Works: tested 2026-10-30. |
 | Game Assistant latency | Game Assistant shows about 200 ms network latency. | None necessary. | It measures to a server in China; the network is not slow. |
 | HeyTap account | A ColorOS CN tablet and a global OPPO/OnePlus phone show as two different accounts. | None. | By design: CN and global HeyTap are separate servers. |
 | OPPO earbuds | No pop-up when you open the earbuds case. | Install the OPPO wireless earbuds app from the OPPO store and keep it. | Workaround from a user (2026-11-02). |
-| Circle to Search | beta6: a long press on the gesture bar does not open Circle to Search. | Next release: install the Google app (Play Store) and reboot once. The long press opens Circle to Search. If you choose a different assistant, the long press opens that one. | Fixed for the next release (test build pt21). Since step 4v: hold for about 0.6 s (was 0.8 s). |
-| Keep the screen on while you look at it | Display setting has no effect: the screen goes off at the normal timeout. | None in beta6. | Fixed for the next release (step 4i): the face model library was missing. The check uses the front camera on the CPU for about 2 s before the screen would turn off. |
-| File sharing tablet → OPPO phone | "Recipient's transfer channel occupied" when the phone link (interconnect) is off. | Connect the phone link first. | Fixed for the next release (step 4k): OShare needs a key that only OPPO hardware has; the port skips this "genuine OPPO" check of the receiver (the transfer stays encrypted). An OShare update from the App Market is removed at boot (`OSHARE_ROLLBACK=0` in `/data/misc/pipa_port/config.prop` keeps it). Google Quick Share is also available (step 4l). |
-| USB-C display out | The monitor shows nothing; it connects and disconnects. | None. | Partly fixed for the next release (step 4j: Android enables the monitor). Some monitors still drop the link after 2 s (kernel, open). |
-| Game frame rate | Games offer only 60 fps (for example PUBG shows "Extreme" as the highest). | None in beta6. | Fixed for the next release (step 3o): listed games see a gaming device and offer their high frame rates (PUBG: "Ultra Extreme", tested). Other apps and OPPO apps see the real device. A model change can be visible to a game's anti-cheat; no ban is known. Report a game that still shows only 60 fps, with its package name. |
-| About device | No ColorOS banner card in Settings > About device. | None. | Fixed for the next release (step 4u): the card shows "ColorOS 17.0" and "Version up to date"; it has no update action. |
 | Sounds while charging | At a low battery level (1-20 %), while gaming and charging, some sounds play. | None. | Open, cause not confirmed. Step 4w removes one candidate (bypass cap/charge switching at 14/15 %). Also seen: a wall charger connects two times in 0.6 s at plug-in. Please send the time, the battery level, a screen recording with sound and a bug report. |
-| Reports from 2026-11-02 | Touch lag while charging, charging limit / smart charging, gyroscope, black wallpaper after a change, Dolby falls back to Xiaomi Sound, screen recorder stutter, random flicker. | None yet. | Touch while charging: fixed in kernel walt-r9; the driver sends the USB state at boot, on plug change and after resume. Reporter confirmation is open. Charging limit / smart charging: step 4m fixes the stop-field read; the live test confirms that charging resumes. Smart charging uses Battery app prediction and a release alarm before the usual unplug time. Bypass charging works since step 4p (charge current capped at 100 mA; 4w: no switching at a low level). Slow charging, cooldown and pen charge rules are not possible on pipa. Other reports in this row keep their previous status. |
+
+| Refresh rate | The panel stayed at 120 Hz on a static screen once. | Reboot. | Open, cause unknown (seen once). |
+| Smart charging | The 80 % hold does not start. | Use the fixed charging limit. | ColorOS needs several nights without a reboot to train its sleep prediction (DeepThinker). |
+| Screen share | A striped picture during screen sharing (seen twice). | Stop and start the share. | Open, not reproduced. |
+| USB-C monitor colours | The monitor looks a bit warm. | None. | By design: the tablet's colour correction applies to all screens. |
+| Monitor sound | No sound on a monitor without speakers. | Use the tablet speakers or headphones. | Android sends the sound to the USB-C monitor. |
+| Find My Device, cloud password sync | Not available. | None. | They need OPPO secure storage (RPMB/TEE) that the Xiaomi hardware does not have. Find My Device is removed. |
+| KernelSU modules | A module that replaces system files does nothing. | Script modules and `system.prop` work. | SukiSU 4.3 needs a metamodule for file overlays; none is included. `sepolicy.rule` modules are not tested. |
+| Flash script stops: "Failed to set slot B" | The bootloader sometimes reports no slots. | `fastboot reboot bootloader`, then start the script again. Nothing was written. | Seen two times on the maintainer's tablet. |
 
 ## For maintainers
 
 | Item | Status |
 |---|---|
-| Release paths of the beta6 package | **Not tested for beta6**: update from beta5 ("keep data", SukiSU manager 4.2.1 → 4.3.0), clean flash (root on first boot, setup wizard), and "keep data" leaves `boot_a`/`dtbo_a` unchanged. The tablet came to beta6 through dirty flashes of test builds. Reports welcome. |
+| Release paths of the beta7 package | Not tested as a package: update from beta6 ("keep data", SukiSU manager 4.3.0 → 4.3.0-r1), clean flash, and "keep data" leaves `boot_a`/`dtbo_a` unchanged. The tablet came to beta7 through dirty flashes of test builds (pt41-pt50). Reports welcome. |
 | Clean flash of a release package | Last tested on 2026-10-25 (2u package, before beta5). |
-| Step 3x (unencrypted `/data`, `PORT_NOENCRYPT=1`) | Built as `beta6-noenc`, not tested. Clean flash only. |
+| Step 3x (unencrypted `/data`, `PORT_NOENCRYPT=1`) | Built as `beta6-noenc` and `beta7-noenc`, not tested by a user. Clean flash only. |
 | Face unlock and `pipa_port` enforcing | Since 3g the face camera worker had no rules (black enroll preview, no unlock) in the test builds; 3w adds them. Code that the service starts needs rules in `pipa_port_rules.cil`. |
 | `pipa_port` SELinux domain | Enforcing since 3f (3g and 3w added rules). Rules: `maintainer/sepolicy/pipa_port_rules.cil`. |
-| Live SELinux rules with `ksud sepolicy patch` | Kernel walt-r8kpm hangs (watchdog reset). Compile on the tablet with `secilc` and test with a ROM build. |
+| Live SELinux rules with `ksud sepolicy patch` | Kernel walt-r8kpm hangs (watchdog reset). Compile on the tablet with `secilc` (`maintainer/sepolicy/secil_test.sh`) and test with a ROM build. |
+| SELinux state | 0 denials from ROM domains, apps and root in a full capture (audit rate 2000) and an advanced capture on pt48-pt50. The neverallow check reports the same 76 violations as the donor base policy. |
 | Step 4h and the boot image | `oplus-framework.jar` (boot jar) is patched too: the same odrefresh compile on the first boot. Debug logs again: `setprop persist.sys.assert.panic true`. |
 | Step 3o and the boot image | `framework.jar` is patched: odrefresh compiles the framework boot image into `/data` on the first boot (about 1 min longer). |
 | Step 3k (odm interconnect from C.06) | Optional (`PORT_ODM_C06=1`). Built, not tested. |
-| OPPO performance service (`vendor-oplus-hardware-performance-V1-service`) | SELinux blocks its read of `/proc/version`, so it does not know the kernel paths. A live fix works but gave no measured gain. |
-| `/proc/oplus_binder/ux_flag` | Not in the kernel. ColorOS cannot pass UX through binder calls. |
+| OPPO performance service | Since 5h it may mark system_server, cameraserver and mediaserver threads as UX and read `/proc/version`. Its UI First scene writes (`sched_assist_scene`) are silenced, not allowed: `pipa_port` owns that node (A/B test open, BUGS 70). |
+| `/proc/oplus_binder/ux_flag` | A no-op node since kernel walt-r10 (ColorOS can open it). |
+| `/proc/shell-temp` | Since kernel walt-r16: OPPO `horae` writes its shell temperature; only storage maintenance reads it. The Xiaomi/Qualcomm thermal stack is unchanged. |

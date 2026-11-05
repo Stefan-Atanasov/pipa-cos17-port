@@ -1,0 +1,11 @@
+; pipa port 5o: last items from the pt52 boot and bug hunt
+; OPPO game service looks up the AOSP virtual device service at game start (not used on pipa)
+(dontaudit oplus_game_service virtual_device_native_service (service_manager (find)))
+; game anti-cheat probes (PUBG, Delta Force: kallsyms, iomem, misc, /proc/net/tcp, overcommit), the same kind as 5i/5j
+(dontaudit untrusted_app_all proc_kallsyms (file (read)))
+(dontaudit untrusted_app_all proc_iomem (file (read)))
+(dontaudit untrusted_app_all proc_misc (file (read)))
+(dontaudit untrusted_app_all proc_net_tcp_udp (file (read)))
+(dontaudit untrusted_app_all proc_overcommit_memory (file (read)))
+; an OPPO system app checks for the Play services data folder
+(dontaudit system_app privapp_data_file (dir (search)))

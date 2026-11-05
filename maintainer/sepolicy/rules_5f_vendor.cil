@@ -1,0 +1,15 @@
+;; pipa port 5f (2026-11-04): vendor-only types from the full pt41 capture (see rules_5f_system_ext.cil).
+;; Allow: ueventd looks for firmware in /data/vendor/firmware; init sets the owner of the USB supply nodes.
+(allow ueventd vendor_firmware_data_file (dir (search getattr)))
+(allow init vendor_sysfs_usb_supply (file (setattr)))
+;; Silence only (no access): the Qualcomm diag device (no diag on a user build), Xiaomi thermald on a panel HBM node,
+;; Qualcomm init shell log dir, debuglog subsystem-restart toggle, kernel/nandswap persist mount probes.
+(dontaudit hal_sensors_default vendor_diag_device (chr_file (read write)))
+(dontaudit vendor_ims vendor_diag_device (chr_file (read write)))
+(dontaudit vendor_dpmd vendor_diag_device (chr_file (read write)))
+(dontaudit vendor_mi_thermald sysfs (file (read write)))
+(dontaudit vendor_qti_init_shell vendor_data_file (dir (read write)))
+(dontaudit debuglog vendor_sysfs_ssr_toggle (file (write)))
+(dontaudit kernel mnt_vendor_file (dir (search)))
+(dontaudit nandswap mnt_vendor_file (dir (search)))
+(dontaudit vendor_boringssl_self_test tmpfs (chr_file (write)))
