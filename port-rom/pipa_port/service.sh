@@ -46,6 +46,18 @@ fi
 until [ "$(getprop sys.boot_completed)" = 1 ]; do sleep 2; done
 log "start (build=$(getprop ro.build.display.id))"
 
+# Maintainer test builds only (optional step 5s sets ro.pipa.maintainer_adb=1 next to the host's adb key): ColorOS
+# turns USB to charge-only at the first setup, so turn USB debugging on here. Release builds do not have the property.
+if [ "$(getprop ro.pipa.maintainer_adb)" = 1 ]; then
+    for i in 1 2 3 4 5 6; do
+        settings put global development_settings_enabled 1 </dev/null >/dev/null 2>&1
+        settings put global adb_enabled 1 </dev/null >/dev/null 2>&1
+        [ "$(getprop init.svc.adbd)" = running ] && break
+        sleep 5
+    done
+    log "maintainer build: adb_enabled=1 (adbd $(getprop init.svc.adbd))"
+fi
+
 # ------------------------------------------------------------ SurfaceFlinger on big cores
 # Our kernel's OPPO UI First keeps SurfaceFlinger + RenderEngine (realtime) off the little cores only while a
 # sched_assist scene is set; on OPPO phones their vendor perf daemon sets it, pipa's Xiaomi vendor never does, so SF
@@ -279,6 +291,15 @@ if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(sget secure stylus_buttons_ena
     settings put secure stylus_buttons_enabled 1
     touch "$STATE/stylus_default_set"
     log "stylus_buttons_enabled default -> 1"
+fi
+# beta8: OPPO's secure keyboard for password fields off, once per install (user, 2026-11-05). CN builds default to on,
+# export builds to off (Settings SettingsUtils.isDefaultCloseSecurityKeyboard = isExpVersion). Key Settings.Secure
+# security_window, read by Settings and oplus-services; 0 = password fields use the normal keyboard (Gboard etc.).
+# The user can turn it on again: Settings > Additional settings > Keyboard & input method > Secure keyboard.
+if [ "${SECURE_KEYBOARD_OFF:-1}" = 1 ] && [ ! -e "$STATE/secure_keyboard_off_set" ]; then
+    settings put secure security_window 0 </dev/null >/dev/null 2>&1
+    touch "$STATE/secure_keyboard_off_set"
+    log "secure keyboard for passwords off (security_window=0, once)"
 fi
 # 2q smoothness defaults, once per install (state file; the user can change them back in Developer options):
 # window blur off (SurfaceFlinger forces GPU composition of every layer below a blur: A/B -25 % dropped frames,

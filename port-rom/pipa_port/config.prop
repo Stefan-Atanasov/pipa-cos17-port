@@ -42,6 +42,8 @@ BLUR_DEFAULT=1
 STYLUS_BUTTONS_DEFAULT=1
 # once per install: window blur off, material blur off, animation blur off (2q/2v; animation scales stay at 1.0)
 SMOOTH_DEFAULT=1
+# once per install: OPPO secure keyboard for password fields off (Settings.Secure security_window=0; beta8)
+SECURE_KEYBOARD_OFF=1
 
 # Grant the pipa helper app its notification and overlay permissions.
 HELPER_GRANTS=1
