@@ -21,6 +21,8 @@
 #   PORT_WITH_2U=1    also apply step 2u (SukiSU preload). The old chain does NOT have it in 3h.
 #   PORT_ODM_C06=1    also apply the optional step 3k (OPPO interconnect stack in the odm from C.06; NOTES-3k-odm-c06.md).
 #   PORT_NOENCRYPT=1  also apply the optional step 3x (/data without encryption, for Linux dual boot; clean flash only).
+#   PORT_MAINTAINER_ADB=1  also apply the optional step 5s (this host's adb key + USB debugging on at the first boot;
+#                     maintainer test builds only, build_release.sh refuses them).
 #   PORT_FORCE=1      allow a tag whose work dir port.sh did not create (the old chain used it).
 #   PIPA_ROOT, PIPA_OWNER   as in the old layer scripts.
 #

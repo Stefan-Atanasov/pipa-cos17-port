@@ -162,6 +162,8 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 5o | step only | Last SELinux noise (dontaudit only): OPPO game service virtual device lookup, game anti-cheat /proc probes, a system app search of the Play services folder. beta7. |
 | 5p | step only | OPPO game optimizer (oiface) and horae also for games that target SDK 34 (the donor policy stops at `untrusted_app_32`); Play services frame boost hint. beta7. |
 | 5q | step only | OPPO game service may mark game threads as UI First (ux_task_app ioctl, the set of 5i). beta7. |
+| 5r | step only | OShare versionCode 17999036 in place (`maintainer/oshare/bump_version.py`): the OPPO App Market cannot replace the patched OShare (4k). beta7. |
+| 5s | optional (`PORT_MAINTAINER_ADB=1`) | Maintainer test builds only: this host's adb key in `product/etc/security/adb_keys` and USB debugging on at the first boot, for unattended clean-flash tests. `build_release.sh` refuses such an image. Never published. |
 
 ### 2.4 Where properties go
 

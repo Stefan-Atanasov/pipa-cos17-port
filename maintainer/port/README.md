@@ -221,6 +221,8 @@ they changed (for example 3a to 3c built `system` again without a change).
 | 94 | 5o | none (new) | system_ext |
 | 95 | 5p | none (new) | system_ext |
 | 96 | 5q | none (new) | system_ext |
+| 97 | 5r | none (new) | system |
+| 98 | 5s (optional, `PORT_MAINTAINER_ADB=1`) | none (new) | product |
 
 The order of `build_port.sh` is the order of the numbers.
 

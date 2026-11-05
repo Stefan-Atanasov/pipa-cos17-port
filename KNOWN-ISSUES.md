@@ -13,6 +13,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 | Problem in beta6 | Fix |
 |---|---|
+| The OPPO App Market could replace the port's patched OPPO Share with its own update (file sharing with the phone then needs the phone link). | 5r: the patched OPPO Share has a higher version number (17999036); the App Market sees no newer version. |
 | Settings and the launcher are slow after a clean flash. | 4y + 4z: SystemUI, Settings and the launcher are compiled after each flash, and Android builds a matching framework boot image on the first boot. Launcher janky frames 35 % -> 16 % (measured). |
 | A second floating window closes the first. | 5c: several floating windows also with the fast animations. |
 | No blur on the home screen and in Quick Settings with the fast animations. | 5g: blur at the "Fast" animation tier (no measurable cost at normal use). The Animations tile has two states: Fast and ColorOS. |

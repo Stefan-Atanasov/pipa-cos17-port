@@ -36,6 +36,11 @@ SUPER_IMG=$PW/$TAG/img/super.img
 NOTES=$COS/RELEASE-NOTES-$PKG.md
 [ -f "$NOTES" ] || { echo "missing $NOTES: write the notes or give --pkg <name> of existing notes"; exit 1; }
 [ $SUPER = 0 ] || [ -f "$SUPER_IMG" ] || { echo "missing $SUPER_IMG"; exit 1; }
+# never publish a maintainer build (step 5s: adb key + USB debugging on at the first boot)
+if [ $SUPER = 0 ] || [ -f "$PW/$TAG/img/product.img" ]; then :; else echo "missing $PW/$TAG/img/product.img (needed for the 5s check)"; exit 1; fi
+if [ $SUPER != 0 ] && dump.erofs --ls --path=/etc/security/adb_keys "$PW/$TAG/img/product.img" 2>/dev/null | grep -q "^Path"; then
+    echo "REFUSED: $TAG is a maintainer build (product/etc/security/adb_keys, step 5s). Never publish it."; exit 1
+fi
 [ -z "$BOOT" ] || [ "$(head -c 8 "$BOOT")" = "ANDROID!" ] || { echo "not a boot image: $BOOT"; exit 1; }
 
 OUT=$PW/release/ColorOS17-Port-pipa-$PKG-$(date +%Y%m%d)
