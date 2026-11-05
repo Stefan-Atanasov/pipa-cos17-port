@@ -38,6 +38,8 @@ Build: ROM **pt56 = beta7** (`port.sh` up to step 5r), kernel **walt-r17**. Dono
   from beta6, open the SukiSU manager once: if it asks to update ksud, let it (the kernel is SukiSU v4.3.0-r1 now).
 - Also new: touch while charging, Circle to Search (hold the gesture bar), OPPO file sharing with the phone link
   off, screen attention, Dolby restore, OPPO earbuds pop-up, O-Live wallpapers, About page "ColorOS 17".
+- Google services are on right after a clean flash. Google Quick Share works next to OPPO Share. OPPO QoS
+  scheduling is on. Fewer background log writes (touch log spam, storage maintenance parts pipa cannot use).
 
 ## Notes
 

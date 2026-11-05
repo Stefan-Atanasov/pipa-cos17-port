@@ -85,8 +85,8 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt50)        IMG=$P/port-work/pt50/img/super.img;        MD5=3075e8c9c4af377f929b42c545503b58 ;;   # pt49 + helper QUERY_ALL_PACKAGES (game detection works), beta7
     pt52)        IMG=$P/port-work/pt52/img/super.img;        MD5=c658bcb135eb57d866a9b7479905dbc9 ;;   # pt50 + 5m SukiSU manager r1 + 5n face worker guard, crashbox dontaudit (test; image deleted 2026-11-05)
     pt53)        IMG=$P/port-work/pt53/img/super.img;        MD5=baa21d5c0e6d80448c13f6a11cc7b85a ;;   # pt52 + 5o last SELinux noise (test; image deleted 2026-11-05)
-    pt54)        IMG=$P/port-work/pt54/img/super.img;        MD5=2715d951f4a4a165153720fb6479308b ;;   # pt53 + 5p oiface/horae for SDK 34 games, gmscore frame boost (test)
-    pt55)        IMG=$P/port-work/pt55/img/super.img;        MD5=95724aca3367900ab5c405e1136dfb5a ;;   # pt54 + 5q game service UI First ioctl (test)
+    pt54)        IMG=$P/port-work/pt54/img/super.img;        MD5=2715d951f4a4a165153720fb6479308b ;;   # pt53 + 5p oiface/horae for SDK 34 games, gmscore frame boost (test; image deleted 2026-11-05)
+    pt55)        IMG=$P/port-work/pt55/img/super.img;        MD5=95724aca3367900ab5c405e1136dfb5a ;;   # pt54 + 5q game service UI First ioctl (test; image deleted 2026-11-05)
     pt56)        IMG=$P/port-work/pt56/img/super.img;        MD5=46b49fb8d81a7c75e719afad447103e7 ;;   # pt55 + 5r OShare store guard = beta7 (release)
     pt56-madb)   IMG=$P/port-work/pt56-madb/img/super.img;   MD5=92f7336fcd93859226f9cea7e7cac07d ;;   # pt56 + 5s maintainer adb key (NEVER publish)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
