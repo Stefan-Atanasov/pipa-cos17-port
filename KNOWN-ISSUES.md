@@ -1,13 +1,22 @@
 # Known issues
 
-This document lists the known problems of the public release **beta7.1** (2026-11-05, ROM `port.sh` up to step 5v +
-kernel walt-r17, donor C.07) and what beta7.1, beta7 and beta6 fixed. Each entry gives the symptom, a workaround if there is
-one, and the status. Updated 2026-11-05.
+This document lists the known problems of the public release **beta7.2** (2026-11-06, ROM `port.sh` up to step 5x +
+kernel walt-r17, donor C.07) and what beta7.2, beta7.1, beta7 and beta6 fixed. Each entry gives the symptom, a workaround if
+there is one, and the status. Updated 2026-11-06.
 
 **Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
 ## For users
+
+### Fixed in beta7.2
+
+| Problem in beta7.1 | Fix |
+|---|---|
+| Echo in voice chat and call sharing: the far end heard the tablet speaker. The pipa DSP echo canceller removes nothing in the VoIP path. | 5w: a wrapper audio HAL (`audio.primary.pipaaec.so`, chosen by `ro.hardware.audio.primary`) runs the AOSP WebRTC AEC3 and AGC2 (+24 dB) on voice-communication input. The real HAL is unchanged. |
+| Log spam (tester report): OStats CPU errors, UAH urcc errors, QoS scene warnings, "Access denied finding property", audioserver denials. | 5x: pipa power profile (`cpu.*` from stock HyperOS), UAH native calls return at once, 3 QoS warnings removed, 11 empty vendor props readable, audioserver rule. 1-minute test: 53 177 -> 8 797 log lines. |
+| Debug and verbose log lines from every app. | 5x: `persist.log.tag=I` by default. Helper 1.2 Quick Settings tile "Logs": Quiet / Verbose. |
+| Per-app battery use was computed with the donor's CPU layout (6+2 cores). | 5x: the power profile has the pipa layout (4+3+1 cores, 56 speed steps). |
 
 ### Fixed in beta7.1
 
@@ -49,7 +58,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Game Filter and colour enhancement freeze the screen. | 2x (no freeze) and 3f (the filters work as a colour matrix). |
 | The refresh rate stays at 120 Hz on a static screen. | 2z and 3b: the panel drops to 60 Hz when idle. |
 | The privacy password and the ColorOS app lock do not work. | 3a: `ICryptoeng` shim. |
-| Network, call and SMS sharing with a phone (interconnect) do not work. | 3c, 3d and kernel walt-r7ov. The far end can hear an echo in calls (parked). |
+| Network, call and SMS sharing with a phone (interconnect) do not work. | 3c, 3d and kernel walt-r7ov. Call echo fixed in beta7.2 (5w). |
 | Face enrollment can crash near the edge of the camera frame. | 3f: eye guard in the face HAL. |
 | Bedtime / Eye Protect settings reset at each boot. | 3f: Eye Protect patch. |
 | A "Xiaomi Keyboard configured" notification shows without a keyboard. Games show a controller. | Kernel walt-r7ov. |
@@ -77,7 +86,9 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Navigation bar | Some apps draw a part of the screen behind the navigation bar. | None. | Open. Device dumps from an affected app are necessary. |
 | Video apps | Some video apps show a black picture after you leave and open them again. | Restart the app. | Open. Not reproduced on the development build. Steps to reproduce are necessary. |
 | Microphone | Some recordings have no audio ("sometimes"). | None. | Open. Not reproduced. Steps to reproduce are necessary. |
-| Call sharing echo | In shared calls, the far end can hear an echo of itself. | Use headphones. | Parked: the pipa DSP echo canceller does not work in this path. |
+| Call sharing echo | Fixed in beta7.2 (5w). In the first seconds of a call some echo can remain. | - | Fixed. |
+| Cast to TV (Miracast) | A tester sees coloured noise on the TV (Settings > Device connection > TV). Screen recording works. | - | Open: a log of a cast is needed. |
+| Keyboard case as touchpad | A tester reports that the keyboard case shows as a touchpad. | - | Open: `dumpsys input` with the keyboard attached is needed. |
 | Pen page | Settings → Stylus (OPPO pen page) shows the Xiaomi pen as "disconnected". | None necessary: the pen works. | By design (OPPO pen protocol). |
 | Keyboard case | Attach, detach and the auto-off when you fold the keyboard behind the tablet are not tested on beta6. | None. | Not tested (no tester). |
 | Play Integrity | Only BASIC integrity (unlocked bootloader). Apps that need DEVICE integrity do not work. | None. DEVICE needs a keybox that Google accepts; public keyboxes were rejected in a test on 2026-10-30. | By design. |

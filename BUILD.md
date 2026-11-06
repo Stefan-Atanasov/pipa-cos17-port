@@ -3,7 +3,7 @@
 This document gives the procedures to build, flash and roll back the ROM and the kernel. It also gives the
 procedure to make a release package. For the parts of the ROM, refer to [ARCHITECTURE.md](ARCHITECTURE.md).
 
-The public release **beta7.1** is a `port.sh` run with the default options (last active step 5v) and kernel
+The public release **beta7.2** is a `port.sh` run with the default options (last active step 5x) and kernel
 `walt-r17`.
 
 NOTE: The scripts were made and tested on one PC (the maintainer's). Section 1.4 tells how they find their folders.
@@ -181,7 +181,7 @@ Options:
 | `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `beta7.1-noenc`). Experimental. Clean flash only. |
 | `PORT_MAINTAINER_ADB=1` | Also apply step 5s (the build host's adb key, USB debugging on at the first boot) for unattended clean-flash tests on your own tablet. Never publish such a build: `build_release.sh` refuses it. |
 
-Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 5u (beta7.1; beta7 ended at 5r; beta6 ended at 3w). Give the variables
+Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 5x (beta7.2; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
 through `sudo env`, for example `sudo env PORT_NOENCRYPT=1 sh COS17/maintainer/port/port.sh ...`.
 
 The output is in `port-work/<tag>/`:

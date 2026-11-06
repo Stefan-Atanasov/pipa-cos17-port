@@ -13,8 +13,8 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **beta7.1** (2026-11-05): `port.sh` default build (last active step 5v) + kernel `walt-r17` |
-| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. |
+| Current release | **beta7.2** (2026-11-06): `port.sh` default build (last active step 5x) + kernel `walt-r17` |
+| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. There is no `beta7.2-noenc`. |
 | Previous release | beta7 (2026-11-05, withdrawn: a clean flash gave a grey screen; step 5r) and beta6 (2026-10-30, step 3w + kernel `walt-r8kpm`) |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
@@ -52,7 +52,7 @@ write the firmware (bootloader, modem, `vbmeta`) in a dirty flash.
 
 WARNING: The first boot takes about 1 minute longer than usual. Do not reboot during this time.
 
-Release paths that are not tested yet for beta7.1: refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
+Release paths that are not tested yet for beta7.2 (clean install): refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
 
 ## Known issues and bug reports
 
@@ -128,5 +128,5 @@ The own scripts, sources and documents in this repository are under the Apache L
 ## Credits
 
 - 梦归zzz: the original ColorOS 17 port for pipa and the `pipa_core` module.
-- Stefan-Atanasov: maintenance, beta5 to beta7.1, ROM fixes, kernel.
+- Stefan-Atanasov: maintenance, beta5 to beta7.2, ROM fixes, kernel.
 - LineageOS, liyafe1997, kvsnr113 (E404 kernel), SukiSU-Ultra, susfs, KernelPatch, OPPO (open-source kernel).
