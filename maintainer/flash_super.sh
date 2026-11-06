@@ -94,6 +94,10 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt61)        IMG=$P/port-work/pt61/img/super.img;        MD5=b0fd604aeec329ce610063b0e7930e28 ;;   # pt60 + 5u rules map/selinuxfs + dontaudit idmap2 (beta7.1 candidate)
     pt62)        IMG=$P/port-work/pt62/img/super.img;        MD5=659d16935bc215c5a6f913e2c43b0c39 ;;   # pt61 + once-switch Fast/blur/glow on every install (beta7.1 final candidate)
     pt63)        IMG=$P/port-work/pt63/img/super.img;        MD5=acd73e2e27e955b779d56e2db1af5d01 ;;   # pt62 + 5v Battery long-charge pop-up off (beta7.1 candidate)
+    pt65)        IMG=$P/port-work/pt65/img/super.img;        MD5=5e7cd19d02d9e48f8262818d800d2710 ;;   # pt63 + 5w software AEC + AGC (beta7.2 candidate)
+    pt66)        IMG=$P/port-work/pt66/img/super.img;        MD5=42408ca5adb950a7da8123b54dcbccbf ;;   # pt63 + 5w v2 (wrapper as audio.primary.pipaaec.so; pt65 boot-looped)
+    pt67)        IMG=$P/port-work/pt67/img/super.img;        MD5=bc193a1ae9017b44fc72dba020a3d707 ;;   # pt66 + 5x (quiet logs, Logs tile, pipa power profile, UAH/QoS/prop spam)
+    pt68)        IMG=$P/port-work/pt68/img/super.img;        MD5=58ffd621b7faf50fc3208632c52b7ae6 ;;   # pt67 + 5x tansSa2Event + 2 codec trace props
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

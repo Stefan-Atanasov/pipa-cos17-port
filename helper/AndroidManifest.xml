@@ -4,8 +4,8 @@
      ActivityManager starts it at boot and never kills it. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.port.pipa.helper"
-    android:versionCode="11"
-    android:versionName="1.1">
+    android:versionCode="12"
+    android:versionName="1.2">
 
     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
 
@@ -36,6 +36,14 @@
         <!-- Quick Settings tile: launcher animation tier (pipa_port applies it) -->
         <service android:name=".AnimTile" android:exported="true" android:label="Animations"
             android:icon="@drawable/ic_anim"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <!-- Quick Settings tile: Quiet/Verbose system logs (pipa_port sets persist.log.tag, 5x) -->
+        <service android:name=".LogTile" android:exported="true" android:label="Logs"
+            android:icon="@drawable/ic_logs"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

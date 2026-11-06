@@ -1,0 +1,7 @@
+; pipa port 5x (beta7.2): log quiet mode and the audioserver /proc read (tester report 2026-11-06, BUGS 79).
+; pipa_port sets persist.log.tag (I = no debug/verbose lines, "" = Android default) from the helper's Logs tile.
+(allow pipa_port log_tag_prop (property_service (set)))
+; OPPO audioserver (MMListServiceParser) reads /proc/<pid>/cmdline of the player; for system_server sounds this was
+; denied every second during playback (tester dmesg: search on dir system_server, comm audioserver/AudioOut_D/binder).
+(allow audioserver system_server (dir (search)))
+(allow audioserver system_server (file (read open getattr)))

@@ -5,7 +5,10 @@
   logs "getAidlService uah urcc service =  null". Patch: return false at once (no lookup, no log).
 * NOPLOG: the log call after a fixed message becomes nops. The message is built but not written; the rest of the
   method is unchanged (no move-result follows the call, so the verifier sees the same registers).
-usage: patch_logspam.py <jar> <out.jar>   (the jar's file name selects the table; an unpatched jar; needs androguard: maintainer/jar-edits/venv)"""
+* RET (5x): the method returns a constant at once (const/4 v0 + return v0 over its first instruction, the rest of that
+  instruction becomes nops; the old code after it is dead but stays valid).
+usage: patch_logspam.py <jar> <out.jar> [4h|5x]   (table set, default 4h; the jar's file name selects the table; an
+       unpatched jar for 4h, the 4h output for 5x; needs androguard: maintainer/jar-edits/venv)"""
 import hashlib, io, os, struct, sys, zipfile, zlib
 from androguard.core.dex import DEX, HiddenApiClassDataItem
 
@@ -29,6 +32,29 @@ TABLE = {
          'userActivityNoUpdateLocked: groupId='),
     ],
 }
+
+
+# 5x (beta7.2, tester report 2026-11-06, BUGS 79): what 4h left
+TABLE_5X = {
+    'oplus-framework.jar': [
+        # native UahEventAcquire / UahGetFeatureStatus look up the absent urcc HAL each time and log 2 errors
+        # ("Urcc is not declared", "uah_get_urcc_hal_and_link_to_death error:-1"): ~115 pairs per minute of use.
+        ('ret', 'Lcom/oplus/uah/UAHPerfManager;', 'uahEventAcquire', None, -1),
+        ('ret', 'Lcom/oplus/uah/UAHPerfManager;', 'getFeatureStatus', '(I)I', 0),
+        ('ret', 'Lcom/oplus/uah/UAHPerfManager;', 'tansSa2Event', None, -1),   # the same native call (window events)
+    ],
+    'oplus-services.jar': [
+        # QoS scenes 2 and 5 (masks 4, 32) have no rule in OPPO's own sys_osense_scene_event_config.xml (stock
+        # behaviour, the scheduler works): one warning per window change.
+        ('nolog', 'Lcom/android/server/oplus/osense/feature/uaf/qos/QosSchedulerManager;', 'getScenario', None,
+         'getScenario failed! scenarios is null, mask='),
+        ('nolog', 'Lcom/android/server/oplus/osense/feature/uaf/qos/QosSchedulerManager;', 'executeSceneQosStrategy',
+         None, 'executeSceneQosStrategy get scenario failed! scenario is null'),
+        ('nolog', 'Lcom/android/server/oplus/osense/feature/uaf/scene/list/SmartWindowScene;', 'updateWindowState',
+         None, 'updateWindowState fail! invalid window type: '),
+    ],
+}
+TABLES = {'4h': TABLE, '5x': TABLE_5X}
 
 
 def is_msg(x, msg):
@@ -66,6 +92,19 @@ def patch_uah(buf, m):
     raise SystemExit('UAH: HAL_INSTANCE_NAME lookup not found')
 
 
+def patch_ret(buf, m, val):
+    """const/4 v0, val; return v0 over the first whole instructions (>= 4 bytes); the rest of them becomes nops"""
+    assert -8 <= val <= 7 and m.get_code().get_registers_size() >= 1
+    ln, off = 0, code_off(m)
+    for x in m.get_instructions():          # whole instructions until 4 bytes; all new code is 2-byte units, so
+        ln += x.get_length()                # every old instruction start stays an instruction start
+        if ln >= 4:
+            break
+    assert ln >= 4 and ln % 2 == 0, ln
+    buf[off:off + ln] = bytes([0x12, (val & 0xf) << 4, 0x0f, 0x00]) + b'\0' * (ln - 4)
+    return f'returns {val} at once'
+
+
 def patch_nolog(buf, m, msg):
     off, seen = code_off(m), False
     ins = list(m.get_instructions())
@@ -90,11 +129,12 @@ def patch_dex(d, targets, done):
         if cls.encode()[1:-1] not in d:
             continue
         dex = dex or DEX(d)
-        ms = find_methods(dex, cls, name, desc, msg)
+        ms = find_methods(dex, cls, name, desc, msg if kind == 'nolog' else None)
         if not ms:
             continue
         assert len(ms) == 1, f'{cls}->{name}: {len(ms)} methods'
-        r = patch_uah(buf, ms[0]) if kind == 'uah' else patch_nolog(buf, ms[0], msg)
+        r = (patch_uah(buf, ms[0]) if kind == 'uah' else patch_ret(buf, ms[0], msg) if kind == 'ret'
+             else patch_nolog(buf, ms[0], msg))
         notes.append(f'{cls.split("/")[-1][:-1]}.{ms[0].get_name()}: {r}')
         done.add(t)
     if not notes:
@@ -104,8 +144,8 @@ def patch_dex(d, targets, done):
     return bytes(buf), notes
 
 
-def main(src, dst):
-    targets = TABLE[os.path.basename(src)]
+def main(src, dst, table='4h'):
+    targets = TABLES[table][os.path.basename(src)]
     jar = bytearray(open(src, 'rb').read())
     z = zipfile.ZipFile(io.BytesIO(jar))
     done = set()
@@ -141,6 +181,6 @@ def main(src, dst):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
+    if len(sys.argv) not in (3, 4):
         sys.exit(__doc__)
-    main(sys.argv[1], sys.argv[2])
+    main(*sys.argv[1:])

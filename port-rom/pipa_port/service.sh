@@ -610,6 +610,21 @@ anim_check() {
     am start -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null >/dev/null 2>&1
     log "launcher animation tier -> $want"
 }
+# Log level (5x, beta7.2, tester report 2026-11-06). Quiet (default): persist.log.tag=I, liblog drops debug and verbose
+# lines in the writing process (no logd work, no framework edits; errors, warnings, crashes and ANRs stay). The helper's
+# Logs tile (or `settings put global pipa_verbose_logs 1`) switches to Verbose = the property cleared (Android's
+# default; "V" would also turn on the isLoggable(VERBOSE) code paths). Per-tag log.tag.<TAG> properties still win.
+LOG_STAMP=/data/misc/pipa_port/log.stamp
+rm -f "$LOG_STAMP"
+log_check() {
+    [ -e "$LOG_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$LOG_STAMP" ] && return
+    v=$(sget global pipa_verbose_logs) || return   # a failed read: try again next time
+    : > "$LOG_STAMP"
+    case $v in 1) want= ;; *) want=I ;; esac
+    [ "$(getprop persist.log.tag)" = "$want" ] && return
+    setprop persist.log.tag "$want"
+    log "log level -> ${want:-default (verbose)}"
+}
 # Xiaomi thermal scene (5l). mi_thermald picks its profile from thermal_message/sconfig; on HyperOS PowerKeeper sets
 # it, on ColorOS nobody does (-1 = daily profile: CPU caps from 38 C skin). The helper sets global pipa_game_fg = 1
 # while an app with appCategory "game" is in the foreground; then the game profile GAME_THERMAL_SCENE is used
@@ -874,6 +889,7 @@ while true; do
     [ "${FACE_HAL:-1}" = 1 ] && face_rotation_sync
     [ "${LID_SYNC:-1}" = 1 ] && lid_check
     [ "${ANIM_TIER:-1}" = 1 ] && anim_check
+    [ "${LOG_QUIET:-1}" = 1 ] && log_check
     if [ $KSU_RETRY = 1 ] && [ $((ctick % 60)) = 0 ]; then
         if ksu_manager; then KSU_RETRY=0; elif [ $KSU_TRY -ge 30 ]; then KSU_RETRY=0; log "SukiSU manager: no more tries"; fi
     fi

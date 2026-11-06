@@ -78,6 +78,8 @@ KSWAPD_NO_PRIME=1
 # (helper Quick Settings tile, or `settings put global pipa_anim_level N`).
 ANIM_TIER=1
 ANIM_LEVEL=3
+# 5x: quiet logs (persist.log.tag=I) unless the helper Logs tile says Verbose; 0 = leave persist.log.tag alone
+LOG_QUIET=1
 
 # Xiaomi thermal profile while a game is in the foreground (mi_thermald sconfig; 5l). 20 = no CPU caps below 46 C
 # skin (default), 13 = below 48 C (Xiaomi PUBG value), 10 = below 51 C (no limits), 0 = off (daily profile always).
