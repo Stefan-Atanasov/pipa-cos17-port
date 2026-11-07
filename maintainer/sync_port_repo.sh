@@ -19,9 +19,9 @@ rsync -a --delete --delete-excluded \
     --exclude='port-rom/pipa_port/facehal/' --exclude='port-rom/pipa_port/xiaomi_touch_ioctl' \
     --exclude='maintainer/kgest/kgest' --exclude='maintainer/jars/' \
     --exclude='module/system/vendor/etc/qdcm_calib_data_*' --exclude='module/system/system_ext/etc/display_brightness_config_*' \
-    --exclude='module/framework/' --exclude='maintainer/port-repo/' \
+    --exclude='module/framework/' --exclude='maintainer/port-repo/' --exclude='dolby-eq-module/src/dax-default.xml' \
     --include='/maintainer/***' --include='/port-rom/***' --include='/helper/***' --include='/module/***' \
-    --include='/port-module/' --include='/port-module/src/***' \
+    --include='/port-module/' --include='/port-module/src/***' --include='/dolby-eq-module/***' \
     --exclude='*' \
     ./ "$R/"
 # fail closed
@@ -33,7 +33,7 @@ grep -rIl 'KSPASS=[^$]' "$R/helper" >/dev/null 2>&1 && { echo "helper password i
 # BUGS.md; the internal root notes (CLAUDE.md, AGENTS.md, MAINTAINER-STATUS.md, HISTORY.md, kernel/*.md ...) stay local
 cp "$COS"/docs/*.md "$HERE/port-repo/BLOBS.md" "$R/"
 cp "$COS/LICENSE" "$R/LICENSE"
-cp "$COS/RELEASE-NOTES-beta7.1.md" "$R/RELEASE-NOTES.md"   # the current release (change with each release)
+cp "$COS/RELEASE-NOTES-beta7.2.md" "$R/RELEASE-NOTES.md"   # the current release (change with each release)
 # bug list for co-maintainers and their agents: the maintainer's BUGS-TODO.md, with a note on links to private docs
 { printf '%s\n\n' '> Public copy of the maintainer bug list (`BUGS-TODO.md`). Links to `MAINTAINER-STATUS.md`, `HISTORY.md`, `notes/` and `kernel/*.md` point to private maintainer notes that are not in this repository.'
   sed -e 's/ Capture: `scratchpad` b8.log 22:57//' "$COS/BUGS-TODO.md"; } > "$R/BUGS.md"

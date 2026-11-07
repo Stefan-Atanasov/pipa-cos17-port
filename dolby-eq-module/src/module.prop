@@ -1,0 +1,6 @@
+id=pipa_dolby_speaker_eq
+name=pipa Dolby speaker EQ
+version=v1.0
+versionCode=1
+author=Stefan-Atanasov
+description=Measured speaker EQ for the Xiaomi Pad 6 (pipa) Dolby Atmos speaker tunings. Deeper bass, flat mids. Headphones/BT/USB unchanged. Needs the stock HyperOS 2 Dolby tuning file.
