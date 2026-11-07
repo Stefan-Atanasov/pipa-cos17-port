@@ -8,7 +8,7 @@
 #
 #   sh maintainer/make_port_kit.sh            -> ~/Documents/pipa/port-work/release/pipa-cos17-port-kit-<date>.tar.gz
 #   KIT_INPUTS=1 sh maintainer/make_port_kit.sh  also packs the private build inputs (about 860 MB): COS17/port-overlay
-#     (frozen beta4 files), port-inputs/apps-5u (Google APKs of step 5u) and tools/ (smali, apktool). Only for a
+#     (frozen beta4 files), port-inputs/apps-5u (Google APKs of step 5u), port-inputs/dolby-5z (stock libhwdap of step 5z) and tools/ (smali, apktool). Only for a
 #     trusted co-maintainer (the original beta4 developer); never publish such a kit.
 set -eu
 HERE=$(cd "$(dirname "$0")" && pwd)
@@ -35,9 +35,10 @@ tar -C "$COS" -cf - \
 if [ "${KIT_INPUTS:-0}" = 1 ]; then
     P=$(cd "$COS/.." && pwd)
     cp -r "$COS/port-overlay" "$K/port-overlay"
-    mkdir -p "$K/port-inputs"; cp -r "$P/port-inputs/apps-5u" "$K/port-inputs/"
+    mkdir -p "$K/port-inputs"; cp -r "$P/port-inputs/apps-5u" "$P/port-inputs/dolby-5z" "$K/port-inputs/"
     mkdir -p "$K/tools"; cp -r "$P/tools/smali" "$P/tools/apktool" "$K/tools/"
     (cd "$K/port-inputs/apps-5u" && sha256sum -c --quiet SHA256SUMS) || { echo "apps-5u sha256 mismatch" >&2; exit 1; }
+    (cd "$K/port-inputs/dolby-5z" && sha256sum -c --quiet SHA256SUMS) || { echo "dolby-5z sha256 mismatch" >&2; exit 1; }
 fi
 
 # fail closed: no key material may slip in
@@ -62,7 +63,7 @@ Everything needed to rebuild the port's ROM layers and the kernel, without image
 * Current release: **beta7.1** = ROM pt63 (`port.sh` default build, last step 5v, donor OPD2515 `17.0.0.104(CN01)`
   = C.07) + kernel walt-r17. Release notes: `RELEASE-NOTES-beta7.1.md`. Next work: `NEXT-SESSION-PROMPT.md`.
 * Folder layout (next to `COS17/`): `donor/OPD2515_11.C.07/img/` (images from the C.07 OTA zip, docs/REBASE.md),
-  `port-inputs/apps-5u/` (step 5u), `tools/` (smali, apktool), `port-work/` (build output, about 40 GB free needed).
+  `port-inputs/apps-5u/` (step 5u), `port-inputs/dolby-5z/` (step 5z), `tools/` (smali, apktool), `port-work/` (build output, about 40 GB free needed).
 * Inputs not in the kit: the original beta4 release (`ColorOS17 Port for pipa-beta4-20261017.7z`: its super gives
   `COS17/work/parts/*_b.img`, the pinned vendor/odm, and its firmware), and the donor C.07 OTA zip
   (`OPD2515_11.C.07_1070_202610201803.zip`, 9.2 GB). A kit made with `KIT_INPUTS=1` also has `port-overlay/`
