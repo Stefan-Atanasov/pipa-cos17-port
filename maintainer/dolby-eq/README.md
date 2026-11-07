@@ -10,7 +10,7 @@ python3 apply_speaker_eq.py stock/vendor/etc/dolby/dax-default.xml dax-default.x
 ```
 
 - Input: the stock pipa HyperOS 2 `vendor/etc/dolby/dax-default.xml` (md5 `582003e70df30be8964df17610212ef3`).
-  Result md5: `0190dfee0de3eb3281fc8715e0b3a429`.
+  Result md5: `c6413875ca78c292ce5b179822ca7215`.
 - Put the result at `/vendor/etc/dolby/dax-default.xml` with the same owner, mode and SELinux label.
 - On the first boot Dolby rebuilds its settings database once (Dolby settings go back to default once).
 - Only the 4 speaker tunings change. Headphones, Bluetooth and USB keep the stock sound. The user EQ in MiSound
@@ -24,7 +24,7 @@ python3 apply_speaker_eq.py stock/vendor/etc/dolby/dax-default.xml dax-default.x
 
 | Hz | 2250 | 3000 | 3750 | 4688 | 5813 | 7125 | 9000 | 11250 | 13875 | 19688 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| dB | +0.6 | +0.1 | -0.9 | -2.9 | -2.4 | -3.4 | -1.9 | +1.6 | +1.6 | -1.4 |
+| dB | +0.6 | +0.1 | -0.9 | -2.9 | -2.4 | -4.4 | -2.9 | +1.6 | +1.6 | -1.4 |
 
 ## How it was measured
 
@@ -34,4 +34,5 @@ python3 apply_speaker_eq.py stock/vendor/etc/dolby/dax-default.xml dax-default.x
 - The stock port Dolby matches stock HyperOS (Notebookcheck pink-noise test) within 2-3 dB from 1 to 16 kHz.
 - Dolby's regulator limits the bass at high volume: the +10 dB bass is about +13-17 dB at 50 % volume, +2-4 dB at
   75 %, 0 dB at maximum. No clipping: two-tone IMD at maximum volume 1.2 % (stock) -> 2.0 %.
+- 2026-11-07: -1 dB more at 7.1 and 9 kHz after a listening A/B (user choice "B1"; -2 dB was too much).
 - Tools: `maintainer/dolbytune/` (player, Dolby control, recording, analysis).

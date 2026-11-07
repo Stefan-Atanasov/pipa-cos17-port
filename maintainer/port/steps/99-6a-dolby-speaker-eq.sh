@@ -5,7 +5,7 @@
 #    profile 0 Dynamic, landscape, Fifine A6NEO at ~35 cm, pink noise, notes/DOLBY-SPEAKER-TUNING-20261106.md):
 #    stock Dolby is close to stock HyperOS (Notebookcheck pink noise) above 300 Hz; target "neutral but slightly fun"
 #    (Harman/JBL-like): deeper bass (+10 dB at 127-160 Hz, 200-250 Hz kept below), mids flat (+-2.5 dB 320 Hz - 8 kHz),
-#    3 kHz notch softened, a little air. Added to the audio optimizer (Dolby's per-tuning speaker correction, same 20
+#    3 kHz notch softened, a little air. 2026-11-07: -1 dB more at 7.1 / 9 kHz (listening A/B, user choice "B1"). Added to the audio optimizer (Dolby's per-tuning speaker correction, same 20
 #    bands and 1/16 dB units as the user graphic EQ) of the 4 speaker tunings, so MiSound's EQ still works on top and
 #    headphone / Bluetooth / USB are unchanged. Dolby's regulator (unchanged) caps the bass at high volume.
 #    DMS sees the new file checksum and rebuilds /data/vendor/dolby/dax_sqlite3.db once (Dolby settings reset once).
@@ -24,8 +24,8 @@ python3 - "$X" <<'EOF'
 import re, sys
 p = sys.argv[1]; s = open(p).read()
 # dB per band (47 Hz ... 19688 Hz), 1/16 dB in the file
-eq = [4.62, 10.62, 3.62, 1.62, 1.62, -1.38, -3.88, -4.88, -3.17, -0.07, 0.62, 0.12, -0.88, -2.88, -2.38, -3.38,
-      -1.88, 1.62, 1.62, -1.38]
+eq = [4.62, 10.62, 3.62, 1.62, 1.62, -1.38, -3.88, -4.88, -3.17, -0.07, 0.62, 0.12, -0.88, -2.88, -2.38, -4.38,
+      -2.88, 1.62, 1.62, -1.38]
 add = [round(v * 16) for v in eq]
 for t in ("speaker_landscape", "speaker_portrait", "speaker_volume_high", "speaker_volume_low"):
     a = s.index('<tuning name="%s"' % t); b = s.index('</tuning>', a)
