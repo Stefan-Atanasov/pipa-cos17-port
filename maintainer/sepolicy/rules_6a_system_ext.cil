@@ -1,0 +1,4 @@
+;; pipa port 6a: PipaHelper (priv_app; targetSdk 36 apps run as priv_app_36) reads the stock Dolby tuning-control props
+;; vendor.audio.dolby.control.* (vendor_audio_prop), as system_server's DolbyEffectController does on HyperOS.
+(allow priv_app vendor_audio_prop (file (read getattr map open)))
+(allow priv_app_36 vendor_audio_prop (file (read getattr map open)))

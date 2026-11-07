@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- pipa port: Settings > Sound > Sound effect settings. pipa's audio effects are Xiaomi's (Dolby DAX3 + MiSound), as on
+     stock HyperOS, so the page opens MiSound. ColorOS's own controls need OPPO's effect libraries (AudioX "OReality",
+     oplus spatializer, MSS sound field, volume boost), which pipa's vendor does not have. The ones SoundEffectsFragment
+     always shows (current device, effect selector, OReality mode grid) are left out; it null-checks those keys. The rest
+     stay: their controllers need them (MssSpatialRenderController crashes without key_mss_spatial_render, tested on
+     pt77) and the fragment hides them itself when the feature is missing (Dolby, spatializer, volume boost, MSS). -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="spatial_audio_root_key" android:title="Sound effects">
+    <PreferenceCategory android:key="portcolor_misound_category" android:title="Xiaomi Sound (MiSound)">
+        <Preference android:key="portcolor_misound_entry" android:persistent="false"
+            android:title="Dolby Atmos &amp; equalizer"
+            android:summary="Dolby Atmos on/off, sound mode, equalizer and headphone settings">
+            <intent android:targetPackage="com.miui.misound" android:targetClass="com.miui.misound.HeadsetSettingsActivity" />
+        </Preference>
+    </PreferenceCategory>
+    <com.oplus.settings.widget.preference.SettingsPreferenceCategory android:key="spatial_audio_current_device_category">
+        <com.oplus.settings.widget.preference.SettingSwitchPreference android:key="switch_volume_boost_pre"
+            android:defaultValue="false" android:title="Speaker enhancement" />
+        <com.oplus.settings.widget.preference.SettingsDisabledClickNoShadowPreference android:key="key_mss_spatial_render"
+            android:fragment="com.oplus.settings.feature.sound.mssspatialrender.view.MssSpatialRenderFragment"
+            android:title="Sound field expansion" />
+    </com.oplus.settings.widget.preference.SettingsPreferenceCategory>
+    <com.oplus.settings.widget.preference.SettingsPreferenceCategory android:key="dolby_audio_mode_category" android:selectable="false">
+        <com.oplus.settings.feature.soundeffects.view.DolbyAudioModePreference android:key="dolby_audio_mode_preference" android:selectable="false" />
+    </com.oplus.settings.widget.preference.SettingsPreferenceCategory>
+    <com.oplus.settings.widget.preference.SettingsPreferenceCategory android:key="spatial_audio_mode_category" android:selectable="false">
+        <com.oplus.settings.feature.spatial.view.SpatialAudioModePreference android:key="spatial_audio_mode_preference" android:selectable="false" />
+    </com.oplus.settings.widget.preference.SettingsPreferenceCategory>
+    <com.oplus.settings.widget.SettingsBottomTipPreference android:key="spatial_audio_function_description_preference"
+        android:persistent="false" android:selectable="false"
+        android:summary="In supported music, video and game apps, spatial rendering and head tracking create a more spatial listening experience. Headphones required." />
+</PreferenceScreen>

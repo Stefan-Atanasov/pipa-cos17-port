@@ -9,6 +9,16 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 ## For users
 
+### Fixed for beta8 (not released yet)
+
+| Problem in beta7.2 | Fix |
+|---|---|
+| Dolby: beta4's patched `libhwdap` hid DMS errors. | 5z: stock HyperOS 2 library. |
+| Speaker sound: thin bass. | 6a: measured speaker EQ in the Dolby speaker tunings (deeper bass, flat mids). |
+| Dolby dropped after the screen was off and the output closed. | helper 1.3: the Dolby handle is re-created on playback, device change and screen on. |
+| "Original" on Bluetooth headphones was not remembered per device; Dolby did not come back on the speakers. | helper 1.4-1.6: the MiSound choice is remembered per output, like HyperOS. |
+| Sound effect settings: ColorOS "OReality" modes did nothing, Chinese text. | 6b: the page shows only the MiSound / Dolby entry, in English. |
+
 ### Fixed in beta7.2
 
 | Problem in beta7.1 | Fix |

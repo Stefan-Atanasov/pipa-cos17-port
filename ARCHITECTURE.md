@@ -169,6 +169,9 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 5v | step only | Battery.apk (`maintainer/battery/patch_long_charge.py`, same-size dex edit, OPPO signature kept): no "Set charging limit to 80%" pop-up after each boot (the charger notify mask bits 28/29 become 0). |
 | 5w | step only | Software echo canceller: `maintainer/aecshim` wrapper HAL `vendor/lib/hw/audio.primary.pipaaec.so`, chosen by `ro.hardware.audio.primary=pipaaec`; it loads the real `audio.primary.kona.so` (never renamed: the sound trigger HAL dlopens it by name) and runs WebRTC AEC3 + AGC2 on VOICE_COMMUNICATION input. Switches `persist.vendor.audio.pipa_aec`, `persist.vendor.audio.pipa_aec_gain`. |
 | 5x | step only | Log causes and quiet logs: `my_product/etc/power_profile/power_profile.xml` with `cpu.*` from stock HyperOS (`maintainer/power_profile/`); `maintainer/logspam/patch_logspam.py` table 5x (UAHPerfManager native urcc calls return at once; 3 QoS scene warnings removed); `system_ext_property_contexts` for 11 empty vendor props; `rules_5x_system_ext.cil` (pipa_port sets `persist.log.tag`, audioserver reads `/proc/<system_server>`); `service.sh` `log_check` + helper 1.2 Logs tile (`persist.log.tag=I` unless global `pipa_verbose_logs=1`). |
+| 5z | step only | Dolby 1:1 with HyperOS: the stock HyperOS 2 `vendor/lib{,64}/soundfx/libhwdap.so` replaces beta4's patched copy (it hid DMS errors). Inputs: `port-inputs/dolby-5z` (private). |
+| 6a | step only | Measured speaker EQ (pink noise, USB mic) added to the audio optimizer of the 4 speaker tunings in `vendor/etc/dolby/dax-default.xml`; the user EQ in MiSound stays free on top. `rules_6a_system_ext.cil`: priv_app reads the stock Dolby tuning-control props. |
+| 6b | step only | Settings > Sound > Sound effect settings: overlay `maintainer/overlays/misound` (English) shows only the MiSound / Dolby entry. The ColorOS AudioX ("OReality") modes need OPPO effect libraries that the Xiaomi vendor does not have. |
 
 ### 2.4 Where properties go
 
@@ -258,11 +261,11 @@ Each switch is 1 (on) or 0 (off). The defaults are in `port-rom/pipa_port/config
 
 ## 4. The pipa helper app
 
-`com.port.pipa.helper` (version 0.6) is a persistent privileged system app. The source is in `helper/`.
+`com.port.pipa.helper` (version 1.6) is a persistent privileged system app. The source is in `helper/`.
 
 | Part | Function |
 |---|---|
-| `DolbyKeeper` | Keeps Dolby on from boot. |
+| `DolbyKeeper` | Keeps the Dolby and MiSound effects on the output mix (event driven, no polling). Selects the stock Dolby tuning per output and volume. Remembers the effect the user picks in MiSound per output (speaker, Bluetooth, wired, USB) and applies it when the output changes; automatic changes by MiSound are undone. |
 | `PenKeeper`, `PenPill` | Low pen battery notification (15 %). The pen pill shows only when `pipa_pen_fluid` is 0. |
 | `LidKeeper` | Sets the "lock with cover" switch (`lid_behavior`). |
 | `AnimTile` | Quick Settings tile "Animations": writes global `pipa_anim_level` (3 → 2 → 1 → 4). `pipa_port` applies it. |

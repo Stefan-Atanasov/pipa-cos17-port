@@ -98,6 +98,17 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt66)        IMG=$P/port-work/pt66/img/super.img;        MD5=42408ca5adb950a7da8123b54dcbccbf ;;   # pt63 + 5w v2 (wrapper as audio.primary.pipaaec.so; pt65 boot-looped)
     pt67)        IMG=$P/port-work/pt67/img/super.img;        MD5=bc193a1ae9017b44fc72dba020a3d707 ;;   # pt66 + 5x (quiet logs, Logs tile, pipa power profile, UAH/QoS/prop spam)
     pt68)        IMG=$P/port-work/pt68/img/super.img;        MD5=58ffd621b7faf50fc3208632c52b7ae6 ;;   # pt67 + 5x tansSa2Event + 2 codec trace props
+    pt69)        IMG=$P/port-work/pt69/img/super.img;        MD5=e7ff12e80f2a4f7a51d25020f4797c11 ;;   # pt68 + 5y stock HyperOS 2 Dolby decoders (OMX.dolby.*)
+    pt70)        IMG=$P/port-work/pt70/img/super.img;        MD5=fbcbfcc5ee28e08a6d74a57b409933f1 ;;   # pt68 + 5y v2 Dolby decoders, OMX list via media_codecs_kona.xml
+    pt71)        IMG=$P/port-work/pt71/img/super.img;        MD5=1f4b216fb0cda946d11a69a7a9fac4a8 ;;   # pt70 + 5y OMX HAL manifest + 5z stock libhwdap
+    pt72)        IMG=$P/port-work/pt72/img/super.img;        MD5=9af9a67f36351e02ecec6fd96f55ff6e ;;   # pt71 + 5y libui_legacy shim for the Dolby OMX plugin
+    pt73)        IMG=$P/port-work/pt73/img/super.img;        MD5=5259b0fcc1d4d3794feb1b275f8b6c53 ;;   # pt68 + 5z stock HyperOS 2 libhwdap
+    pt74)        IMG=$P/port-work/pt74/img/super.img;        MD5=4759aa8f356a4ffb1dbd23c1efecdae6 ;;   # pt73 + 6a speaker EQ in Dolby tunings, priv_app reads Dolby control props, helper 1.3
+    pt75)        IMG=$P/port-work/pt75/img/super.img;        MD5=502fc7d754d085dc62716a66d68058a5 ;;   # pt74 + helper 1.4 (stock effect per output device)
+    pt76)        IMG=$P/port-work/pt76/img/super.img;        MD5=60bab61842ad06bbbc84ff9f58a77510 ;;   # pt75 + helper 1.5 (per-device effect in device-protected storage, no crash before unlock)
+    pt77)        IMG=$P/port-work/pt77/img/super.img;        MD5=dc67209b34d4f95fcda82a9e1f021f75 ;;   # pt76 + 6b first try (hidden category: OPPO controls still shown)
+    pt78)        IMG=$P/port-work/pt78/img/super.img;        MD5=48dcfe20646ea7cf49b66f1c2af87d5a ;;   # pt76 + 6b (sound effects page: MiSound only, English)
+    pt79)        IMG=$P/port-work/pt79/img/super.img;        MD5=75facdaa7d4eaa155ea012b6e2e3950b ;;   # pt78 + helper 1.6 (user-choice-only effect memory, both effects switched)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot
