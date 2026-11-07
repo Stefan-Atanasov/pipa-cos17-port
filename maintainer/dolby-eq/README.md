@@ -5,7 +5,7 @@ the stock HyperOS Dolby sound, a bit more "fun" (Harman/JBL-like): deeper bass, 
 
 ![Stock Dolby vs our speaker EQ](pipa-dolby-eq.png)
 
-`make_graph.py` draws it from the measurement table.
+`make_graph.py` draws it from `curves.npz` (smoothed curves from the pink-noise recordings).
 
 ## Use
 
