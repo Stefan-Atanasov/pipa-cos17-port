@@ -3,6 +3,10 @@
 A measured speaker EQ for the Xiaomi Pad 6 (pipa) Dolby Atmos (DAX3), made for the ColorOS 17 port (step 6a). Goal:
 the stock HyperOS Dolby sound, a bit more "fun" (Harman/JBL-like): deeper bass, less upper bass, flat mids.
 
+![Stock Dolby vs our speaker EQ](pipa-dolby-eq.png)
+
+`make_graph.py` draws it from the measurement table.
+
 ## Use
 
 ```
