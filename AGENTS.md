@@ -204,6 +204,22 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Bootloader "Device does not support slots":** `fastboot reboot bootloader` fixes it (`flash_super.sh` does it).
 - **SELinux compile test:** `maintainer/sepolicy/secil_test.sh <system_ext rules> <vendor rules>` on the device.
 - **KernelSU modules (SukiSU 4.3):** script modules and `system.prop` work; `system/` overlays need a metamodule.
+- **Gotchas from the beta8 Dolby work:**
+  - Live-test a persistent priv-app or a static overlay without a build: bind-mount the new APK over the ROM file
+    (`nsenter -t 1 -m -- mount -o bind ...`, keep the file label), `rm -rf /data/system/package_cache/*`, then
+    `setprop ctl.restart zygote`. `adb install -r` refuses persistent apps. The bind ends at the next reboot.
+  - Same `ro.pipa.port.layer` between two test builds = stale package cache: after the flash
+    `rm /data/misc/pipa_port/pkgcache_layer` and reboot.
+  - priv_app (MiSound, the helper) can never set a system property (`neverallow priv_app_all property_socket`):
+    MiSound's `persist.audio.effect.device_map` stays empty; the helper keeps the per-output effect in its prefs.
+  - MiSound's classes3.dex (added by the porter) holds stock `android.media.audiofx.AudioEffectCenter` and the effect
+    presenters; they pick a default effect at BOOT_COMPLETED and on device broadcasts. The helper stores an effect
+    only when MiSound is in the foreground (helper 1.6).
+  - COUI preference lists show the children of a hidden `PreferenceCategory`; to hide ColorOS controls, leave them
+    out of the overlay XML, but keep keys that a controller needs (`key_mss_spatial_render`, else Settings crashes).
+  - A changed `vendor/etc/dolby/dax-default.xml` makes DMS rebuild `/data/vendor/dolby/dax_sqlite3.db` once (Dolby
+    settings and the GEQ go back to default; the DB `signature` row is the xml md5).
+  - Dolby tuning measurements: use pink noise, not sweeps (profile Dynamic has a leveler and adaptive EQ).
 - **Run smali and baksmali with `-j 1`.** With threads, the dex layout changes on each run (same code, other md5).
 - Do not kill `system_server` to apply framework changes (it causes a warm-reset crash). Reboot.
 - **Smoothness:** measure with `maintainer/perfetto/traced_heavy.sh <label>` (FrameTimeline), not only gfxinfo. Wait

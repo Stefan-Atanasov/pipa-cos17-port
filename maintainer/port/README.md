@@ -40,7 +40,7 @@ sudo sh maintainer/port/port.sh single ~/Documents/pipa/donor/OPD2515_11.C.06/im
 
 - `<tag>` is the name of the run. Use a new tag. The run deletes `port-work/<tag>/`. The runner refuses a tag that
   the old chain used (`port-work/<tag>-baked` exists) unless you set `PORT_FORCE=1`.
-- `--until <step>` stops after this step. Step names: `base baked 1c 2a ... 2x 2z 3a ... 3j 3k 3l 3m 3n 3o 3p 3q 3r 3s 3t 3u 3v 3w 3x 3y 3z 4a 4b 4c 4d 4e 4f 4g 4h 4i 4j 4k 4l`. The default is the last step (4l). Step 2u does nothing without `PORT_WITH_2U=1`, step 3k nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). The default build ends at 4l (beta6 ended at 3w). `--until 3h` gives the old chain's 3h.
+- `--until <step>` stops after this step. Step names: the files in `steps/` (`base baked 1c 2a ... 2z 3a ... 3z 4a ... 4z 5a ... 5x 5z 6a 6b`). The default is the last step (6b). Step 2u does nothing without `PORT_WITH_2U=1`, step 3k nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). The default build ends at 4l (beta6 ended at 3w). `--until 3h` gives the old chain's 3h.
 - `--keep-tree` keeps `port-work/<tag>/tree`. Without it, the runner deletes the tree after a good run. After a
   failed run, the tree always stays.
 - `--check` does the preflight and stops.
