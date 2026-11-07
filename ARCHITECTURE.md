@@ -172,6 +172,8 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 5z | step only | Dolby 1:1 with HyperOS: the stock HyperOS 2 `vendor/lib{,64}/soundfx/libhwdap.so` replaces beta4's patched copy (it hid DMS errors). Inputs: `port-inputs/dolby-5z` (private). |
 | 6a | step only | Measured speaker EQ (pink noise, USB mic) added to the audio optimizer of the 4 speaker tunings in `vendor/etc/dolby/dax-default.xml`; the user EQ in MiSound stays free on top. Values, graph and a standalone script for other ports: `maintainer/dolby-eq/`. `rules_6a_system_ext.cil`: priv_app reads the stock Dolby tuning-control props. |
 | 6b | step only | Settings > Sound > Sound effect settings: overlay `maintainer/overlays/misound` (English) shows only the MiSound / Dolby entry. The ColorOS AudioX ("OReality") modes need OPPO effect libraries that the Xiaomi vendor does not have. |
+| 6c | step only | No DSP voice wake-up: the flags `oplus.software.audio.voice_wakeup_*` and `speechassist.oneshot.support` in `my_product/etc/extension/com.oplus.oplus-feature.xml` are commented out. The "Hey Breeno" model needs the Qualcomm SVA engine (vendor uuid `68ac2d41-...`), which pipa's sound trigger does not have: the audio HAL crashed in a loop. |
+| (4o/4r) | `halshims.jar` | IOplusTouch node 26 (Game Space "Touch sampling rate"): COSA writes the rate in hex (`78` = Standard, `f0` = Ultra touch). pipa's panel has no rate control, so a rate above 120 Hz turns on the Xiaomi touch game mode (mode 0); the pen is off in that mode. |
 
 ### 2.4 Where properties go
 

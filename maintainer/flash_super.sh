@@ -110,6 +110,7 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt78)        IMG=$P/port-work/pt78/img/super.img;        MD5=48dcfe20646ea7cf49b66f1c2af87d5a ;;   # pt76 + 6b (sound effects page: MiSound only, English)
     pt79)        IMG=$P/port-work/pt79/img/super.img;        MD5=75facdaa7d4eaa155ea012b6e2e3950b ;;   # pt78 + helper 1.6 (user-choice-only effect memory, both effects switched)
     pt80)        IMG=$P/port-work/pt80/img/super.img;        MD5=af3ca1b75fdfa2edacf42578621cb534 ;;   # pt79 + 6a B1 (-1 dB at 7.1/9 kHz)
+    pt81)        IMG=$P/port-work/pt81/img/super.img;        MD5=016374aaaa6148f7bb6a020aaea2314e ;;   # pt80 + Ultra touch -> touch game mode (node 26) + 6c no DSP voice wake-up
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

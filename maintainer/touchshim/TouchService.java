@@ -18,6 +18,8 @@ public final class TouchService extends Binder {
         TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(64));
     private final String tool;
     private int edge, corner, ime;
+    // Xiaomi game mode (mode 0) has two OPPO sources: node 245 (extreme touch) and node 26 (Game Space touch rate)
+    private int extreme, rateGame;
     private static final Pattern IME = Pattern.compile("mod para_V2 set_ime_showing:([01])");
 
     public TouchService(String tool) {
@@ -28,7 +30,9 @@ public final class TouchService extends Binder {
         if (device != 0) return -1;
         switch (node) {
             // 255 = the V2 smoothness/sensitivity sliders (COSA support query only); 254 (touch rate) stays off
-            case 5: case 8: case 24: case 25: case 243: case 245: case 251: case 252: case 255: return 1;
+            // 26 = Game Space "Touch sampling rate": COSA writes the rate as hex (78 = Standard 120 Hz, f0 = Ultra
+            // touch 240 Hz). The pipa panel has no rate control, so Ultra touch maps to the Xiaomi game mode.
+            case 5: case 8: case 24: case 25: case 26: case 243: case 245: case 251: case 252: case 255: return 1;
             default: return -1;
         }
     }
@@ -55,7 +59,7 @@ public final class TouchService extends Binder {
     public synchronized int write(int device, int node, String text) {
         if (isTouchNodeSupport(device, node) < 0 || text == null || text.length() > 512) return -1;
         int mode, value;
-        int nextEdge = edge, nextCorner = corner, nextIme = ime;
+        int nextEdge = edge, nextCorner = corner, nextIme = ime, nextExtreme = extreme, nextRate = rateGame;
         try {
             switch (node) {
                 // OPPO direction 0 (0/180 deg), 1 (90), 2 (270) -> Xiaomi orientation 0, 1, 3 (2 = 180)
@@ -65,7 +69,14 @@ public final class TouchService extends Binder {
                 case 243: mode = 2; value = level(text.trim()); break;
                 case 25: mode = 4; value = level(text.trim()); break;
                 case 24: mode = 3; value = 4 - level(text.trim()); break;
-                case 245: mode = 0; value = range(text.trim(), 1); break;
+                case 245: nextExtreme = range(text.trim(), 1); mode = 0;
+                    value = Math.max(nextExtreme, rateGame); break;
+                case 26: {
+                    int hz = Integer.parseInt(text.trim(), 16);
+                    if (hz < 0 || hz > 2000) throw new IllegalArgumentException("rate");
+                    nextRate = hz > 120 ? 1 : 0; mode = 0;
+                    value = Math.max(extreme, nextRate); break;
+                }
                 case 251: nextEdge = edgeLevel(text.trim()); mode = 7;
                     value = Math.max(nextEdge, Math.max(corner, ime)); break;
                 case 252: nextCorner = range(text.trim(), 3); mode = 7;
@@ -80,7 +91,7 @@ public final class TouchService extends Binder {
             }
             final int m = mode, v = value;
             worker.execute(() -> apply(m, v));
-            edge = nextEdge; corner = nextCorner; ime = nextIme;
+            edge = nextEdge; corner = nextCorner; ime = nextIme; extreme = nextExtreme; rateGame = nextRate;
             last.put(node, text);
             return 0;
         } catch (IllegalArgumentException | RejectedExecutionException e) { return -1; }

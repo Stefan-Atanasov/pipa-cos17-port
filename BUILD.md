@@ -181,7 +181,7 @@ Options:
 | `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `beta7.1-noenc`). Experimental. Clean flash only. |
 | `PORT_MAINTAINER_ADB=1` | Also apply step 5s (the build host's adb key, USB debugging on at the first boot) for unattended clean-flash tests on your own tablet. Never publish such a build: `build_release.sh` refuses it. |
 
-Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 6b (beta8 work; beta7.2 ended at 5x; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
+Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 6c (beta8 work; beta7.2 ended at 5x; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
 through `sudo env`, for example `sudo env PORT_NOENCRYPT=1 sh COS17/maintainer/port/port.sh ...`.
 
 The output is in `port-work/<tag>/`:

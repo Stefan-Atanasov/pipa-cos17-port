@@ -18,6 +18,8 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Dolby dropped after the screen was off and the output closed. | helper 1.3: the Dolby handle is re-created on playback, device change and screen on. |
 | "Original" on Bluetooth headphones was not remembered per device; Dolby did not come back on the speakers. | helper 1.4-1.6: the MiSound choice is remembered per output, like HyperOS. |
 | Sound effect settings: ColorOS "OReality" modes did nothing, Chinese text. | 6b: the page shows only the MiSound / Dolby entry, in English. |
+| "Hey Breeno" voice wake-up crashed the audio HAL in a loop (sound drops, Breeno mic failed). | 6c: DSP voice wake-up is off (pipa has no OPPO wake-up engine). |
+| Game Space "Ultra touch" did nothing. | Touch HAL shim: Ultra touch turns on the panel game mode. The pen does not work in that mode (panel driver). |
 
 ### Fixed in beta7.2
 
