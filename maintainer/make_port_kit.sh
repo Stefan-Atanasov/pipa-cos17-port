@@ -8,7 +8,8 @@
 #
 #   sh maintainer/make_port_kit.sh            -> ~/Documents/pipa/port-work/release/pipa-cos17-port-kit-<date>.tar.gz
 #   KIT_INPUTS=1 sh maintainer/make_port_kit.sh  also packs the private build inputs (about 860 MB): COS17/port-overlay
-#     (frozen beta4 files), port-inputs/apps-5u (Google APKs of step 5u), port-inputs/dolby-5z (stock libhwdap of step 5z) and tools/ (smali, apktool). Only for a
+#     (frozen beta4 files), port-inputs/apps-5u (Google APKs of step 5u), port-inputs/dolby-5z (stock libhwdap of step 5z), tools/ (smali, apktool)
+#     and kernel/sukisu-*/ (SukiSU manager APKs of steps 2u, 2w, 5m). Only for a
 #     trusted co-maintainer (the original beta4 developer); never publish such a kit.
 set -eu
 HERE=$(cd "$(dirname "$0")" && pwd)
@@ -20,7 +21,7 @@ K=$STAGE/$NAME
 mkdir -p "$K" "$OUTDIR"
 
 cd "$COS"
-DOCS="BUILD-GUIDE.md MAINTAINER-STATUS.md DEVICE-STATE.md BUGS-TODO.md RELEASE-NOTES-beta7.1.md RELEASE-NOTES-beta7.1-noenc.md HISTORY.md CLAUDE.md AGENTS.md NEXT-SESSION-PROMPT.md"
+DOCS="BUILD-GUIDE.md MAINTAINER-STATUS.md DEVICE-STATE.md BUGS-TODO.md RELEASE-NOTES-beta7.2.md HISTORY.md CLAUDE.md AGENTS.md NEXT-SESSION-PROMPT.md"
 for f in $DOCS; do [ -f "$f" ] && cp "$f" "$K/"; done
 cp -r docs notes "$K/"
 mkdir -p "$K/kernel"; cp kernel/WALT-KERNEL.md kernel/KERNEL-RESEARCH.md "$K/kernel/"
@@ -30,13 +31,16 @@ tar -C "$COS" -cf - \
     --exclude='maintainer/jar-edits/venv' --exclude='__pycache__' --exclude='*.pyc' \
     --exclude='helper/keys' --exclude='helper/out' --exclude='maintainer/*/out' --exclude='maintainer/cts/overlay/keys' \
     --exclude='*.7z' --exclude='*.img' \
-    maintainer port-rom helper module | tar -C "$K" -xf -
+    --exclude='dolby-eq-module/*.png' \
+    maintainer port-rom helper module port-module/src dolby-eq-module global-region-module susfs-module | tar -C "$K" -xf -
 
 if [ "${KIT_INPUTS:-0}" = 1 ]; then
     P=$(cd "$COS/.." && pwd)
     cp -r "$COS/port-overlay" "$K/port-overlay"
     mkdir -p "$K/port-inputs"; cp -r "$P/port-inputs/apps-5u" "$P/port-inputs/dolby-5z" "$K/port-inputs/"
     mkdir -p "$K/tools"; cp -r "$P/tools/smali" "$P/tools/apktool" "$K/tools/"
+    # SukiSU manager APKs preinstalled by steps 2u, 2w and 5m (#NEEDS lines in maintainer/port/steps)
+    for d in sukisu-v4.2.1-r1 sukisu-v4.3.0 sukisu-v4.3.0-r1; do cp -r "$COS/kernel/$d" "$K/kernel/"; done
     (cd "$K/port-inputs/apps-5u" && sha256sum -c --quiet SHA256SUMS) || { echo "apps-5u sha256 mismatch" >&2; exit 1; }
     (cd "$K/port-inputs/dolby-5z" && sha256sum -c --quiet SHA256SUMS) || { echo "dolby-5z sha256 mismatch" >&2; exit 1; }
 fi
@@ -60,14 +64,15 @@ Everything needed to rebuild the port's ROM layers and the kernel, without image
 * Paths: `port.sh` and the main scripts use the folder that holds `COS17/` (also `port-work/`, `donor/`, `tools/`)
   and give build outputs to the owner of `COS17/`. The old layer scripts default to `/home/stefan/Documents/pipa`:
   for them set **`PIPA_ROOT`** and **`PIPA_OWNER`** through sudo: `sudo env PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh ...`.
-* Current release: **beta7.1** = ROM pt63 (`port.sh` default build, last step 5v, donor OPD2515 `17.0.0.104(CN01)`
-  = C.07) + kernel walt-r17. Release notes: `RELEASE-NOTES-beta7.1.md`. Next work: `NEXT-SESSION-PROMPT.md`.
+* Current release: **beta7.2** = ROM pt68 (`port.sh` default build, last step 5x, donor OPD2515 `17.0.0.104(CN01)`
+  = C.07) + kernel walt-r17. Release notes: `RELEASE-NOTES-beta7.2.md`. Next work: `NEXT-SESSION-PROMPT.md`.
 * Folder layout (next to `COS17/`): `donor/OPD2515_11.C.07/img/` (images from the C.07 OTA zip, docs/REBASE.md),
   `port-inputs/apps-5u/` (step 5u), `port-inputs/dolby-5z/` (step 5z), `tools/` (smali, apktool), `port-work/` (build output, about 40 GB free needed).
 * Inputs not in the kit: the original beta4 release (`ColorOS17 Port for pipa-beta4-20261017.7z`: its super gives
   `COS17/work/parts/*_b.img`, the pinned vendor/odm, and its firmware), and the donor C.07 OTA zip
   (`OPD2515_11.C.07_1070_202610201803.zip`, 9.2 GB). A kit made with `KIT_INPUTS=1` also has `port-overlay/`
-  (put it in `COS17/`), `port-inputs/` and `tools/` (put both next to `COS17/`); else see docs/BUILD.md section 1.3.
+  (put it in `COS17/`), `port-inputs/` and `tools/` (put both next to `COS17/`) and `kernel/sukisu-*/` (SukiSU manager APKs; keep them in `COS17/kernel/`); else see
+  docs/BUILD.md section 1.3.
 * The pipa helper app is signed with your own key: `helper/build.sh` creates `helper/keys/` on first run. Keep it;
   ROM builds and helper updates must share it. (Builds signed with another key cannot update each other's helper.)
 * Tools: erofs-utils, lpmake/lpunpack, fastboot/adb, python3, JDK 21 + Android SDK build-tools 37 (helper), NDK 30
