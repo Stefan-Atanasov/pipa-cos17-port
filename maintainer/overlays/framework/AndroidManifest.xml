@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- pipa port 6i: device values for the framework that the stock vendor overlay (FrameworksResTarget) set -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.port.pipa.overlay.framework"
+    android:versionCode="1" android:versionName="1">
+    <overlay android:targetPackage="android" android:isStatic="true" android:priority="901" />
+    <application android:hasCode="false" />
+</manifest>

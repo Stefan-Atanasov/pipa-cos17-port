@@ -56,9 +56,15 @@ KSU_MANAGER=1
 # Play Store + Gboard + Google app (5u): install the APKs in /system_ext/pipa_port/apps/<package>/ once per install (Play updates them).
 BUNDLED_APPS=1
 
-# Link /dev/input/event12 to the keyboard case while it is attached (xiaomi-keyboard
-# checks that exact name for fold detection).
+# Link /dev/input/event12 to the keyboard case while it is attached (the old xiaomi-keyboard
+# checked that exact name). Only used on kernels before walt-r20; since 6k the daemon checks
+# /proc/nanokbd.
 KB_EVENT_LINK=1
+
+# Kernel walt-r20+: remove the keyboard case's input devices while it is folded behind the
+# tablet or closed (on-screen keyboard returns, as on HyperOS). 0 = keep them and only drop
+# the key presses.
+KEYBOARD_FOLD_REMOVE=1
 
 # Run xiaomi-keyboard (fold detection, polls the accelerometer) only while the keyboard
 # case is connected; otherwise it keeps the sensor hub awake all night.

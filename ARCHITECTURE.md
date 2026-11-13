@@ -173,6 +173,19 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 6a | step only | Measured speaker EQ (pink noise, USB mic) added to the audio optimizer of the 4 speaker tunings in `vendor/etc/dolby/dax-default.xml`; the user EQ in MiSound stays free on top. Values, graph and a standalone script for other ports: `maintainer/dolby-eq/`. `rules_6a_system_ext.cil`: priv_app reads the stock Dolby tuning-control props. |
 | 6b | step only | Settings > Sound > Sound effect settings: overlay `maintainer/overlays/misound` (English) shows only the MiSound / Dolby entry. The ColorOS AudioX ("OReality") modes need OPPO effect libraries that the Xiaomi vendor does not have. |
 | 6c | step only | No DSP voice wake-up: the flags `oplus.software.audio.voice_wakeup_*` and `speechassist.oneshot.support` in `my_product/etc/extension/com.oplus.oplus-feature.xml` are commented out. The "Hey Breeno" model needs the Qualcomm SVA engine (vendor uuid `68ac2d41-...`), which pipa's sound trigger does not have: the audio HAL crashed in a loop. |
+| 6e | step only | Bluetooth audio sharing to two headphones: `ro.oplus.audio.support.audio_sharing=true` (BUGS 90). |
+| 6f | step only | Device name "Xiaomi Pad 6" (`ro.vendor.oplus.market.name`), not the donor name (BUGS 92). |
+| 6g | step only | `ro.density.screenzoom=310,340,370,410,450`. Note: the tablet Display size page shows only Small/Standard (stock); no Large step (BUGS 93). |
+| 6h | step only | `vendor.display.vds_allow_hwc=1` for Miracast (BUGS 80; not enough alone: SF `debug.sf.enable_hwc_vds` is still 0). |
+| 6i | step only | Passive USB-C earphones: framework overlay `config_useDevInputEventForAudioJack` (BUGS 88). |
+| 6j | step only | Wi-Fi ini `gEnableForceTargetAssert=1` (as stock; does not fix B1). |
+| 6k | step only | Keyboard cover fold: xiaomi-keyboard checks `/proc/nanokbd`; needs kernel walt-r20 (BUGS 95). |
+| 6l | step only | Keyboard polish: fold angle 45-185, Super key = all apps (oplus-services dex edit), on-screen keyboard default (BUGS 96). |
+| 6m | step only | Values ColorOS reads that only OPPO odm/vendor set: English market name, screen size 11.0", fstrim enhance, compensate dexopt, touchpad two-finger and 5 GHz hotspot features (feature audit). |
+| 6n | step only | Hide Settings > System navigation > "Digital assistant from Google" (corner swipe; cannot work next to Circle to Search; in-place Settings dex edit) (BUGS 98). |
+| 6o | step only | "Never" in Display > Auto screen off (feature + app feature). |
+| 6p | step only | Remove the beta4 porter launcher overlay (150 dp side margins); OPPO tablet values 80/102 dp apply (BUGS 94). |
+| 6q | step only | Hide the OTG connection switch (no OPPO charger HAL; USB host works by Type-C role): app feature `com.android.systemui.otg_auto_close_alarm_disable` (BUGS 100). |
 | (4o/4r) | `halshims.jar` | IOplusTouch node 26 (Game Space "Touch sampling rate"): COSA writes the rate in hex (`78` = Standard, `f0` = Ultra touch). pipa's panel has no rate control, so a rate above 120 Hz turns on the Xiaomi touch game mode (mode 0); the pen is off in that mode. |
 
 ### 2.4 Where properties go

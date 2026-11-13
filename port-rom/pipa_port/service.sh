@@ -313,13 +313,11 @@ if [ "${SMOOTH_DEFAULT:-1}" = 1 ] && [ ! -e "$STATE/smooth_default_set" ]; then
         settings put system system_material_stroke_enable 1
         # ColorOS writes animationBlurrySwitch=1 itself on a first boot (before BLUR_DEFAULT sees "null"), 2v
         settings put system animationBlurrySwitch 0
-        # The nanosic driver always registers "Xiaomi Keyboard" input devices, so Android thinks a hardware keyboard is
-        # attached and hides the on-screen keyboard (clean flash, 2026-10-25). Keep it visible; with the real
-        # keyboard cover the user can switch it off (Settings: on-screen keyboard while a physical one is active).
-        settings put secure show_ime_with_hard_keyboard 1
+        # (until 6l: show_ime_with_hard_keyboard=1 here, for the phantom "Xiaomi Keyboard" devices of kernels
+        # before walt-r7ov; see the keyboard fold block)
     } </dev/null >/dev/null 2>&1
     touch "$STATE/smooth_default_set"
-    log "first-boot defaults: window blur off, visual blur + contour glow on, animation blur off, on-screen keyboard on"
+    log "first-boot defaults: window blur off, visual blur + contour glow on, animation blur off"
 fi
 # beta7.1 (user 2026-11-05): "Fast" animations (tier 3) + Visual blur + Contour glow once on EVERY install, also on a dirty
 # flash from beta6/beta7 (2q had set material blur 0 at their first boot, and ColorOS hid the switch at tier 3). The
@@ -712,6 +710,31 @@ kb_guard() {
 }
 [ "${KEYBOARD_GUARD:-1}" = 1 ] && [ -e "$KB_HALL" ] && kb_guard
 
+# ------------------------------------------------------------- keyboard fold
+# 6k, kernel walt-r20+: the nanosic driver acts on the daemon's fold request (32 FF 00/01) and
+# has /proc/nanokbd, which the ROM's xiaomi-keyboard uses as its "keypad present" flag (was
+# /dev/input/event12). So the kernel may remove the keypad input devices while the cover is
+# folded behind the tablet or closed (as stock HyperOS disables them): Android sees no hardware
+# keyboard, the on-screen keyboard returns. Older kernels: parameter missing, nothing changes.
+# One write at service start; nothing polls.
+KB_FOLD=/sys/module/nanosic_driver_v2/parameters/fold_remove
+KB_FOLD_KERNEL=0
+if [ -e "$KB_FOLD" ]; then
+    KB_FOLD_KERNEL=1                    # the event12 link below is not needed (and not wanted) any more
+    if [ "${KEYBOARD_FOLD_REMOVE:-1}" = 1 ]; then
+        echo 1 > "$KB_FOLD" 2>/dev/null && log "keyboard fold: kernel removes the keypad devices while folded"
+    fi
+    # 6l: the on-screen keyboard hides while the keyboard cover is in use and returns when it is folded away or
+    # detached (Android default, as HyperOS). 2v had set show_ime_with_hard_keyboard=1 at the first boot for the
+    # phantom keyboard devices (gone since walt-r7ov). Once per install, on walt-r20+ only; the user can switch
+    # it on again (Settings: on-screen keyboard while a physical one is active).
+    if [ ! -e "$STATE/hard_kb_ime_default_set" ]; then
+        settings put secure show_ime_with_hard_keyboard 0 </dev/null >/dev/null 2>&1
+        touch "$STATE/hard_kb_ime_default_set"
+        log "on-screen keyboard hides while a hardware keyboard is active (show_ime_with_hard_keyboard=0, once)"
+    fi
+fi
+
 # ------------------------------------------------------------------------ pen
 # * Touch driver: novatek opens the NVTCapacitivePen input only with Touch_Pen_ENABLE set,
 #   and the flag must be re-armed after every screen-on.
@@ -932,7 +955,7 @@ while true; do
         [ "${PEN_KEYS:-1}" = 1 ] && pen_keys_start
         # kb_link runs awk + readlink: only when the input device list changed
         [ "${PEN_WATCH:-1}" = 1 ] || DEVS=$(< /proc/bus/input/devices)
-        if [ "${KB_EVENT_LINK:-1}" = 1 ] && [ "$DEVS" != "$KB_DEVS" ]; then kb_link; KB_DEVS=$DEVS; fi
+        if [ "${KB_EVENT_LINK:-1}" = 1 ] && [ $KB_FOLD_KERNEL = 0 ] && [ "$DEVS" != "$KB_DEVS" ]; then kb_link; KB_DEVS=$DEVS; fi
         [ "${KEYBOARD_GUARD:-1}" = 1 ] && [ -e "$KB_HALL" ] && kb_guard
     fi
     if [ $((tick % 15)) = 0 ]; then

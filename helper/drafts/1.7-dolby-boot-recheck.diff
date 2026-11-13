@@ -1,0 +1,136 @@
+--- a/helper/src/com/port/pipa/helper/DolbyKeeper.java	2026-11-13 10:44:46.180825656 +0100
++++ b/helper/src/com/port/pipa/helper/DolbyKeeper.java	2026-11-13 10:44:46.181706716 +0100
+@@ -53,6 +53,13 @@
+  * or MiSound when DAP is not up yet. 1.5 stored such a default as the user's choice (seen 2026-11-07: speaker became
+  * "misound" after a restart). Now such a change is undone: the remembered effect is applied again.
+  *
++ * 1.7 (BUGS 102): boot re-check. The one-shot boot apply (onOutputChanged) can lose a race: DS state set before DMS /
++ * libhwdap is ready (setParameter result was never checked), or MiSound's BOOT_COMPLETED default runs after it. apply()
++ * then reads the half-set DS state as "saved" and turns the effect off, and nothing runs again. After BOOT_COMPLETED
++ * (and when the process starts after boot) the remembered effect is checked twice, RECHECK_MS and RECHECK2_MS later,
++ * and applied again when the effects do not match it. One-shot timers, no polling; skipped when the user changed the
++ * effect in MiSound since the helper started.
++ *
+  * MiSound effect holder (stock: system_server holds it): one long-lived misoundfx handle on session 0, priority -1,
+  * enabled only while effect_implementer is "misound"; event driven like the DAP holder (no polling).
+  *
+@@ -69,6 +76,8 @@
+     private static final int PRIORITY = -1; // below MiSound (0), so its toggle keeps control
+     private static final int MAX_TRIES = 10; // creation retries per trigger (output thread may not exist yet)
+     private static final long RETRY_MS = 1000;
++    private static final long RECHECK_MS = 10000; // after BOOT_COMPLETED: MiSound's default has run by now
++    private static final long RECHECK2_MS = 30000; // late DMS / slow first unlock
+     // DsTuning ports (com.dolby.dax.DsTuning)
+     private static final int PORT_SPEAKER = 0, PORT_HEADPHONE = 3, PORT_BLUETOOTH = 4, PORT_USB = 5;
+ 
+@@ -85,6 +94,8 @@
+     private SharedPreferences effects;
+     private String device = "";
+     private long outputChangedAt;
++    private boolean userChoice; // the user picked an effect in MiSound since this process started
++    private final Runnable ensureTask = this::ensure; // one instance: removeCallbacks(this::ensure) never matched
+ 
+     DolbyKeeper(Context ctx) {
+         this.ctx = ctx;
+@@ -107,12 +118,15 @@
+                 });
+         handler.post(this::onOutputChanged);
+         IntentFilter f = new IntentFilter(Intent.ACTION_SCREEN_ON);
++        f.addAction(Intent.ACTION_BOOT_COMPLETED);
+         f.addAction("android.media.VOLUME_CHANGED_ACTION");
+         ctx.registerReceiver(new BroadcastReceiver() {
+             @Override
+             public void onReceive(Context c, Intent i) {
+                 if (Intent.ACTION_SCREEN_ON.equals(i.getAction())) {
+                     trigger();
++                } else if (Intent.ACTION_BOOT_COMPLETED.equals(i.getAction())) {
++                    scheduleRecheck();
+                 } else if (i.getIntExtra("android.media.EXTRA_VOLUME_STREAM_TYPE", -1) == AudioManager.STREAM_MUSIC) {
+                     handler.post(DolbyKeeper.this::updateTuning);
+                 }
+@@ -138,12 +152,41 @@
+             }
+         }, handler);
+         trigger();
++        if ("1".equals(prop("sys.boot_completed"))) scheduleRecheck(); // process restarted after boot
+     }
+ 
+     private void trigger() {
+-        handler.removeCallbacks(this::ensure);
++        handler.removeCallbacks(ensureTask);
+         tries = 0;
+-        handler.post(this::ensure);
++        handler.post(ensureTask);
++    }
++
++    /** BUGS 102: two one-shot re-checks after boot (see class comment). */
++    private void scheduleRecheck() {
++        handler.removeCallbacks(recheckTask);
++        handler.postDelayed(recheckTask, RECHECK_MS);
++        handler.postDelayed(recheckTask, RECHECK2_MS);
++    }
++
++    private final Runnable recheckTask = this::recheck;
++
++    /** Apply the remembered effect again when the effects do not match it. Cheap when they do (two reads). */
++    private void recheck() {
++        if (userChoice || device.isEmpty()) return;
++        String want = effects.getString(device, "dolby");
++        boolean wantDs = "dolby".equals(want);
++        boolean ok = fx != null; // reads below throw IllegalStateException when the handle is dead
++        try {
++            ok = ok && (readDsOn() > 0) == wantDs && fx.getEnabled() == wantDs
++                    && (mi == null || mi.getEnabled() == "misound".equals(want))
++                    && want.equals(Settings.Global.getString(ctx.getContentResolver(), "effect_implementer"));
++        } catch (IllegalStateException e) {
++            ok = false;
++        }
++        Log.i(TAG, "boot re-check on " + device + ": want " + want + ", " + (ok ? "ok" : "mismatch, applying again"));
++        if (ok) return;
++        trigger(); // new handle if the old one is dead
++        applyEffect(want);
+     }
+ 
+     private void ensure() {
+@@ -154,7 +197,7 @@
+         if (fx == null) {
+             if (!create()) {
+                 if (++tries < MAX_TRIES) {
+-                    handler.postDelayed(this::ensure, RETRY_MS);
++                    handler.postDelayed(ensureTask, RETRY_MS);
+                 } else {
+                     Log.w(TAG, "DAP create failed " + MAX_TRIES + " times; next try on the next event");
+                 }
+@@ -288,6 +331,7 @@
+         if (e.equals(want)) return; // our own write, or nothing new
+         boolean settled = SystemClock.elapsedRealtime() - outputChangedAt > SETTLE_MS;
+         if (settled && miSoundForeground()) {
++            userChoice = true;
+             effects.edit().putString(device, e).apply();
+             Log.i(TAG, "effect for " + device + ": " + e);
+             handler.post(this::apply); // MiSound switched both effects itself; the holders follow
+@@ -356,7 +400,10 @@
+                 byte[] value = new byte[12];
+                 System.arraycopy(le(1), 0, value, 4, 4);
+                 System.arraycopy(le(ds), 0, value, 8, 4);
+-                setParam.invoke(t, PARAM_DS_ON, value);
++                Object r = setParam.invoke(t, PARAM_DS_ON, value);
++                if (!Integer.valueOf(AudioEffect.SUCCESS).equals(r)) {
++                    Log.w(TAG, "DS " + ds + " not accepted (" + r + "): DMS/DAP not ready? boot re-check will retry");
++                }
+             }
+             t.setEnabled(on);
+         } catch (ReflectiveOperationException | RuntimeException e) {
+--- a/helper/AndroidManifest.xml	2026-11-13 10:44:55.162008391 +0100
++++ b/helper/AndroidManifest.xml	2026-11-13 10:44:55.163122541 +0100
+@@ -4,8 +4,8 @@
+      ActivityManager starts it at boot and never kills it. -->
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     package="com.port.pipa.helper"
+-    android:versionCode="16"
+-    android:versionName="1.6">
++    android:versionCode="17"
++    android:versionName="1.7">
+ 
+     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
+ 

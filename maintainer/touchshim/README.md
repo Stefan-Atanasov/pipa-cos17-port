@@ -42,9 +42,9 @@ Let N mean `drivers/input/touchscreen/nt36532/nt36xxx.c`.
 | 245 extreme touch | 0, Touch_Game_Mode | 0/1 unchanged | N:2236–2240 range; N:2404–2406 state and pen switch |
 | 251 edge | 7, Touch_Edge_Filter | 0..3 | N:2291–2295 range; N:2383–2408 firmware worker |
 | 252 corner | 7, Touch_Edge_Filter | 0..3 | Same shared filter |
-| 8 grip | 7, Touch_Edge_Filter | Exact `mod para_V2 set_ime_showing:0` or `:1` sets an IME floor of 0 or 1 | Same shared filter; IME policy is a draft approximation |
+| 8 grip | none (accepted, stored) | Exact `mod para_V2 set_ime_showing:0` or `:1` is accepted. Since 2026-11-11 it does not change the edge filter. Before, it set a floor of 1: the firmware dropped edge touches while the keyboard was open. The OPPO flag makes the OPPO grip code less strict, not more | - |
 
-The shared filter is max(edge, corner, IME floor). Initial bridge requests are zero.
+The shared filter is max(edge, corner). Initial bridge requests are zero.
 The kernel default filter is 2, but its initial current/set fields are zero.
 The draft cannot give edge and corner separate regions.
 The slider mapping is linear and uses the same direction. The OPPO 0..100 input range is an

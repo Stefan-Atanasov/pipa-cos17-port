@@ -7,7 +7,7 @@
   method is unchanged (no move-result follows the call, so the verifier sees the same registers).
 * RET (5x): the method returns a constant at once (const/4 v0 + return v0 over its first instruction, the rest of that
   instruction becomes nops; the old code after it is dead but stays valid).
-usage: patch_logspam.py <jar> <out.jar> [4h|5x]   (table set, default 4h; the jar's file name selects the table; an
+usage: patch_logspam.py <jar> <out.jar> [4h|5x|6l]   (table set, default 4h; the jar's file name selects the table; an
        unpatched jar for 4h, the 4h output for 5x; needs androguard: maintainer/jar-edits/venv)"""
 import hashlib, io, os, struct, sys, zipfile, zlib
 from androguard.core.dex import DEX, HiddenApiClassDataItem
@@ -54,7 +54,16 @@ TABLE_5X = {
          None, 'updateWindowState fail! invalid window type: '),
     ],
 }
-TABLES = {'4h': TABLE, '5x': TABLE_5X}
+# 6l (BUGS 96): Meta/Super alone on a non-OPPO ("legacy") keyboard. On CN handleMetaKeyForOld() sends key gesture
+# 208 (assistant = Breeno) at the key up; 206 is ColorOS's own "all apps" gesture (what services.jar sends for Meta,
+# and what this method sends outside CN for a short press). msg = (register, old value, new value) of the const/16.
+TABLE_6L = {
+    'oplus-services.jar': [
+        ('const16', 'Lcom/android/server/input/KeyGestureControllerExtlmpl;', 'handleMetaKeyForOld', None,
+         (10, 0xd0, 0xce)),
+    ],
+}
+TABLES = {'4h': TABLE, '5x': TABLE_5X, '6l': TABLE_6L}
 
 
 def is_msg(x, msg):
@@ -105,6 +114,20 @@ def patch_ret(buf, m, val):
     return f'returns {val} at once'
 
 
+def patch_const16(buf, m, spec):
+    """the one const/16 vREG, OLD of the method gets the value NEW (same size)"""
+    reg, old, new = spec
+    want = bytes([0x13, reg]) + struct.pack('<h', old)
+    off, hits = code_off(m), []
+    for x in m.get_instructions():
+        if x.get_name() == 'const/16' and bytes(buf[off:off + 4]) == want:
+            hits.append(off)
+        off += x.get_length()
+    assert len(hits) == 1, f'const/16 v{reg}, {old:#x}: {len(hits)} hits'
+    buf[hits[0]:hits[0] + 4] = bytes([0x13, reg]) + struct.pack('<h', new)
+    return f'const/16 v{reg}, {old:#x} -> {new:#x}'
+
+
 def patch_nolog(buf, m, msg):
     off, seen = code_off(m), False
     ins = list(m.get_instructions())
@@ -134,7 +157,7 @@ def patch_dex(d, targets, done):
             continue
         assert len(ms) == 1, f'{cls}->{name}: {len(ms)} methods'
         r = (patch_uah(buf, ms[0]) if kind == 'uah' else patch_ret(buf, ms[0], msg) if kind == 'ret'
-             else patch_nolog(buf, ms[0], msg))
+             else patch_const16(buf, ms[0], msg) if kind == 'const16' else patch_nolog(buf, ms[0], msg))
         notes.append(f'{cls.split("/")[-1][:-1]}.{ms[0].get_name()}: {r}')
         done.add(t)
     if not notes:

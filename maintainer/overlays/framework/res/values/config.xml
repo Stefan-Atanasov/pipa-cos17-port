@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BUGS-TODO 88: the pipa kernel reports the analog headset (USB-C audio accessory, wcd938x MBHC) as input
+         switch events (SW_HEADPHONE_INSERT, SW_MICROPHONE_INSERT). Without this value WiredAccessoryManager waits for
+         the old "h2w" switch uevent, which the 4.19 kernel does not have. Stock HyperOS: vendor/overlay/FrameworksResTarget. -->
+    <bool name="config_useDevInputEventForAudioJack">true</bool>
+</resources>

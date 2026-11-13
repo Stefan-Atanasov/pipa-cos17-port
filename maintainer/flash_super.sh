@@ -111,6 +111,14 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt79)        IMG=$P/port-work/pt79/img/super.img;        MD5=75facdaa7d4eaa155ea012b6e2e3950b ;;   # pt78 + helper 1.6 (user-choice-only effect memory, both effects switched)
     pt80)        IMG=$P/port-work/pt80/img/super.img;        MD5=af3ca1b75fdfa2edacf42578621cb534 ;;   # pt79 + 6a B1 (-1 dB at 7.1/9 kHz)
     pt81)        IMG=$P/port-work/pt81/img/super.img;        MD5=016374aaaa6148f7bb6a020aaea2314e ;;   # pt80 + Ultra touch -> touch game mode (node 26) + 6c no DSP voice wake-up
+    pt82)        IMG=$P/port-work/pt82/img/super.img;        MD5=4c00385c61d27cb26cb64e14d8c856bd ;;   # pt81 + 6e BT audio sharing flag + 6f name Xiaomi Pad 6 + 6g display size steps (built offline 2026-11-10, NOT tested)
+    pt83)        IMG=$P/port-work/pt83/img/super.img;        MD5=df3dae2841994c9aba43a394de2c9eed ;;   # pt82 + 6h Miracast HWC virtual display prop + 6i headset jack input overlay (built offline 2026-11-10, NOT tested)
+    pt84)        IMG=$P/port-work/pt84/img/super.img;        MD5=ac815a46fc89752210f270191e1bfebe ;;   # pt83 + 6j Wi-Fi fw recovery ini + touch shim: IME no longer sets the edge filter (built offline 2026-11-11, NOT tested)
+    pt85)        IMG=$P/port-work/pt85/img/super.img;        MD5=452838c2f3a4725228909472114cc5ba ;;   # pt84 + 6k keyboard cover fold (daemon flag /proc/nanokbd, fold_remove); needs kernel walt-r20 for the fold (built offline 2026-11-12, NOT tested)
+    pt86)        IMG=$P/port-work/pt86/img/super.img;        MD5=677f52ba23b55ba8d0525c1edc84ba55 ;;   # pt85 + 6l keyboard polish: angle 45..185, Super key = all apps (oplus-services dex edit: boot check first), on-screen keyboard default (built offline 2026-11-12, NOT tested)
+    pt87)        IMG=$P/port-work/pt87/img/super.img;        MD5=a0c7bd721fb22b20084db0e5015747fb ;;   # pt86 + 6m feature audit values M1-M6 + helper 1.7 (BUGS 102 Dolby boot re-check)
+    pt88)        IMG=$P/port-work/pt88/img/super.img;        MD5=505fbfaccba85698a8bd099c90433923 ;;   # pt87 + 6n hide corner-swipe assistant switch (BUGS 98) + 6o Never screen timeout
+    pt89)        IMG=$P/port-work/pt89/img/super.img;        MD5=8d603546d26a05c51d9502aebd6e5a2c ;;   # pt88 + 6p launcher margins (BUGS 94) + 6q hide OTG switch (BUGS 100)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot
@@ -145,4 +153,4 @@ $FB flash super "$IMG"
 $FB set_active b
 $FB getvar current-slot 2>&1 | grep current-slot
 $FB reboot
-echo "flashed. First boot can take a few minutes. If it bootloops: sh $0 beta4"
+echo "flashed. First boot can take a few minutes. If it bootloops: flash the last good build again (sh $0 -y <name>, e.g. the build that ran before; beta4 is only the last resort)"

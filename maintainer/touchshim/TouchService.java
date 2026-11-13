@@ -78,15 +78,20 @@ public final class TouchService extends Binder {
                     value = Math.max(extreme, nextRate); break;
                 }
                 case 251: nextEdge = edgeLevel(text.trim()); mode = 7;
-                    value = Math.max(nextEdge, Math.max(corner, ime)); break;
+                    value = Math.max(nextEdge, corner); break;
                 case 252: nextCorner = range(text.trim(), 3); mode = 7;
-                    value = Math.max(edge, Math.max(nextCorner, ime)); break;
+                    value = Math.max(edge, nextCorner); break;
                 case 8:
                     Matcher match = IME.matcher(text.trim());
                     // Unknown grip commands have no safe equivalent. Ignore without claiming success.
                     if (!match.matches()) return -1;
+                    // 2026-11-11 (BUGS-TODO 86): the IME state no longer raises the Xiaomi edge filter. OPPO's
+                    // set_ime_showing:1 makes its grip code LESS strict while the keyboard shows. The old mapping
+                    // (edge filter >= 1) did the opposite: the firmware dropped touches at the screen edges while
+                    // the keyboard was open (edge keys, swipe-up gesture). Stock HyperOS sets the edge filter only
+                    // from the game tools. The value is accepted and stored; the filter stays max(edge, corner).
                     nextIme = Integer.parseInt(match.group(1)); mode = 7;
-                    value = Math.max(edge, Math.max(corner, nextIme)); break;
+                    value = Math.max(edge, corner); break;
                 default: return -1;
             }
             final int m = mode, v = value;

@@ -1,6 +1,8 @@
 package com.port.pipa.helper;
 
 import android.app.ActivityManager;
+import android.app.usage.UsageEvents;
+import android.app.usage.UsageStatsManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +55,19 @@ import java.util.UUID;
  * or MiSound when DAP is not up yet. 1.5 stored such a default as the user's choice (seen 2026-11-07: speaker became
  * "misound" after a restart). Now such a change is undone: the remembered effect is applied again.
  *
+ * 1.7 (BUGS 102): boot re-check. The one-shot boot apply (onOutputChanged) can lose a race: DS state set before DMS /
+ * libhwdap is ready (setParameter result was never checked), or MiSound's BOOT_COMPLETED default runs after it. apply()
+ * then reads the half-set DS state as "saved" and turns the effect off, and nothing runs again. After BOOT_COMPLETED
+ * (and when the process starts after boot) the remembered effect is checked twice, RECHECK_MS and RECHECK2_MS later,
+ * and applied again when the effects do not match it. One-shot timers, no polling; skipped when the user changed the
+ * effect in MiSound since the helper started.
+ *
+ * 1.8 (BUGS 108, tester beta8): after "clear recent apps" MiSound starts cold and its presenter writes its default
+ * (misound) while its screen is in the foreground; 1.6/1.7 stored that as the user's choice. MiSound cannot keep its
+ * own choice (priv_app cannot set persist.audio.effect.device_map), so every cold start brought the default back. Now a
+ * change within OPEN_MS of MiSound's last ACTIVITY_RESUMED (UsageStatsManager, PACKAGE_USAGE_STATS) is MiSound's own
+ * default and is undone; a real tap comes later.
+ *
  * MiSound effect holder (stock: system_server holds it): one long-lived misoundfx handle on session 0, priority -1,
  * enabled only while effect_implementer is "misound"; event driven like the DAP holder (no polling).
  *
@@ -64,11 +79,14 @@ final class DolbyKeeper {
     private static final UUID DAP = UUID.fromString("9d4921da-8225-4f29-aefa-39537a04bcaa");
     private static final UUID TYPE_NULL = UUID.fromString("ec7178ec-e5e1-4432-a3f4-4657e6795210");
     private static final UUID MISOUND = UUID.fromString("5b8e36a5-144a-4c38-b1d7-0002a5d5c51b");
+    private static final long OPEN_MS = 3000; // MiSound's own default arrives this soon after its screen opens
     private static final long SETTLE_MS = 3000; // effect changes this soon after an output change are not the user's
     private static final int PARAM_DS_ON = 5;
     private static final int PRIORITY = -1; // below MiSound (0), so its toggle keeps control
     private static final int MAX_TRIES = 10; // creation retries per trigger (output thread may not exist yet)
     private static final long RETRY_MS = 1000;
+    private static final long RECHECK_MS = 10000; // after BOOT_COMPLETED: MiSound's default has run by now
+    private static final long RECHECK2_MS = 30000; // late DMS / slow first unlock
     // DsTuning ports (com.dolby.dax.DsTuning)
     private static final int PORT_SPEAKER = 0, PORT_HEADPHONE = 3, PORT_BLUETOOTH = 4, PORT_USB = 5;
 
@@ -85,6 +103,8 @@ final class DolbyKeeper {
     private SharedPreferences effects;
     private String device = "";
     private long outputChangedAt;
+    private boolean userChoice; // the user picked an effect in MiSound since this process started
+    private final Runnable ensureTask = this::ensure; // one instance: removeCallbacks(this::ensure) never matched
 
     DolbyKeeper(Context ctx) {
         this.ctx = ctx;
@@ -107,12 +127,15 @@ final class DolbyKeeper {
                 });
         handler.post(this::onOutputChanged);
         IntentFilter f = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        f.addAction(Intent.ACTION_BOOT_COMPLETED);
         f.addAction("android.media.VOLUME_CHANGED_ACTION");
         ctx.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent i) {
                 if (Intent.ACTION_SCREEN_ON.equals(i.getAction())) {
                     trigger();
+                } else if (Intent.ACTION_BOOT_COMPLETED.equals(i.getAction())) {
+                    scheduleRecheck();
                 } else if (i.getIntExtra("android.media.EXTRA_VOLUME_STREAM_TYPE", -1) == AudioManager.STREAM_MUSIC) {
                     handler.post(DolbyKeeper.this::updateTuning);
                 }
@@ -138,12 +161,41 @@ final class DolbyKeeper {
             }
         }, handler);
         trigger();
+        if ("1".equals(prop("sys.boot_completed"))) scheduleRecheck(); // process restarted after boot
     }
 
     private void trigger() {
-        handler.removeCallbacks(this::ensure);
+        handler.removeCallbacks(ensureTask);
         tries = 0;
-        handler.post(this::ensure);
+        handler.post(ensureTask);
+    }
+
+    /** BUGS 102: two one-shot re-checks after boot (see class comment). */
+    private void scheduleRecheck() {
+        handler.removeCallbacks(recheckTask);
+        handler.postDelayed(recheckTask, RECHECK_MS);
+        handler.postDelayed(recheckTask, RECHECK2_MS);
+    }
+
+    private final Runnable recheckTask = this::recheck;
+
+    /** Apply the remembered effect again when the effects do not match it. Cheap when they do (two reads). */
+    private void recheck() {
+        if (userChoice || device.isEmpty()) return;
+        String want = effects.getString(device, "dolby");
+        boolean wantDs = "dolby".equals(want);
+        boolean ok = fx != null; // reads below throw IllegalStateException when the handle is dead
+        try {
+            ok = ok && (readDsOn() > 0) == wantDs && fx.getEnabled() == wantDs
+                    && (mi == null || mi.getEnabled() == "misound".equals(want))
+                    && want.equals(Settings.Global.getString(ctx.getContentResolver(), "effect_implementer"));
+        } catch (IllegalStateException e) {
+            ok = false;
+        }
+        Log.i(TAG, "boot re-check on " + device + ": want " + want + ", " + (ok ? "ok" : "mismatch, applying again"));
+        if (ok) return;
+        trigger(); // new handle if the old one is dead
+        applyEffect(want);
     }
 
     private void ensure() {
@@ -154,7 +206,7 @@ final class DolbyKeeper {
         if (fx == null) {
             if (!create()) {
                 if (++tries < MAX_TRIES) {
-                    handler.postDelayed(this::ensure, RETRY_MS);
+                    handler.postDelayed(ensureTask, RETRY_MS);
                 } else {
                     Log.w(TAG, "DAP create failed " + MAX_TRIES + " times; next try on the next event");
                 }
@@ -287,7 +339,8 @@ final class DolbyKeeper {
         String want = effects.getString(device, "dolby");
         if (e.equals(want)) return; // our own write, or nothing new
         boolean settled = SystemClock.elapsedRealtime() - outputChangedAt > SETTLE_MS;
-        if (settled && miSoundForeground()) {
+        if (settled && miSoundForeground() && !miSoundJustOpened()) {
+            userChoice = true;
             effects.edit().putString(device, e).apply();
             Log.i(TAG, "effect for " + device + ": " + e);
             handler.post(this::apply); // MiSound switched both effects itself; the holders follow
@@ -327,6 +380,27 @@ final class DolbyKeeper {
         setDsOnTemp("dolby".equals(want));
     }
 
+    /** BUGS 108: did MiSound's screen open less than OPEN_MS ago (its cold-start default, not a tap)? */
+    private boolean miSoundJustOpened() {
+        try {
+            UsageStatsManager u = ctx.getSystemService(UsageStatsManager.class);
+            long now = System.currentTimeMillis();
+            UsageEvents ev = u.queryEvents(now - 15000, now);
+            UsageEvents.Event e = new UsageEvents.Event();
+            long last = 0;
+            while (ev.getNextEvent(e)) {
+                if ("com.miui.misound".equals(e.getPackageName())
+                        && e.getEventType() == UsageEvents.Event.ACTIVITY_RESUMED) {
+                    last = Math.max(last, e.getTimeStamp());
+                }
+            }
+            return last > 0 && now - last < OPEN_MS;
+        } catch (RuntimeException e) {
+            Log.w(TAG, "MiSound usage events: " + e);
+            return false;
+        }
+    }
+
     /** Is MiSound's UI in the foreground (the only place the user picks an effect)? */
     private boolean miSoundForeground() {
         try {
@@ -356,7 +430,10 @@ final class DolbyKeeper {
                 byte[] value = new byte[12];
                 System.arraycopy(le(1), 0, value, 4, 4);
                 System.arraycopy(le(ds), 0, value, 8, 4);
-                setParam.invoke(t, PARAM_DS_ON, value);
+                Object r = setParam.invoke(t, PARAM_DS_ON, value);
+                if (!Integer.valueOf(AudioEffect.SUCCESS).equals(r)) {
+                    Log.w(TAG, "DS " + ds + " not accepted (" + r + "): DMS/DAP not ready? boot re-check will retry");
+                }
             }
             t.setEnabled(on);
         } catch (ReflectiveOperationException | RuntimeException e) {

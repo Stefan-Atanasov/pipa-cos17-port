@@ -28,7 +28,7 @@ for f in service.sh pen_keys.sh early.sh config.prop; do
 done
 need_grep 'SGET_F=' "$SE/pipa_port/service.sh"
 need_grep 'settings put system animationBlurrySwitch 0$' "$SE/pipa_port/service.sh"
-need_grep 'settings put secure show_ime_with_hard_keyboard 1$' "$SE/pipa_port/service.sh"
+need_grep 'show_ime_with_hard_keyboard' "$SE/pipa_port/service.sh"   # =1 at first boot until 6l; 6l sets 0 once on walt-r20+
 need_grep 'cmd display get-displays' "$SE/pipa_port/service.sh"
 if grep -v '^[[:space:]]*#' "$SE/pipa_port/service.sh" | grep -q 'dumpsys display'; then echo 'dumpsys display cannot work in the service'; exit 1; fi
 if grep -q qs_tile_add "$SE/pipa_port/service.sh"; then echo "qs_tile_add is still in service.sh"; exit 1; fi
