@@ -23,7 +23,7 @@ done
 need_grep KSWAPD_NO_PRIME "$SE/pipa_port/service.sh"
 need_grep '^KSWAPD_NO_PRIME=1' "$SE/pipa_port/config.prop"
 need_grep 'goes out once, 40 s after' "$SE/pipa_port/service.sh"
-need_grep nandswap_dedup "$SE/pipa_port/service.sh"
+# nandswap_dedup check removed: the function was dropped in step 6v (OPPO script + hybridswap own the swap file)
 echo "== system_ext build.prop: ro.pipa.port.layer=$STEP"
 set_layer "$STEP"
 

@@ -11,9 +11,11 @@ rm -rf /metadata/bootcap /metadata/portdiag
 
 # Package parse cache (BUGS-TODO 14): the layers build with mkfs.erofs -T0 (all file times 0) and keep the build
 # fingerprint, so PackageManager would keep the cached manifest of a changed system APK. Each layer sets
-# ro.pipa.port.layer in system_ext/etc/build.prop; clear the cache once when it changes (before zygote/PMS).
-L=$(getprop ro.pipa.port.layer)
-if [ -n "$L" ] && [ "$L" != "$(cat /data/misc/pipa_port/pkgcache_layer 2>/dev/null)" ]; then
+# ro.pipa.port.layer in system_ext/etc/build.prop; clear the cache once when the key changes (before zygote/PMS).
+# Key = layer + ro.pipa.port.apps (hash of all APK/JAR contents, written by port.sh), so a build that only changes an
+# APK also clears it.
+L="$(getprop ro.pipa.port.layer) $(getprop ro.pipa.port.apps)"
+if [ "$L" != " " ] && [ "$L" != "$(cat /data/misc/pipa_port/pkgcache_layer 2>/dev/null)" ]; then
     rm -rf /data/system/package_cache/*
     echo "$L" > /data/misc/pipa_port/pkgcache_layer
 fi

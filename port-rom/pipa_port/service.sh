@@ -570,27 +570,6 @@ LIDB=$(sget global lid_behavior)
 # Settings are persisted to this file within ~2 s of a change; a stat per second is cheap, a
 # sget (`settings get`, a process) is not, so read the switch only when the file changed.
 GLOBAL_XML=/data/system/users/0/settings_global.xml
-# A zygote restart (system_server crash, soft reboot) sets sys.boot_completed again, and OPPO's
-# init.oplus.nandswap.sh then attaches /data/nandswap/swapfile once more (seen 3x on one file: if zram ever fills,
-# the swap areas would overwrite each other). Keep the first loop swap, remove the others.
-nandswap_dedup() {
-    n=0
-    while read -r dev rest; do
-        case $dev in
-            /dev/block/loop*)
-                n=$((n + 1))
-                # each zygote restart attaches one more 8 GB swap file (its file is deleted but stays open: the
-                # space is gone). Before 3r the policy had no sys_admin: swapoff failed, the log still said "removed".
-                if [ $n -gt 1 ]; then
-                    if swapoff "$dev" 2>/dev/null && losetup -d "$dev" 2>/dev/null; then
-                        log "nandswap: removed duplicate swap $dev"
-                    elif [ "$NANDSWAP_FAIL" != "$dev" ]; then
-                        log "nandswap: cannot remove duplicate swap $dev"; NANDSWAP_FAIL=$dev
-                    fi
-                fi ;;
-        esac
-    done < /proc/swaps
-}
 # Launcher animation tier (OplusLauncher reads persist.sys.oplus.anim_level). 3 = wallpaper zoom off and lighter
 # interruption handling: SF dropped frames 2.7 -> 0.3 %, GPU deadline misses 116 -> 10 per run (2026-10-24, traced_heavy);
 # 2 keeps every parallel-animation path (dropped 1.5 %); 4 = light animations, no full-scene continuity. The helper's
@@ -906,7 +885,9 @@ while true; do
         nap 1
         continue
     fi
-    if [ "${PEN_WAKE:-1}" = 1 ] && [ $armed = 0 ] && [ -x "$IOCTL" ]; then
+    # 6u (BUGS 111): pen input in the touch IC only while the pen is connected over BT (as HyperOS: the stylus
+    # service enables pen mode on connect). Without it the panel scanned for a pen all the time and any active pen wrote.
+    if [ "${PEN_WAKE:-1}" = 1 ] && [ $armed = 0 ] && [ -x "$IOCTL" ] && { [ "${PEN_BT_ONLY:-1}" = 0 ] || [ "$conn" = 1 ]; }; then
         pen_wake && armed=1
     fi
     [ "${FACE_HAL:-1}" = 1 ] && face_rotation_sync
@@ -930,6 +911,10 @@ while true; do
         # Later changes (Bluetooth connect/disconnect) go out at once.
         if [ "$c" != "$conn" ]; then
             if [ -z "$conn" ] && [ $c = 1 ]; then resend=0; else pen_present $c; resend=2; fi
+            if [ "${PEN_BT_ONLY:-1}" = 1 ] && [ -x "$IOCTL" ]; then
+                if [ $c = 1 ]; then armed=0   # pen on at the next tick
+                else "$IOCTL" pen off >/dev/null 2>&1; armed=0; echo "$(date) pen off (not connected)" >> "$PEN_LOG"; log "pen input off (not connected over BT)"; fi
+            fi
             conn=$c
         fi
         # The 40 s count from the service start (screen-on seconds), not from the connect: a pen that connects
@@ -963,7 +948,6 @@ while true; do
         if [ -e "$DISP_DONE" ] && { ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; }; then : > "$SYS_STAMP"; remember_display; fi
         [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
         [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
-        nandswap_dedup
     fi
     tick=$((tick + 1))
     nap 1

@@ -264,9 +264,11 @@ case $al in 1|2|3|4) pass "persist.sys.oplus.anim_level set" "$al" ;; *) warn "p
 ar=$(getprop persist.logd.audit.rate)$(getprop persist.logd.size)
 [ -z "$ar" ]; chk "logd capture properties back to default" $? "persist.logd.audit.rate/size='${ar}'" warn
 grep -q zram0 /proc/swaps; chk "zram0 active" $?
-# nandswap is a swapfile on a loop device; the dedup in service.sh keeps one
+# 6t+: OPPO's init.oplus.nandswap.sh owns swap: zram only (no hybridswap kernel = no flash swap); stock 8 GB = 5632 MB zstd
 nl=$(grep -c '^/dev/block/loop' /proc/swaps)
-[ "$nl" = 1 ]; chk "one nandswap loop swap" $? "$nl loop swap area(s)" warn
+[ "$nl" = 0 ]; chk "no flash (loop) swap" $? "$nl loop swap area(s)" warn
+za=$(sed -n 's/.*\[\(.*\)\].*/\1/p' /sys/block/zram0/comp_algorithm); wsf=$(cat /proc/sys/vm/watermark_scale_factor)
+[ "$wsf" = 25 ] || [ "$wsf" = 16 ]; chk "OPPO watermark_scale_factor" $? "wsf=$wsf zram=$za" warn
 c=$(dumpsys color_display </dev/null 2>/dev/null | grep -m1 -o 'sensorCCT[^,]*')
 echo "$c" | awk -F= '{ exit !($2 + 0 > 0) }'; chk "adaptive colour gets a CCT value (jar reroute)" $? "${c:-no sensorCCT line}" warn
 info "colour mode" "$(settings get system display_color_mode </dev/null 2>/dev/null), brightness min $(dumpsys display </dev/null 2>/dev/null | grep -m1 -o 'mScreenBrightnessRangeMinimum=[0-9.]*')"

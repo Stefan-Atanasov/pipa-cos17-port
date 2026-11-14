@@ -85,7 +85,7 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 2l | `build_beta5_2l.sh` | SurfaceFlinger off the little CPU cores, SurfaceFlinger timing in `product/etc/build.prop`. |
 | 2m | `build_beta5_2m.sh` | SurfaceFlinger layer caching off (screen glitches). |
 | 2n | `build_beta5_2n.sh` | system_server animation threads as UX, UI apps fully compiled. |
-| 2o | `build_beta5_2o.sh` | All app-wide `refresh_rate_config` rules at 120 Hz in Auto and 120 Hz modes. Video players keep their lower rate. |
+| 2o | removed 2026-11-14 | Was: all app-wide `refresh_rate_config` rules at 120 Hz in Auto and 120 Hz modes. Replaced by 6r (stock OPPO rules). |
 | 2p | `build_beta5_2p.sh` | Pen battery in the ColorOS live alert: OPPO IPeManager patched in place (`maintainer/ipe-fluid/patch_ipemanager.py`), `pipa_port` `PEN_FLUID`, helper without its own pill. |
 | 2q | `build_beta5_2q.sh` | `pipa_port` loop with shell builtins (idle CPU 14.7 → 2.3 % of a core), smoothness defaults once for each install, package-cache reset for each layer, OIFace cpusets, nandswap duplicate guard. |
 | 2r | `build_beta5_2r.sh` | `pipa_port` `KSWAPD_NO_PRIME` (kswapd on CPUs 0-6), pen "connected" once at boot. |
@@ -186,6 +186,8 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 6o | step only | "Never" in Display > Auto screen off (feature + app feature). |
 | 6p | step only | Remove the beta4 porter launcher overlay (150 dp side margins); OPPO tablet values 80/102 dp apply (BUGS 94). |
 | 6q | step only | Hide the OTG connection switch (no OPPO charger HAL; USB host works by Type-C role): app feature `com.android.systemui.otg_auto_close_alarm_disable` (BUGS 100). |
+| 6r | step only | Stock OPPO refresh: donor `refresh_rate_config.xml` rules + a 144 Hz 5th column on app-wide rules (Settings > High > FPS Max 144 and the per-app "Supported apps" switches work); `oplus_vrr_config.json` touch_idle `darkmode_enable: true` (LCD: panel idles to 60 Hz in dark mode too). BUGS 110/109/36. |
+| 6s | step only | ColorOS HWUI split as on stock OPPO: vendor build.prop `ro.oplus.display.enable_skiavk=true`, porter's forced `debug.hwui.renderer=skiavk` + `ro.hwui.use_vulkan=true` commented: Vulkan for launcher/SystemUI/camera/wallpapers, OpenGL for apps (BUGS 109). |
 | (4o/4r) | `halshims.jar` | IOplusTouch node 26 (Game Space "Touch sampling rate"): COSA writes the rate in hex (`78` = Standard, `f0` = Ultra touch). pipa's panel has no rate control, so a rate above 120 Hz turns on the Xiaomi touch game mode (mode 0); the pen is off in that mode. |
 
 ### 2.4 Where properties go

@@ -15,6 +15,7 @@ opencode shows another agent. Results: <out>/walk.tsv, <out>/crashes/, <out>/scr
 """
 import argparse, os, re, subprocess, sys, time, xml.etree.ElementTree as ET
 
+SKIP, DEADLINE = set(), float('inf')
 DENY = [  # substrings (lower case) of row or switch titles that are never tapped
     'reset', 'erase', 'factory', 'wipe', 'format', 'delete', 'clear', 'uninstall', 'restore', 'backup', 'update',
     'developer', 'usb debugging', 'wireless debugging', 'oem unlock', 'reboot', 'restart', 'shut down', 'power off',
@@ -157,10 +158,14 @@ def walk_screen(a, path, depth, log, visited):
                 continue
             seen_sw.add(s['title'])
             title = s['title']
+            if time.time() > DEADLINE:
+                return
+            n_done = sum(1 for _ in seen_sw)
             rec = {'path': ' > '.join(path), 'switch': title, 'sub': s['sub'], 'before': s['checked'],
                    'after': '', 'kept': '', 'restored': '', 'crash': '', 'dialog': '', 'note': ''}
-            if a.mode == 'list' or s['enabled'] != 'true' or denied(title, DENY) or (a.only and a.only.lower() not in title.lower()):
-                rec['note'] = 'listed' if a.mode == 'list' else ('denied' if denied(title, DENY) else 'skipped')
+            capped = a.cap and n_done > a.cap
+            if a.mode == 'list' or s['enabled'] != 'true' or denied(title, DENY) or capped or (a.only and a.only.lower() not in title.lower()):
+                rec['note'] = 'listed' if a.mode == 'list' else ('denied' if denied(title, DENY) else ('capped' if capped else 'skipped'))
                 log(rec)
                 continue
             mark = crash_mark(serial)
@@ -221,8 +226,10 @@ def walk_screen(a, path, depth, log, visited):
     for n in seen_nav:
         t = n['title']
         key = tuple(path + [t])
-        if key in visited or denied(t, NAV_DENY):
+        if key in visited or denied(t, NAV_DENY) or t in SKIP:
             continue
+        if time.time() > DEADLINE:
+            return
         visited.add(key)
         # find the row again (positions change after scrolling)
         target = None
@@ -255,9 +262,15 @@ def main():
     ap.add_argument('--out', default='fa-walk-' + time.strftime('%Y%m%d-%H%M'))
     ap.add_argument('--persist', action='store_true')
     ap.add_argument('--only')
+    ap.add_argument('--skip', default='', help='comma list of exact row titles not to open (e.g. per-app pages)')
+    ap.add_argument('--cap', type=int, default=0, help='max switches toggled per screen (rest logged as capped)')
+    ap.add_argument('--minutes', type=float, default=0, help='stop after this many minutes')
     ap.add_argument('--start', default='com.android.settings/.Settings')
     ap.add_argument('--from-top', dest='from_top', help='two-pane mode: begin at this menu entry')
     a = ap.parse_args()
+    global SKIP, DEADLINE
+    SKIP = set(x for x in a.skip.split(',') if x)
+    DEADLINE = time.time() + a.minutes * 60 if a.minutes else float('inf')
     if subprocess.run(['pgrep', '-af', 'opencode'], capture_output=True, text=True).stdout.strip():
         sys.exit('opencode runs: agree on the tablet use with the user first (CLAUDE.md)')
     for d in ('screens', 'crashes'):
@@ -304,7 +317,9 @@ def main():
         if a.from_top and a.from_top in tops:
             tops = tops[tops.index(a.from_top):]
         for t in tops:
-            if denied(t, NAV_DENY) or (t.lower() in ('search', 'sign in')):
+            if time.time() > DEADLINE:
+                print('time limit reached'); break
+            if denied(t, NAV_DENY) or (t.lower() in ('search', 'sign in')) or t in SKIP:
                 continue
             # fresh Settings for each entry: a page can leave the two-pane view or open another app
             sh(['shell', 'am', 'force-stop', a.start.split('/')[0]], a.serial)

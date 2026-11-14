@@ -30,7 +30,7 @@ need_grep 'nap()' "$SE/pipa_port/service.sh"
 need_grep SMOOTH_DEFAULT "$SE/pipa_port/service.sh"
 need_grep pkgcache_layer "$SE/pipa_port/early.sh"
 need_grep oiface_fg "$SE/pipa_port/early.sh"
-need_grep nandswap_dedup "$SE/pipa_port/service.sh"
+# nandswap_dedup check removed: the function was dropped in step 6v (OPPO script + hybridswap own the swap file)
 
 echo "== system_ext build.prop: ro.pipa.port.layer=$STEP"
 set_layer "$STEP"

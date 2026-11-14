@@ -15,6 +15,9 @@ on post-fs-data
     setprop persist.vendor.radio.virtualcomm 1
 
 on property:sys.boot_completed=1
+    # 6u (BUGS 89/99): 3 kswapd threads with the stock OPPO swappiness 200 (kernel walt-r23 MULTI_KSWAPD): live A/B
+    # 2026-11-14, PUBG + churn: direct reclaim stalls 5883 -> 935 avg (r22 at 60: 1091)
+    write /proc/sys/vm/kswapd_threads 3
     start pipa_port
 
 service pipa_subsys0 /odm/bin/hw/subsys_daemon -l /odm/lib64/libqti-radio-service.so -i 0

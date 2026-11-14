@@ -119,6 +119,13 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt87)        IMG=$P/port-work/pt87/img/super.img;        MD5=a0c7bd721fb22b20084db0e5015747fb ;;   # pt86 + 6m feature audit values M1-M6 + helper 1.7 (BUGS 102 Dolby boot re-check)
     pt88)        IMG=$P/port-work/pt88/img/super.img;        MD5=505fbfaccba85698a8bd099c90433923 ;;   # pt87 + 6n hide corner-swipe assistant switch (BUGS 98) + 6o Never screen timeout
     pt89)        IMG=$P/port-work/pt89/img/super.img;        MD5=8d603546d26a05c51d9502aebd6e5a2c ;;   # pt88 + 6p launcher margins (BUGS 94) + 6q hide OTG switch (BUGS 100)
+    pt90)        IMG=$P/port-work/pt90/img/super.img;        MD5=71c0b8c966030cb2bae805b443daf239 ;;   # pt89 + helper 1.8 (BUGS 108 MiSound cold-start default)
+    pt91)        IMG=$P/port-work/pt91/img/super.img;        MD5=63f5917f461bbfc5dc07f796a7b22abb ;;   # pt90 + package cache key layer+ro.pipa.port.apps (BUGS-TODO 14)
+    pt92)        IMG=$P/port-work/pt92/img/super.img;        MD5=ce5c18d7db359836f8da51d2b5296a7b ;;   # pt91 + 6r stock refresh + 144 column + dark-mode idle (BUGS 110/109/36)
+    pt93)        IMG=$P/port-work/pt93/img/super.img;        MD5=10473f0a162712505b8ed91a84f8630e ;;   # pt92 + 6s ColorOS HWUI split (BUGS 109)
+    pt94)        IMG=$P/port-work/pt94/img/super.img;        MD5=f3c4ef1bd039f7e0c5b267adce485f1b ;;   # pt93 + 6t stock OPPO memory setup (BUGS 89/99)
+    pt95)        IMG=$P/port-work/pt95/img/super.img;        MD5=4521644ae861dc9ad6b64b2b707241c5 ;;   # pt94 + 6u 3 kswapd threads, pen input only while BT-connected (BUGS 111)
+    pt96)        IMG=$P/port-work/pt96/img/super.img;        MD5=f2088152ffb4156796893b24c9d5e215 ;;   # pt95 + 6v drop nandswap_dedup (OPPO hybridswap owns the file)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac
 FB=fastboot

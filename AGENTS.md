@@ -167,7 +167,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   (`maintainer/ipe-fluid/patch_ipemanager.py` is the model: pattern-based, stops on a different version). Delete the
   prebuilt `oat/` next to the APK. To test live: bind-mount the patched APK over the original in init's mount namespace
   (`nsenter -t 1 -m -- mount --bind ...`) and `am force-stop` the app; a reboot removes it.
-- **Each zygote or composer restart attaches one more 8 GB OPPO swap file.** Its old file is deleted but stays open,
+- **(Obsolete since ROM layers 6t/6v.) Each zygote or composer restart attached one more 8 GB OPPO swap file.** Its old file is deleted but stays open,
   so `/data` fills up (72 GB after a day of UI-restart tests). `pipa_port` `nandswap_dedup` removes the extra loop
   swaps (it needs `sys_admin` and the loop ioctls, in the rules since test build pt18, before beta6). By hand: `swapoff` and `losetup -d` each
   `loop` that `losetup` shows on `/data/nandswap/swapfile` and `/proc/swaps` does not list. Prefer a reboot.
@@ -225,3 +225,10 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Smoothness:** measure with `maintainer/perfetto/traced_heavy.sh <label>` (FrameTimeline), not only gfxinfo. Wait
   60 s after unlock and do 2 runs or more. `input tap` goes around the kernel input handlers; use real touch through
   `maintainer/kgest`.
+- **Memory values belong to OPPO's scripts.** Do not let a Qualcomm or porter script write zram, swappiness or
+  `watermark_scale_factor`. They raced with OPPO's `init.oplus.nandswap.sh`. Layer 6t removes the porter `mm-sys.sh`.
+- **Live zram changes with `swapoff` distort test results.** Compare zram settings with reboots.
+- **`flash_kernel.sh` can stop with "GetVar Variable Not found".** It writes nothing. Reboot to Android and flash again
+  from adb.
+- **OPPO kernel code under `CONFIG_DRM_MSM` does not run on pipa.** `CONFIG_DRM_MSM` is unset and
+  `msm_drm_register_client` is a stub. Use `mi_drm` (`drm_notifier_mi.h`, `CONFIG_DRM`).

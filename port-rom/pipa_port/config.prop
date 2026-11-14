@@ -21,6 +21,8 @@ HAL_SHIMS=gameopt,panel,misc,touch
 
 # Re-arm the pen in the touch driver after every screen-on (otherwise it stops working).
 PEN_WAKE=1
+# 6u (BUGS 111): pen input only while the pen is connected over BT; pen off at disconnect
+PEN_BT_ONLY=1
 
 # Pen body buttons -> actions (keys.conf).
 PEN_KEYS=1

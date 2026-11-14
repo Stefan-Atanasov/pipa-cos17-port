@@ -205,6 +205,20 @@ for f in $SELECTED; do
     log "   $name done in $(( $(now) - t )) s"
 done
 
+# ---- app content id (BUGS-TODO 14) ---------------------------------------------------------------
+# Images are built with -T0 and keep the donor fingerprint, so early.sh clears PackageManager's parse cache only when
+# its key changes. The layer name alone missed builds that change an APK but no layer (pt90 = pt89 + helper 1.8 kept
+# the cached 1.7 manifest). ro.pipa.port.apps = hash of every APK/JAR content in system, system_ext and product:
+# content-based, so the same inputs still give the same image.
+APPS_ID=$(cd "$T" && find system system_ext product -type f \( -name '*.apk' -o -name '*.jar' \) | LC_ALL=C sort \
+    | while IFS= read -r f; do md5sum < "$f"; done | md5sum | cut -c1-16)
+SEBP=$T/system_ext/etc/build.prop
+[ -f "$SEBP" ] || fail "no $SEBP for ro.pipa.port.apps"
+# rewrite in place (same inode): sed -i would make a new file without the SELinux xattr
+{ grep -v '^ro\.pipa\.port\.apps=' "$SEBP"; echo "ro.pipa.port.apps=$APPS_ID"; } > "$W/sebp.tmp"
+cat "$W/sebp.tmp" > "$SEBP"; rm -f "$W/sebp.tmp"
+log "== app content id $APPS_ID (ro.pipa.port.apps)"
+
 # ---- which partitions did the steps change? -------------------------------------------------
 # system and system_ext always get a new image (the base step edits them). The others stay a copy of
 # their input image when no step touched them (as in the old chain, where a layer copied product.img,
