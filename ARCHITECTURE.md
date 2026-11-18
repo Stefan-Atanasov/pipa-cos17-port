@@ -185,6 +185,7 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 6n | step only | Hide Settings > System navigation > "Digital assistant from Google" (corner swipe; cannot work next to Circle to Search; in-place Settings dex edit) (BUGS 98). |
 | 6o | step only | "Never" in Display > Auto screen off (feature + app feature). |
 | 6p | step only | Remove the beta4 porter launcher overlay (150 dp side margins); OPPO tablet values 80/102 dp apply (BUGS 94). |
+| 7g | step only | Default density 370 -> 410 (system + my_product `ro.sf.lcd_density`; 6g screenzoom re-centred 350,380,410,430,450): same physical UI size as OnePlus Pad 3 / Pad 2 Pro (420 at ~315 ppi). User 2026-11-16. |
 | 6q | step only | Hide the OTG connection switch (no OPPO charger HAL; USB host works by Type-C role): app feature `com.android.systemui.otg_auto_close_alarm_disable` (BUGS 100). |
 | 6r | step only | Stock OPPO refresh: donor `refresh_rate_config.xml` rules + a 144 Hz 5th column on app-wide rules (Settings > High > FPS Max 144 and the per-app "Supported apps" switches work); `oplus_vrr_config.json` touch_idle `darkmode_enable: true` (LCD: panel idles to 60 Hz in dark mode too). BUGS 110/109/36. |
 | 6s | step only | ColorOS HWUI split as on stock OPPO: vendor build.prop `ro.oplus.display.enable_skiavk=true`, porter's forced `debug.hwui.renderer=skiavk` + `ro.hwui.use_vulkan=true` commented: Vulkan for launcher/SystemUI/camera/wallpapers, OpenGL for apps (BUGS 109). |

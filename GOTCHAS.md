@@ -40,6 +40,8 @@ Read the matching entry before you act. CLAUDE.md has a one-line index.
 - **Do not run a live `ksud sepolicy patch` on kernel walt-r8kpm (SukiSU 4.3 builtin).** On 2026-10-29 two live
   rules (an `allow` and a `dontaudit`) hung the big cores; the watchdog reset the tablet 20 s later (pstore:
   `Watchdog bark`, cpu alive mask 0f). Compile a policy change on the tablet with `secilc` and test it with a ROM build.
+  2026-11-16 on walt-hi1: 6 live rules did not hang, but afterwards `secilc` could not execute even as root (EACCES)
+  until a reboot. Run secil_test.sh on a clean boot.
 - **Never replace `/data/adb/ksud`** (no wrapper, no switch). On 2026-10-23 a switch binary there stopped the boot at
   the Mi logo. Update ksud only together with a kernel that agrees with it, through the SukiSU manager.
 - **If the tablet does not boot:** the boot image has TWRP 3.7.1 (Power + Volume up, or it starts after failed
@@ -114,6 +116,9 @@ Read the matching entry before you act. CLAUDE.md has a one-line index.
   dropped, stuffing), not only gfxinfo. Wait 60 s after unlock. Do 2 runs or more. During a test series, set
   `svc power stayon usb`, and set `svc power stayon false` at the end.
   - `maintainer/heavy_mix.sh`: clean start, real touch through `maintainer/kgest`, apps, flings, shade, drawer.
+    It taps fixed screen positions of the maintainer's home layout (icons, dock, a 600 ms hold). After a clean flash
+    or any layout change it hits other icons and drags them (2026-11-18: user's fresh home screen rearranged). Ask the
+    user and check the layout (screenshot of home) before a run.
   - Perfetto: `setprop persist.traced.enable 1` before you trace, and set it to 0 after. (2i and older: the donor's
     `traced.relay_producer_port=vsock://...` made `traced` crash; our kernel has no vsock.)
   - atrace "runnable" totals are too high because of atrace overhead. For scheduler numbers, use
@@ -261,3 +266,5 @@ Read the matching entry before you act. CLAUDE.md has a one-line index.
 - **OPPO kernel code under `CONFIG_DRM_MSM` is dead on pipa (2026-11-15, r25/r26).** `CONFIG_DRM_MSM` is unset and
   `msm_drm_register_client` is a stub, so a screen-off notifier never fires (r25 gate compiled out). Use `mi_drm`
   (`drm_notifier_mi.h`, `CONFIG_DRM`). r26 does this for the hybridswapd screen-off gate.
+
+- **OplusLauncher layout follows the boot density (2026-11-17, BUGS 125).** `wm density` changes apps, not the home grid. Test launcher spacing only after a flash or reboot with a changed `ro.sf.lcd_density`.

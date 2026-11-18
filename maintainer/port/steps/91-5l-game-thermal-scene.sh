@@ -19,7 +19,7 @@ APK=$HERE/../helper/out/PipaHelper.apk
 python3 -I - "$APK" <<'PY'
 import sys, zipfile
 d = zipfile.ZipFile(sys.argv[1]).read("classes.dex")
-assert b"pipa_game_fg" in d and b"Fast" in d, "PipaHelper.apk: not 1.0 (GameKeeper + two-state tile)"
+assert b"pipa_game_fg" in d, "PipaHelper.apk: older than 1.0 (no GameKeeper)"  # 1.9: Animations tile removed
 PY
 S=$T/system
 cat "$APK" > "$S/system/priv-app/PipaHelper/PipaHelper.apk"   # in place: owner, mode and label stay

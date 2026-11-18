@@ -41,7 +41,7 @@ import sys, zipfile
 d = zipfile.ZipFile(sys.argv[1]).read("classes.dex")
 assert b"CircleSearchActivity" in d, "PipaHelper.apk: no CircleSearchActivity (older than 0.8)"
 # 0.9: the tile subtitles are Fast / ColorOS; 0.6-0.8 also had Smooth, Parallel and Light
-assert b"Fast" in d and b"Parallel" not in d, "PipaHelper.apk: not 0.9 (two-state Animations tile)"
+assert b"Parallel" not in d, "PipaHelper.apk: older than 0.9 (four-state Animations tile)"  # 1.9: no tile
 PY
 S=$T/system
 cat "$APK" > "$S/system/priv-app/PipaHelper/PipaHelper.apk"   # in place: owner, mode and label stay

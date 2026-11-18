@@ -82,6 +82,10 @@ final class DolbyKeeper {
     private static final long OPEN_MS = 3000; // MiSound's own default arrives this soon after its screen opens
     private static final long SETTLE_MS = 3000; // effect changes this soon after an output change are not the user's
     private static final int PARAM_DS_ON = 5;
+    /** MiSound effect param 25 = its own "enabled" flag: android.media.audiofx.MiSound.setEnabled writes it with the
+     *  effect state, getEnabled reads only it. MiSound's settings page shows "Xiaomi Sound" when this flag and Dolby
+     *  are both on (getEnabledEffect "both of enabled, force return misound"): beta9 clean flash, 2.1. */
+    private static final int PARAM_MISOUND_ON = 25;
     private static final int PRIORITY = -1; // below MiSound (0), so its toggle keeps control
     private static final int MAX_TRIES = 10; // creation retries per trigger (output thread may not exist yet)
     private static final long RETRY_MS = 1000;
@@ -274,9 +278,12 @@ final class DolbyKeeper {
         if (mi != null) {
             try {
                 boolean wantMi = "misound".equals(Settings.Global.getString(ctx.getContentResolver(), "effect_implementer"));
-                if (mi.hasControl() && mi.getEnabled() != wantMi) {
-                    mi.setEnabled(wantMi);
-                    Log.i(TAG, "MiSound effect " + (wantMi ? "on" : "off"));
+                if (mi.hasControl()) {
+                    setMiSoundFlag(mi, wantMi);
+                    if (mi.getEnabled() != wantMi) {
+                        mi.setEnabled(wantMi);
+                        Log.i(TAG, "MiSound effect " + (wantMi ? "on" : "off"));
+                    }
                 }
             } catch (IllegalStateException e) {
                 Log.w(TAG, "MiSound apply failed: " + e);
@@ -420,12 +427,24 @@ final class DolbyKeeper {
         setEnabledTemp(DAP, on, on ? 1 : 0);
     }
 
+    /** MiSound's own enabled flag (param 25), as MiSound.setEnabled; needs control of the handle. */
+    private void setMiSoundFlag(AudioEffect e, boolean on) {
+        if (!reflect()) return;
+        try {
+            Object r = setParam.invoke(e, PARAM_MISOUND_ON, le(on ? 1 : 0));
+            if (!Integer.valueOf(AudioEffect.SUCCESS).equals(r)) Log.w(TAG, "MiSound flag " + on + " not accepted (" + r + ")");
+        } catch (ReflectiveOperationException | RuntimeException ex) {
+            Log.w(TAG, "MiSound flag: " + (ex.getCause() != null ? ex.getCause() : ex));
+        }
+    }
+
     /** Enable/disable an effect through a temporary priority 0 handle; ds >= 0 also sets Dolby's DS param. */
     private void setEnabledTemp(UUID uuid, boolean on, int ds) {
         if (!reflect()) return;
         AudioEffect t = null;
         try {
             t = ctor.newInstance(TYPE_NULL, uuid, 0, 0);
+            if (MISOUND.equals(uuid)) setMiSoundFlag(t, on);
             if (ds >= 0) {
                 byte[] value = new byte[12];
                 System.arraycopy(le(1), 0, value, 4, 4);

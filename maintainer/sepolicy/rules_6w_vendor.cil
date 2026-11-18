@@ -1,0 +1,6 @@
+;; pipa port 6w (2026-11-15, audit after pt96 + walt-r26): stock OPPO perf HAL functions.
+;; The OPPO perf HAL pauses hybridswapd during app launches (/sys/block/zram0/hybridswap_swapd_pause, 4/min denied
+;; since walt-r24 added hybridswap) and reads /proc/oplus_healthinfo (38/min denied). On stock OPPO it may do both.
+(allow vendor_hal_perf_default sysfs_zram (file (read write open getattr)))
+(allow vendor_hal_perf_default oplus_healthinfo_proc (dir (search getattr open read)))
+(allow vendor_hal_perf_default oplus_healthinfo_proc (file (read write open getattr)))

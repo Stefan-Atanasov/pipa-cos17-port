@@ -234,8 +234,9 @@ if [ "$(cfg SF_BIG_CORES 1)" != 1 ]; then
 elif [ -e "$SA" ]; then
     # service.sh writes 384 (SA_SCENE_OPT_SET 1<<7 | SA_GPU_COMPOSITION 1<<8); the node reads back 256 because
     # bit 7 is only the "set" command flag, so the scene bit to look for is 1<<8
-    sv=$(cat "$SA" 2>/dev/null)
-    [ $((${sv:-0} & 256)) != 0 ]; chk "sched_assist_scene has SF big-cores bit (SF_BIG_CORES)" $? "value $sv (service.sh writes 384, node reads 256)"
+    # 7e + walt-hi3: the perf HAL owns the scene (bit 8 comes and goes); the kernel keeps SF on big cores via gpu_comp_static
+    sv=$(cat "$SA" 2>/dev/null); gs=$(cat /sys/module/sched_assist_common/parameters/gpu_comp_static 2>/dev/null)
+    [ "$gs" = 1 ] || [ $((${sv:-0} & 256)) != 0 ]; chk "SF big cores (gpu_comp_static=1 or scene bit 8)" $? "gpu_comp_static=$gs scene=$sv"
 else
     warn "sched_assist_scene" "no $SA (kernel without UI First?)"
 fi
@@ -297,13 +298,14 @@ fi
 anr=$(find /data/anr -type f -mmin -$((up / 60 + 1)) 2>/dev/null)
 [ -z "$anr" ]; chk "no ANR trace newer than boot" $? "$(echo "$anr" | grep -c .) file(s)$([ -n "$anr" ] && echo ": $(echo "$anr" | head -n 2 | tr '\n' ' ')")" warn
 [ -d /data/ota_package/OTA ]; chk "/data/ota_package/OTA exists (R11)" $?
-op=$(pm list packages </dev/null 2>/dev/null | grep -E '^package:com\.oplus\.(ota|sau|sauhelper)$')
-[ -z "$op" ]; chk "OTA updater packages removed" $? "${op:+still installed: }$(echo "$op" | tr '\n' ' ')"
+# full OTA app removed; sau + sauhelper (SOTA system-app updates) are kept since pt112 (user, BUGS 127)
+op=$(pm list packages </dev/null 2>/dev/null | grep -E '^package:com\.oplus\.ota$')
+[ -z "$op" ]; chk "OTA updater package removed" $? "${op:+still installed: }$(echo "$op" | tr '\n' ' ')"
 [ -e /system/framework/oat/arm64/oplus-services.odex ]; [ $? != 0 ]; chk "no prebuilt oplus-services.odex" $?
 
 echo "== root (SukiSU)"
 info "ksud" "$(/data/adb/ksud --version 2>/dev/null || echo 'not found')"
-info "SukiSU manager" "$(pm path com.sukisu.ultra </dev/null 2>/dev/null | cut -c1-60 | grep -q . && echo installed || echo 'not installed')"
+info "SukiSU Nova manager" "$(pm path com.sukisu.nova </dev/null 2>/dev/null | cut -c1-60 | grep -q . && echo installed || echo 'not installed')"
 MD=/data/adb/modules
 nm=0
 if [ -d "$MD" ]; then

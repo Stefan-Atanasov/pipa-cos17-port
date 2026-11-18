@@ -1,0 +1,6 @@
+;; pipa port 7e (2026-11-16, audit 2 BUGS 113): the OPPO perf HAL is the UI First scene engine as on stock OPPO:
+;; scene (launch/anim), slide/input boost, frame_rate, important tgid. 6x allowed only the scene: with its other writes
+;; failing the HAL wrote 0 and cleared SF's scene bit (worse). With all of them it keeps bit 8 and adds LAUNCH/ANIM.
+(allow vendor_hal_perf_default oplus_sched_assist_scene_proc (file (read write open getattr)))
+(allow vendor_hal_perf_default proc_fbg_sysctl (file (read write open getattr)))
+(allow vendor_hal_perf_default oplus_sched_assist_proc (file (read write open getattr)))

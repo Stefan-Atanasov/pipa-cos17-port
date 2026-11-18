@@ -7,6 +7,9 @@
 #   descriptor", SIGABRT, tombstone (2026-11-03, 2026-11-05 x2). The guard returns ACAMERA_ERROR_INVALID_PARAMETER for
 #   a pointer that is not a native handle: the HAL then reports "camera open failed" (the same result) without the
 #   crash. Tested live 2026-11-05: normal unlock works, a forced refusal of all candidates ends cleanly.
+#   2026-11-18 (BUGS 130, pt115): the guard also turns ACameraCaptureSession_abortCaptures into stopRepeating. The
+#   vendor NDK flush() deadlocked with its result callback after blank frames: camera on for 25 s after keyguard's
+#   cancel, 13 min when the tablet suspended (night 2026-11-17). Now closed 0.1-0.4 s after the cancel.
 # * facehal/VERSION includes the new library: face_install refreshes the /data copy.
 # * rules_5n_system_ext.cil: dontaudit for OPPO crashbox/gaia log collection (debuglog `ps -A -T` sys_ptrace and
 #   pid_max, the system_server dcs_env.txt fd) and system_app tombstone dir search. secilc exit 0, neverallow 76.

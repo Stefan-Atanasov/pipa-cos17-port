@@ -1,11 +1,47 @@
 # Known issues
 
-This document lists the known problems of the public release **beta7.2** (2026-11-06, ROM `port.sh` up to step 5x +
-kernel walt-r17, donor C.07) and what beta7.2, beta7.1, beta7 and beta6 fixed. Each entry gives the symptom, a workaround if
-there is one, and the status. Updated 2026-11-06.
+This document lists the known problems of the public release **v9** (2026-11-18, first stable: ROM `port.sh` up to
+step 7x = pt128 + kernel walt-hi9, donor C.07). What v9 fixed since beta7.1: `CHANGELOG-beta7.1-to-v9.md`; full notes:
+`RELEASE-NOTES-v9.md`. The sections after "Known issues in v9" are the older lists (beta6 to beta8), kept as a record.
+Updated 2026-11-18.
 
 **Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
+
+## Known issues in v9
+
+- **Excel and document viewer:** scrolling in the default document viewer (Excel files) feels jittery. The app is
+  slow at 120 Hz; Settings and other apps are smooth.
+- **Cast to TV (Miracast):** fixed on Windows; please test with a TV and report.
+- **Location:** one tester reported that location did not work in any app on beta8. v9 fixes the provider choice
+  (see above). If location still fails, send a log.
+- **RAM in heavy games:** in BGMI and Racing Master with less than 1 GB free, frames drop and sound can cut. Tested on
+  8 GB only. **The 6 GB Pad 6 is not tested** (OPPO's rule gives it a 3072 MB lz4 zram).
+- **Keyboard cover:** fold, Super key and the typing fix are still under test. With the cover attached Android lists
+  a touchpad and a mouse the cover does not have (cosmetic; a game may show a controller icon).
+- **Breeno:** the microphone sometimes does not work (not reproduced).
+- **Scrolling at 144 Hz with music or a video in the background** can judder a little (the media pill in the
+  status bar animates). At 120 Hz or Auto it is smooth. Use 120 Hz or Auto for now.
+- **Torch:** one tester saw the torch stay on and the tile turn grey. Not reproduced. The torch shares its LED
+  with the rear camera: if it happens, note which app was open.
+- **Refresh rate:** the panel stayed at 120 Hz on a static screen once; the cause is unknown. A reboot clears it.
+- **Wi-Fi:** it sometimes does not turn on. Reboot the tablet.
+- **Smart charging:** the 80 % hold needs ColorOS's sleep prediction, which trains only after several nights without
+  a reboot. The fixed charging limit works.
+- **Navigation bar:** some apps draw content behind it.
+- **HeyTap:** this CN ROM and global OPPO/OnePlus phones use separate account servers.
+- **Play Integrity:** only BASIC integrity. No keybox is included.
+- **Find My Device** (it cannot be switched on) and **cloud password sync** are not available.
+- **USB-C monitor:** colours on the monitor are a bit warm.
+- Open reports that could not be reproduced: silent microphone recordings, recorder stutter, random screen flicker,
+  striped picture in screen sharing.
+- Public list: https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/KNOWN-ISSUES.md
+
+- **Setup wizard (clean flash, landscape):** on the "Enhancement services" page the Next button bar is barely
+  visible. Scroll to the end of the text or turn the tablet to portrait.
+- **Floating window from the dock:** hold the icon still in the middle of the screen until "Floating window" shows.
+
+## Older lists (beta6 to beta8)
 
 ## For users
 

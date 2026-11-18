@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- OplusLauncher j4/r.m(): workspace top = leftover height x this. On pipa landscape the leftover is slightly
+         negative, so the stock 0.25 pushes the last row onto the page-indicator pill. 1.0 lifts the grid into the
+         space under the clock widget; pill gets a gap above and below. Tested live 2026-11-17 (fabricated overlay).
+         2026-11-18: 1.0 put the top row under the media island; now 0 + narrower cells (integers.xml). -->
+    <string name="workspaceTopPercentage" translatable="false">0</string>
+</resources>

@@ -77,3 +77,18 @@ int ACameraOutputTarget_create(void* window, void** out) {
     static create_fn real;
     return guarded("ACameraOutputTarget_create", &real, window, out);
 }
+
+// 2026-11-18: in a dark room the worker rejects the blank frames and calls abortCaptures. The vendor NDK's flush()
+// then deadlocks with its own result callback (main thread in BpHwCameraDeviceUser::flush holding the device lock,
+// HwBinder callback thread waiting for it) until the HAL kills the worker 25 s later: the camera stays on after
+// keyguard cancelled face auth, and 13 min when the tablet suspends in between (night 2026-11-17). stopRepeating
+// ends the stream without flush(); the worker then closes the session and device as usual.
+typedef int (*session_fn)(void* session);
+
+__attribute__((visibility("default")))
+int ACameraCaptureSession_abortCaptures(void* session) {
+    static session_fn stop;
+    if (!stop) stop = (session_fn)dlsym(RTLD_NEXT, "ACameraCaptureSession_stopRepeating");
+    LOGW("ACameraCaptureSession_abortCaptures: stopRepeating instead (vendor NDK flush deadlock)");
+    return stop ? stop(session) : 0;
+}

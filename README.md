@@ -13,13 +13,13 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **beta7.2** (2026-11-06): `port.sh` default build (last active step 5x) + kernel `walt-r17` |
-| In progress | **beta8**: steps 5z (stock Dolby library), 6a (measured speaker EQ), 6b (sound effects page), 6c (no DSP voice wake-up), Game Space Ultra touch, helper 1.6 (Dolby / MiSound per output). The `main` branch builds it (last step 6c). Tester build: `beta8-test` (pt81). For beta7.1/7.2 users: the speaker EQ alone as a KernelSU/Magisk module (`dolby-eq-module/`). |
+| Current release | **v9** (2026-11-18, first stable): `port.sh` default build (last step 7x, pt128) + kernel `walt-hi9` (SukiSU Nova 3.0.0). Notes: `RELEASE-NOTES-v9.md`, changelog since beta7.1: `CHANGELOG-beta7.1-to-v9.md`. |
+| In progress | Next: WebRTC noise suppression for calls (idea), dock-drag and setup-wizard layout items (BUGS 134). |
 | Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. There is no `beta7.2-noenc`. |
-| Previous release | beta7 (2026-11-05, withdrawn: a clean flash gave a grey screen; step 5r) and beta6 (2026-10-30, step 3w + kernel `walt-r8kpm`) |
+| Previous release | beta7.2 (2026-11-06, pt68 + `walt-r17`); beta 8 was a tester build only (pt81). beta7 was withdrawn (grey screen after a clean flash). |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
-| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-r17`: SukiSU-Ultra v4.3.0-r1, susfs. |
+| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-hi9`: SukiSU Nova 3.0.0 (builtin), susfs, OPPO memory (hybridswap), touch and display fixes. |
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 

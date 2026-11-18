@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BUGS-TODO 101: two network location providers (GMS NLP and com.oplus.location NLP) both declare serviceVersion 2.
+         With the overlay switch on, Android binds the first package-manager result on a tie, and that order is not
+         stable across updates. Stock ColorOS CN has only the OPPO NLP (GMS is off at first boot; our step 4d turns it
+         on). Pin the OPPO NLP: same provider on every device and after every update, as on stock. -->
+    <bool name="config_enableNetworkLocationOverlay">false</bool>
+    <string name="config_networkLocationProviderPackageName" translatable="false">com.oplus.location</string>
+</resources>

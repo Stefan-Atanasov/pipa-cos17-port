@@ -14,8 +14,9 @@
 # Appends one row to ~/Documents/pipa/port-work/perf-ab/heavy.csv.
 ADB=${ADB:-adb -s 83836a90}
 L=${1:?label}; N=${2:-16}
-ICONS=${ICONS:-"Settings|Photos|YouTube|Browser|Play Store"}   # "|"-separated labels (text or content-desc; dock too)
-PKGS=${PKGS:-"com.oplus.wirelesssettings com.google.android.apps.photos com.google.android.youtube com.heytap.browser com.android.vending com.spotify.music"}
+ICONS=${ICONS:-"Settings|Photos|YouTube|Opera|Play Store"}   # "|"-separated labels (text or content-desc; dock too)
+PKGS=${PKGS:-"com.oplus.wirelesssettings com.coloros.gallery3d com.google.android.youtube com.opera.browser com.android.vending com.spotify.music"}
+# (2026-11-15: home "Photos" = ColorOS gallery, dock browser = Opera again; runs before this date measured 3 apps, not 5)
 # (2026-11-02: Opera removed -> Browser in the dock; YouTube Morphe -> stock YouTube; "Photos" on the home screen = Google Photos, not the ColorOS gallery)
 OPEN=${OPEN:-0.6}; FL=${FL:-0.35}; GAP=${GAP:-0.3}
 sh_() { $ADB shell "$*" | tr -d '\r'; }
@@ -32,7 +33,8 @@ fi
 	case $p in com.android.launcher|com.android.systemui|app.revanced.android.gms) ;; *) am force-stop $p ;; esac; done'
 # (app.revanced.android.gms = microG for YouTube Morphe; since 2026-11-02 the tablet has the stock YouTube)
 sleep 2
-sh_ 'monkey -p com.spotify.music -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1'; sleep 4
+# am start, not monkey: monkey resets the rotation lock (the run then follows how the tablet lies)
+sh_ 'am start -n $(cmd package resolve-activity --brief com.spotify.music | tail -1) >/dev/null 2>&1'; sleep 4
 for _ in 1 2 3; do   # Spotify can need a few seconds after a cold start before play works
 	sh_ 'dumpsys media_session | grep -q "state=PLAYING"' && break
 	sh_ 'input keyevent 126'; sleep 3

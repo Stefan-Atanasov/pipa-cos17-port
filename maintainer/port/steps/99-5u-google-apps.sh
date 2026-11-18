@@ -16,6 +16,9 @@
 #   finds no input_method service in the pipa_port domain. Only over Sogou or no keyboard (dirty flash keeps the
 #   user's keyboard).
 # Inputs: about 500 MB (super has room: 6.8 of 9.1 GB used at pt57).
+# * pt123 (user 2026-11-18): also the Gemini app (com.google.android.apps.bard 345, Play, 5 MB: base + arm64, xxhdpi,
+#   en splits; Google signed, source stamp). The corner swipe (helper 2.0 AssistSession, 7s) opens it; without it
+#   the swipe fell back to the Google voice assistant after a clean flash.
 # * beta7.1 (pt62): service.sh switches Fast + Visual blur + Contour glow on once on every install (dirty flash too)
 #   and restarts SystemUI + launcher once when that changed something (rule: pipa_port sigkill platform_app).
 #NEEDS: "$HERE/../../port-inputs/apps-5u/SHA256SUMS" "$HERE/sepolicy/rules_5u_system_ext.cil"
@@ -39,7 +42,8 @@ IN=$HERE/../../port-inputs/apps-5u
 A=$T/system_ext/pipa_port/apps
 [ ! -e "$A" ] || die "system_ext/pipa_port/apps exists already"
 mkdir "$A"
-for pkg in com.android.vending com.google.android.inputmethod.latin com.google.android.googlequicksearchbox; do
+for pkg in com.android.vending com.google.android.inputmethod.latin com.google.android.googlequicksearchbox \
+        com.google.android.apps.bard; do
     [ -f "$IN/$pkg/base.apk" ] && [ -s "$IN/$pkg/version" ] || die "apps-5u: $pkg incomplete"
     mkdir "$A/$pkg"
     cp "$IN/$pkg"/*.apk "$IN/$pkg/version" "$A/$pkg/"

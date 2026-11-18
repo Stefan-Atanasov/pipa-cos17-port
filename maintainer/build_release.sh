@@ -82,6 +82,27 @@ open(dst, 'w', encoding='utf-8').write(s)
 EOF
 chmod +x "$OUT/FlashLinux.sh"
 
+# macOS script (2026-11-15, testers asked): the Linux script with Google's universal macOS fastboot (Intel + Apple
+# Silicon, no extra libs) in bin/macOS. The script runs on macOS's bash 3.2. Gatekeeper: remove the download
+# quarantine flag from the bundled fastboot. Fallback: fastboot in PATH (brew install android-platform-tools).
+MAC_PT=$PW/release-tools/darwin/platform-tools
+[ -x "$MAC_PT/fastboot" ] || { echo "missing $MAC_PT/fastboot: unzip https://dl.google.com/android/repository/platform-tools-latest-darwin.zip into $PW/release-tools/darwin"; exit 1; }
+mkdir -p "$OUT/bin/macOS"
+cp "$MAC_PT/fastboot" "$MAC_PT/source.properties" "$MAC_PT/NOTICE.txt" "$OUT/bin/macOS/"
+python3 -I - "$OUT/FlashLinux.sh" "$OUT/FlashMac.sh" <<'EOF'
+import sys
+src, dst = sys.argv[1:]
+s = open(src, encoding='utf-8').read()
+old = 'BIN_DIR="$SCRIPT_DIR/bin/Linux"\n'
+assert s.count(old) == 1
+s = s.replace(old, 'BIN_DIR="$SCRIPT_DIR/bin/macOS"\n')
+old = 'chmod +x "$FASTBOOT" 2>/dev/null\n'
+assert s.count(old) == 1
+s = s.replace(old, old + 'xattr -d com.apple.quarantine "$FASTBOOT" 2>/dev/null\n', 1)
+open(dst, 'w', encoding='utf-8').write(s)
+EOF
+chmod +x "$OUT/FlashMac.sh"
+
 # Windows script: GBK + CRLF like the original (cmd runs it with chcp 936)
 python3 -I - "$SRC/FlashWindows.bat" "$OUT/FlashWindows.bat" "$NAME" "$MAINTAINER" <<'EOF'
 import sys
@@ -121,6 +142,8 @@ Original build: Coolapk @梦归zzz. Maintainer: $MAINTAINER.
 Needs an unlocked bootloader. Back up your data first.
 1. Reboot the tablet to the bootloader (power + volume down) and connect it to the PC.
 2. Linux: ./FlashLinux.sh    Windows: FlashWindows.bat (Xiaomi/Google USB drivers installed)
+   macOS: open Terminal, type "bash " (with a space), drag FlashMac.sh into the window, press Enter.
+   Use a direct USB cable, not a hub (a hub can break the large super flash).
 3. The script asks: "y" = clean flash (erases all data, needed when coming from another ROM),
    Enter = dirty flash (keeps data, for updating this port).
 4. The first boot takes a few minutes. Do not reboot it manually.

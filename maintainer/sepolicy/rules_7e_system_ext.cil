@@ -1,0 +1,7 @@
+;; pipa port 7e (2026-11-16, audit 2 BUGS 113): labels for the 4.19 UI First boost sysctls that the OPPO perf HAL writes.
+;; On kernels < 5.10 the HAL uses /proc/sys/kernel/* (not /proc/sys/fbg/*); they were plain `proc`. Same types as the
+;; donor gives the 5.x nodes of the same function (fbg boost -> proc_fbg_sysctl).
+(genfscon proc "/sys/kernel/slide_boost_enabled" (u object_r proc_fbg_sysctl ((s0) (s0))))
+(genfscon proc "/sys/kernel/input_boost_enabled" (u object_r proc_fbg_sysctl ((s0) (s0))))
+(genfscon proc "/sys/kernel/frame_rate" (u object_r oplus_sched_assist_proc ((s0) (s0))))
+(genfscon proc "/sys/kernel/cpu_multi_thread" (u object_r oplus_sched_assist_proc ((s0) (s0))))

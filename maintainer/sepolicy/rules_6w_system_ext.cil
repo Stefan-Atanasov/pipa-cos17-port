@@ -1,0 +1,5 @@
+;; pipa port 6w (2026-11-15): OPPO init.oplus.nandswap.sh (domain nandswap) sets hybridswap node modes
+;; (chmod o+w hybridswap_*: fsetid, dac_override) and reads loop device attributes (sysfs_loop) at boot.
+(allow nandswap self (capability (fsetid dac_override)))
+(allow nandswap sysfs_loop (dir (search getattr open read)))
+(allow nandswap sysfs_loop (file (read open getattr)))

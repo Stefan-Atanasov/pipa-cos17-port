@@ -4,8 +4,8 @@
      ActivityManager starts it at boot and never kills it. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.port.pipa.helper"
-    android:versionCode="18"
-    android:versionName="1.8">
+    android:versionCode="22"
+    android:versionName="2.2">
 
     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
 
@@ -33,14 +33,6 @@
         android:hasCode="true"
         android:allowBackup="false">
         <!-- start path when installed as a normal app (testing); a system app starts as persistent -->
-        <!-- Quick Settings tile: launcher animation tier (pipa_port applies it) -->
-        <service android:name=".AnimTile" android:exported="true" android:label="Animations"
-            android:icon="@drawable/ic_anim"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
         <!-- Quick Settings tile: Quiet/Verbose system logs (pipa_port sets persist.log.tag, 5x) -->
         <service android:name=".LogTile" android:exported="true" android:label="Logs"
             android:icon="@drawable/ic_logs"
@@ -49,7 +41,31 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
-        <!-- Circle to Search on a gesture-bar long press when the helper is the default assistant (4e) -->
+        <!-- Quick Settings tile: live/static shade blur (pipa_port sets persist.sys.oplus.systemui.dynamic_blur, 7x) -->
+        <service android:name=".BlurTile" android:exported="true" android:label="Live blur"
+            android:icon="@drawable/ic_blur"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <!-- helper 2.0 assistant (7s): gesture-bar long press -> Circle to Search, corner swipe -> Gemini.
+             The system binds it while the helper holds the assistant role; idle otherwise (no hotword). -->
+        <service android:name=".AssistService" android:exported="true" android:label="pipa assistant"
+            android:permission="android.permission.BIND_VOICE_INTERACTION">
+            <meta-data android:name="android.voice_interaction" android:resource="@xml/assist_service" />
+            <intent-filter>
+                <action android:name="android.service.voice.VoiceInteractionService" />
+            </intent-filter>
+        </service>
+        <service android:name=".AssistSessionService" android:exported="true"
+            android:permission="android.permission.BIND_VOICE_INTERACTION" />
+        <service android:name=".NoRecognitionService" android:exported="true">
+            <intent-filter>
+                <action android:name="android.speech.RecognitionService" />
+            </intent-filter>
+        </service>
+        <!-- fallback before 2.0 / without the assistant service: ACTION_ASSIST activity (4g) -->
         <activity android:name=".CircleSearchActivity" android:exported="true" android:label="Circle to Search"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" android:excludeFromRecents="true"
             android:noHistory="true" android:launchMode="singleInstance">

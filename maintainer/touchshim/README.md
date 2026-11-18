@@ -34,13 +34,15 @@ Kernel paths below are relative to `../port-work/kernel/walt-oppo/`.
 The enum is in `drivers/input/touchscreen/xiaomi/xiaomi_touch.h:67`.
 Let N mean `drivers/input/touchscreen/nt36532/nt36xxx.c`.
 
-| OPPO node | Xiaomi mode | Draft input mapping | Kernel evidence |
+| OPPO node | Xiaomi mode | Input mapping (TouchService.java, checked 2026-11-17) | Kernel evidence |
 |---|---|---|---|
-| 5 direction | 8, Touch_Panel_Orientation | 0..3 unchanged | N:2284–2288 range; N:2373–2376 direction; N:2411–2430 commands |
-| 25 sensitivity | 3, Touch_Tolerance | 0..100 -> round(value * 4 / 100) | N:2257–2261 range; N:2383–2408 firmware worker |
-| 243 click sensitivity | 2, Touch_UP_THRESHOLD | 0..100 -> round(value * 4 / 100) | N:2250–2254 range; N:2383–2408 firmware worker |
-| 245 extreme touch | 0, Touch_Game_Mode | 0/1 unchanged | N:2236–2240 range; N:2404–2406 state and pen switch |
-| 251 edge | 7, Touch_Edge_Filter | 0..3 | N:2291–2295 range; N:2383–2408 firmware worker |
+| 5 direction | 8, Touch_Panel_Orientation | OPPO 0/1/2 -> Xiaomi 0/1/3 | N:2284–2288 range; N:2373–2376 direction; N:2411–2430 commands |
+| 243 click (tap) sensitivity | 2, Touch_UP_THRESHOLD | 1..100 -> 0..4 (1-20 -> 0 ... 81-100 -> 4), 0 = reset -> 2 | firmware worker cmd 0x71 |
+| 25 touch (swipe) sensitivity | 4, Touch_Aim_Sensitivity | same buckets | worker cmd 0x79 (NEW_GAME_MODE=y) |
+| 24 V2 smoothness | 3, Touch_Tolerance | 4 - bucket (higher OPPO = more sensitive, higher Xiaomi = steadier) | worker cmd 0x78 |
+| 245 extreme touch | 0, Touch_Game_Mode | 0/1, shared with node 26 (max) | worker cmd 0x7A; game mode disables the pen input |
+| 26 sampling rate (Ultra touch) | 0, Touch_Game_Mode | hex Hz from COSA ("78" 120, "b4" 180, "f0" 240); > 120 -> 1 | the IC stays at 120 reports/s (BUGS 120) |
+| 251 edge | 7, Touch_Edge_Filter | 1..100 -> 1..3, 0 = off; shared with 252 (max) | worker cmd 0x72 |
 | 252 corner | 7, Touch_Edge_Filter | 0..3 | Same shared filter |
 | 8 grip | none (accepted, stored) | Exact `mod para_V2 set_ime_showing:0` or `:1` is accepted. Since 2026-11-11 it does not change the edge filter. Before, it set a floor of 1: the firmware dropped edge touches while the keyboard was open. The OPPO flag makes the OPPO grip code less strict, not more | - |
 
@@ -123,3 +125,12 @@ Check queue failures and restart behavior. Keep the pen away during game-mode te
 N:1231 explicitly disables pen input while game mode is on. Set node 245 back to 0 after a test.
 Stopping the host does not restore driver modes. Save ioctl values first and restore them, or reboot.
 Record any future device changes in DEVICE-STATE.md. This draft made none.
+
+## Resume (walt-hi5, BUGS 128, 2026-11-17)
+Every NT36532 resume downloads the firmware again, so the IC runs its probe state. Up to walt-hi3 the driver re-sent
+only the panel orientation: game mode and the levels above stayed off after a screen off/on while `get <mode>` still
+showed the old value. walt-hi5 (`nvt_touchmode_after_download()`, also on the r21 retry and watchdog paths) puts the
+cached state of modes 0, 2, 3, 4, 5, 7, 8 and 12 and `game_mode_enable` back to the probe state, so every changed value
+is sent again and unchanged ones are not (`dmesg | grep "set mode"` after a screen-on). Not mapped (no OPPO node):
+Tap_Stability (5), Expert mode (6). Live test: `service call vendor.oplus.hardware.touch.IOplusTouch/default 4 i32 0
+i32 243 s16 90`, screen off/on, `xiaomi_touch_ioctl get 2` and dmesg.

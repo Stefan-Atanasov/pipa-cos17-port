@@ -64,8 +64,13 @@ fi
 # composed on A55 cores and missed vblanks (2026-10-24 FrameTimeline: SF dropped frames -58 %, GPU-deadline misses
 # -52 %, +2 % power under heavy use). Set SA_GPU_COMPOSITION (1<<8) with SA_SCENE_OPT_SET (1<<7) once; it only
 # affects SF/RE placement. No such node on other kernels.
+# Since walt-hi3 the kernel does this itself (sched_assist_common.gpu_comp_static=1: SA_GPU_COMPOSITION always true)
+# and OPPO's perf HAL (7e) owns the scene like stock, so the userspace pin is skipped there (2026-11-17, plan item 3).
 SA_SCENE=/proc/sys/kernel/sched_assist_scene
-if [ "${SF_BIG_CORES:-1}" = 1 ] && [ -w "$SA_SCENE" ]; then
+GCS=/sys/module/sched_assist_common/parameters/gpu_comp_static
+if [ "$(cat "$GCS" 2>/dev/null)" = 1 ]; then
+    log "gpu_comp_static=1: kernel keeps SurfaceFlinger on big cores, no scene pin"
+elif [ "${SF_BIG_CORES:-1}" = 1 ] && [ -w "$SA_SCENE" ]; then
     echo 384 > "$SA_SCENE" && log "sched_assist scene -> $(cat "$SA_SCENE") (SurfaceFlinger off the little cores)"
 fi
 
@@ -292,6 +297,28 @@ if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(sget secure stylus_buttons_ena
     touch "$STATE/stylus_default_set"
     log "stylus_buttons_enabled default -> 1"
 fi
+# 7m (BUGS 93): Settings > Display size checks the radio from Settings.System display_density_index_manual, an index
+# into ro.density.screenzoom. Older builds had other lists (pt82-pt112: 310..450, Standard = index 2; before: the AOSP
+# list), so after a dirty flash the saved index can name another size (2 = Large on 340,370,410). Make the index follow
+# the real density: no override -> Standard (middle index); an override in the list -> its index; else leave it.
+# Only a saved index is touched (never set = Settings uses Standard), and only when it differs.
+if [ "${SCREENZOOM_SYNC:-1}" = 1 ]; then
+    ZL=$(getprop ro.density.screenzoom)
+    ZI=$(sget system display_density_index_manual)
+    if [ -n "$ZL" ] && [ "$ZI" != null ]; then
+        ZF=$(sget secure display_density_forced)
+        ZN=0; ZW=
+        for d in $(echo "$ZL" | tr ',' ' '); do
+            [ "$d" = "$ZF" ] && ZW=$ZN
+            ZN=$((ZN + 1))
+        done
+        [ "$ZF" = null ] && ZW=$((ZN / 2))
+        if [ -n "$ZW" ] && [ "$ZW" != "$ZI" ]; then
+            settings put system display_density_index_manual "$ZW" </dev/null >/dev/null 2>&1
+            log "display size index $ZI -> $ZW (forced density $ZF, list $ZL)"
+        fi
+    fi
+fi
 # beta8: OPPO's secure keyboard for password fields off, once per install (user, 2026-11-05). CN builds default to on,
 # export builds to off (Settings SettingsUtils.isDefaultCloseSecurityKeyboard = isExpVersion). Key Settings.Secure
 # security_window, read by Settings and oplus-services; 0 = password fields use the normal keyboard (Gboard etc.).
@@ -345,11 +372,21 @@ fi
 # the Google app is installed (else there is no Circle to Search); the user can choose another assistant later.
 # 5u: also after the bundled install (below) and every 5 minutes until the Google app is there (a clean flash had no
 # Google app at boot, so the check never ran again).
+# 7s (helper 2.0): the helper is a VoiceInteractionService now. The role is set again once (remove + add) so the
+# system re-reads the helper package and binds the service; skipped when the user chose another assistant.
 cts_assistant() {
-    [ "${CTS_ASSISTANT:-1}" = 1 ] && [ ! -e "$STATE/cts_assistant_set" ] || return 0
+    [ "${CTS_ASSISTANT:-1}" = 1 ] && [ ! -e "$STATE/cts_assistant_v2" ] || return 0
     pm path com.google.android.googlequicksearchbox </dev/null >/dev/null 2>&1 || return 1
+    if [ -e "$STATE/cts_assistant_set" ]; then
+        cmd role get-role-holders android.app.role.ASSISTANT </dev/null >"$STATE/role.txt" 2>/dev/null
+        if ! grep -qx com.port.pipa.helper "$STATE/role.txt"; then
+            touch "$STATE/cts_assistant_v2"; log "assistant: user choice kept ($(cat "$STATE/role.txt"))"; return 0
+        fi
+        cmd role remove-role-holder android.app.role.ASSISTANT com.port.pipa.helper 0 </dev/null >/dev/null 2>&1
+    fi
     cmd role add-role-holder android.app.role.ASSISTANT com.port.pipa.helper 0 </dev/null >/dev/null 2>&1 && \
-        touch "$STATE/cts_assistant_set" && log "Circle to Search: pipa helper is the default assistant"
+        touch "$STATE/cts_assistant_set" "$STATE/cts_assistant_v2" && \
+        log "assistant: pipa helper (long press: Circle to Search, corner swipe: Gemini)"
 }
 cts_assistant
 # 4l Quick Share (BUGS-TODO 53): the ROM no longer declares cn.google.services, so GMS treats the tablet as a
@@ -375,13 +412,18 @@ if [ "${EXT_DISPLAY:-1}" = 1 ] && [ ! -e "$STATE/ext_display_set" ]; then
 fi
 # 4k OShare: the ROM copy is patched (tablet -> OPPO phone without the interconnect). An OPPO App Market update
 # installs an unpatched copy in /data/app; remove the update, so the patched ROM copy is used again.
-if [ "${OSHARE_ROLLBACK:-1}" = 1 ]; then
-    : > "$SGET_F"
-    pm path com.coloros.oshare </dev/null >"$SGET_F" 2>/dev/null
-    if grep -q '^package:/data/' "$SGET_F"; then
-        pm uninstall-system-updates com.coloros.oshare </dev/null >/dev/null 2>&1
-        log "OShare: an app update replaced the patched ROM copy (4k); update removed"
-    fi
+# 7l (BUGS 127): the same for every other app the port patches (SOTA / store updates would drop the patches).
+# The ROM copies also carry raised versionCodes (5r, 7l), so this only fires for an update installed before.
+if [ "${OSHARE_ROLLBACK:-1}" = 1 ] && [ "${PATCHED_ROLLBACK:-1}" = 1 ]; then
+    for P in com.coloros.oshare com.android.systemui com.android.settings com.android.launcher com.oplus.battery \
+             com.oplus.eyeprotect com.oplus.wallpapers com.oplus.ipemanager; do
+        : > "$SGET_F"
+        pm path "$P" </dev/null >"$SGET_F" 2>/dev/null
+        if grep -q '^package:/data/' "$SGET_F"; then
+            pm uninstall-system-updates "$P" </dev/null >/dev/null 2>&1
+            log "$P: an app update replaced the patched ROM copy; update removed (7l)"
+        fi
+    done
 fi
 # The ROM's default-permissions entry only applies on a first boot.
 if [ "${HELPER_GRANTS:-1}" = 1 ] && pm path com.port.pipa.helper >/dev/null 2>&1; then
@@ -397,23 +439,36 @@ fi
 # pt58: on a clean flash the first `pm install` (about 90 s after boot, 1 s after user 0 unlock, setup wizard open)
 # failed and the next try was only at the next boot. Now the main loop tries again every 60 s (screen on, at most 30 tries), and pm's message
 # goes to the log.
+# 7u (2026-11-18): SukiSU-Ultra became SukiSU Nova (package com.sukisu.nova, same signing key); the walt-hi9 kernel
+# accepts only that package. After the Nova manager is in, the old com.sukisu.ultra manager (dirty flash) is removed
+# once: it cannot talk to the new kernel. Our pin and the user's grants are kept by the kernel (/data/adb/ksu).
 KSU_WANT=$(cat "$MODDIR/SukiSU.version" 2>/dev/null)
+KSU_PKG=com.sukisu.nova
+KSU_OLD_PKG=com.sukisu.ultra
 KSU_TRY=0
 ksu_manager() {
     [ "$(cat "$STATE/ksu_manager_set" 2>/dev/null)" != "$KSU_WANT" ] || return 0
     KSU_TRY=$((KSU_TRY + 1))
     : > "$SGET_F"
-    pm list packages --show-versioncode com.sukisu.ultra </dev/null >"$SGET_F" 2>/dev/null
-    have=$(sed -n 's/^package:com\.sukisu\.ultra versionCode:\([0-9]*\).*/\1/p' "$SGET_F")
+    pm list packages --show-versioncode "$KSU_PKG" </dev/null >"$SGET_F" 2>/dev/null
+    have=$(sed -n "s/^package:$KSU_PKG versionCode:\([0-9]*\).*/\1/p" "$SGET_F")
     if [ -n "$have" ] && [ "$have" -ge "$KSU_WANT" ]; then
-        echo "$KSU_WANT" > "$STATE/ksu_manager_set"
         log "SukiSU manager $have already installed"
     elif pm install -r "$MODDIR/SukiSU.apk" </dev/null >"$SGET_F" 2>&1; then
-        echo "$KSU_WANT" > "$STATE/ksu_manager_set"
         log "SukiSU manager ${have:-none} -> $KSU_WANT installed (try $KSU_TRY)"
     else
         log "SukiSU manager install failed (try $KSU_TRY): $(tail -n 1 "$SGET_F" 2>/dev/null)"
         return 1
+    fi
+    echo "$KSU_WANT" > "$STATE/ksu_manager_set"
+    : > "$SGET_F"
+    pm list packages "$KSU_OLD_PKG" </dev/null >"$SGET_F" 2>/dev/null
+    if grep -qx "package:$KSU_OLD_PKG" "$SGET_F"; then
+        if pm uninstall "$KSU_OLD_PKG" </dev/null >/dev/null 2>&1; then
+            log "old SukiSU-Ultra manager removed"
+        else
+            log "old SukiSU-Ultra manager: uninstall failed"
+        fi
     fi
 }
 KSU_RETRY=0
@@ -451,29 +506,38 @@ bundled_apps() {
         if pm install -r "$d"/*.apk </dev/null >"$SGET_F" 2>&1; then
             touch "$STATE/app_$pkg"
             log "$pkg ${have:-none} -> $want installed (try $APPS_TRY)"
-            if [ "$pkg" = "$GBOARD" ]; then
-                # `ime` cannot find input_method in the pipa_port domain (no service_manager rule): use the settings,
-                # which InputMethodManagerService follows (tested in the domain with runcon, 2026-11-05).
-                # Default only over ColorOS's own keyboard (Sogou) or none: a dirty flash keeps the user's keyboard.
-                case "$(sget secure default_input_method)" in
-                    null|com.sohu.inputmethod.sogouoem/*)
-                        cur=$(sget secure enabled_input_methods)
-                        case ":$cur:" in
-                            *":$GBOARD_IME:"*|*":$GBOARD_IME;"*) ;;
-                            *) [ "$cur" = null ] && cur=$GBOARD_IME || cur="$cur:$GBOARD_IME"
-                               settings put secure enabled_input_methods "$cur" </dev/null >/dev/null 2>&1 ;;
-                        esac
-                        settings put secure default_input_method "$GBOARD_IME" </dev/null >/dev/null 2>&1 && \
-                            log "Gboard is the default keyboard" ;;
-                    *) log "Gboard installed; the user's default keyboard stays" ;;
-                esac
-            fi
+            # 7v (beta9 clean flash 2026-11-18): set the default after the setup wizard (gboard_default).
+            [ "$pkg" = "$GBOARD" ] && { touch "$STATE/gboard_pending"; gboard_default || :; }
         else
             log "$pkg install failed (try $APPS_TRY): $(tail -n 1 "$SGET_F" 2>/dev/null)"
             rc=1
         fi
     done
     return $rc
+}
+# 7v: Gboard as the default keyboard, once, after the setup wizard. During the setup OplusInputMethodCustomizeHelper
+# puts its config default (Sogou) back right after our write (beta9 clean flash: Sogou stayed). After
+# user_setup_complete=1 the same write stays. Marker gboard_pending: set at the Gboard install; the main loop retries.
+gboard_default() {
+    [ -e "$STATE/gboard_pending" ] || return 0
+    [ "$(sget secure user_setup_complete)" = 1 ] || return 0
+    # `ime` cannot find input_method in the pipa_port domain (no service_manager rule): use the settings,
+    # which InputMethodManagerService follows (tested in the domain with runcon, 2026-11-05).
+    # Default only over ColorOS's own keyboard (Sogou) or none: a dirty flash keeps the user's keyboard.
+    case "$(sget secure default_input_method)" in
+        null|com.sohu.inputmethod.sogouoem/*)
+            cur=$(sget secure enabled_input_methods)
+            case ":$cur:" in
+                *":$GBOARD_IME:"*|*":$GBOARD_IME;"*) ;;
+                *) [ "$cur" = null ] && cur=$GBOARD_IME || cur="$cur:$GBOARD_IME"
+                   settings put secure enabled_input_methods "$cur" </dev/null >/dev/null 2>&1 ;;
+            esac
+            settings put secure default_input_method "$GBOARD_IME" </dev/null >/dev/null 2>&1
+            [ "$(sget secure default_input_method)" = "$GBOARD_IME" ] || { log "Gboard default: not kept, retry"; return 1; }
+            log "Gboard is the default keyboard (after setup)" ;;
+        *) log "Gboard installed; the user's default keyboard stays" ;;
+    esac
+    rm -f "$STATE/gboard_pending"
 }
 APPS_RETRY=0
 [ "${BUNDLED_APPS:-1}" = 1 ] && { bundled_apps || APPS_RETRY=1; }
@@ -572,15 +636,16 @@ LIDB=$(sget global lid_behavior)
 GLOBAL_XML=/data/system/users/0/settings_global.xml
 # Launcher animation tier (OplusLauncher reads persist.sys.oplus.anim_level). 3 = wallpaper zoom off and lighter
 # interruption handling: SF dropped frames 2.7 -> 0.3 %, GPU deadline misses 116 -> 10 per run (2026-10-24, traced_heavy);
-# 2 keeps every parallel-animation path (dropped 1.5 %); 4 = light animations, no full-scene continuity. The helper's
-# Quick Settings tile (or `settings put global pipa_anim_level N`) picks the tier; the launcher restarts to apply it.
+# 2 keeps every parallel-animation path (dropped 1.5 %); 4 = light animations, no full-scene continuity. Tier 3 is fixed
+# since helper 1.9 (user 2026-11-18: the Fast/Slow tile is gone; 7p keeps the lock -> home clock animation at tier 3).
+# ANIM_LEVEL in /data/misc/pipa_port/config.prop still overrides it (testing); the launcher restarts to apply a change.
 ANIM_STAMP=/data/misc/pipa_port/anim.stamp
 rm -f "$ANIM_STAMP"
 anim_check() {
     [ -e "$ANIM_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$ANIM_STAMP" ] && return
     : > "$ANIM_STAMP"
-    want=$(sget global pipa_anim_level) || return   # a failed read must not reset the tier
-    case $want in 1|2|3|4) ;; *) want=${ANIM_LEVEL:-3} ;; esac
+    want=${ANIM_LEVEL:-3}
+    case $want in 1|2|3|4) ;; *) want=3 ;; esac
     [ "$(getprop persist.sys.oplus.anim_level)" = "$want" ] && return
     setprop persist.sys.oplus.anim_level "$want"
     am force-stop com.android.launcher </dev/null >/dev/null 2>&1
@@ -601,6 +666,20 @@ log_check() {
     [ "$(getprop persist.log.tag)" = "$want" ] && return
     setprop persist.log.tag "$want"
     log "log level -> ${want:-default (verbose)}"
+}
+# 7x (user 2026-11-18): live or static shade/Quick Settings blur. The helper tile "Live blur" writes global
+# pipa_live_blur (0/1, default 0); SystemUI uses its live MOTION_60 blur only with
+# persist.sys.oplus.systemui.dynamic_blur=true (else STATIC: a playing video freezes behind the panel). SystemUI reads it
+# once at its start: the change applies after a reboot. Measured: SystemUI janky frames 20 % live vs 4 % static.
+BLUR_STAMP=/data/misc/pipa_port/blur.stamp
+blur_check() {
+    [ -e "$BLUR_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$BLUR_STAMP" ] && return
+    v=$(sget global pipa_live_blur) || return   # a failed read: try again next time
+    : > "$BLUR_STAMP"
+    case $v in 1) want=true ;; *) want=false ;; esac
+    [ "$(getprop persist.sys.oplus.systemui.dynamic_blur)" = "$want" ] && return
+    setprop persist.sys.oplus.systemui.dynamic_blur "$want"
+    log "live blur -> $want (SystemUI uses it after a reboot)"
 }
 # Xiaomi thermal scene (5l). mi_thermald picks its profile from thermal_message/sconfig; on HyperOS PowerKeeper sets
 # it, on ColorOS nobody does (-1 = daily profile: CPU caps from 38 C skin). The helper sets global pipa_game_fg = 1
@@ -894,6 +973,7 @@ while true; do
     [ "${LID_SYNC:-1}" = 1 ] && lid_check
     [ "${ANIM_TIER:-1}" = 1 ] && anim_check
     [ "${LOG_QUIET:-1}" = 1 ] && log_check
+    [ "${LIVE_BLUR_TILE:-1}" = 1 ] && blur_check
     if [ $KSU_RETRY = 1 ] && [ $((ctick % 60)) = 0 ]; then
         if ksu_manager; then KSU_RETRY=0; elif [ $KSU_TRY -ge 30 ]; then KSU_RETRY=0; log "SukiSU manager: no more tries"; fi
     fi
@@ -901,7 +981,8 @@ while true; do
         if bundled_apps; then APPS_RETRY=0; elif [ $APPS_TRY -ge 30 ]; then APPS_RETRY=0; log "bundled apps: no more tries"; fi
         cts_assistant
     fi
-    [ $((ctick % 300)) = 150 ] && [ ! -e "$STATE/cts_assistant_set" ] && cts_assistant
+    [ $((ctick % 300)) = 150 ] && [ ! -e "$STATE/cts_assistant_v2" ] && cts_assistant
+    [ $((ctick % 10)) = 5 ] && [ -e "$STATE/gboard_pending" ] && { gboard_default || :; }
     case "${GAME_THERMAL_SCENE:-20}" in ''|0) ;; *) game_check ;; esac
     if [ "${PEN_WATCH:-1}" = 1 ]; then
         if pen_connected; then c=1; else c=0; fi

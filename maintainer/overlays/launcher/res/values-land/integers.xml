@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 2026-11-18: OplusLauncher sets cell height = cell width for the 10x6 tablet grid, cell width = (2880 - 2 x this)
+         / 10. Stock tablet overlay land 102 dp: 6 rows = 1440 px, 54 px more than the space between status bar and page
+         pill, so the grid touched either the pill (top 0.25) or the media island (top 1.0). 130 dp: cells 227 px, grid
+         1362 px; with workspaceTopPercentage 0 it starts at the status-bar inset: ~38 px under the island, gap above the
+         pill. Icons, 10x6 grid, dock and portrait (values-port 80 dp) unchanged. Tested live (fabricated overlay). -->
+    <integer name="oplusLayoutWorkspacePaddingHorBigScreenDp">130</integer>
+</resources>

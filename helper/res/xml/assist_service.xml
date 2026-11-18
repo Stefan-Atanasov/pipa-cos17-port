@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- helper 2.0 assistant: no hotword, no settings page; see AssistService -->
+<voice-interaction-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sessionService="com.port.pipa.helper.AssistSessionService"
+    android:recognitionService="com.port.pipa.helper.NoRecognitionService"
+    android:supportsAssist="true" />

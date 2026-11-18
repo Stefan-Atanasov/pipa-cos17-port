@@ -1,0 +1,11 @@
+;; PARKED 2026-11-15: used only by drafts/99-7b (wrong premise, see that file).
+;; pipa port 7b (2026-11-15, BUGS 117): /proc/touchpanel/incell_panel (kernel walt-hi2, nt36532 driver) for oiface.
+;; COSA enables the Game Space touch sampling rate writer only when oiface reads this file (stock OPPO touch driver node).
+(type pipa_proc_touchpanel)
+(roletype object_r pipa_proc_touchpanel)
+(typeattributeset proc_type (pipa_proc_touchpanel))
+(typeattributeset fs_type (pipa_proc_touchpanel))
+(genfscon proc "/touchpanel" (u object_r pipa_proc_touchpanel ((s0) (s0))))
+(genfscon proc "/touchpanel/incell_panel" (u object_r pipa_proc_touchpanel ((s0) (s0))))
+(allow oiface pipa_proc_touchpanel (dir (search getattr open read)))
+(allow oiface pipa_proc_touchpanel (file (read open getattr)))

@@ -1,0 +1,3 @@
+;; pipa port 6x (2026-11-15, audit BUGS 113): the OPPO perf HAL sets the UI First scene
+;; (/proc/sys/kernel/sched_assist_scene) as on stock OPPO (scene engine: launch, slide, animation). 5j only silenced it.
+(allow vendor_hal_perf_default oplus_sched_assist_scene_proc (file (read write open getattr)))

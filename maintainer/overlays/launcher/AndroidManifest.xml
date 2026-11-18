@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- pipa port 7k (BUGS 125): landscape home grid placement on the 16:10 panel (OPPO tablet values assume ~7:5) -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.port.pipa.overlay.launchergrid"
+    android:versionCode="2" android:versionName="2">
+    <overlay android:targetPackage="com.android.launcher" android:isStatic="true" android:priority="903" />
+    <application android:hasCode="false" />
+</manifest>

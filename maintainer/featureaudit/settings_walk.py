@@ -27,6 +27,7 @@ DENY = [  # substrings (lower case) of row or switch titles that are never tappe
     'emergency', 'sos', 'storage', 'dual apps', 'clone', 'users', 'multiple users', 'guest', 'language', 'date & time',
     'time zone', 'auto time', 'encryption', 'credential', 'certificate', 'device admin', 'trust agent', 'vpn',
     'private dns', 'mobile network', 'satellite', 'log', 'feedback', 'diagnos', 'system update', 'software update',
+    'bluetooth', 'location',  # 2026-11-15: pen/keyboard connection and location consent (BUGS 101) stay untouched
 ]
 NAV_DENY = DENY + ['about device', 'about tablet', 'legal', 'licen', 'privacy policy', 'user agreement', 'help',
                    'search', 'tips']

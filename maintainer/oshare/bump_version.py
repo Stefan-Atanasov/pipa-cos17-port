@@ -7,8 +7,8 @@ Why: the OPPO App Market updates some preinstalled OPPO apps (BUGS-TODO 74). An 
 port's patched copy (e.g. OShare, step 4k). With a higher versionCode in the system copy the store sees no newer
 version, and Android drops an older /data/app update at boot.
 
-How: AndroidManifest.xml (binary XML, deflated) is inflated, the one typed-int attribute value old -> new is changed
-(the value must occur exactly once, as a TYPE_INT_DEC value: size 8, res0 0, type 0x10), and the entry is deflated
+How: AndroidManifest.xml (binary XML, deflated) is inflated, the android:versionCode attribute of <manifest> (found by its
+resource id 0x0101021b, must be TYPE_INT_DEC = old) is changed to new, and the entry is deflated
 again with libdeflate level 12 (`libdeflate-gzip`; zlib -9 is larger than OPPO's original). The local entry keeps its
 total length: the bytes saved go into the local header's extra field (a 0xD935 padding record, as zipalign writes).
 So every later offset, the central directory offset and OPPO's APK signing block stay where they are; the CRC32 and
@@ -27,6 +27,47 @@ def deflate_best(data):
     raw = g[10:-8]
     assert zlib.decompress(raw, -15) == data
     return raw
+
+
+VERSION_CODE_ATTR = 0x0101021b      # android:versionCode
+
+
+def version_code_offset(man):
+    """Offset of the Res_value (size, res0, type, data) of android:versionCode on <manifest> in binary XML.
+    Found by the attribute's resource id, so a value that also occurs elsewhere (e.g. 37 = an SDK level) is no problem."""
+    assert struct.unpack_from('<HH', man, 0) == (0x0003, 8), 'not binary XML'
+    p, end, strings, resmap = 8, len(man), None, []
+    while p < end:
+        typ, hsz, size = struct.unpack_from('<HHI', man, p)
+        if typ == 0x0001:                                              # string pool
+            n, _, flags, sstart = struct.unpack_from('<IIII', man, p + 8)
+            offs = struct.unpack_from(f'<{n}I', man, p + hsz)
+            base = p + sstart
+
+            def get(i, offs=offs, base=base, utf8=bool(flags & 0x100)):
+                q = base + offs[i]
+                if utf8:
+                    q += 2 if man[q] & 0x80 else 1                     # utf16 length
+                    ln = man[q] & 0x7f if not man[q] & 0x80 else ((man[q] & 0x7f) << 8) | man[q + 1]
+                    q += 2 if man[q] & 0x80 else 1
+                    return man[q:q + ln].decode('utf-8')
+                ln, = struct.unpack_from('<H', man, q)
+                return man[q + 2:q + 2 + 2 * ln].decode('utf-16-le')
+            strings = get
+        elif typ == 0x0180:                                            # resource map
+            resmap = list(struct.unpack_from(f'<{(size - hsz) // 4}I', man, p + hsz))
+        elif typ == 0x0102:                                            # start element
+            name, = struct.unpack_from('<I', man, p + 20)
+            astart, asize, acount = struct.unpack_from('<HHH', man, p + 24)
+            if strings(name) == 'manifest':
+                for k in range(acount):
+                    a = p + 16 + astart + k * asize
+                    an, = struct.unpack_from('<I', man, a + 4)
+                    if an < len(resmap) and resmap[an] == VERSION_CODE_ATTR:
+                        return a + 12
+                raise AssertionError('no android:versionCode on <manifest>')
+        p += size
+    raise AssertionError('no <manifest> element')
 
 
 def main(src, dst, old, new):
@@ -49,10 +90,10 @@ def main(src, dst, old, new):
     off = lh + 30 + n + x
     man = zlib.decompress(bytes(apk[off:off + csize]), -15)
     assert len(man) == usize
-    pat = b'\x08\x00\x00\x10' + struct.pack('<I', old)
-    hits = [i for i in range(len(man)) if man[i:i + 8] == pat]
-    assert len(hits) == 1, f'versionCode {old} found {len(hits)} times'
-    man2 = man[:hits[0] + 4] + struct.pack('<I', new) + man[hits[0] + 8:]
+    at = version_code_offset(man)
+    assert man[at:at + 4] == b'\x08\x00\x00\x10' and struct.unpack_from('<I', man, at + 4)[0] == old, \
+        f'manifest versionCode is not {old}'
+    man2 = man[:at + 4] + struct.pack('<I', new) + man[at + 8:]
     comp = deflate_best(man2)
     d = csize - len(comp)
     assert d >= 4, f'new deflate stream is not smaller ({len(comp)} vs {csize})'

@@ -1,0 +1,2 @@
+;; pipa port 6x (2026-11-15): OPPO init.oplus.nandswap.sh sets the loop device I/O scheduler (stock policy allows it).
+(allow nandswap sysfs_loop (file (write)))

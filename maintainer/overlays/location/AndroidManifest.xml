@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- pipa port 7i: fixed network location provider (BUGS 101), like stock ColorOS CN where only the OPPO NLP exists -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.port.pipa.overlay.location"
+    android:versionCode="1" android:versionName="1">
+    <overlay android:targetPackage="android" android:isStatic="true" android:priority="902" />
+    <application android:hasCode="false" />
+</manifest>

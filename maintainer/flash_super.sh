@@ -125,6 +125,36 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt93)        IMG=$P/port-work/pt93/img/super.img;        MD5=10473f0a162712505b8ed91a84f8630e ;;   # pt92 + 6s ColorOS HWUI split (BUGS 109)
     pt94)        IMG=$P/port-work/pt94/img/super.img;        MD5=f3c4ef1bd039f7e0c5b267adce485f1b ;;   # pt93 + 6t stock OPPO memory setup (BUGS 89/99)
     pt95)        IMG=$P/port-work/pt95/img/super.img;        MD5=4521644ae861dc9ad6b64b2b707241c5 ;;   # pt94 + 6u 3 kswapd threads, pen input only while BT-connected (BUGS 111)
+    pt98)        IMG=$P/port-work/pt98/img/super.img;        MD5=64041b8ae74adddadff1c063653f3799 ;;   # pt97 + 6x perf HAL owns the UI First scene (A/B), nandswap loop scheduler
+    pt99)        IMG=$P/port-work/pt99/img/super.img;        MD5=90cc65f227eee0f1f0e819329013351a ;;   # pt97 + 6y SF early offsets = HyperOS vendor (BUGS 115, 144 Hz media-pill judder)
+    pt100)       IMG=$P/port-work/pt100/img/super.img;       MD5=e53b15cd4a6da014d5685d123e0c403d ;;   # pt99 + 6z SF -6.5 ms late+early (no switch; BUGS 115)
+    pt101)       IMG=$P/port-work/pt101/img/super.img;       MD5=0b33e61d65a4b03b82a5b0aa0d85a3fa ;;   # pt97 + 7a swappiness 100 vm+swapd (> 6 GB; BUGS 118)
+    pt102)       IMG=$P/port-work/pt102/img/super.img;       MD5=7215a9755d76084fc3e31084227bf868 ;;   # pt101 + 7b /proc/touchpanel for oiface (kernel hi2; BUGS 117)
+    pt103)       IMG=$P/port-work/pt103/img/super.img;       MD5=3156d1f448175736f02d2ad3fe79ba53 ;;   # pt101 + 7c Game Space 10.44.6 (7b parked)
+    pt105)       IMG=$P/port-work/pt105/img/super.img;       MD5=5c979fc90398d260c21fe768bbb91c45 ;;   # pt103 + 7e perf HAL scene engine (stock UI First)
+    pt106)       IMG=$P/port-work/pt106/img/super.img;       MD5=8f850443ac8b28c691887852a7bd931e ;;   # pt105 + 7g density 410 + 7h PixelOS grallocutils (RAW10)
+    pt107)       IMG=$P/port-work/pt107/img/super.img;       MD5=6172343864129fa7ced6c1fac7c8a83a ;;   # pt106 + 7i location provider pin (com.oplus.location)
+    pt108)       IMG=$P/port-work/pt108/img/super.img;       MD5=00135075f14b596d4b3e5140d0b326f6 ;;   # pt107 + 7j installer: skip appdetail, no virus-scan block (BUGS 126)
+    pt109)       IMG=$P/port-work/pt109/img/super.img;       MD5=5dacd8bc8b0444181df78f4805ff17f3 ;;   # pt108 without 7g (density back to stock 370, BUGS 125)
+    pt110)       IMG=$P/port-work/pt110/img/super.img;       MD5=251319c7e725f63dacd77c0ff6306ad9 ;;   # pt109 + service.sh: no SF scene pin when gpu_comp_static=1 (plan item 3)
+    pt111)       IMG=$P/port-work/pt111/img/super.img;       MD5=fa8872436ebafd97b3a2a22b394ea5bb ;;   # pt110 + 7k launcher land grid (BUGS 125) + 7l update guard (BUGS 127)
+    pt112)       IMG=$P/port-work/pt112/img/super.img;       MD5=40c1471f2af56d76f2d52f7b34281fb7 ;;   # pt111 + SOTA kept (com.oplus.sau + sauhelper; OTA still removed; BUGS 127 test)
+    pt113)       IMG=$P/port-work/pt113/img/super.img;       MD5=cad7ccb49f9273f056d8797ff38e8d5a ;;   # pt112 + 7m Display size Large (BUGS 93)
+    pt114)       IMG=$P/port-work/pt114/img/super.img;       MD5=ec0d989292aa5dc805a100e477a19ef9 ;;   # pt113 + Battery guard, 7l loud, Display size index sync (review 2026-11-17)
+    pt115)       IMG=$P/port-work/pt115/img/super.img;       MD5=6a297e67f328cbf50f8d258262e3b6df ;;   # pt114 + camguard v2: face dark-room flush deadlock (BUGS 130)
+    pt116)       IMG=$P/port-work/pt116/img/super.img;       MD5=e5db127a2afd8c493d39e6e8010414e6 ;;   # pt115 + 7n cota sepolicy (donor vendor rules, BUGS 127)
+    pt117)       IMG=$P/port-work/pt117/img/super.img;       MD5=4c93f86715416a1323363c0c3e4cae8d ;;   # pt116 + 7o Live Clock styles _sw600dp (BUGS 107)
+    pt118)       IMG=$P/port-work/pt118/img/super.img;       MD5=0b93c8c487d705bf9ae00444c9dc3119 ;;   # pt117 + 7p one-shot clock at tier 3 + helper 1.9 (no Animations tile)
+    pt119)       IMG=$P/port-work/pt119/img/super.img;       MD5=fb6bae903c07ac99aa4773d0a106c13b ;;   # pt118 + 7k overlay v2 landscape grid (island overlap)
+    pt120)       IMG=$P/port-work/pt120/img/super.img;       MD5=0ea67e8a50c92472095bfff4a8d52242 ;;   # pt119 + 7p launcher one-shot tier-2 spring timing
+    pt121)       IMG=$P/port-work/pt121/img/super.img;       MD5=38c910edfe1ca91e9b4c5b4c2c49c9a5 ;;   # pt120 + 7p clock plugin flight + 7q tier 3 first boot + 7r facehal HAT skew
+    pt122)       IMG=$P/port-work/pt122/img/super.img;       MD5=f189f62dd4d6207b560430e0bf61eecd ;;   # pt121 + helper 2.0 assistant service + 7s corner swipe (6n off)
+    pt123)       IMG=$P/port-work/pt123/img/super.img;       MD5=0dce30c09dd89e0fec7f8552cbe15a58 ;;   # pt122 + Gemini app bundled (5u)
+    pt124)       IMG=$P/port-work/pt124/img/super.img;       MD5=dc392467595624794fedc32e2cce7d72 ;;   # pt123 + 7t debug.sf.enable_hwc_vds=1 (Miracast picture, BUGS 80)
+    pt125)       IMG=$P/port-work/pt125/img/super.img;       MD5=33cb3d07b5029f90d4cce1ee2eac6c81 ;;   # pt124 + 7u SukiSU Nova manager (needs kernel walt-hi9)
+    pt127)       IMG=$P/port-work/pt127/img/super.img;       MD5=c3b0e2ef5f6d887fdf918c9d718e0a42 ;;   # pt125 + 7v Gboard after setup + 7w helper 2.1 (MiSound flag, Dolby page)
+    pt128)       IMG=$P/port-work/pt128/img/super.img;       MD5=6615f44c1f867097e1c12a7495f5750e ;;   # pt127 + 7x Live blur tile (helper 2.2)
+    pt97)        IMG=$P/port-work/pt97/img/super.img;        MD5=33673ba0fd654cc7844d9632064e2318 ;;   # pt96 + 6w SELinux: perf HAL swapd pause + healthinfo, nandswap caps
     pt96)        IMG=$P/port-work/pt96/img/super.img;        MD5=f2088152ffb4156796893b24c9d5e215 ;;   # pt95 + 6v drop nandswap_dedup (OPPO hybridswap owns the file)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;
 esac

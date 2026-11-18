@@ -1,0 +1,5 @@
+; pipa port 7n: COTA (com.oplus.cota, priv_app) data in /data/cota (data_cota_file). The donor OPD2515 vendor policy
+; grants this (vendor_sepolicy.cil C.06 lines 16462-16463, 20171-20172 as priv_app_202504/data_cota_file_202504); our
+; Xiaomi vendor policy has no OPPO lines. Same rules, unversioned, in system_ext (BUGS 127).
+(allow priv_app data_cota_file (dir (ioctl read write getattr lock open watch watch_reads add_name remove_name search)))
+(allow priv_app data_cota_file (file (ioctl read write create getattr setattr lock append map unlink rename open watch watch_reads)))
