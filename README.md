@@ -23,6 +23,8 @@ build. The main build is one command, `maintainer/port/port.sh`.
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 
+**Porting to another device?** Start with [PORTING-GUIDE.md](PORTING-GUIDE.md) (model, tools, pipeline, order of work, gotchas, working with an AI agent).
+
 ## Download and install
 
 - **Builds:** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing

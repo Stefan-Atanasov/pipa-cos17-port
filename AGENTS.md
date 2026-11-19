@@ -20,6 +20,7 @@ Read in this order:
 4. [BUGS.md](BUGS.md): open bugs with cause, evidence and next step (table at the top). Offline analyses:
    `maintainer/bugs/*.md`.
 5. [KNOWN-ISSUES.md](KNOWN-ISSUES.md), [TESTING.md](TESTING.md), [REBASE.md](REBASE.md), [KERNEL.md](KERNEL.md).
+6. [PORTING-GUIDE.md](PORTING-GUIDE.md): how the port is made, as a handoff for a port to another device.
 
 | Path | Content |
 |---|---|
