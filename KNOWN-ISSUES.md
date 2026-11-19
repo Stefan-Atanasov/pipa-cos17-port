@@ -46,6 +46,13 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 - **GCam video:** AGC 9.6.19 V7.0 cannot record video (the mod lacks its stream fix for non-Pixel devices; photos and
   HDR+ work). Use the stock camera for video.
 - **Floating window from the dock:** hold the icon still in the middle of the screen until "Floating window" shows.
+- **"Tweak" modules (for example SmoothPad):** do not use them with v9. SmoothPad v3.6 locks 120 Hz, keeps the GPU
+  awake, holds CPU floors, re-applies scheduler values every 12-15 s (a loop that wakes the CPU), resizes zram,
+  freezes 32 OPPO apps (among them `deepthinker`, `obrain`, `appsense` and `pantanal.ums`, which live alerts and the
+  pen pill use), forces the `skiavk` renderer and silences kernel logs (`printk 0`). Result: much more standby and
+  screen-on drain, broken OPPO features, and bug reports without kernel logs. Before you report a battery, pen pill,
+  rendering or "feature gone" bug, remove such modules in the SukiSU Nova manager and reboot. If an app stays
+  frozen, re-enable it: `pm enable <package>`.
 
 ## Older lists (beta6 to beta8)
 
