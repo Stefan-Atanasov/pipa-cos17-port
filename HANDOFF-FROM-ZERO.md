@@ -746,5 +746,21 @@ backup or a full copy): a change of `vendor` can make `/data` unreadable.
 | Firmware | official Xiaomi HyperOS fastboot ROMs for pipa (listed on xmfirmwareupdater.com) | `firmware-update` images in the release package; check anti-rollback (B2) | medium-high: bootloader images |
 | Google apps (step 5u), OPPO Games (7c), SukiSU manager (7u) | Google Play, OPPO App Market updates pulled from a tablet, GitHub releases | replace the input files and their hashes, rebuild | low |
 
+Checked online on 2026-11-19 (GitHub branches and commits, project download pages):
+
+| Source | State |
+|---|---|
+| LineageOS `android_device_xiaomi_pipa` + `TheMuppets/proprietary_vendor_xiaomi_pipa` | active; newest branch `lineage-23.2` (Android 16); last commit 2026-02-27 "update blobs from OS2.0.14.0.UMZMIXM" (HyperOS 2 Global). No `lineage-24.0` (Android 17) branch for pipa yet. |
+| LineageOS `android_device_xiaomi_sm8250-common` + TheMuppets `sm8250-common` | `lineage-24.0` exists and is active (last commits 2026-11-14 and 2026-09-15). |
+| LineageOS `android_kernel_xiaomi_sm8250` | `lineage-24.0` exists (our kernel base). |
+| PixelOS pipa | the website lists Android 16 builds (maintainer Sugakesshaa). Our Android 17 zip came from `download.pixelos.net/seventeen/pipa` (2026-08-05); that folder now redirects to the home page. The PixelOS-Devices GitHub trees for pipa are only `fifteen`. |
+| Other pipa trees | `nullpointer1101/android_device_xiaomi_pipa`: Android 16 branches (`16.axion`, `16.derp`). An Evolution-X pipa tree was on git.evolution-x.org; it does not answer now. |
+| Adreno blobs in TheMuppets `sm8250-common` | `libGLESv2_adreno.so` has not changed since the 2022 import: LineageOS keeps the old stock driver. The beta4 Adreno stack (2025) is from another source (not known). |
+| Xiaomi firmware | HyperOS 2 builds for pipa still came out in 2025-2026 (Global OS2.0.12 in 2025-12; LineageOS took blobs from OS2.0.14 in 2026-02). |
+
+So, for now: the best future `vendor` source is LineageOS, when `lineage-24.0` arrives for pipa (build the vendor from
+the device trees, or take it from a LineageOS-family Android 17 build). Newer GPU drivers have no public, official
+source; only community packs, tested as a complete set.
+
 The point of tests 1a and 1b (B8): if they pass, the `vendor` no longer depends on the beta4 author's own build, and
 vendor and GPU updates can follow the PixelOS builds with the same tools.
