@@ -1,13 +1,16 @@
 # Kernel
 
-The port uses an own kernel (Linux 4.19.325). The public releases beta7, beta7.1 (2026-11-05) and beta7.2 (2026-11-06) have
-`walt-r17`: SukiSU-Ultra v4.3.0-r1 (builtin, KSU 41140), susfs. The source is in
-https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 (branch `oppo`).
+The port uses an own kernel (Linux 4.19.325). The public release v9 (2026-11-19) has
+`walt-hi9`: SukiSU Nova 3.0.0 (builtin, commit `4bec532d`, kernel version 30691; manager package `com.sukisu.nova`), susfs 2.3.0.
+The branch `oppo` of https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 has the hi9 source.
+beta7, beta7.1 and beta7.2 had `walt-r17` (SukiSU-Ultra v4.3.0-r1, KSU 41140).
 
 Changes since beta6 (`walt-r8kpm`): touch charger mode (r9, touch lag while charging), the binder UX node of ColorOS
 16+ (r10), DisplayPort fixes for USB-C monitors (r11-r15: 8 bpc, the highest refresh rate the link allows), OPPO's
 `/proc/shell-temp` for the horae thermal service (r16), SukiSU-Ultra v4.3.0-r1 (r17). KPM is not patched since r14.
 After an update from beta6, open the SukiSU manager once and let it update `ksud`.
+
+Changes since `walt-r26`: hi1 healthinfo-lite; hi3 `gpu_comp_static=1`; hi5 the NT36532 touch features are sent again after the resume firmware download; hi8 a boost of the MDP clock and bandwidth when the refresh rate drops (O+ Connect underruns); hi9 SukiSU Nova (SukiSU-Ultra was renamed SukiSU Nova). After an update from a SukiSU-Ultra kernel, the SukiSU Nova manager installs its own `ksud`.
 
 ## 1. Parts
 
@@ -16,7 +19,7 @@ After an update from beta6, open the SukiSU manager once and let it update `ksud
 | Core kernel (WALT scheduler, BPF, f2fs, memory, network, binder) | LineageOS `android_kernel_xiaomi_sm8250`, branch `lineage-24.0` |
 | pipa device drivers | liyafe1997 `kernel_xiaomi_sm8250_mod` |
 | Display and touch | E404R kernel |
-| Root | SukiSU-Ultra (built in; v4.3.0-r1 since walt-r17), susfs 2.3.0; KPM only in walt-r8kpm to r13 |
+| Root | SukiSU Nova 3.0.0 (built in; since walt-hi9), susfs 2.3.0; SukiSU-Ultra v4.3.0-r1 in walt-r17 to r26; KPM only in walt-r8kpm to r13 |
 | OPPO UI First scheduler (`sched_assist`, frame boost) | OPPO open-source sm8250 kernel |
 | OPPO Hans app freezer channel (netlink 29, binder/signal/network reports) | OPPO open-source sm8250 kernel (OPD2101, ColorOS 14) |
 
@@ -45,7 +48,7 @@ blocks the Android freezer: no app is frozen. Check: `getprop sys.hans.enable` =
 ## 4. Requirements
 
 - ROM beta5-2i or newer. Older ROMs do not have the SELinux rules for the UI First nodes.
-- SukiSU-Ultra manager 4.2.1-r1 (walt-r6, walt-r7) or v4.3.0 (41100) (walt-r8 and later).
+- SukiSU-Ultra manager 4.2.1-r1 (walt-r6, walt-r7) or v4.3.0 (41100) (walt-r8 and later). walt-hi9 needs the SukiSU Nova manager `com.sukisu.nova` (the ROM v9 has it, step 7u).
 - Do not run a live `ksud sepolicy patch` on walt-r8kpm: it hung the kernel (watchdog reset).
 
 ## 5. Build

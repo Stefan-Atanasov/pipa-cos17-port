@@ -15,7 +15,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 | ROM | ColorOS 17 (Android 17) |
 | Current release | **v9** (2026-11-18, first stable): `port.sh` default build (last step 7x, pt128) + kernel `walt-hi9` (SukiSU Nova 3.0.0). Notes: `RELEASE-NOTES-v9.md`, changelog since beta7.1: `CHANGELOG-beta7.1-to-v9.md`. |
 | In progress | Next: WebRTC noise suppression for calls (idea), dock-drag and setup-wizard layout items (BUGS 134). |
-| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. There is no `beta7.2-noenc`. |
+| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. v9 has no `noenc` package. |
 | Previous release | beta7.2 (2026-11-06, pt68 + `walt-r17`); beta 8 was a tester build only (pt81). beta7 was withdrawn (grey screen after a clean flash). |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
@@ -28,6 +28,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 ## Download and install
 
 - **Builds:** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
+- **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` and `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS).
 - **Support group:** https://t.me/cosforpipa
 
 The package has `FlashLinux.sh` and `FlashWindows.bat`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
@@ -35,7 +36,7 @@ first. The flash script asks one question:
 
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
 - Dirty flash ("keep data"): press Enter in `FlashLinux.sh`, or `N` in `FlashWindows.bat` (Enter does nothing there).
-  Use it for an update from beta7 or beta6.
+  Use it for an update from beta7.2, beta7.1, beta7 or beta6.
 
 Clean flash from a different ROM: the flash scripts also erase `frp` (since 2026-10-30, 17:00). If `frp` is not
 erased, the screen lock of the old ROM stays there, and ColorOS cannot set a new PIN ("Screen lock was already
@@ -55,7 +56,7 @@ write the firmware (bootloader, modem, `vbmeta`) in a dirty flash.
 
 WARNING: The first boot takes about 1 minute longer than usual. Do not reboot during this time.
 
-Release paths that are not tested yet for beta7.2 (clean install): refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
+Release paths that are not tested yet for v9 (clean install): refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
 
 ## Known issues and bug reports
 
@@ -131,5 +132,5 @@ The own scripts, sources and documents in this repository are under the Apache L
 ## Credits
 
 - 梦归zzz: the original ColorOS 17 port for pipa and the `pipa_core` module.
-- Stefan-Atanasov: maintenance, beta5 to beta7.2, ROM fixes, kernel.
-- LineageOS, liyafe1997, kvsnr113 (E404 kernel), SukiSU-Ultra, susfs, KernelPatch, OPPO (open-source kernel).
+- Stefan-Atanasov: maintenance, beta5 to v9, ROM fixes, kernel.
+- LineageOS, liyafe1997, kvsnr113 (E404 kernel), SukiSU Nova (SukiSU-Ultra), susfs, KernelPatch, OPPO (open-source kernel).

@@ -10,7 +10,7 @@ instruction in each sentence. Keep technical names (files, properties, commands)
 
 This repository has the build scripts and sources of the **ColorOS 17 port for the Xiaomi Pad 6 (`pipa`, SM8250 /
 SD870)**. The scripts make the ROM (`super.img`) from the original beta4 release and an OPPO OPD2515 donor build
-(C.06). The kernel is in a separate repository: https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17
+(C.07, `17.0.0.104(CN01)`). The kernel is in a separate repository: https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17
 (branch `oppo`).
 
 Read in this order:
@@ -204,7 +204,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   writes the game profile (`GAME_THERMAL_SCENE`). The active profile is in `/data/vendor/thermal/decrypt.txt`.
 - **Bootloader "Device does not support slots":** `fastboot reboot bootloader` fixes it (`flash_super.sh` does it).
 - **SELinux compile test:** `maintainer/sepolicy/secil_test.sh <system_ext rules> <vendor rules>` on the device.
-- **KernelSU modules (SukiSU 4.3):** script modules and `system.prop` work; `system/` overlays need a metamodule.
+- **KernelSU modules (SukiSU Nova; same for SukiSU 4.3):** script modules and `system.prop` work; `system/` overlays need a metamodule.
 - **Gotchas from the beta8 Dolby work:**
   - Live-test a persistent priv-app or a static overlay without a build: bind-mount the new APK over the ROM file
     (`nsenter -t 1 -m -- mount -o bind ...`, keep the file label), `rm -rf /data/system/package_cache/*`, then

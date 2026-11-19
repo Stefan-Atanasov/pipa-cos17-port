@@ -3,16 +3,16 @@
 This document tells how the port is put together. It is a reference: each section gives the source files in this
 repository. For the build procedure, refer to [BUILD.md](BUILD.md).
 
-State: public release **beta6** (2026-10-30) = `port.sh` default run (last active step 3w) + kernel `walt-r8kpm`.
+State: public release **v9** (2026-11-19, first stable) = `port.sh` default run (last active step 7x, build pt128) + kernel `walt-hi9`.
 
 ## 1. Partitions
 
 | Part | Contents | Source |
 |---|---|---|
 | Firmware | Bootloader, modem, DSP, `vendor_boot`, `dtbo`, `vbmeta*` | beta4 release, not changed |
-| Kernel (`boot`) | Own kernel `walt-r8kpm` (beta6). beta5 had `walt-r6`. | [KERNEL.md](KERNEL.md) |
+| Kernel (`boot`) | Own kernel `walt-hi9` (v9). beta6 had `walt-r8kpm`. | [KERNEL.md](KERNEL.md) |
 | `vendor`, `odm` | pipa device side | beta4 `super` (slot B), pinned by md5, with the step edits in section 2.3 |
-| `system` (with the donor `my_*` partitions as folders), `system_ext`, `product` | ColorOS 17 | Donor OPD2515 `17.0.0.103(CN01)` (C.06), with the step edits in section 2 |
+| `system` (with the donor `my_*` partitions as folders), `system_ext`, `product` | ColorOS 17 | Donor OPD2515 `17.0.0.104(CN01)` (C.07), with the step edits in section 2 |
 
 - `super.img` has 5 partitions in each slot: `system`, `system_ext`, `product`, `vendor`, `odm` (`port.sh`,
   `lpmake --virtual-ab`, group `qti_dynamic_partitions_<slot>` = 9126805504 bytes).
@@ -53,7 +53,7 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 4x (beta6 ended at 3w). Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
+- Thus the last step that changes the default build is 7x (beta6 ended at 3w). Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.
   Steps 3u, 3v and 3w do not call it. Thus beta6 shows `3t`. When this value changes, `early.sh` clears the package
@@ -182,13 +182,37 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 6k | step only | Keyboard cover fold: xiaomi-keyboard checks `/proc/nanokbd`; needs kernel walt-r20 (BUGS 95). |
 | 6l | step only | Keyboard polish: fold angle 45-185, Super key = all apps (oplus-services dex edit), on-screen keyboard default (BUGS 96). |
 | 6m | step only | Values ColorOS reads that only OPPO odm/vendor set: English market name, screen size 11.0", fstrim enhance, compensate dexopt, touchpad two-finger and 5 GHz hotspot features (feature audit). |
-| 6n | step only | Hide Settings > System navigation > "Digital assistant from Google" (corner swipe; cannot work next to Circle to Search; in-place Settings dex edit) (BUGS 98). |
+| 6n | step only | Hide Settings > System navigation > "Digital assistant from Google" (corner swipe; cannot work next to Circle to Search; in-place Settings dex edit) (BUGS 98). Off since 7s (moved to `port/drafts`). |
 | 6o | step only | "Never" in Display > Auto screen off (feature + app feature). |
 | 6p | step only | Remove the beta4 porter launcher overlay (150 dp side margins); OPPO tablet values 80/102 dp apply (BUGS 94). |
 | 7g | step only | Default density 370 -> 410 (system + my_product `ro.sf.lcd_density`; 6g screenzoom re-centred 350,380,410,430,450): same physical UI size as OnePlus Pad 3 / Pad 2 Pro (420 at ~315 ppi). User 2026-11-16. |
 | 6q | step only | Hide the OTG connection switch (no OPPO charger HAL; USB host works by Type-C role): app feature `com.android.systemui.otg_auto_close_alarm_disable` (BUGS 100). |
 | 6r | step only | Stock OPPO refresh: donor `refresh_rate_config.xml` rules + a 144 Hz 5th column on app-wide rules (Settings > High > FPS Max 144 and the per-app "Supported apps" switches work); `oplus_vrr_config.json` touch_idle `darkmode_enable: true` (LCD: panel idles to 60 Hz in dark mode too). BUGS 110/109/36. |
 | 6s | step only | ColorOS HWUI split as on stock OPPO: vendor build.prop `ro.oplus.display.enable_skiavk=true`, porter's forced `debug.hwui.renderer=skiavk` + `ro.hwui.use_vulkan=true` commented: Vulkan for launcher/SystemUI/camera/wallpapers, OpenGL for apps (BUGS 109). |
+| 6t | step only | Memory as on stock OPPO tablets (BUGS 89, 99): the porter's zram and loop swap script is removed, so the OPPO `init.oplus.nandswap.sh` runs again (zram 5632 MB zstd on pipa). The Qualcomm post-boot memory writes are removed. The OPPO lmkd thresholds are 700/1000/1200 MB. Needs kernel walt-r23. |
+| 6u | step only | 3 kswapd threads at `boot_completed` (OPPO multi kswapd, fewer direct reclaim stalls). Pen input is on only while a BT pen is connected (`PEN_BT_ONLY`, BUGS 89, 99, 111). |
+| 6v | step only | Remove `nandswap_dedup` from `pipa_port`. OPPO `init.oplus.nandswap.sh` (6t) does not attach extra swap areas, so the dedup is not necessary (BUGS 89). |
+| 6w | step only | SELinux rules for stock OPPO functions that were blocked: the OPPO perf HAL pauses hybridswapd during app launches and reads `/proc/oplus_healthinfo`; the OPPO nandswap script may change the hybridswap nodes (audit 2026-11-15). |
+| 7a | step only | `vm_swappiness` 100 (and hybridswapd swappiness 100) on a pipa with more than 6 GB RAM, instead of the OPPO value 200. A/B test: same smoothness as 60, best app retention (BUGS 118). |
+| 7c | step only | Game Space (`com.oplus.games`) 10.44.6 instead of the donor 10.40.22. Same OPPO signing certificate. The step stops if the donor has another `OplusGames.apk`. Input: `blobs/OplusGames-10.44.6.apk`. |
+| 7e | step only | The OPPO perf HAL works as the UI First scene engine, as on stock OPPO: SELinux labels for the 4.19 boost sysctls and rules for the scene, boost and `frame_rate` nodes (BUGS 113). |
+| 7h | step only | Camera RAW10 and RAW12 buffers (GCam HDR+) work again: `libgrallocutils.so` from PixelOS replaces the beta4 copy. The beta4 copy treated RAW10 and RAW12 as Qualcomm custom formats and the allocation failed (BUGS 121). |
+| 7i | step only | Fixed network location provider: the OPPO NLP `com.oplus.location`, as on stock. A static RRO sets `config_enableNetworkLocationOverlay` to false. This ends the random choice between GMS NLP and OPPO NLP after an update (BUGS 101). |
+| 7j | step only | No "High-risk app" block page for sideloaded APKs: app feature `com.oplus.packageinstaller.skip_appdetail=true`, and the phonemanager `AutoTestScanApksService` is disabled. The installer shows its plain Install button. There is no install-time virus verdict (BUGS 126). |
+| 7k | step only | Landscape home screen on the 16:10 panel: static RRO `com.port.pipa.overlay.launchergrid` (`workspaceTopPercentage`, side padding 130 dp). The page indicator does not touch the labels and the dock (BUGS 125). |
+| 7l | step only | Update guard for all patched apps: `android:versionCode` is raised in place, so an App Market or SOTA update does not replace the patched app. `service.sh` `PATCHED_ROLLBACK` removes a `/data` update of these packages at boot (BUGS 127). |
+| 7m | step only | Settings > Display size has Small, Standard and Large (in place dex edit of the Settings compact-window checks). `ro.density.screenzoom` gives Small, Standard and Large = 340, 370, 410 (BUGS 93). |
+| 7n | step only | SELinux rules for the SOTA data folder `/data/cota` (`priv_app` and `data_cota_file`) from the donor vendor policy, added to `system_ext` because the Xiaomi vendor does not have them (BUGS 127). |
+| 7o | step only | Live Clock (photo frame clock) styles: the donor `_lvy` styles are copied to `_sw600dp` in `my_product`, because the Wallpapers app looks for `_sw600dp` on a non-OPPO tablet (BUGS 107). |
+| 7p | step only | The lock screen to home clock animation ("one shot") also works at the Fast animation tier 3: in place dex edits in OplusLauncher, SystemUI and the KeyguardPersonalityClocks plugin. |
+| 7q | step only | Animation tier 3 from the first boot: `persist.sys.oplus.anim_level=3` in `system_ext/etc/build.prop`. SystemUI reads the property only at its start, so it ran tier 1 after a clean flash until the next reboot. |
+| 7r | step only | Face unlock works again after the PIN once it was locked out: `facehal-rs` accepts a HardwareAuthToken timestamp up to 65535 ms in the future (was 5000 ms; the pipa gatekeeper clock runs about 5.8 s ahead) (BUGS 132). |
+| 7s | step only | Helper 2.0 assistant: gesture bar long press starts Circle to Search, corner swipe starts the Gemini app. The SystemUI `isAssistantAvailable` checks are patched. Step 6n is off: the Settings corner swipe switch shows again (BUGS 98, 49). |
+| 7t | step only | Miracast and Screencast: `debug.sf.enable_hwc_vds` 0 -> 1 in `system/build.prop`. SurfaceFlinger composes the WFD virtual display with HWC, and the picture has no green and red lines (BUGS 80). |
+| 7u | step only | SukiSU Nova manager v3.0.0 (`com.sukisu.nova`, 35000) in `system_ext/pipa_port/SukiSU.apk` for kernel walt-hi9. `service.sh` installs it one time and removes an old `com.sukisu.ultra` manager. |
+| 7v | step only | Gboard becomes the default keyboard only after the setup wizard ends (`gboard_default()` in `service.sh`), because OPPO put Sogou back during the wizard (BUGS 135). |
+| 7w | step only | Helper 2.1: every MiSound switch also writes effect parameter 25, so the MiSound page shows Dolby again after a clean flash (BUGS 136). |
+| 7x | step only | Helper 2.2: Quick Settings tile "Live blur" (global `pipa_live_blur`, default off). Live blur re-blurs the shade 60 times a second, but it costs more janky frames than the stock static blur. Reboot to apply. |
 | (4o/4r) | `halshims.jar` | IOplusTouch node 26 (Game Space "Touch sampling rate"): COSA writes the rate in hex (`78` = Standard, `f0` = Ultra touch). pipa's panel has no rate control, so a rate above 120 Hz turns on the Xiaomi touch game mode (mode 0); the pen is off in that mode. |
 
 ### 2.4 Where properties go
@@ -215,7 +239,7 @@ The ROM includes the port runtime. No KernelSU module is necessary.
 |---|---|
 | `/system_ext/pipa_port/` | `port-rom/pipa_port/` (`service.sh`, `early.sh`, `pen_keys.sh`, `keys.conf`, `config.prop`) and proprietary files (`facehal/`, `chargershim.jar`, `xiaomi_touch_ioctl`, refer to [BLOBS.md](BLOBS.md)) |
 | `/system_ext/pipa_port/cryptoeng.jar` | `maintainer/cryptoeng/` (step 3a) |
-| `/system_ext/pipa_port/SukiSU.apk` | SukiSU-Ultra manager v4.3.0 (step 2w) |
+| `/system_ext/pipa_port/SukiSU.apk` | SukiSU Nova manager v3.0.0 (step 7u; step 2w started it) |
 | `/system_ext/etc/init/pipa_port.rc` | `port-rom/pipa_port.rc` |
 
 ### 3.1 Start sequence (`pipa_port.rc`)
@@ -258,7 +282,7 @@ Each switch is 1 (on) or 0 (off). The defaults are in `port-rom/pipa_port/config
 | `STYLUS_BUTTONS_DEFAULT` | 1 | Merge the pen buttons into drawing apps if the user did not set it. |
 | `SMOOTH_DEFAULT` | 1 | One time for each install: window blur, material blur and animation blur off; on-screen keyboard with a hardware keyboard on. |
 | `HELPER_GRANTS` | 1 | Give the helper app its notification and overlay permissions. |
-| `KSU_MANAGER` | 1 | Install the SukiSU manager one time as a normal app (KernelSU finds it only in `/data/app`). |
+| `KSU_MANAGER` | 1 | Install the SukiSU Nova manager one time as a normal app (KernelSU finds it only in `/data/app`). |
 | `KB_EVENT_LINK` | 1 | Link `/dev/input/event12` to the keyboard case while it is attached. |
 | `KEYBOARD_GUARD` | 1 | Run `xiaomi-keyboard` only while the keyboard case is connected. |
 | `SF_BIG_CORES` | 1 | Set the UI First scene that keeps SurfaceFlinger and RenderEngine off the little cores. |
@@ -279,13 +303,15 @@ Each switch is 1 (on) or 0 (off). The defaults are in `port-rom/pipa_port/config
 
 ## 4. The pipa helper app
 
-`com.port.pipa.helper` (version 1.6) is a persistent privileged system app. The source is in `helper/`.
+`com.port.pipa.helper` (version 2.2) is a persistent privileged system app. The source is in `helper/`.
 
 | Part | Function |
 |---|---|
 | `DolbyKeeper` | Keeps the Dolby and MiSound effects on the output mix (event driven, no polling). Selects the stock Dolby tuning per output and volume. Remembers the effect the user picks in MiSound per output (speaker, Bluetooth, wired, USB) and applies it when the output changes; automatic changes by MiSound are undone. |
 | `PenKeeper`, `PenPill` | Low pen battery notification (15 %). The pen pill shows only when `pipa_pen_fluid` is 0. |
 | `LidKeeper` | Sets the "lock with cover" switch (`lid_behavior`). |
+| `BlurTile`, `LogTile` | Quick Settings tiles "Live blur" (global `pipa_live_blur`, step 7x) and "Logs". |
+| Assistant service | Voice interaction service: gesture bar long press starts Circle to Search, corner swipe starts Gemini (step 7s). |
 | `AnimTile` | Quick Settings tile "Animations": writes global `pipa_anim_level` (3 → 2 → 1 → 4). `pipa_port` applies it. |
 | `BootReceiver` | Starts the keepers after boot. |
 
@@ -327,7 +353,7 @@ rules with `secilc` and a ROM build.
 | `kernel.ux_prefer_big`, `kernel.frame_rate` | Placement of UI threads |
 | OPPO frame boost (`/proc/oplus_frame_boost/`, `/proc/sys/fbg/`) | ColorOS (labels from step 2i) |
 | OPPO Hans channel (netlink 29) | ColorOS app freezer (`hans`) |
-| SukiSU-Ultra v4.3.0, susfs 2.3.0, KPM | Root, root hiding |
+| SukiSU Nova 3.0.0 (builtin), susfs 2.3.0 | Root, root hiding |
 | nanosic keyboard driver (`/sys/devices/virtual/nanodev/nanodev0/`) | `KEYBOARD_GUARD` |
 | `ovnet` network device | Network sharing with a phone (interconnect) |
 

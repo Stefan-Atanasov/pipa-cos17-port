@@ -59,7 +59,7 @@ The UFS storage has several logical units (LUNs). Linux sees them as `sda` ... `
 The kernel:
 
 - The port uses its own kernel (Linux **4.19**, SM8250 WALT): https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17
-  (branch `oppo`). Root: SukiSU-Ultra (built in), susfs, KPM. It is an Android kernel. It cannot boot a Linux
+  (branch `oppo`). Root: SukiSU Nova (built in), susfs. It is an Android kernel. It cannot boot a Linux
   distribution.
 - A Linux distribution needs a **mainline pipa kernel** (for example the kernels of TheMojoMan's images, or
   https://github.com/MollySophia/linux-mainline-pipa). Each OS has its own kernel in its own boot slot.

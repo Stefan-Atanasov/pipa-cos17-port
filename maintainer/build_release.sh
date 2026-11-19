@@ -131,7 +131,7 @@ EOF
 cp "$NOTES" "$OUT/RELEASE-NOTES.md"
 # extras: the SukiSU manager that matches the kernel (a clean flash removes the app) and the optional susfs module
 mkdir -p "$OUT/extras"
-KSU_APK=${KSU_APK:-$COS/kernel/sukisu-v4.3.0-r1/SukiSU_v4.3.0-r1_41140-release.apk}   # walt-r17 and later; walt-r8..r16: .../sukisu-v4.3.0/SukiSU_v4.3.0_41100-release.apk; walt-r6/r7: KSU_APK=.../sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk
+KSU_APK=${KSU_APK:-$COS/kernel/sukisu-nova-3.0.0/SukiSU_Nova_v3.0.0_35000-arm64-v8a-release.apk}   # walt-hi9 and later (SukiSU Nova, step 7u); walt-r17..hi8: .../sukisu-v4.3.0-r1/SukiSU_v4.3.0-r1_41140-release.apk; walt-r8..r16: .../sukisu-v4.3.0/SukiSU_v4.3.0_41100-release.apk; walt-r6/r7: KSU_APK=.../sukisu-v4.2.1-r1/SukiSU_v4.2.1-r1_41049-release.apk
 for f in "$KSU_APK" "$COS/pipa-susfs-v1.0.zip"; do [ -f "$f" ] || { echo "missing extra: $f (KSU_APK= for another manager APK)"; exit 1; }; done
 cp "$KSU_APK" "$OUT/extras/"
 cp "$COS/pipa-susfs-v1.0.zip" "$OUT/extras/"

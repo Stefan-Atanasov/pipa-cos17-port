@@ -3,8 +3,8 @@
 This document gives the procedures to build, flash and roll back the ROM and the kernel. It also gives the
 procedure to make a release package. For the parts of the ROM, refer to [ARCHITECTURE.md](ARCHITECTURE.md).
 
-The public release **beta7.2** is a `port.sh` run with the default options (last active step 5x) and kernel
-`walt-r17`.
+The public release **v9** (2026-11-19) is a `port.sh` run with the default options (last active step 7x, build pt128)
+and kernel `walt-hi9`.
 
 NOTE: The scripts were made and tested on one PC (the maintainer's). Section 1.4 tells how they find their folders.
 
@@ -45,7 +45,7 @@ The scripts expect this layout below one root folder (`PIPA_ROOT`):
 | `COS17/` | This repository. |
 | `COS17/work/parts/` | The `lpunpack` output of the beta4 `super` (section 1.3). |
 | `COS17/port-overlay/` | The beta4 files for the port edit list (section 1.3). |
-| `donor/OPD2515_11.C.06/img/` | The donor images (section 1.3). |
+| `donor/OPD2515_11.C.07/img/` | The donor images (section 1.3). |
 | `port-work/` | Build output (about 30 GB for each run). `port.sh` makes this folder. |
 | `port-work/donor-c06-vendor/` | The C.06 `vendor.img` and `odm.img` (section 1.3). |
 | `tools/smali/`, `tools/apktool/` | smali, baksmali and apktool jars. |
@@ -59,7 +59,8 @@ Get these inputs. They are not in this repository.
 | Original release `ColorOS17 Port for pipa-beta4-20261017.7z` (by 梦归zzz) | `COS17/` | sha256 `31893e62835843a63f73b96fc095545cefded76aca684161295c15cd2490f78f` (5489788484 bytes) |
 | Donor OTA `OPD2515_11.C.06_1060_202610061842.zip` (OPPO Pad Mini, `17.0.0.103(CN01)`) | `donor/OPD2515_11.C.06/` | sha256 `aeeb3029c64f3a7251bf861325a21388c1817739c8684155ba7daa71f6beb8d5` |
 | Donor OTA `OPD2515_11.C.07_1070_202610201803.zip` (OPPO Pad Mini, `17.0.0.104(CN01)`, security patch 2026-09-01; base since pt28, 2026-11-03) | `donor/OPD2515_11.C.07/` | sha256 `e23488a76e16c1a9c3f7e2a804cb9f2b8c540b8b4166dbbdfc56c70cc2dac42d` (9213268549 bytes) |
-| SukiSU-Ultra manager `SukiSU_v4.3.0_41100-release.apk` (step 2w, release package) | `COS17/kernel/sukisu-v4.3.0/` | md5 `4dc76f1eae7bd2e6d975261d9d08baf6` |
+| SukiSU Nova manager `SukiSU_Nova_v3.0.0_35000-arm64-v8a-release.apk` (step 7u, release package) | `COS17/kernel/sukisu-nova-3.0.0/` | sha256 `1202adb835a64d8b3df703da7884a2966f8728c131cffb29fb5f48d31d81ac85` |
+| SukiSU-Ultra manager `SukiSU_v4.3.0_41100-release.apk` (older kernels walt-r8 to r16) | `COS17/kernel/sukisu-v4.3.0/` | md5 `4dc76f1eae7bd2e6d975261d9d08baf6` |
 | SukiSU-Ultra manager `SukiSU_v4.2.1-r1_41049-release.apk` (only for the optional step 2u, `PORT_WITH_2U=1`) | `COS17/kernel/sukisu-v4.2.1-r1/` | md5 `3d7698ff8f58824d1718594366f5876b` |
 | Google apps for step 5u (Play Store, Gboard, Google app: base APK and splits, from Google Play) | `COS17/port-inputs/apps-5u/<package>/` (about 500 MB, not in git) | `SHA256SUMS` in the folder; a file `version` (versionCode) in each package folder |
 | Proprietary files (face HAL, charger shim, pen-wake helper, patched module files, boot animations) | their paths in this repository | [BLOBS.md](BLOBS.md) |
@@ -83,14 +84,16 @@ md5sum work/parts/vendor_b.img work/parts/odm_b.img
 2. Extract `payload.bin` from the donor zip. Then extract the donor images. The output folder must exist:
 
 ```sh
-cd $PIPA_ROOT/donor/OPD2515_11.C.06
-unzip OPD2515_11.C.06_1060_202610061842.zip payload.bin
+cd $PIPA_ROOT/donor/OPD2515_11.C.07
+unzip OPD2515_11.C.07_1070_202610201803.zip payload.bin
 mkdir -p img ../../port-work/donor-c06-vendor
 python3 -I ../../COS17/maintainer/payload_extract.py payload.bin img system system_ext product my_product my_manifest my_stock my_region my_heytap my_bigball my_carrier my_engineering
+cd ../OPD2515_11.C.06
+unzip OPD2515_11.C.06_1060_202610061842.zip payload.bin
 python3 -I ../../COS17/maintainer/payload_extract.py payload.bin ../../port-work/donor-c06-vendor vendor odm
 ```
 
-   Step 3d takes files from the C.06 `odm` and `vendor`. Optional step 3k also uses them.
+   Step 3d takes files from the C.06 `odm` and `vendor`. Optional step 3k also uses them. Thus the C.06 donor stays as an input, and its `vendor` and `odm` go to `port-work/donor-c06-vendor`.
 
 3. Make the `port-overlay` folder. It holds the beta4 files that the edit list
    `maintainer/c06-vs-beta4/PORT-EDITS.tsv` takes (rows with the action `carry`: face unlock, MiSound, OppoCamera,
@@ -160,13 +163,13 @@ labels, makes one image for each partition and makes `super.img`. A run takes ab
 
 ```sh
 cd $PIPA_ROOT
-sh COS17/maintainer/port/port.sh --check mybuild donor/OPD2515_11.C.06/img
+sh COS17/maintainer/port/port.sh --check mybuild donor/OPD2515_11.C.07/img
 ```
 
 2. Build all steps. Use a new tag for each run: the run deletes `port-work/<tag>/`.
 
 ```sh
-sudo sh COS17/maintainer/port/port.sh mybuild donor/OPD2515_11.C.06/img
+sudo sh COS17/maintainer/port/port.sh mybuild donor/OPD2515_11.C.07/img
 ```
 
 Options:
@@ -181,7 +184,7 @@ Options:
 | `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `beta7.1-noenc`). Experimental. Clean flash only. |
 | `PORT_MAINTAINER_ADB=1` | Also apply step 5s (the build host's adb key, USB debugging on at the first boot) for unattended clean-flash tests on your own tablet. Never publish such a build: `build_release.sh` refuses it. |
 
-Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 6c (beta8 work; beta7.2 ended at 5x; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
+Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 7x (v9; beta7.2 ended at 5x; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
 through `sudo env`, for example `sudo env PORT_NOENCRYPT=1 sh COS17/maintainer/port/port.sh ...`.
 
 The output is in `port-work/<tag>/`:
@@ -328,22 +331,21 @@ bash maintainer/build_release.sh <tag> --pkg <name> --boot <boot.img> --name "<v
 ```
 
 - `<tag>`: the `port.sh` tag. The script takes `port-work/<tag>/img/super.img`.
-- `--pkg`: the package name, for example `beta7.1` (default: the tag). The script takes the release notes
+- `--pkg`: the package name, for example `v9` (default: the tag). The script takes the release notes
   `COS17/RELEASE-NOTES-<pkg>.md`. If this file does not exist, the script stops.
 - `--boot`: the kernel image. Without it, the package has the beta4 kernel.
 - `--no-super`: no `super.img` (to test the packaging).
 
-Commands for beta7.1 (`K` is the SukiSU manager APK, `B` is the kernel image `boot-walt-r17.img`):
+Command for v9 (`K` is the SukiSU Nova manager APK, `B` is the kernel image `boot-walt-hi9.img`):
 
 ```sh
-KSU_APK=$K bash maintainer/build_release.sh pt63 --boot $B --pkg beta7.1 --name beta7.1 --7z
-KSU_APK=$K bash maintainer/build_release.sh pt63-noenc --boot $B --pkg beta7.1-noenc --name beta7.1-noenc --7z
+KSU_APK=$K bash maintainer/build_release.sh pt128 --boot $B --pkg v9 --name "v9 (pt128 + walt-hi9)" --7z
 ```
 
-`pt63` is the default build. `pt63-noenc` is the same build with `PORT_NOENCRYPT=1` (step 3x).
+`pt128` is the default build. There is no `noenc` package for v9. For beta7.1, the same script made `pt63-noenc` with `PORT_NOENCRYPT=1` (step 3x).
 
 The script needs the extracted beta4 release in `COS17/` (section 1.3), the SukiSU manager APK (`KSU_APK`, default
-the v4.3.0 APK) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.
+the v4.3.0-r1 APK; for walt-hi9 set it to the Nova APK) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.
 
 The output is `<root>/port-work/release/ColorOS17-Port-pipa-<pkg>-<date>/` and a `.7z` file. The package
 contains the beta4 flash scripts (with changes) and firmware, the new `super.img`, the new `boot.img`,
