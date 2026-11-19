@@ -733,3 +733,18 @@ backup or a full copy): a change of `vendor` can make `/data` unreadable.
 - The exact official HyperOS 2 version of the firmware (one download and an md5 compare will tell).
 - The origin of the Megvii face model file and of the author-made apps and libraries (B7).
 - Whether the PixelOS boot chain pieces (B4, B5) work with the ColorOS system: not tested.
+
+## B10. Where future updates come from
+
+| Part | Source of newer versions | How to bring it in | Risk |
+|---|---|---|---|
+| ColorOS system, Android security patch of the system | new OTAs of the donor OPPO Pad Mini OPD2515 (OPlus-Tracker, A3) | `docs/REBASE.md`: the steps stop at their md5 checks; fix each one | known way (C.06 → C.07 was done) |
+| Kernel | upstream LineageOS `android_kernel_xiaomi_sm8250`; SukiSU Nova and susfs releases on GitHub | merge into the kernel repository, `walt-hiN` test boot (`fastboot boot`), then flash | low: a test boot writes nothing |
+| `vendor` HALs and libraries | newer builds of LineageOS-family ROMs for pipa (PixelOS and other ROMs from the same device trees): take `vendor.img` from their OTA (`payload_extract.py`); or build the vendor from the device trees (`device/xiaomi/pipa`, `sm8250-common`, `vendor/xiaomi`) | as test fs1a: `maintainer/fromstock/vendor/swap_test.sh` (in-place swap, labels kept), `linkcheck.py` (0 lost symbols), HAL version vs manifest, `snapshot.sh` before/after on the tablet | medium; only after test 1a passes |
+| GPU driver (Adreno 650 userspace: EGL/GLES, `vulkan.adreno`, `libllvm-*`, `libgsl`, a650 firmware) | Qualcomm does not publish it. Sources: the vendor of a newer ROM or device with the same Adreno 6xx driver line, or a community driver pack (the beta4 stack is `LA.VENDOR.12.3.11`, 2025-08) | only as one complete set, as test 1b; never mix single GPU libraries | high: a bad set gives a black screen (rollback with `flash_super.sh`) |
+| Open-source Vulkan (Turnip) | Mesa releases (beta4 has a `vulkan.turnip.so`) | for apps and emulators that load it themselves; not the system driver | low |
+| Firmware | official Xiaomi HyperOS fastboot ROMs for pipa (listed on xmfirmwareupdater.com) | `firmware-update` images in the release package; check anti-rollback (B2) | medium-high: bootloader images |
+| Google apps (step 5u), OPPO Games (7c), SukiSU manager (7u) | Google Play, OPPO App Market updates pulled from a tablet, GitHub releases | replace the input files and their hashes, rebuild | low |
+
+The point of tests 1a and 1b (B8): if they pass, the `vendor` no longer depends on the beta4 author's own build, and
+vendor and GPU updates can follow the PixelOS builds with the same tools.
