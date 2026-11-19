@@ -31,21 +31,22 @@ a ps -A -o LABEL,NAME | awk 'NR>1{print $1, $2}' | grep -v -E 'kworker|ksoftirq|
 a logcat -b all -d > "$O/logcat.raw" 2>/dev/null || :
 grep -E 'FATAL EXCEPTION|Fatal signal|ANR in|tombstone|crashed|died, restarting|Service .* died' "$O/logcat.raw" | sed -E 's/^.{19}//; s/[0-9]{2,}/N/g' | sort | uniq -c | sort -rn > "$O/crashes.txt" || :
 grep -o 'avc:  *denied  *{[^}]*} for .*scontext=[^ ]* tcontext=[^ ]* tclass=[^ ]*' "$O/logcat.raw" | sed -E 's/ (pid|ino|dev)=[^ ]*//g; s/name="[^"]*"//' | sort | uniq -c | sort -rn > "$O/denials.txt" || :
-grep -i -E ' E/| F/' "$O/logcat.raw" | sed -E 's/^.{19}//; s/\([ 0-9]+\)//; s/[0-9]{3,}/N/g; s/0x[0-9a-f]+/H/g' | awk '{$1=""; print}' | sort | uniq -c | sort -rn | head -200 > "$O/errors-top.txt" || :
+awk '$5=="E" || $5=="F" {$1=$2=$3=$4=""; print}' "$O/logcat.raw" | sed -E 's/^ +//; s/[0-9]{3,}/N/g; s/0x[0-9a-f]+/H/g' | sort | uniq -c | sort -rn | head -200 > "$O/errors-top.txt" || :
 a su -c dmesg | grep -i -E 'error|fail|fatal|panic|warn|underrun|timeout' | sed -E 's/^\[[ 0-9.]+\] //; s/[0-9]{3,}/N/g' | sort | uniq -c | sort -rn | head -150 > "$O/dmesg-errors.txt" || :
 {
 	echo "wifi: $(a dumpsys wifi | grep -m1 -E '^Wi-Fi is' )"
 	echo "bt: $(a settings get global bluetooth_on)"
 	echo "audio devices: $(a dumpsys media.audio_flinger | grep -c 'Output thread')"
-	echo "audio policy hw modules: $(a dumpsys media.audio_policy | grep -A0 -E '^- HW Module|Module name' | tr '\n' ' ' | cut -c1-200)"
+	echo "audio policy hw modules: $(a dumpsys media.audio_policy | grep -m1 -i 'Hardware modules')"
 	echo "cameras: $(a dumpsys media.camera | grep -m1 'Number of camera devices')"
 	echo "sensors: $(a dumpsys sensorservice | grep -c '^0x')"
-	echo "display modes: $(a dumpsys display | grep -m1 -o 'supportedModes=\[[^]]*\]' | grep -o 'fps=[0-9.]*' | sort -u | tr '\n' ' ')"
-	echo "input devices: $(a dumpsys input | grep -E '^ +[0-9]+: ' | sed 's/^ *[0-9]*: //' | sort | tr '\n' ';')"
-	echo "power hal: $(a dumpsys android.hardware.power.IPower/default 2>/dev/null | head -3 | tr '\n' ' ' | cut -c1-200)"
+	echo "display modes: $(a dumpsys display | grep -o -E 'fps=[0-9]+' | sort -u | tr '\n' ' ')"
+	echo "input devices: $(a dumpsys input | sed -n '/Event Hub State/,/Input Reader State/p' | grep -E '^ +-?[0-9]+: [A-Za-z]' | sed 's/^ *-\{0,1\}[0-9]*: //' | sort | tr '\n' ';')"
+	for h in power.IPower health.IHealth light.ILights thermal.IThermal boot.IBootControl wifi.IWifi vibrator.IVibrator graphics.composer3.IComposer; do
+		echo "hal $h: $(a service check android.hardware.$h/default | sed 's/.*: //')"
+	done
 	echo "thermal hal: $(a dumpsys thermalservice | grep -m1 -i 'HAL Ready')"
 	echo "battery: $(a dumpsys battery | grep -E 'status|health|present|technology' | tr -s ' ' | tr '\n' ' ')"
-	echo "health hal: $(a dumpsys android.hardware.health.IHealth/default 2>/dev/null | grep -c .) lines"
 	echo "gpu: $(a dumpsys SurfaceFlinger | grep -m1 -E 'GLES:')"
 	echo "selinux: $(a getenforce)"
 	echo "root: $(a su -c id | cut -c1-20)"

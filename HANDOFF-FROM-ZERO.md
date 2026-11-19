@@ -717,7 +717,19 @@ The `pipa_core` module files that the ROM ships in `port-rom/pipa_port/` (Rust f
 SenseTime face libraries, `xiaomi_touch_ioctl` (Rust), `chargershim.jar`, `aod_bl.jar`) are author-made blobs. Only
 `libcamera2ndk_vendor.so` and `libc++_shared.so` match stock files.
 
-## B8. Test plan on a tablet (not done yet)
+## B8. Test plan on a tablet
+
+Results 2026-11-19 (tools: `swap_test.sh`, `linkcheck.py`, `snapshot.sh`, `funcheck.sh`, `shade_scroll.sh`):
+
+- **Test 1a (178 PixelOS vendor files): failed.** The PixelOS `android.hardware.wifi-service` tracks the interfaces
+  differently (`Unknown iface name: wlan0`, 5 -> 25 warnings) and Wi-Fi dropped once after the `p2p0` teardown.
+- **Test 1a without the wifi HAL (177 files, fs1a2): the same as v9.** Services, HALs, SELinux denials, Wi-Fi,
+  camera, backlight, charging and `device_check` (45/0/2) are identical; shade jank 1.4-2.1 % against v9 1.3-1.6 %
+  (noise). So these 177 files of the PixelOS 17 build are drop-in equal to the beta4 build.
+- Decision: v9 stays as it is (no gain). A vendor file is swapped only to fix something (as step 7h does).
+- Tests 1b to 7: not done.
+
+Do one change at a time.
 
 Do one change at a time. Each test needs the person's approval and a named rollback. Back up `/data` first (TWRP
 backup or a full copy): a change of `vendor` can make `/data` unreadable.

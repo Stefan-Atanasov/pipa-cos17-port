@@ -27,6 +27,11 @@ rm -rf "$W"; mkdir -p "$W/img" "$W/report" "$W/tree"
 fsck.erofs --extract="$T" --xattrs --preserve "$BASE/vendor.img" > "$W/report/extract.log" 2>&1
 awk -F'\t' 'NR>1 && $4=="binary" && $5=="px" {print $1}' "$HERE/unique-v.tsv" |
 	grep -v -E '\.apk$|/thermal-.*\.conf$|\.ko$|NOTICE|audio\.primary' > "$W/report/candidates.txt"
+# Kept from the port build (BUGS 141 test results): the PixelOS wifi HAL tracks the interfaces differently
+# ("Unknown iface name: wlan0", "No active wlan interfaces", 5 -> 25 warnings) and Wi-Fi dropped once after the
+# p2p0 teardown (fs1a, 2026-11-19). EXCLUDE=<regex> replaces this list.
+EXCLUDE=${EXCLUDE-'^bin/hw/android\.hardware\.wifi-service$'}
+[ -n "$EXCLUDE" ] && { grep -v -E "$EXCLUDE" "$W/report/candidates.txt" > "$W/report/c2" || :; mv "$W/report/c2" "$W/report/candidates.txt"; }
 case $SET in
 	1a) grep -v -E "$GFX" "$W/report/candidates.txt" > "$W/report/set.txt" || :;;
 	1b) grep -E "$GFX" "$W/report/candidates.txt" > "$W/report/set.txt" || :;;
