@@ -1,0 +1,368 @@
+path	status	size	kind	counterpart	detail
+Khronos/OpenCL/vendors/adreno.icd	added	19	text	-	new file -> patches/*.new
+app/CACertService/CACertService.apk	modified	41183	binary	px	3610 bytes differ
+app/CneApp/CneApp.apk	modified	319711	binary	px	3610 bytes differ
+app/IWlanService/IWlanService.apk	modified	999647	binary	px	3609 bytes differ
+app/TimeService/TimeService.apk	modified	12511	binary	px	3611 bytes differ
+bin/awk	modified	152576	binary	px	1426 bytes differ
+bin/hw/android.hardware.biometrics.face-service.facehal	added	513920	binary	pipa_core/facehal	size 513920 vs 517424
+bin/hw/android.hardware.boot-service.qti	modified	120104	binary	px	2666 bytes differ
+bin/hw/android.hardware.health-service.qti	modified	230440	binary	px	size 230440 vs 230392
+bin/hw/android.hardware.light-service.lineage	modified	65392	binary	px	21535 bytes differ
+bin/hw/android.hardware.power-service.lineage-libperfmgr	modified	214312	binary	px	64324 bytes differ
+bin/hw/android.hardware.thermal-service.qti	modified	235928	binary	px	3281 bytes differ
+bin/hw/android.hardware.wifi-service	modified	495192	binary	px	size 495192 vs 491072
+bin/hw/vendor-oplus-hardware-performance-V1-service	added	285624	binary	-	
+bin/hw/vendor.oplus.hardware.stability.oplus_project-V1-service	added	308104	binary	-	
+bin/ipacm	modified	445480	binary	px	16 bytes differ
+bin/sh	modified	310264	binary	px	4361 bytes differ
+bin/toolbox	modified	145336	binary	px	16 bytes differ
+bin/toybox_vendor	modified	578408	binary	px	size 578408 vs 578400
+bin/vndservicemanager	modified	82712	binary	px	size 82712 vs 78600
+build.prop	modified	20138	text	px	diff +127 -36 (raw bytes, apply: patch --binary)
+etc/NOTICE.xml.gz	modified	104943	binary	px	size 104943 vs 104665
+etc/audio_effects.xml	modified	8658	text	px	diff +21 -10 (raw bytes, apply: patch --binary)
+etc/audio_policy_configuration.xml	modified	28784	text	px	diff +26 -3 (raw bytes, apply: patch --binary)
+etc/build_flags.json	modified	99498	text	px	diff +3 -3 (raw bytes, apply: patch --binary)
+etc/camera/camxoverridesettings.txt	modified	1935	text	px	diff +59 -74 (raw bytes, apply: patch --binary)
+etc/init/android.hardware.biometrics.face-service.facehal.rc	added	974	text	-	new file -> patches/*.new
+etc/init/android.hardware.light-service.lineage.rc	modified	14627	text	px	diff +44 -0 (raw bytes, apply: patch --binary)
+etc/init/hw/init.device.rc	modified	873	text	px	diff +3 -0 (raw bytes, apply: patch --binary)
+etc/init/hw/init.target.rc	modified	18413	text	px	diff +0 -7 (raw bytes, apply: patch --binary)
+etc/init/oplus_hal_odm.rc	added	883	text	-	new file -> patches/*.new
+etc/init/portenforce.rc	added	701	text	-	new file -> patches/*.new
+etc/permissions/android.software.device_id_attestation.xml	modified	780	text	px	diff +0 -1 (raw bytes, apply: patch --binary)
+etc/permissions/android.software.freeform_window_management.xml	added	767	text	-	new file -> patches/*.new
+etc/permissions/android.software.picture_in_picture.xml	added	759	text	-	new file -> patches/*.new
+etc/powerhint.json	modified	23349	text	px	diff +31 -1 (raw bytes, apply: patch --binary)
+etc/selinux/plat_pub_versioned.cil	modified	623804	text	px	diff +31 -26 (raw bytes, apply: patch --binary)
+etc/selinux/vendor_file_contexts	modified	110667	text	px	diff +126 -75 (raw bytes, apply: patch --binary)
+etc/selinux/vendor_hwservice_contexts	modified	12909	text	px	diff +12 -6 (raw bytes, apply: patch --binary)
+etc/selinux/vendor_mac_permissions.xml	modified	4481	text	px	diff +1 -1 (raw bytes, apply: patch --binary)
+etc/selinux/vendor_property_contexts	modified	27843	text	px	diff +460 -521 (raw bytes, apply: patch --binary)
+etc/selinux/vendor_seapp_contexts	modified	1661	text	px	diff +0 -28 (raw bytes, apply: patch --binary)
+etc/selinux/vendor_sepolicy.cil	modified	1428264	text	px	diff +21060 -24606 (raw bytes, apply: patch --binary)
+etc/selinux/vendor_service_contexts	modified	6018	text	px	diff +15 -2 (raw bytes, apply: patch --binary)
+etc/selinux/vndservice_contexts	modified	6761	text	px	diff +0 -31 (raw bytes, apply: patch --binary)
+etc/thermal-4k.conf	modified	2352	binary	px	1689 bytes differ
+etc/thermal-camera.conf	modified	2448	binary	px	1797 bytes differ
+etc/thermal-cclassvideo.conf	modified	2432	binary	px	1736 bytes differ
+etc/thermal-cgame.conf	modified	1888	binary	px	1514 bytes differ
+etc/thermal-class0.conf	modified	2192	binary	px	1545 bytes differ
+etc/thermal-global-4k.conf	modified	2448	binary	px	1772 bytes differ
+etc/thermal-global-camera.conf	modified	2544	binary	px	1877 bytes differ
+etc/thermal-global-class0.conf	modified	2224	binary	px	1561 bytes differ
+etc/thermal-global-hp-mgame.conf	modified	1776	binary	px	1434 bytes differ
+etc/thermal-global-hp-normal.conf	modified	2752	binary	px	1583 bytes differ
+etc/thermal-global-mgame.conf	modified	2160	binary	px	1798 bytes differ
+etc/thermal-global-nolimits.conf	modified	1200	binary	px	857 bytes differ
+etc/thermal-global-normal.conf	modified	2816	binary	px	1577 bytes differ
+etc/thermal-global-tgame.conf	modified	2080	binary	px	1706 bytes differ
+etc/thermal-global-video.conf	modified	2224	binary	px	1563 bytes differ
+etc/thermal-global-videochat.conf	modified	2528	binary	px	1832 bytes differ
+etc/thermal-india-4k.conf	modified	2432	binary	px	1751 bytes differ
+etc/thermal-india-camera.conf	modified	2544	binary	px	1866 bytes differ
+etc/thermal-india-class0.conf	modified	2224	binary	px	1540 bytes differ
+etc/thermal-india-mgame.conf	modified	2080	binary	px	1734 bytes differ
+etc/thermal-india-nolimits.conf	modified	1072	binary	px	735 bytes differ
+etc/thermal-india-normal.conf	modified	2768	binary	px	1530 bytes differ
+etc/thermal-india-tgame.conf	modified	2080	binary	px	1703 bytes differ
+etc/thermal-india-video.conf	modified	2224	binary	px	1563 bytes differ
+etc/thermal-india-videochat.conf	modified	2528	binary	px	1813 bytes differ
+etc/thermal-mgame.conf	modified	1792	binary	px	1467 bytes differ
+etc/thermal-nolimits.conf	modified	1104	binary	px	779 bytes differ
+etc/thermal-normal.conf	modified	2560	binary	px	1451 bytes differ
+etc/thermal-tgame.conf	modified	1776	binary	px	1449 bytes differ
+etc/thermal-video.conf	modified	2112	binary	px	1463 bytes differ
+etc/thermal-videochat.conf	modified	2416	binary	px	1737 bytes differ
+etc/thermal-yuanshen.conf	modified	1808	binary	px	1463 bytes differ
+etc/usbv2_audio_policy_configuration.xml	modified	3274	text	px	diff +18 -3 (raw bytes, apply: patch --binary)
+etc/vintf/manifest/android.hardware.biometrics.face-service.xml	added	685	text	-	new file -> patches/*.new
+etc/vintf/manifest/android.hardware.power-service.lineage.xml	modified	320	text	px	diff +1 -1 (raw bytes, apply: patch --binary)
+etc/vintf/manifest/manifest_oplus_stability.xml	added	424	text	-	new file -> patches/*.new
+etc/vintf/manifest/vendor.qti.hardware.perf@2.2.xml	added	361	text	-	new file -> patches/*.new
+firmware/a650_sqe.fw	modified	31988	binary	px	size 31988 vs 31632
+firmware/a650_zap.elf	modified	13964	binary	px	3446 bytes differ
+lib/android.hardware.audio.effect@6.0.so	modified	893016	binary	px	size 893016 vs 1107244
+lib/android.hardware.audio@6.0.so	modified	529256	binary	px	size 529256 vs 673040
+lib/android.hardware.bluetooth.audio@2.0.so	modified	154184	binary	px	size 154184 vs 171040
+lib/android.hardware.bluetooth.audio@2.1.so	modified	118412	binary	px	size 118412 vs 129524
+lib/android.hardware.camera.device@1.0.so	modified	199384	binary	px	size 199384 vs 243092
+lib/android.hardware.camera.device@3.2.so	modified	143848	binary	px	size 143848 vs 165664
+lib/android.hardware.camera.device@3.3.so	modified	66092	binary	px	size 66092 vs 74256
+lib/android.hardware.camera.device@3.4.so	modified	111128	binary	px	size 111128 vs 124052
+lib/android.hardware.camera.device@3.5.so	modified	172124	binary	px	size 172124 vs 196156
+lib/android.hardware.camera.device@3.6.so	modified	167496	binary	px	size 167496 vs 190016
+lib/android.hardware.camera.provider@2.4.so	modified	103468	binary	px	size 103468 vs 116596
+lib/android.hardware.cas.native@1.0.so	modified	60244	binary	px	size 60244 vs 66520
+lib/android.hardware.cas@1.0.so	modified	164808	binary	px	size 164808 vs 189896
+lib/android.hardware.cas@1.1.so	modified	131456	binary	px	size 131456 vs 146528
+lib/android.hardware.cas@1.2.so	modified	140072	binary	px	size 140072 vs 155388
+lib/android.hardware.graphics.allocator@2.0.so	modified	56120	binary	px	size 56120 vs 62460
+lib/android.hardware.graphics.allocator@3.0.so	modified	56204	binary	px	size 56204 vs 62548
+lib/android.hardware.graphics.allocator@4.0.so	modified	53104	binary	px	size 53104 vs 58376
+lib/android.hardware.graphics.bufferqueue@1.0.so	modified	146544	binary	px	size 146544 vs 177224
+lib/android.hardware.graphics.bufferqueue@2.0.so	modified	130172	binary	px	size 130172 vs 154392
+lib/android.hardware.graphics.mapper@2.0.so	modified	62280	binary	px	size 62280 vs 70976
+lib/android.hardware.graphics.mapper@2.1.so	modified	65688	binary	px	size 65688 vs 74704
+lib/android.hardware.graphics.mapper@3.0.so	modified	69344	binary	px	size 69344 vs 79804
+lib/android.hardware.graphics.mapper@4.0.so	modified	88368	binary	px	size 88368 vs 105384
+lib/android.hardware.health@2.0.so	modified	111184	binary	px	size 111184 vs 131436
+lib/android.hardware.media.bufferpool@2.0.so	modified	142240	binary	px	size 142240 vs 156092
+lib/android.hardware.media.c2@1.0.so	modified	376428	binary	px	size 376428 vs 433988
+lib/android.hardware.media.omx@1.0.so	modified	285276	binary	px	size 285276 vs 340048
+lib/android.hardware.power@1.0.so	modified	57552	binary	px	size 57552 vs 64964
+lib/android.hardware.power@1.1.so	modified	61152	binary	px	size 61152 vs 68860
+lib/android.hardware.power@1.2.so	modified	61460	binary	px	size 61460 vs 69348
+lib/android.hardware.radio@1.0.so	modified	935260	binary	px	size 935260 vs 1352732
+lib/android.hardware.radio@1.1.so	modified	656384	binary	px	size 656384 vs 917796
+lib/android.hardware.sensors@1.0.so	modified	73544	binary	px	size 73544 vs 87212
+lib/android.hardware.soundtrigger@2.0.so	modified	106780	binary	px	size 106780 vs 121940
+lib/android.hardware.soundtrigger@2.1.so	modified	116928	binary	px	size 116928 vs 132268
+lib/android.hardware.soundtrigger@2.2.so	modified	71600	binary	px	size 71600 vs 80452
+lib/android.hardware.soundtrigger@2.3.so	modified	93872	binary	px	size 93872 vs 107580
+lib/android.hidl.allocator@1.0.so	modified	54848	binary	px	size 54848 vs 61228
+lib/android.hidl.manager@1.0.so	added	2532	binary	-	
+lib/android.hidl.memory.block@1.0.so	added	2628	binary	-	
+lib/android.hidl.memory.token@1.0.so	modified	50984	binary	px	size 50984 vs 56280
+lib/android.hidl.memory@1.0.so	modified	87480	binary	px	size 87480 vs 99012
+lib/android.hidl.token@1.0.so	modified	58120	binary	px	size 58120 vs 64984
+lib/camera.device@1.0-impl.so	modified	115288	binary	px	size 115288 vs 115312
+lib/egl/eglSubDriverAndroid.so	modified	39164	binary	px	size 39164 vs 41804
+lib/egl/libEGL_adreno.so	modified	21584	binary	px	size 21584 vs 21452
+lib/egl/libGLESv1_CM_adreno.so	modified	186536	binary	px	size 186536 vs 186520
+lib/egl/libGLESv2_adreno.so	modified	3299428	binary	px	size 3299428 vs 2991256
+lib/hw/android.hardware.audio@6.0-impl.so	modified	163336	binary	px	size 163336 vs 163344
+lib/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so	modified	60480	binary	px	size 60480 vs 56348
+lib/hw/gralloc.qcom.so	added	23508	binary	-	
+lib/hw/vulkan.adreno.so	modified	1729096	binary	px	size 1729096 vs 1456876
+lib/libCB.so	modified	2305264	binary	px	size 2305264 vs 2386120
+lib/libOpenCL.so	modified	77316	binary	px	size 77316 vs 77228
+lib/libVkLayer_q3dtools.so	modified	1491584	binary	px	size 1491584 vs 1686072
+lib/libadreno_utils.so	modified	60004	binary	px	size 60004 vs 59964
+lib/libbinder.so	modified	560936	binary	px	size 560936 vs 565800
+lib/libcodec2_hidl@1.0.so	modified	190536	binary	px	size 190536 vs 190804
+lib/libcodec2_vndk.so	modified	569020	binary	px	size 569020 vs 568388
+lib/libcutils.so	modified	62040	binary	px	size 62040 vs 62000
+lib/libdmabufheap.so	modified	59576	binary	px	size 59576 vs 45872
+lib/libeffects.so	modified	24304	binary	px	size 24304 vs 23472
+lib/libgralloc.qti.so	modified	17568	binary	px	16 bytes differ
+lib/libgralloccore.so	modified	63228	binary	px	size 63228 vs 59856
+lib/libgralloctypes.so	modified	52604	binary	px	16 bytes differ
+lib/libgrallocutils.so	modified	43396	binary	px	size 43396 vs 43028
+lib/libgsl.so	modified	1969448	binary	px	size 1969448 vs 1957992
+lib/libgui.so	modified	1265664	binary	px	size 1265664 vs 1267424
+lib/libhidlbase.so	modified	472852	binary	px	size 472852 vs 504336
+lib/libllvm-glnext.so	modified	10611612	binary	px	size 10611612 vs 10002388
+lib/libllvm-qcom.so	modified	23266828	binary	px	size 23266828 vs 22881840
+lib/libmedia_omx.so	modified	147852	binary	px	16 bytes differ
+lib/libpiex.so	modified	62236	binary	px	size 62236 vs 62036
+lib/libqdMetaData.so	modified	15696	binary	px	size 15696 vs 15824
+lib/libstagefright_bufferqueue_helper.so	modified	229352	binary	px	size 229352 vs 229660
+lib/libstagefright_foundation.so	modified	159160	binary	px	size 159160 vs 159272
+lib/libstagefright_omx.so	modified	239172	binary	px	size 239172 vs 238252
+lib/libstagefright_xmlparser.so	modified	82200	binary	px	size 82200 vs 82136
+lib/libtinycompress.so	modified	15316	binary	px	size 15316 vs 15328
+lib/libui.so	modified	308716	binary	px	16 bytes differ
+lib/modules/gspca_main.ko	modified	63752	binary	px	262 bytes differ
+lib/modules/rmnet_perf.ko	modified	69168	binary	px	size 69168 vs 69160
+lib/modules/rmnet_shs.ko	modified	219440	binary	px	size 219440 vs 219376
+lib/soundfx/libhwdap.so	added	72880	binary	hy(other base)	4 bytes differ
+lib/vendor.display.config@2.0.so	modified	87480	binary	px	size 87480 vs 96668
+lib/vendor.qti.hardware.bluetooth_audio@2.0.so	modified	136324	binary	px	size 136324 vs 153952
+lib/vendor.qti.hardware.bluetooth_audio@2.1.so	modified	143688	binary	px	size 143688 vs 158500
+lib/vendor.qti.hardware.capabilityconfigstore@1.0.so	modified	54344	binary	px	size 54344 vs 59736
+lib/vendor.qti.hardware.display.mapper@2.0.so	modified	72932	binary	px	size 72932 vs 81972
+lib/vendor.qti.hardware.display.mapper@3.0.so	modified	70376	binary	px	size 70376 vs 78984
+lib/vendor.qti.hardware.display.mapper@4.0.so	modified	80232	binary	px	size 80232 vs 92704
+lib/vendor.qti.hardware.display.mapperextensions@1.0.so	modified	97416	binary	px	size 97416 vs 117824
+lib/vendor.qti.hardware.display.mapperextensions@1.1.so	modified	86984	binary	px	size 86984 vs 102640
+lib64/android.frameworks.cameraservice.common@2.0.so	added	10872	binary	-	
+lib64/android.frameworks.cameraservice.device@2.0.so	added	194928	binary	-	
+lib64/android.frameworks.cameraservice.service@2.0.so	added	144800	binary	-	
+lib64/android.frameworks.cameraservice.service@2.1.so	added	144608	binary	-	
+lib64/android.hardware.audio.effect@6.0.so	modified	1287424	binary	px	size 1287424 vs 1587000
+lib64/android.hardware.audio@6.0.so	modified	761144	binary	px	size 761144 vs 956976
+lib64/android.hardware.bluetooth.audio@2.0.so	modified	218936	binary	px	size 218936 vs 243784
+lib64/android.hardware.bluetooth.audio@2.1.so	modified	165080	binary	px	size 165080 vs 186032
+lib64/android.hardware.bluetooth@1.0.so	modified	131544	binary	px	size 131544 vs 148160
+lib64/android.hardware.boot@1.0.so	modified	94288	binary	px	size 94288 vs 115168
+lib64/android.hardware.boot@1.1.so	modified	89944	binary	px	size 89944 vs 102584
+lib64/android.hardware.camera.device@1.0.so	modified	284936	binary	px	size 284936 vs 342632
+lib64/android.hardware.camera.device@3.2.so	modified	206944	binary	px	size 206944 vs 240760
+lib64/android.hardware.camera.device@3.3.so	modified	94400	binary	px	size 94400 vs 107064
+lib64/android.hardware.camera.device@3.4.so	modified	160832	binary	px	size 160832 vs 177696
+lib64/android.hardware.camera.device@3.5.so	modified	239904	binary	px	size 239904 vs 278344
+lib64/android.hardware.camera.device@3.6.so	modified	231664	binary	px	size 231664 vs 269960
+lib64/android.hardware.camera.provider@2.4.so	modified	148728	binary	px	size 148728 vs 169624
+lib64/android.hardware.drm@1.0.so	modified	382272	binary	px	size 382272 vs 461344
+lib64/android.hardware.drm@1.1.so	modified	248672	binary	px	size 248672 vs 303592
+lib64/android.hardware.drm@1.2.so	modified	386280	binary	px	size 386280 vs 457312
+lib64/android.hardware.drm@1.3.so	modified	144136	binary	px	size 144136 vs 160848
+lib64/android.hardware.gatekeeper@1.0.so	modified	90072	binary	px	size 90072 vs 102848
+lib64/android.hardware.gnss@1.0.so	modified	995992	binary	px	size 995992 vs 1131576
+lib64/android.hardware.graphics.allocator@2.0.so	modified	81936	binary	px	size 81936 vs 94464
+lib64/android.hardware.graphics.allocator@3.0.so	modified	81936	binary	px	size 81936 vs 94464
+lib64/android.hardware.graphics.allocator@4.0.so	modified	77736	binary	px	size 77736 vs 86136
+lib64/android.hardware.graphics.composer@2.1.so	modified	262216	binary	px	size 262216 vs 320376
+lib64/android.hardware.graphics.composer@2.2.so	modified	215784	binary	px	size 215784 vs 254256
+lib64/android.hardware.graphics.composer@2.3.so	modified	262320	binary	px	size 262320 vs 317248
+lib64/android.hardware.graphics.composer@2.4.so	modified	328488	binary	px	size 328488 vs 400536
+lib64/android.hardware.graphics.mapper@2.0.so	modified	90232	binary	px	size 90232 vs 106944
+lib64/android.hardware.graphics.mapper@2.1.so	modified	94408	binary	px	size 94408 vs 107072
+lib64/android.hardware.graphics.mapper@3.0.so	modified	102800	binary	px	size 102800 vs 119496
+lib64/android.hardware.graphics.mapper@4.0.so	modified	127736	binary	px	size 127736 vs 157080
+lib64/android.hardware.health@2.0.so	modified	161272	binary	px	size 161272 vs 194840
+lib64/android.hardware.keymaster@3.0.so	modified	167056	binary	px	size 167056 vs 200728
+lib64/android.hardware.keymaster@4.0.so	modified	196624	binary	px	size 196624 vs 234592
+lib64/android.hardware.keymaster@4.1.so	modified	140864	binary	px	size 140864 vs 158000
+lib64/android.hardware.neuralnetworks@1.0.so	modified	218728	binary	px	size 218728 vs 239672
+lib64/android.hardware.neuralnetworks@1.1.so	modified	98592	binary	px	size 98592 vs 115296
+lib64/android.hardware.neuralnetworks@1.2.so	modified	406632	binary	px	size 406632 vs 452400
+lib64/android.hardware.neuralnetworks@1.3.so	modified	431616	binary	px	size 431616 vs 485872
+lib64/android.hardware.power@1.0.so	modified	85936	binary	px	size 85936 vs 98432
+lib64/android.hardware.power@1.1.so	modified	90184	binary	px	size 90184 vs 98632
+lib64/android.hardware.power@1.2.so	modified	85984	binary	px	size 85984 vs 102664
+lib64/android.hardware.radio.config@1.0.so	modified	173208	binary	px	size 173208 vs 194016
+lib64/android.hardware.radio.config@1.1.so	modified	202592	binary	px	size 202592 vs 235768
+lib64/android.hardware.radio.config@1.2.so	modified	156808	binary	px	size 156808 vs 177736
+lib64/android.hardware.radio.deprecated@1.0.so	modified	177336	binary	px	size 177336 vs 198072
+lib64/android.hardware.radio@1.0.so	modified	1382512	binary	px	size 1382512 vs 2022688
+lib64/android.hardware.radio@1.1.so	modified	977464	binary	px	size 977464 vs 1404648
+lib64/android.hardware.radio@1.2.so	modified	1078208	binary	px	size 1078208 vs 1534608
+lib64/android.hardware.radio@1.3.so	modified	1008192	binary	px	size 1008192 vs 1447992
+lib64/android.hardware.radio@1.4.so	modified	1175224	binary	px	size 1175224 vs 1664488
+lib64/android.hardware.radio@1.5.so	modified	1371896	binary	px	size 1371896 vs 1919224
+lib64/android.hardware.secure_element@1.0.so	modified	140200	binary	px	size 140200 vs 161080
+lib64/android.hardware.secure_element@1.1.so	modified	135792	binary	px	size 135792 vs 152552
+lib64/android.hardware.secure_element@1.2.so	modified	94104	binary	px	size 94104 vs 102640
+lib64/android.hardware.sensors@1.0.so	modified	106824	binary	px	size 106824 vs 127648
+lib64/android.hardware.soundtrigger@2.0.so	modified	152568	binary	px	size 152568 vs 177472
+lib64/android.hardware.soundtrigger@2.1.so	modified	164928	binary	px	size 164928 vs 189888
+lib64/android.hardware.soundtrigger@2.2.so	modified	102400	binary	px	size 102400 vs 110928
+lib64/android.hardware.soundtrigger@2.3.so	modified	131512	binary	px	size 131512 vs 152464
+lib64/android.hardware.tetheroffload.config@1.0.so	modified	77704	binary	px	size 77704 vs 86112
+lib64/android.hardware.tetheroffload.control@1.0.so	modified	152832	binary	px	size 152832 vs 182632
+lib64/android.hardware.tetheroffload.control@1.1.so	modified	148584	binary	px	size 148584 vs 173712
+lib64/android.hardware.thermal@1.0.so	modified	86088	binary	px	size 86088 vs 98688
+lib64/android.hardware.thermal@2.0.so	modified	148608	binary	px	size 148608 vs 173880
+lib64/android.hardware.usb.gadget@1.0.so	modified	123544	binary	px	size 123544 vs 144320
+lib64/android.hardware.usb.gadget@1.1.so	modified	81784	binary	px	size 81784 vs 94328
+lib64/android.hidl.allocator@1.0.so	modified	81896	binary	px	size 81896 vs 90368
+lib64/android.hidl.manager@1.0.so	added	10672	binary	-	
+lib64/android.hidl.memory.block@1.0.so	added	10736	binary	-	
+lib64/android.hidl.memory.token@1.0.so	modified	73520	binary	px	size 73520 vs 86088
+lib64/android.hidl.memory@1.0.so	modified	127512	binary	px	size 127512 vs 144128
+lib64/android.system.net.netd@1.0.so	modified	81808	binary	px	size 81808 vs 86128
+lib64/android.system.net.netd@1.1.so	modified	94064	binary	px	size 94064 vs 110664
+lib64/camera.device@1.0-impl.so	modified	151760	binary	px	48 bytes differ
+lib64/com.dsi.ant@1.0.so	modified	140104	binary	px	size 140104 vs 156816
+lib64/egl/eglSubDriverAndroid.so	modified	105352	binary	px	size 105352 vs 71824
+lib64/egl/libEGL_adreno.so	modified	39848	binary	px	size 39848 vs 39864
+lib64/egl/libGLESv1_CM_adreno.so	modified	237920	binary	px	size 237920 vs 233824
+lib64/egl/libGLESv2_adreno.so	modified	5535280	binary	px	size 5535280 vs 4130248
+lib64/egl/libVkLayer_ADRENO_qprofiler.so	added	3122984	binary	c06(other base)	size 3122984 vs 4331848
+lib64/egl/libq3dtools_adreno.so	modified	335792	binary	px	size 335792 vs 239856
+lib64/egl/libq3dtools_esx.so	modified	2304808	binary	px	size 2304808 vs 1522456
+lib64/hw/android.hardware.audio@6.0-impl.so	modified	204552	binary	px	size 204552 vs 204544
+lib64/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so	modified	93152	binary	px	size 93152 vs 84984
+lib64/hw/audio.primary.kona.so	modified	641024	binary	px	size 641024 vs 641016
+lib64/hw/gralloc.qcom.so	added	39888	binary	-	
+lib64/hw/vulkan.adreno.so	modified	5130352	binary	px	size 5130352 vs 1900664
+lib64/hw/vulkan.turnip.so	added	19069681	binary	-	
+lib64/libC2D2.so	modified	189888	binary	px	size 189888 vs 194016
+lib64/libCB.so	modified	11587200	binary	px	size 11587200 vs 3166096
+lib64/libVkLayer_q3dtools.so	modified	2079984	binary	px	size 2079984 vs 2364728
+lib64/liba2dpoffload.so	modified	56032	binary	px	16 bytes differ
+lib64/libadreno_app_profiles.so	added	996648	binary	hy(other base)	size 996648 vs 898456
+lib64/libadreno_utils.so	modified	97808	binary	px	size 97808 vs 81376
+lib64/libbinder.so	modified	916784	binary	px	size 916784 vs 925632
+lib64/libbluetooth_audio_session_aidl.so	modified	1638680	binary	px	size 1638680 vs 1638672
+lib64/libc2d30_bltlib.so	modified	703408	binary	px	size 703408 vs 651120
+lib64/libcamera2ndk_vendor.so	added	344096	binary	hy(other base)	size 344096 vs 317008
+lib64/libcamera_metadata.so	added	66128	binary	c06(other base)	size 66128 vs 90552
+lib64/libcap.so	modified	47624	binary	px	16 bytes differ
+lib64/libcrypto.so	modified	1953904	binary	px	size 1953904 vs 1953880
+lib64/libcurl.so	modified	688736	binary	px	size 688736 vs 688744
+lib64/libcutils.so	modified	93736	binary	px	1165 bytes differ
+lib64/libdmabufheap.so	modified	87224	binary	px	size 87224 vs 73352
+lib64/libeffects.so	modified	35720	binary	px	size 35720 vs 35712
+lib64/libexpat.so	modified	168496	binary	px	size 168496 vs 168504
+lib64/libexthwplugin.so	modified	35328	binary	px	16 bytes differ
+lib64/libflatbuffers-cpp.so	modified	1236128	binary	px	16 bytes differ
+lib64/libgpu_tonemapper.so	modified	88096	binary	px	size 88096 vs 64592
+lib64/libgpudataproducer.so	modified	1008720	binary	px	size 1008720 vs 1581648
+lib64/libgralloc.qti.so	modified	31288	binary	px	16 bytes differ
+lib64/libgralloccore.so	modified	93880	binary	px	size 93880 vs 81608
+lib64/libgralloctypes.so	modified	85216	binary	px	16 bytes differ
+lib64/libgrallocutils.so	modified	68160	binary	px	44545 bytes differ
+lib64/libgsl.so	modified	2218120	binary	px	size 2218120 vs 2129992
+lib64/libhardware_legacy.so	modified	52328	binary	px	size 52328 vs 31672
+lib64/libhfp.so	modified	35472	binary	px	16 bytes differ
+lib64/libhidlbase.so	modified	685960	binary	px	size 685960 vs 732240
+lib64/libjpeg.so	modified	342032	binary	px	size 342032 vs 342016
+lib64/libjson.so	modified	51704	binary	px	16 bytes differ
+lib64/libjsoncpp.so	modified	196488	binary	px	1710 bytes differ
+lib64/libkcl.so	added	2232448	binary	c06(other base)	size 2232448 vs 7869856
+lib64/libkernelmanager.so	added	44920	binary	c06(other base)	size 44920 vs 69816
+lib64/libllvm-glnext.so	modified	2279784	binary	px	size 2279784 vs 13911504
+lib64/libllvm-qgl.so	added	22741368	binary	c06(other base)	size 22741368 vs 23685720
+lib64/liblzma.so	modified	187872	binary	px	1472 bytes differ
+lib64/libminijail.so	modified	182976	binary	px	16 bytes differ
+lib64/libnetfilter_conntrack.so	modified	98816	binary	px	size 98816 vs 98752
+lib64/libnl.so	modified	278144	binary	px	1680 bytes differ
+lib64/libperfmgr.so	modified	417424	binary	px	size 417424 vs 417416
+lib64/libpiex.so	modified	98672	binary	px	65615 bytes differ
+lib64/libpng.so	modified	272144	binary	px	size 272144 vs 272152
+lib64/libprocessgroup.so	modified	371296	binary	px	3878 bytes differ
+lib64/libprotobuf-cpp-full-6.33.5.so	modified	3443984	binary	px	size 3443984 vs 3443968
+lib64/libprotobuf-cpp-lite-6.33.5.so	modified	1480432	binary	px	size 1480432 vs 1480416
+lib64/libqdMetaData.so	modified	27136	binary	px	7608 bytes differ
+lib64/libreference-ril.so	modified	131736	binary	px	16 bytes differ
+lib64/libril.so	modified	309392	binary	px	16 bytes differ
+lib64/libsdedrm.so	modified	280528	binary	px	16 bytes differ
+lib64/libspkrprot.so	modified	47896	binary	px	16 bytes differ
+lib64/libssl.so	modified	621432	binary	px	5887 bytes differ
+lib64/libssrec.so	modified	35288	binary	px	16 bytes differ
+lib64/libstagefright_foundation.so	modified	232376	binary	px	113559 bytes differ
+lib64/libtinyalsav2.so	modified	58984	binary	px	size 58984 vs 58992
+lib64/libtinycompress.so	modified	27288	binary	px	size 27288 vs 27296
+lib64/libui.so	modified	431576	binary	px	13486 bytes differ
+lib64/libutils.so	modified	135960	binary	px	size 135960 vs 135952
+lib64/libwfdaac_vendor.so	modified	1688312	binary	px	size 1688312 vs 1688296
+lib64/libxml2.so	modified	1175768	binary	px	8975 bytes differ
+lib64/libz.so	modified	117992	binary	px	904 bytes differ
+lib64/soundfx/libhwdap.so	added	103768	binary	hy(other base)	3 bytes differ
+lib64/soundfx/libqcompostprocbundle.so	modified	56640	binary	px	size 56640 vs 56632
+lib64/vendor.display.config@1.0.so	modified	127640	binary	px	size 127640 vs 160904
+lib64/vendor.display.config@1.1.so	modified	102584	binary	px	size 102584 vs 119352
+lib64/vendor.display.config@1.2.so	modified	110808	binary	px	size 110808 vs 131664
+lib64/vendor.display.config@1.3.so	modified	114912	binary	px	size 114912 vs 131664
+lib64/vendor.display.config@1.4.so	modified	123320	binary	px	size 123320 vs 140136
+lib64/vendor.display.config@1.5.so	modified	123160	binary	px	size 123160 vs 144064
+lib64/vendor.display.config@1.6.so	modified	131408	binary	px	size 131408 vs 156400
+lib64/vendor.display.config@1.7.so	modified	152224	binary	px	size 152224 vs 177208
+lib64/vendor.display.config@1.8.so	modified	148176	binary	px	size 148176 vs 173168
+lib64/vendor.display.config@1.9.so	modified	156208	binary	px	size 156208 vs 177120
+lib64/vendor.display.config@2.0.so	modified	131960	binary	px	size 131960 vs 144488
+lib64/vendor.oplus.hardware.performance-V5-ndk.so	added	250656	binary	-	
+lib64/vendor.oplus.hardware.stability.oplus_project-V3-ndk.so	added	85408	binary	-	
+lib64/vendor.qti.hardware.btconfigstore@1.0.so	modified	86056	binary	px	size 86056 vs 94512
+lib64/vendor.qti.hardware.btconfigstore@2.0.so	modified	90256	binary	px	size 90256 vs 98744
+lib64/vendor.qti.hardware.camera.postproc@1.0.so	modified	181592	binary	px	size 181592 vs 198352
+lib64/vendor.qti.hardware.capabilityconfigstore@1.0.so	modified	77672	binary	px	size 77672 vs 86128
+lib64/vendor.qti.hardware.display.allocator@3.0.so	modified	77608	binary	px	size 77608 vs 86080
+lib64/vendor.qti.hardware.display.allocator@4.0.so	modified	77592	binary	px	size 77592 vs 81936
+lib64/vendor.qti.hardware.display.composer@3.0.so	modified	252520	binary	px	size 252520 vs 304152
+lib64/vendor.qti.hardware.display.mapper@1.0.so	modified	123608	binary	px	size 123608 vs 148760
+lib64/vendor.qti.hardware.display.mapper@2.0.so	modified	102832	binary	px	size 102832 vs 115544
+lib64/vendor.qti.hardware.display.mapper@3.0.so	modified	98832	binary	px	size 98832 vs 111456
+lib64/vendor.qti.hardware.display.mapper@4.0.so	modified	111256	binary	px	size 111256 vs 136424
+lib64/vendor.qti.hardware.display.mapperextensions@1.0.so	modified	136008	binary	px	size 136008 vs 169528
+lib64/vendor.qti.hardware.display.mapperextensions@1.1.so	modified	127456	binary	px	size 127456 vs 148624
+odm_dlkm/etc/build.prop	modified	1042	text	px	diff +12 -10 (raw bytes, apply: patch --binary)
+usr/idc/NVTCapacitivePen.idc	added	252	text	-	new file -> patches/*.new
+usr/idc/Xiaomi_Consumer.idc	added	41	text	-	new file -> patches/*.new
+usr/idc/Xiaomi_Keyboard.idc	modified	97	text	px	diff +3 -20 (raw bytes, apply: patch --binary)
+usr/keylayout/Xiaomi_Smart_Pen_Keyboard.kl	modified	66	text	px	diff +2 -8 (raw bytes, apply: patch --binary)
+vendor_dlkm/etc/build.prop	modified	1103	text	px	diff +12 -10 (raw bytes, apply: patch --binary)

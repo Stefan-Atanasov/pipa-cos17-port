@@ -1,0 +1,2198 @@
+path	status	size	source	note
+Khronos/OpenCL/vendors/adreno.icd	added	19	UNIQUE	no px counterpart
+app/CACertService/CACertService.apk	modified	41183	UNIQUE	px size 41183
+app/CneApp/CneApp.apk	modified	319711	UNIQUE	px size 319711
+app/CneApp/lib/arm64/libvndfwk_detect_jni.qti.so	same	0	px_v:app/CneApp/lib/arm64/libvndfwk_detect_jni.qti.so	
+app/IWlanService/IWlanService.apk	modified	999647	UNIQUE	px size 999647
+app/TimeService/TimeService.apk	modified	12511	UNIQUE	px size 12511
+bin/ATFWD-daemon	same	37888	px_v:bin/ATFWD-daemon	
+bin/[	same	0	px_v:bin/[	
+bin/acpi	same	0	px_v:bin/acpi	
+bin/adpl	same	73960	px_v:bin/adpl	
+bin/adsprpcd	same	15800	px_v:bin/adsprpcd	
+bin/awk	modified	152576	UNIQUE	px size 152576
+bin/base64	same	0	px_v:bin/base64	
+bin/basename	same	0	px_v:bin/basename	
+bin/batterysecret	same	25200	px_v:bin/batterysecret	
+bin/blkdiscard	same	0	px_v:bin/blkdiscard	
+bin/blockdev	same	0	px_v:bin/blockdev	
+bin/boringssl_self_test32	same	2784	px_v:bin/boringssl_self_test32	
+bin/boringssl_self_test64	same	14360	px_v:bin/boringssl_self_test64	
+bin/brctl	same	0	px_v:bin/brctl	
+bin/cal	same	0	px_v:bin/cal	
+bin/cat	same	0	px_v:bin/cat	
+bin/cdsprpcd	same	15808	px_v:bin/cdsprpcd	
+bin/chattr	same	0	px_v:bin/chattr	
+bin/chcon	same	0	px_v:bin/chcon	
+bin/checkpoint_gc	same	4801	px_v:bin/checkpoint_gc	
+bin/chgrp	same	0	px_v:bin/chgrp	
+bin/chmod	same	0	px_v:bin/chmod	
+bin/chown	same	0	px_v:bin/chown	
+bin/chroot	same	0	px_v:bin/chroot	
+bin/chrt	same	0	px_v:bin/chrt	
+bin/cksum	same	0	px_v:bin/cksum	
+bin/clear	same	0	px_v:bin/clear	
+bin/cmp	same	0	px_v:bin/cmp	
+bin/cnd	same	126800	px_v:bin/cnd	
+bin/cnss-daemon	same	99480	px_v:bin/cnss-daemon	
+bin/comm	same	0	px_v:bin/comm	
+bin/cp	same	0	px_v:bin/cp	
+bin/cpio	same	0	px_v:bin/cpio	
+bin/cut	same	0	px_v:bin/cut	
+bin/date	same	0	px_v:bin/date	
+bin/dd	same	0	px_v:bin/dd	
+bin/devmem	same	0	px_v:bin/devmem	
+bin/df	same	0	px_v:bin/df	
+bin/diff	same	0	px_v:bin/diff	
+bin/dirname	same	0	px_v:bin/dirname	
+bin/dmesg	same	0	px_v:bin/dmesg	
+bin/dos2unix	same	0	px_v:bin/dos2unix	
+bin/dpmQmiMgr	same	84744	px_v:bin/dpmQmiMgr	
+bin/dspservice	same	25240	px_v:bin/dspservice	
+bin/du	same	0	px_v:bin/du	
+bin/dumpsys	same	40240	px_v:bin/dumpsys	
+bin/echo	same	0	px_v:bin/echo	
+bin/egrep	same	0	px_v:bin/egrep	
+bin/env	same	0	px_v:bin/env	
+bin/expand	same	0	px_v:bin/expand	
+bin/expr	same	0	px_v:bin/expr	
+bin/f2player	added	1605032	hy_v:bin/f2player	also 2 more
+bin/fallocate	same	0	px_v:bin/fallocate	
+bin/false	same	0	px_v:bin/false	
+bin/feature_enabler_client	same	61568	px_v:bin/feature_enabler_client	
+bin/fgrep	same	0	px_v:bin/fgrep	
+bin/fidoca	added	11752	hy_v:bin/fidoca	also 2 more
+bin/file	same	0	px_v:bin/file	
+bin/find	same	0	px_v:bin/find	
+bin/flock	same	0	px_v:bin/flock	
+bin/fmt	same	0	px_v:bin/fmt	
+bin/free	same	0	px_v:bin/free	
+bin/fsync	same	0	px_v:bin/fsync	
+bin/getconf	same	0	px_v:bin/getconf	
+bin/getenforce	same	0	px_v:bin/getenforce	
+bin/getevent	same	0	px_v:bin/getevent	
+bin/getfattr	same	0	px_v:bin/getfattr	
+bin/getopt	same	0	px_v:bin/getopt	
+bin/getprop	same	0	px_v:bin/getprop	
+bin/gpiodetect	same	0	px_v:bin/gpiodetect	
+bin/gpiofind	same	0	px_v:bin/gpiofind	
+bin/gpioget	same	0	px_v:bin/gpioget	
+bin/gpioinfo	same	0	px_v:bin/gpioinfo	
+bin/gpioset	same	0	px_v:bin/gpioset	
+bin/grep	same	0	px_v:bin/grep	
+bin/groups	same	0	px_v:bin/groups	
+bin/gunzip	same	0	px_v:bin/gunzip	
+bin/gzip	same	0	px_v:bin/gzip	
+bin/head	same	0	px_v:bin/head	
+bin/hostname	same	0	px_v:bin/hostname	
+bin/hvdcp_opti	same	325008	px_v:bin/hvdcp_opti	
+bin/hw/android.hardware.audio.service	same	11212	px_v:bin/hw/android.hardware.audio.service	
+bin/hw/android.hardware.biometrics.face-service.facehal	added	513920	UNIQUE	no px counterpart
+bin/hw/android.hardware.bluetooth@1.0-service-qti	same	15912	px_v:bin/hw/android.hardware.bluetooth@1.0-service-qti	
+bin/hw/android.hardware.boot-service.qti	modified	120104	UNIQUE	px size 120104
+bin/hw/android.hardware.camera.provider@2.4-service_64	same	14536	px_v:bin/hw/android.hardware.camera.provider@2.4-service_64	
+bin/hw/android.hardware.cas@1.2-service	same	36716	px_v:bin/hw/android.hardware.cas@1.2-service	
+bin/hw/android.hardware.drm-service.clearkey	same	181096	px_v:bin/hw/android.hardware.drm-service.clearkey	
+bin/hw/android.hardware.drm@1.3-service.widevine	same	16016	px_v:bin/hw/android.hardware.drm@1.3-service.widevine	
+bin/hw/android.hardware.gatekeeper@1.0-service-qti	same	11496	px_v:bin/hw/android.hardware.gatekeeper@1.0-service-qti	
+bin/hw/android.hardware.health-service.qti	modified	230440	UNIQUE	px size 230392
+bin/hw/android.hardware.keymaster@4.0-service-qti	same	11832	px_v:bin/hw/android.hardware.keymaster@4.0-service-qti	
+bin/hw/android.hardware.light-service.lineage	modified	65392	UNIQUE	px size 65392
+bin/hw/android.hardware.media.omx@1.0-service	same	15476	px_v:bin/hw/android.hardware.media.omx@1.0-service	
+bin/hw/android.hardware.neuralnetworks@1.3-service-qti	same	2611232	px_v:bin/hw/android.hardware.neuralnetworks@1.3-service-qti	
+bin/hw/android.hardware.power-service.lineage-libperfmgr	modified	214312	UNIQUE	px size 214312
+bin/hw/android.hardware.sensors@1.0-service	same	14536	px_v:bin/hw/android.hardware.sensors@1.0-service	
+bin/hw/android.hardware.thermal-service.qti	modified	235928	UNIQUE	px size 235928
+bin/hw/android.hardware.usb-service.qti	same	128144	px_v:bin/hw/android.hardware.usb-service.qti	
+bin/hw/android.hardware.usb.gadget-service.qti	same	74480	px_v:bin/hw/android.hardware.usb.gadget-service.qti	
+bin/hw/android.hardware.wifi-service	modified	495192	UNIQUE	px size 491072
+bin/hw/hostapd	same	1394152	px_v:bin/hw/hostapd	
+bin/hw/qcrild	same	11928	px_v:bin/hw/qcrild	
+bin/hw/vendor-oplus-hardware-performance-V1-service	added	285624	UNIQUE	no px counterpart
+bin/hw/vendor.display.color@1.0-service	same	56000	px_v:bin/hw/vendor.display.color@1.0-service	
+bin/hw/vendor.dolby.hardware.dms@2.0-service	added	11752	hy_v:bin/hw/vendor.dolby.hardware.dms@2.0-service	also 2 more
+bin/hw/vendor.lineage.health-service.default	same	31896	px_v:bin/hw/vendor.lineage.health-service.default	
+bin/hw/vendor.oplus.hardware.stability.oplus_project-V1-service	added	308104	UNIQUE	no px counterpart
+bin/hw/vendor.qti.hardware.alarm@1.0-service	same	12192	px_v:bin/hw/vendor.qti.hardware.alarm@1.0-service	
+bin/hw/vendor.qti.hardware.capabilityconfigstore@1.0-service	same	11760	px_v:bin/hw/vendor.qti.hardware.capabilityconfigstore@1.0-service	
+bin/hw/vendor.qti.hardware.display.allocator-service	same	40088	px_v:bin/hw/vendor.qti.hardware.display.allocator-service	
+bin/hw/vendor.qti.hardware.display.composer-service	same	455896	px_v:bin/hw/vendor.qti.hardware.display.composer-service	
+bin/hw/vendor.qti.hardware.memtrack-service	same	23512	px_v:bin/hw/vendor.qti.hardware.memtrack-service	
+bin/hw/vendor.qti.hardware.perf@2.2-service	added	40712	hy_v:bin/hw/vendor.qti.hardware.perf@2.2-service	also 2 more
+bin/hw/vendor.qti.hardware.qccvndhal@1.0-service	same	15920	px_v:bin/hw/vendor.qti.hardware.qccvndhal@1.0-service	
+bin/hw/vendor.qti.hardware.qseecom@1.0-service	same	11656	px_v:bin/hw/vendor.qti.hardware.qseecom@1.0-service	
+bin/hw/vendor.qti.hardware.qteeconnector@1.0-service	same	12080	px_v:bin/hw/vendor.qti.hardware.qteeconnector@1.0-service	
+bin/hw/vendor.qti.hardware.sensorscalibrate@1.0-service	same	11608	px_v:bin/hw/vendor.qti.hardware.sensorscalibrate@1.0-service	
+bin/hw/vendor.qti.hardware.soter@1.0-service	same	11632	px_v:bin/hw/vendor.qti.hardware.soter@1.0-service	
+bin/hw/vendor.qti.hardware.tui_comm@1.0-service-qti	same	29976	px_v:bin/hw/vendor.qti.hardware.tui_comm@1.0-service-qti	
+bin/hw/vendor.qti.media.c2@1.0-service	same	7264	px_v:bin/hw/vendor.qti.media.c2@1.0-service	
+bin/hw/vendor.xiaomi.hardware.misys@1.0-service	added	39304	hy_v:bin/hw/vendor.xiaomi.hardware.misys@1.0-service	also 2 more
+bin/hw/vendor.xiaomi.hardware.misys@2.0-service	added	35256	hy_v:bin/hw/vendor.xiaomi.hardware.misys@2.0-service	also 2 more
+bin/hw/vendor.xiaomi.hardware.misys@3.0-service	added	44016	hy_v:bin/hw/vendor.xiaomi.hardware.misys@3.0-service	also 2 more
+bin/hw/vendor.xiaomi.hardware.misys@4.0-service	added	17464	hy_v:bin/hw/vendor.xiaomi.hardware.misys@4.0-service	also 2 more
+bin/hw/wpa_supplicant	same	3851376	px_v:bin/hw/wpa_supplicant	
+bin/hwclock	same	0	px_v:bin/hwclock	
+bin/i2cdetect	same	0	px_v:bin/i2cdetect	
+bin/i2cdump	same	0	px_v:bin/i2cdump	
+bin/i2cget	same	0	px_v:bin/i2cget	
+bin/i2cset	same	0	px_v:bin/i2cset	
+bin/i2ctransfer	same	0	px_v:bin/i2ctransfer	
+bin/iconv	same	0	px_v:bin/iconv	
+bin/id	same	0	px_v:bin/id	
+bin/ifconfig	same	0	px_v:bin/ifconfig	
+bin/ims_rtp_daemon	same	168872	px_v:bin/ims_rtp_daemon	
+bin/imsdatadaemon	same	209104	px_v:bin/imsdatadaemon	
+bin/imsqmidaemon	same	128608	px_v:bin/imsqmidaemon	
+bin/imsrcsd	same	20776	px_v:bin/imsrcsd	
+bin/init.class_main.sh	same	5636	px_v:bin/init.class_main.sh	
+bin/init.mdm.sh	same	1739	px_v:bin/init.mdm.sh	
+bin/init.mi.btmac.sh	same	708	px_v:bin/init.mi.btmac.sh	
+bin/init.qcom.early_boot.sh	same	18731	px_v:bin/init.qcom.early_boot.sh	
+bin/init.qcom.post_boot.sh	same	301802	px_v:bin/init.qcom.post_boot.sh	
+bin/init.qcom.sensors.sh	same	1856	px_v:bin/init.qcom.sensors.sh	
+bin/init.qcom.sh	same	15954	px_v:bin/init.qcom.sh	
+bin/init.qcom.usb.sh	same	7597	px_v:bin/init.qcom.usb.sh	
+bin/init.qti.chg_policy.sh	same	2375	px_v:bin/init.qti.chg_policy.sh	
+bin/init.qti.dcvs.sh	same	3243	px_v:bin/init.qti.dcvs.sh	
+bin/inotifyd	same	0	px_v:bin/inotifyd	
+bin/insmod	same	0	px_v:bin/insmod	
+bin/install	same	0	px_v:bin/install	
+bin/ionice	same	0	px_v:bin/ionice	
+bin/iorenice	same	0	px_v:bin/iorenice	
+bin/ipacm	modified	445480	UNIQUE	px size 445480
+bin/irsc_util	same	11728	px_v:bin/irsc_util	
+bin/kill	same	0	px_v:bin/kill	
+bin/killall	same	0	px_v:bin/killall	
+bin/ks	same	42024	px_v:bin/ks	
+bin/ln	same	0	px_v:bin/ln	
+bin/load_policy	same	0	px_v:bin/load_policy	
+bin/loc_launcher	same	70496	px_v:bin/loc_launcher	
+bin/log	same	0	px_v:bin/log	
+bin/logger	same	0	px_v:bin/logger	
+bin/logname	same	0	px_v:bin/logname	
+bin/logwrapper	same	22960	px_v:bin/logwrapper	
+bin/losetup	same	0	px_v:bin/losetup	
+bin/lowi-server	same	842736	px_v:bin/lowi-server	
+bin/ls	same	0	px_v:bin/ls	
+bin/lsattr	same	0	px_v:bin/lsattr	
+bin/lsmod	same	0	px_v:bin/lsmod	
+bin/lsof	same	0	px_v:bin/lsof	
+bin/lspci	same	0	px_v:bin/lspci	
+bin/lsusb	same	0	px_v:bin/lsusb	
+bin/md5sum	same	0	px_v:bin/md5sum	
+bin/mdm_helper	same	28856	px_v:bin/mdm_helper	
+bin/memeater	same	0	px_v:bin/memeater	
+bin/mi_thermald	same	101688	px_v:bin/mi_thermald	
+bin/microcom	same	0	px_v:bin/microcom	
+bin/mkdir	same	0	px_v:bin/mkdir	
+bin/mkfifo	same	0	px_v:bin/mkfifo	
+bin/mknod	same	0	px_v:bin/mknod	
+bin/mkswap	same	0	px_v:bin/mkswap	
+bin/mktemp	same	0	px_v:bin/mktemp	
+bin/mlid	same	59472	px_v:bin/mlid	
+bin/mlipayd@1.1	added	11664	hy_v:bin/mlipayd@1.1	also 2 more
+bin/modinfo	same	0	px_v:bin/modinfo	
+bin/modprobe	same	0	px_v:bin/modprobe	
+bin/more	same	0	px_v:bin/more	
+bin/mount	same	0	px_v:bin/mount	
+bin/mountpoint	same	0	px_v:bin/mountpoint	
+bin/msm_irqbalance	same	33080	px_v:bin/msm_irqbalance	
+bin/mtd@1.3	added	11744	hy_v:bin/mtd@1.3	also 2 more
+bin/mv	same	0	px_v:bin/mv	
+bin/nc	same	0	px_v:bin/nc	
+bin/netcat	same	0	px_v:bin/netcat	
+bin/netmgrd	same	2281328	px_v:bin/netmgrd	
+bin/netstat	same	0	px_v:bin/netstat	
+bin/nice	same	0	px_v:bin/nice	
+bin/nl	same	0	px_v:bin/nl	
+bin/nohup	same	0	px_v:bin/nohup	
+bin/nproc	same	0	px_v:bin/nproc	
+bin/nsenter	same	0	px_v:bin/nsenter	
+bin/nv_mac	same	20672	px_v:bin/nv_mac	
+bin/od	same	0	px_v:bin/od	
+bin/paste	same	0	px_v:bin/paste	
+bin/patch	same	0	px_v:bin/patch	
+bin/pd-mapper	same	25280	px_v:bin/pd-mapper	
+bin/pgrep	same	0	px_v:bin/pgrep	
+bin/pidof	same	0	px_v:bin/pidof	
+bin/pkill	same	0	px_v:bin/pkill	
+bin/pm-proxy	same	15848	px_v:bin/pm-proxy	
+bin/pm-service	same	58552	px_v:bin/pm-service	
+bin/pmap	same	0	px_v:bin/pmap	
+bin/port-bridge	same	49368	px_v:bin/port-bridge	
+bin/power_off_alarm	same	11632	px_v:bin/power_off_alarm	
+bin/printenv	same	0	px_v:bin/printenv	
+bin/printf	same	0	px_v:bin/printf	
+bin/ps	same	0	px_v:bin/ps	
+bin/pwd	same	0	px_v:bin/pwd	
+bin/qmipriod	same	28840	px_v:bin/qmipriod	
+bin/qrtr-cfg	same	11648	px_v:bin/qrtr-cfg	
+bin/qrtr-lookup	same	16872	px_v:bin/qrtr-lookup	
+bin/qrtr-ns	same	20976	px_v:bin/qrtr-ns	
+bin/qseecomd	same	16504	px_v:bin/qseecomd	
+bin/qti	same	132616	px_v:bin/qti	
+bin/readelf	same	0	px_v:bin/readelf	
+bin/readlink	same	0	px_v:bin/readlink	
+bin/realpath	same	0	px_v:bin/realpath	
+bin/renice	same	0	px_v:bin/renice	
+bin/restorecon	same	0	px_v:bin/restorecon	
+bin/rm	same	0	px_v:bin/rm	
+bin/rmdir	same	0	px_v:bin/rmdir	
+bin/rmmod	same	0	px_v:bin/rmmod	
+bin/rmt_storage	same	38440	px_v:bin/rmt_storage	
+bin/rtcwake	same	0	px_v:bin/rtcwake	
+bin/runcon	same	0	px_v:bin/runcon	
+bin/sed	same	0	px_v:bin/sed	
+bin/sendevent	same	0	px_v:bin/sendevent	
+bin/sensors.qti	same	46632	px_v:bin/sensors.qti	
+bin/seq	same	0	px_v:bin/seq	
+bin/setenforce	same	0	px_v:bin/setenforce	
+bin/setfattr	same	0	px_v:bin/setfattr	
+bin/setprop	same	0	px_v:bin/setprop	
+bin/setsid	same	0	px_v:bin/setsid	
+bin/sh	modified	310264	UNIQUE	px size 310264
+bin/sha1sum	same	0	px_v:bin/sha1sum	
+bin/sha224sum	same	0	px_v:bin/sha224sum	
+bin/sha256sum	same	0	px_v:bin/sha256sum	
+bin/sha384sum	same	0	px_v:bin/sha384sum	
+bin/sha512sum	same	0	px_v:bin/sha512sum	
+bin/shsusrd	same	261176	px_v:bin/shsusrd	
+bin/sleep	same	0	px_v:bin/sleep	
+bin/sort	same	0	px_v:bin/sort	
+bin/split	same	0	px_v:bin/split	
+bin/sscrpcd	same	11656	px_v:bin/sscrpcd	
+bin/ssgtzd	same	132728	px_v:bin/ssgtzd	
+bin/ssr_setup	same	11832	px_v:bin/ssr_setup	
+bin/start	same	0	px_v:bin/start	
+bin/stat	same	0	px_v:bin/stat	
+bin/stop	same	0	px_v:bin/stop	
+bin/strings	same	0	px_v:bin/strings	
+bin/stty	same	0	px_v:bin/stty	
+bin/swapoff	same	0	px_v:bin/swapoff	
+bin/swapon	same	0	px_v:bin/swapon	
+bin/sync	same	0	px_v:bin/sync	
+bin/sysctl	same	0	px_v:bin/sysctl	
+bin/tac	same	0	px_v:bin/tac	
+bin/tail	same	0	px_v:bin/tail	
+bin/tar	same	0	px_v:bin/tar	
+bin/taskset	same	0	px_v:bin/taskset	
+bin/tee	same	0	px_v:bin/tee	
+bin/test	same	0	px_v:bin/test	
+bin/tftp_server	same	110376	px_v:bin/tftp_server	
+bin/thermal-engine	same	8452624	px_v:bin/thermal-engine	
+bin/time	same	0	px_v:bin/time	
+bin/time_daemon	same	42336	px_v:bin/time_daemon	
+bin/timeout	same	0	px_v:bin/timeout	
+bin/toolbox	modified	145336	UNIQUE	px size 145336
+bin/top	same	0	px_v:bin/top	
+bin/touch	same	0	px_v:bin/touch	
+bin/toybox_vendor	modified	578408	UNIQUE	px size 578400
+bin/tr	same	0	px_v:bin/tr	
+bin/true	same	0	px_v:bin/true	
+bin/truncate	same	0	px_v:bin/truncate	
+bin/tty	same	0	px_v:bin/tty	
+bin/uclampset	same	0	px_v:bin/uclampset	
+bin/ulimit	same	0	px_v:bin/ulimit	
+bin/umount	same	0	px_v:bin/umount	
+bin/uname	same	0	px_v:bin/uname	
+bin/uniq	same	0	px_v:bin/uniq	
+bin/unix2dos	same	0	px_v:bin/unix2dos	
+bin/unlink	same	0	px_v:bin/unlink	
+bin/unshare	same	0	px_v:bin/unshare	
+bin/uptime	same	0	px_v:bin/uptime	
+bin/usleep	same	0	px_v:bin/usleep	
+bin/uudecode	same	0	px_v:bin/uudecode	
+bin/uuencode	same	0	px_v:bin/uuencode	
+bin/uuidgen	same	0	px_v:bin/uuidgen	
+bin/vi	same	0	px_v:bin/vi	
+bin/vmstat	same	0	px_v:bin/vmstat	
+bin/vndservice	same	43664	px_v:bin/vndservice	
+bin/vndservicemanager	modified	82712	UNIQUE	px size 78600
+bin/vppservice	same	67360	px_v:bin/vppservice	
+bin/watch	same	0	px_v:bin/watch	
+bin/wc	same	0	px_v:bin/wc	
+bin/which	same	0	px_v:bin/which	
+bin/whoami	same	0	px_v:bin/whoami	
+bin/wifidisplayhalservice	same	16148	px_v:bin/wifidisplayhalservice	
+bin/xargs	same	0	px_v:bin/xargs	
+bin/xiaomi-keyboard	same	18664	px_v:bin/xiaomi-keyboard	
+bin/xiaomi-pen	same	14432	px_v:bin/xiaomi-pen	
+bin/xtra-daemon	same	372352	px_v:bin/xtra-daemon	
+bin/xtwifi-client	same	1081680	px_v:bin/xtwifi-client	
+bin/xtwifi-inet-agent	same	134408	px_v:bin/xtwifi-inet-agent	
+bin/xxd	same	0	px_v:bin/xxd	
+bin/yes	same	0	px_v:bin/yes	
+bin/zcat	same	0	px_v:bin/zcat	
+build.prop	modified	20138	UNIQUE	px size 14261
+etc/IPACM_cfg.xml	same	4191	px_v:etc/IPACM_cfg.xml	
+etc/NOTICE.xml.gz	modified	104943	UNIQUE	px size 104665
+etc/acdbdata/Tutu/Tutu_Bluetooth_cal.acdb	same	89044	px_v:etc/acdbdata/Tutu/Tutu_Bluetooth_cal.acdb	
+etc/acdbdata/Tutu/Tutu_General_cal.acdb	same	23050	px_v:etc/acdbdata/Tutu/Tutu_General_cal.acdb	
+etc/acdbdata/Tutu/Tutu_Global_cal.acdb	same	42404	px_v:etc/acdbdata/Tutu/Tutu_Global_cal.acdb	
+etc/acdbdata/Tutu/Tutu_Handset_cal.acdb	same	1052714	px_v:etc/acdbdata/Tutu/Tutu_Handset_cal.acdb	
+etc/acdbdata/Tutu/Tutu_Hdmi_cal.acdb	same	6558	px_v:etc/acdbdata/Tutu/Tutu_Hdmi_cal.acdb	
+etc/acdbdata/Tutu/Tutu_Headset_cal.acdb	same	644300	px_v:etc/acdbdata/Tutu/Tutu_Headset_cal.acdb	
+etc/acdbdata/Tutu/Tutu_Speaker_cal.acdb	same	827534	px_v:etc/acdbdata/Tutu/Tutu_Speaker_cal.acdb	
+etc/acdbdata/Tutu/Tutu_workspaceFile.qwsp	same	428032	px_v:etc/acdbdata/Tutu/Tutu_workspaceFile.qwsp	
+etc/acdbdata/adsp_avs_config.acdb	same	1264	px_v:etc/acdbdata/adsp_avs_config.acdb	
+etc/aconfig/flag.info	same	29	px_v:etc/aconfig/flag.info	
+etc/aconfig/flag.map	same	132	px_v:etc/aconfig/flag.map	
+etc/aconfig/flag.val	same	29	px_v:etc/aconfig/flag.val	
+etc/aconfig/package.map	same	112	px_v:etc/aconfig/package.map	
+etc/aconfig_flags.pb	same	677	px_v:etc/aconfig_flags.pb	
+etc/aidl/hfp/hfp_codec_capabilities.xml	same	3499	px_v:etc/aidl/hfp/hfp_codec_capabilities.xml	
+etc/aidl/le_audio/aidl_audio_set_configurations.bfbs	same	5352	px_v:etc/aidl/le_audio/aidl_audio_set_configurations.bfbs	
+etc/aidl/le_audio/aidl_audio_set_scenarios.bfbs	same	744	px_v:etc/aidl/le_audio/aidl_audio_set_scenarios.bfbs	
+etc/aidl/le_audio/aidl_default_audio_set_configurations.json	same	298625	px_v:etc/aidl/le_audio/aidl_default_audio_set_configurations.json	
+etc/aidl/le_audio/aidl_default_audio_set_scenarios.json	same	16381	px_v:etc/aidl/le_audio/aidl_default_audio_set_scenarios.json	
+etc/audio_effects.xml	modified	8658	UNIQUE	px size 8175
+etc/audio_io_policy.conf	same	4169	px_v:etc/audio_io_policy.conf	
+etc/audio_platform_info_intcodec.xml	same	47288	px_v:etc/audio_platform_info_intcodec.xml	
+etc/audio_policy_configuration.xml	modified	28784	UNIQUE	px size 26813
+etc/audio_policy_volumes.xml	same	14019	px_v:etc/audio_policy_volumes.xml	
+etc/audio_tuning_mixer.txt	same	2389	px_v:etc/audio_tuning_mixer.txt	
+etc/bluetooth_audio_policy_configuration.xml	same	2099	px_v:etc/bluetooth_audio_policy_configuration.xml	
+etc/boringssl_self_test.no_zygote.rc	same	0	px_v:etc/boringssl_self_test.no_zygote.rc	
+etc/boringssl_self_test.zygote32.rc	same	0	px_v:etc/boringssl_self_test.zygote32.rc	
+etc/boringssl_self_test.zygote64.rc	same	97	px_v:etc/boringssl_self_test.zygote64.rc	
+etc/boringssl_self_test.zygote64_32.rc	same	194	px_v:etc/boringssl_self_test.zygote64_32.rc	
+etc/bpf/filterPowerSupplyEvents.o	same	6584	px_v:etc/bpf/filterPowerSupplyEvents.o	
+etc/build_flags.json	modified	99498	UNIQUE	px size 99504
+etc/cacert_location.pem	same	30438	px_v:etc/cacert_location.pem	
+etc/camera/102_SummerDay.png	same	349922	px_v:etc/camera/102_SummerDay.png	
+etc/camera/103_Fantasy.png	same	342865	px_v:etc/camera/103_Fantasy.png	
+etc/camera/104_Meet.png	same	338110	px_v:etc/camera/104_Meet.png	
+etc/camera/105_WindSing.png	same	324581	px_v:etc/camera/105_WindSing.png	
+etc/camera/106_Lost.png	same	355892	px_v:etc/camera/106_Lost.png	
+etc/camera/107_Central.png	same	343990	px_v:etc/camera/107_Central.png	
+etc/camera/108_NorthernEurope.png	same	302475	px_v:etc/camera/108_NorthernEurope.png	
+etc/camera/109_Rome.png	same	198249	px_v:etc/camera/109_Rome.png	
+etc/camera/110_BlackGold.png	same	295865	px_v:etc/camera/110_BlackGold.png	
+etc/camera/111_GreenOrange.png	same	341351	px_v:etc/camera/111_GreenOrange.png	
+etc/camera/112_CyberPunk.png	same	359527	px_v:etc/camera/112_CyberPunk.png	
+etc/camera/113_BlackIce.png	same	282189	px_v:etc/camera/113_BlackIce.png	
+etc/camera/121_Bleach.png	same	204324	px_v:etc/camera/121_Bleach.png	
+etc/camera/122_Thriller.png	same	204525	px_v:etc/camera/122_Thriller.png	
+etc/camera/123_TealOrange.png	same	216719	px_v:etc/camera/123_TealOrange.png	
+etc/camera/124_JapaneseStyle.png	same	206867	px_v:etc/camera/124_JapaneseStyle.png	
+etc/camera/125_Latin.png	same	215497	px_v:etc/camera/125_Latin.png	
+etc/camera/126_Fantasy2.png	same	234678	px_v:etc/camera/126_Fantasy2.png	
+etc/camera/127_Creamy.png	same	199308	px_v:etc/camera/127_Creamy.png	
+etc/camera/128_Sepia.png	same	204038	px_v:etc/camera/128_Sepia.png	
+etc/camera/CFR_para_W_V01.bin	same	2126	px_v:etc/camera/CFR_para_W_V01.bin	
+etc/camera/CFR_para_config.xml	same	292	px_v:etc/camera/CFR_para_config.xml	
+etc/camera/GpuKernelRepo.pb	same	49799	px_v:etc/camera/GpuKernelRepo.pb	
+etc/camera/LDC_FPC_TUNING_DATA.bin	same	432	px_v:etc/camera/LDC_FPC_TUNING_DATA.bin	
+etc/camera/LDC_FPC_TUNING_DATA_AI.bin	same	612	px_v:etc/camera/LDC_FPC_TUNING_DATA_AI.bin	
+etc/camera/LDC_PACKDATA_VENDORID_0x01.bin	same	544	px_v:etc/camera/LDC_PACKDATA_VENDORID_0x01.bin	
+etc/camera/LDC_PACKDATA_VENDORID_0x03.bin	same	544	px_v:etc/camera/LDC_PACKDATA_VENDORID_0x03.bin	
+etc/camera/LDC_PACKDATA_VENDORID_0x07.bin	same	544	px_v:etc/camera/LDC_PACKDATA_VENDORID_0x07.bin	
+etc/camera/almalence_sr_params_tele.config	same	1609	px_v:etc/camera/almalence_sr_params_tele.config	
+etc/camera/almalence_sr_params_tele4x.config	same	1640	px_v:etc/camera/almalence_sr_params_tele4x.config	
+etc/camera/almalence_sr_params_tele4x_iso100.config	same	1609	px_v:etc/camera/almalence_sr_params_tele4x_iso100.config	
+etc/camera/almalence_sr_params_tele4x_iso100_zoom20x.config	same	673	px_v:etc/camera/almalence_sr_params_tele4x_iso100_zoom20x.config	
+etc/camera/almalence_sr_params_tele4x_iso100_zoom30x.config	same	673	px_v:etc/camera/almalence_sr_params_tele4x_iso100_zoom30x.config	
+etc/camera/almalence_sr_params_tele4x_iso100_zoom40x.config	same	673	px_v:etc/camera/almalence_sr_params_tele4x_iso100_zoom40x.config	
+etc/camera/almalence_sr_params_tele4x_moon.config	same	1702	px_v:etc/camera/almalence_sr_params_tele4x_moon.config	
+etc/camera/almalence_sr_params_tele4x_zoom20x.config	same	673	px_v:etc/camera/almalence_sr_params_tele4x_zoom20x.config	
+etc/camera/almalence_sr_params_tele4x_zoom30x.config	same	673	px_v:etc/camera/almalence_sr_params_tele4x_zoom30x.config	
+etc/camera/almalence_sr_params_tele4x_zoom40x.config	same	673	px_v:etc/camera/almalence_sr_params_tele4x_zoom40x.config	
+etc/camera/almalence_sr_params_tele_iso100.config	same	1609	px_v:etc/camera/almalence_sr_params_tele_iso100.config	
+etc/camera/almalence_sr_params_wide.config	same	1647	px_v:etc/camera/almalence_sr_params_wide.config	
+etc/camera/almalence_sr_params_wide_64M.config	same	1610	px_v:etc/camera/almalence_sr_params_wide_64M.config	
+etc/camera/camera_cnf.txt	same	1916	px_v:etc/camera/camera_cnf.txt	
+etc/camera/camxoverridesettings.txt	modified	1935	UNIQUE	px size 2496
+etc/camera/com.xiaomi.dcal.wd.golden	same	2048	px_v:etc/camera/com.xiaomi.dcal.wd.golden	
+etc/camera/eisoverridesettings.txt	same	280	px_v:etc/camera/eisoverridesettings.txt	
+etc/camera/facefocus_models/detlmk.dlc	same	1607475	px_v:etc/camera/facefocus_models/detlmk.dlc	
+etc/camera/facefocus_models/facedet_dark_full.dlc	same	2305559	px_v:etc/camera/facefocus_models/facedet_dark_full.dlc	
+etc/camera/facefocus_models/facedet_dark_part.dlc	same	2235407	px_v:etc/camera/facefocus_models/facedet_dark_part.dlc	
+etc/camera/facefocus_models/facedet_front.dlc	same	2261509	px_v:etc/camera/facefocus_models/facedet_front.dlc	
+etc/camera/facefocus_models/facedet_full.dlc	same	2305543	px_v:etc/camera/facefocus_models/facedet_full.dlc	
+etc/camera/facefocus_models/facedet_part.dlc	same	2235399	px_v:etc/camera/facefocus_models/facedet_part.dlc	
+etc/camera/facefocus_models/facevalid.dlc	same	956700	px_v:etc/camera/facefocus_models/facevalid.dlc	
+etc/camera/hdr_ui9_params.config	same	1000	px_v:etc/camera/hdr_ui9_params.config	
+etc/camera/hdrd_ui9_params.config	same	1004	px_v:etc/camera/hdrd_ui9_params.config	
+etc/camera/libarcsoft_super_night_raw_bin.so	same	184824	px_v:etc/camera/libarcsoft_super_night_raw_bin.so	
+etc/camera/mibokeh_855_opencl.bin	same	517297	px_v:etc/camera/mibokeh_855_opencl.bin	
+etc/camera/mibokeh_855_parameter.bin	same	24158	px_v:etc/camera/mibokeh_855_parameter.bin	
+etc/camera/model.dat	same	27123920	px_v:etc/camera/model.dat	
+etc/camera/model_aiie_cap.dlc	same	3046982	px_v:etc/camera/model_aiie_cap.dlc	
+etc/camera/model_back.dlc	same	12349521	px_v:etc/camera/model_back.dlc	
+etc/camera/model_front.dlc	same	12242701	px_v:etc/camera/model_front.dlc	
+etc/camera/person_det_dsp.dlc	same	9457284	px_v:etc/camera/person_det_dsp.dlc	
+etc/camera/sceneDetection.xml	same	28503	px_v:etc/camera/sceneDetection.xml	
+etc/camera/sr_params.xml	same	486912	px_v:etc/camera/sr_params.xml	
+etc/camera/thirdpartgroup.txt	same	979	px_v:etc/camera/thirdpartgroup.txt	
+etc/camera/vidhance_calibration	same	1684	px_v:etc/camera/vidhance_calibration	
+etc/camera/xiaomiSceneDetection.xml	same	28480	px_v:etc/camera/xiaomiSceneDetection.xml	
+etc/charger_fstab.qti	same	652	px_v:etc/charger_fstab.qti	
+etc/cne/mwqem.conf	same	698	px_v:etc/cne/mwqem.conf	
+etc/cne/profileMwqem.xml	same	11818	px_v:etc/cne/profileMwqem.xml	
+etc/cne/wqeclient/ATT/ATT_profile1.xml	same	11863	px_v:etc/cne/wqeclient/ATT/ATT_profile1.xml	
+etc/cne/wqeclient/ATT/ATT_profile2.xml	same	11863	px_v:etc/cne/wqeclient/ATT/ATT_profile2.xml	
+etc/cne/wqeclient/ATT/ATT_profile3.xml	same	11823	px_v:etc/cne/wqeclient/ATT/ATT_profile3.xml	
+etc/cne/wqeclient/ATT/ATT_profile4.xml	same	11863	px_v:etc/cne/wqeclient/ATT/ATT_profile4.xml	
+etc/cne/wqeclient/ATT/ATT_profile5.xml	same	11823	px_v:etc/cne/wqeclient/ATT/ATT_profile5.xml	
+etc/cne/wqeclient/ATT/ATT_profile6.xml	same	11823	px_v:etc/cne/wqeclient/ATT/ATT_profile6.xml	
+etc/cne/wqeclient/ROW/ROW_profile1.xml	same	11851	px_v:etc/cne/wqeclient/ROW/ROW_profile1.xml	
+etc/cne/wqeclient/ROW/ROW_profile15.xml	same	11818	px_v:etc/cne/wqeclient/ROW/ROW_profile15.xml	
+etc/cne/wqeclient/ROW/ROW_profile16.xml	same	11818	px_v:etc/cne/wqeclient/ROW/ROW_profile16.xml	
+etc/cne/wqeclient/ROW/ROW_profile17.xml	same	11818	px_v:etc/cne/wqeclient/ROW/ROW_profile17.xml	
+etc/cne/wqeclient/ROW/ROW_profile18.xml	same	11818	px_v:etc/cne/wqeclient/ROW/ROW_profile18.xml	
+etc/cne/wqeclient/ROW/ROW_profile19.xml	same	11818	px_v:etc/cne/wqeclient/ROW/ROW_profile19.xml	
+etc/cne/wqeclient/ROW/ROW_profile2.xml	same	11851	px_v:etc/cne/wqeclient/ROW/ROW_profile2.xml	
+etc/cne/wqeclient/ROW/ROW_profile20.xml	same	11818	px_v:etc/cne/wqeclient/ROW/ROW_profile20.xml	
+etc/cne/wqeclient/ROW/ROW_profile21.xml	same	11818	px_v:etc/cne/wqeclient/ROW/ROW_profile21.xml	
+etc/cne/wqeclient/ROW/ROW_profile3.xml	same	11851	px_v:etc/cne/wqeclient/ROW/ROW_profile3.xml	
+etc/cne/wqeclient/ROW/ROW_profile32.xml	same	11846	px_v:etc/cne/wqeclient/ROW/ROW_profile32.xml	
+etc/cne/wqeclient/ROW/ROW_profile4.xml	same	11823	px_v:etc/cne/wqeclient/ROW/ROW_profile4.xml	
+etc/cne/wqeclient/ROW/ROW_profile5.xml	same	11823	px_v:etc/cne/wqeclient/ROW/ROW_profile5.xml	
+etc/cne/wqeclient/ROW/ROW_profile6.xml	same	11823	px_v:etc/cne/wqeclient/ROW/ROW_profile6.xml	
+etc/cne/wqeclient/ROW/ROW_profile7.xml	same	11823	px_v:etc/cne/wqeclient/ROW/ROW_profile7.xml	
+etc/cne/wqeclient/VZW/VZW_profile1.xml	same	11851	px_v:etc/cne/wqeclient/VZW/VZW_profile1.xml	
+etc/cne/wqeclient/VZW/VZW_profile2.xml	same	11851	px_v:etc/cne/wqeclient/VZW/VZW_profile2.xml	
+etc/cne/wqeclient/VZW/VZW_profile3.xml	same	11851	px_v:etc/cne/wqeclient/VZW/VZW_profile3.xml	
+etc/cne/wqeclient/VZW/VZW_profile4.xml	same	11851	px_v:etc/cne/wqeclient/VZW/VZW_profile4.xml	
+etc/cne/wqeclient/VZW/VZW_profile5.xml	same	11823	px_v:etc/cne/wqeclient/VZW/VZW_profile5.xml	
+etc/cne/wqeclient/VZW/VZW_profile6.xml	same	11851	px_v:etc/cne/wqeclient/VZW/VZW_profile6.xml	
+etc/configstore/vpp.configstore.xml	same	559	px_v:etc/configstore/vpp.configstore.xml	
+etc/data/dsi_config.xml	same	56533	px_v:etc/data/dsi_config.xml	
+etc/data/netmgr_config.xml	same	166610	px_v:etc/data/netmgr_config.xml	
+etc/default-permissions/com.qualcomm.qti.cne.xml	same	647	px_v:etc/default-permissions/com.qualcomm.qti.cne.xml	
+etc/default_volume_tables.xml	same	5643	px_v:etc/default_volume_tables.xml	
+etc/displayconfig/display_id_4630946808805831297.xml	same	1889	px_v:etc/displayconfig/display_id_4630946808805831297.xml	
+etc/displayconfig/display_id_4630946922172900481.xml	same	1889	px_v:etc/displayconfig/display_id_4630946922172900481.xml	
+etc/dolby/dax-default.xml	added	102936	hy_v:etc/dolby/dax-default.xml	also 2 more
+etc/fs_config_dirs	same	0	px_v:etc/fs_config_dirs	
+etc/fs_config_files	same	1304	px_v:etc/fs_config_files	
+etc/fstab.qcom	same	5000	px_v:etc/fstab.qcom	
+etc/group	same	171	px_v:etc/group	
+etc/init/android.hardware.audio.service.rc	same	524	px_v:etc/init/android.hardware.audio.service.rc	
+etc/init/android.hardware.biometrics.face-service.facehal.rc	added	974	UNIQUE	no px counterpart
+etc/init/android.hardware.bluetooth@1.0-service-qti.rc	same	218	px_v:etc/init/android.hardware.bluetooth@1.0-service-qti.rc	
+etc/init/android.hardware.boot-service.qti.rc	same	244	px_v:etc/init/android.hardware.boot-service.qti.rc	
+etc/init/android.hardware.camera.provider@2.4-service_64.rc	same	344	px_v:etc/init/android.hardware.camera.provider@2.4-service_64.rc	
+etc/init/android.hardware.cas@1.2-service.rc	same	210	px_v:etc/init/android.hardware.cas@1.2-service.rc	
+etc/init/android.hardware.drm-service.clearkey.rc	same	259	px_v:etc/init/android.hardware.drm-service.clearkey.rc	
+etc/init/android.hardware.drm@1.3-service.widevine.rc	same	1074	px_v:etc/init/android.hardware.drm@1.3-service.widevine.rc	
+etc/init/android.hardware.gatekeeper@1.0-service-qti.rc	same	135	px_v:etc/init/android.hardware.gatekeeper@1.0-service-qti.rc	
+etc/init/android.hardware.health-service.qti.rc	same	458	px_v:etc/init/android.hardware.health-service.qti.rc	
+etc/init/android.hardware.keymaster@4.0-service-qti.rc	same	173	px_v:etc/init/android.hardware.keymaster@4.0-service-qti.rc	
+etc/init/android.hardware.light-service.lineage.rc	modified	14627	UNIQUE	px size 12021
+etc/init/android.hardware.media.omx@1.0-service.rc	same	207	px_v:etc/init/android.hardware.media.omx@1.0-service.rc	
+etc/init/android.hardware.neuralnetworks@1.3-service-qti.rc	same	454	px_v:etc/init/android.hardware.neuralnetworks@1.3-service-qti.rc	
+etc/init/android.hardware.power-service.lineage-libperfmgr.rc	same	1335	px_v:etc/init/android.hardware.power-service.lineage-libperfmgr.rc	
+etc/init/android.hardware.sensors@1.0-service.rc	same	272	px_v:etc/init/android.hardware.sensors@1.0-service.rc	
+etc/init/android.hardware.thermal-service.qti.rc	same	2053	px_v:etc/init/android.hardware.thermal-service.qti.rc	
+etc/init/android.hardware.usb-service.qti.rc	same	473	px_v:etc/init/android.hardware.usb-service.qti.rc	
+etc/init/android.hardware.usb.gadget-service.qti.rc	same	327	px_v:etc/init/android.hardware.usb.gadget-service.qti.rc	
+etc/init/android.hardware.wifi-service.rc	same	224	px_v:etc/init/android.hardware.wifi-service.rc	
+etc/init/android.hardware.wifi.supplicant-service.rc	same	327	px_v:etc/init/android.hardware.wifi.supplicant-service.rc	
+etc/init/boringssl_self_test.rc	same	640	px_v:etc/init/boringssl_self_test.rc	
+etc/init/cnd.rc	same	125	px_v:etc/init/cnd.rc	
+etc/init/com.qualcomm.qti.wifidisplayhal@1.0-service.rc	same	288	px_v:etc/init/com.qualcomm.qti.wifidisplayhal@1.0-service.rc	
+etc/init/dataadpl.rc	same	386	px_v:etc/init/dataadpl.rc	
+etc/init/dataqti.rc	same	571	px_v:etc/init/dataqti.rc	
+etc/init/dpmQmiMgr.rc	same	477	px_v:etc/init/dpmQmiMgr.rc	
+etc/init/feature_enabler_client.rc	same	701	px_v:etc/init/feature_enabler_client.rc	
+etc/init/hostapd.android.rc	same	599	px_v:etc/init/hostapd.android.rc	
+etc/init/hw/init.device.rc	modified	873	UNIQUE	px size 671
+etc/init/hw/init.qcom.power.rc	same	8156	px_v:etc/init/hw/init.qcom.power.rc	
+etc/init/hw/init.qcom.rc	same	27593	px_v:etc/init/hw/init.qcom.rc	
+etc/init/hw/init.qcom.usb.rc	same	133460	px_v:etc/init/hw/init.qcom.usb.rc	
+etc/init/hw/init.target.rc	modified	18413	UNIQUE	px size 18804
+etc/init/hw/init.xiaomi.rc	same	3635	px_v:etc/init/hw/init.xiaomi.rc	
+etc/init/ims_rtp_daemon.rc	same	412	px_v:etc/init/ims_rtp_daemon.rc	
+etc/init/imsdatadaemon.rc	same	471	px_v:etc/init/imsdatadaemon.rc	
+etc/init/imsqmidaemon.rc	same	300	px_v:etc/init/imsqmidaemon.rc	
+etc/init/imsrcsd.rc	same	282	px_v:etc/init/imsrcsd.rc	
+etc/init/init-qcril-data.rc	same	163	px_v:etc/init/init-qcril-data.rc	
+etc/init/init.batterysecret.rc	same	1085	px_v:etc/init/init.batterysecret.rc	
+etc/init/init.mi_thermald.rc	same	245	px_v:etc/init/init.mi_thermald.rc	
+etc/init/init.time_daemon.rc	same	365	px_v:etc/init/init.time_daemon.rc	
+etc/init/init.vendor.sensors.rc	same	2790	px_v:etc/init/init.vendor.sensors.rc	
+etc/init/init_thermal-engine.rc	same	545	px_v:etc/init/init_thermal-engine.rc	
+etc/init/ipa_fws.rc	same	173	px_v:etc/init/ipa_fws.rc	
+etc/init/ipacm.rc	same	1810	px_v:etc/init/ipacm.rc	
+etc/init/memtrack_qti.rc	same	136	px_v:etc/init/memtrack_qti.rc	
+etc/init/netmgrd.rc	same	3717	px_v:etc/init/netmgrd.rc	
+etc/init/oplus_hal_odm.rc	added	883	UNIQUE	no px counterpart
+etc/init/port-bridge.rc	same	562	px_v:etc/init/port-bridge.rc	
+etc/init/portenforce.rc	added	701	UNIQUE	no px counterpart
+etc/init/qcrild.rc	same	697	px_v:etc/init/qcrild.rc	
+etc/init/qmipriod.rc	same	527	px_v:etc/init/qmipriod.rc	
+etc/init/qseecomd.rc	same	280	px_v:etc/init/qseecomd.rc	
+etc/init/shsusrd.rc	same	1170	px_v:etc/init/shsusrd.rc	
+etc/init/ssgtzd.rc	same	576	px_v:etc/init/ssgtzd.rc	
+etc/init/vendor.display.color@1.0-service.rc	same	125	px_v:etc/init/vendor.display.color@1.0-service.rc	
+etc/init/vendor.dolby.hardware.dms@2.0-service.rc	added	186	hy_v:etc/init/vendor.dolby.hardware.dms@2.0-service.rc	also 2 more
+etc/init/vendor.lineage.health-service.default.rc	same	130	px_v:etc/init/vendor.lineage.health-service.default.rc	
+etc/init/vendor.qti.adsprpc-service.rc	same	1890	px_v:etc/init/vendor.qti.adsprpc-service.rc	
+etc/init/vendor.qti.cdsprpc-service.rc	same	1864	px_v:etc/init/vendor.qti.cdsprpc-service.rc	
+etc/init/vendor.qti.hardware.alarm@1.0-service.rc	same	341	px_v:etc/init/vendor.qti.hardware.alarm@1.0-service.rc	
+etc/init/vendor.qti.hardware.capabilityconfigstore@1.0-service.rc	same	288	px_v:etc/init/vendor.qti.hardware.capabilityconfigstore@1.0-service.rc	
+etc/init/vendor.qti.hardware.charger_monitor@1.0-service.rc	same	1281	px_v:etc/init/vendor.qti.hardware.charger_monitor@1.0-service.rc	
+etc/init/vendor.qti.hardware.display.allocator-service.rc	same	236	px_v:etc/init/vendor.qti.hardware.display.allocator-service.rc	
+etc/init/vendor.qti.hardware.display.composer-service.rc	same	312	px_v:etc/init/vendor.qti.hardware.display.composer-service.rc	
+etc/init/vendor.qti.hardware.dsp@1.0-service.rc	same	388	px_v:etc/init/vendor.qti.hardware.dsp@1.0-service.rc	
+etc/init/vendor.qti.hardware.perf@2.2-service.rc	added	553	hy_v:etc/init/vendor.qti.hardware.perf@2.2-service.rc	also 2 more
+etc/init/vendor.qti.hardware.qccvndhal@1.0-service.rc	same	420	px_v:etc/init/vendor.qti.hardware.qccvndhal@1.0-service.rc	
+etc/init/vendor.qti.hardware.qseecom@1.0-service.rc	same	308	px_v:etc/init/vendor.qti.hardware.qseecom@1.0-service.rc	
+etc/init/vendor.qti.hardware.qteeconnector@1.0-service.rc	same	138	px_v:etc/init/vendor.qti.hardware.qteeconnector@1.0-service.rc	
+etc/init/vendor.qti.hardware.sensorscalibrate@1.0-service.rc	same	274	px_v:etc/init/vendor.qti.hardware.sensorscalibrate@1.0-service.rc	
+etc/init/vendor.qti.hardware.soter@1.0-service.rc	same	261	px_v:etc/init/vendor.qti.hardware.soter@1.0-service.rc	
+etc/init/vendor.qti.hardware.tui_comm@1.0-service-qti.rc	same	136	px_v:etc/init/vendor.qti.hardware.tui_comm@1.0-service-qti.rc	
+etc/init/vendor.qti.media.c2@1.0-service.rc	same	216	px_v:etc/init/vendor.qti.media.c2@1.0-service.rc	
+etc/init/vendor.qti.rmt_storage.rc	same	255	px_v:etc/init/vendor.qti.rmt_storage.rc	
+etc/init/vendor.qti.tftp.rc	same	308	px_v:etc/init/vendor.qti.tftp.rc	
+etc/init/vendor.sensors.qti.rc	same	2157	px_v:etc/init/vendor.sensors.qti.rc	
+etc/init/vendor.sensors.sscrpcd.rc	same	1922	px_v:etc/init/vendor.sensors.sscrpcd.rc	
+etc/init/vendor.xiaomi.hardware.mfidoca@1.0-service.rc	added	89	hy_v:etc/init/vendor.xiaomi.hardware.mfidoca@1.0-service.rc	also 2 more
+etc/init/vendor.xiaomi.hardware.misys@1.0-service.rc	added	250	hy_v:etc/init/vendor.xiaomi.hardware.misys@1.0-service.rc	also 2 more
+etc/init/vendor.xiaomi.hardware.misys@2.0-service.rc	added	249	hy_v:etc/init/vendor.xiaomi.hardware.misys@2.0-service.rc	also 2 more
+etc/init/vendor.xiaomi.hardware.misys@3.0-service.rc	added	249	hy_v:etc/init/vendor.xiaomi.hardware.misys@3.0-service.rc	also 2 more
+etc/init/vendor.xiaomi.hardware.misys@4.0-service.rc	added	131	hy_v:etc/init/vendor.xiaomi.hardware.misys@4.0-service.rc	also 2 more
+etc/init/vendor.xiaomi.hardware.mlipay@1.1-service.rc	added	97	hy_v:etc/init/vendor.xiaomi.hardware.mlipay@1.1-service.rc	also 2 more
+etc/init/vendor.xiaomi.hardware.mtdservice@1.3-service.rc	added	154	hy_v:etc/init/vendor.xiaomi.hardware.mtdservice@1.3-service.rc	also 2 more
+etc/init/vndservicemanager.rc	same	311	px_v:etc/init/vndservicemanager.rc	
+etc/init/vppservice.rc	same	596	px_v:etc/init/vppservice.rc	
+etc/izat.conf	same	7916	px_v:etc/izat.conf	
+etc/linker.config.pb	same	17	px_v:etc/linker.config.pb	
+etc/lowi.conf	same	882	px_v:etc/lowi.conf	
+etc/media_codecs_c2.xml	same	26559	px_v:etc/media_codecs_c2.xml	
+etc/media_codecs_performance_c2.xml	same	13881	px_v:etc/media_codecs_performance_c2.xml	
+etc/media_profiles.xml	added	56774	px_v:etc/media_profiles_V1_0.xml	also 6 more
+etc/media_profiles_V1_0.xml	same	56774	px_v:etc/media_profiles_V1_0.xml	
+etc/media_profiles_kona.xml	added	56774	px_v:etc/media_profiles_V1_0.xml	also 6 more
+etc/mixer_paths.xml	same	153989	px_v:etc/mixer_paths.xml	
+etc/mixer_paths_overlay_dynamic.xml	same	2835	px_v:etc/mixer_paths_overlay_dynamic.xml	
+etc/mixer_paths_overlay_static.xml	same	48630	px_v:etc/mixer_paths_overlay_static.xml	
+etc/mkshrc	same	389	px_v:etc/mkshrc	
+etc/msm_irqbalance.conf	same	479	px_v:etc/msm_irqbalance.conf	
+etc/oplus_avb.pubkey	added	520	c06v:etc/oplus_avb.pubkey	
+etc/passwd	same	291	px_v:etc/passwd	
+etc/perf/commonresourceconfigs.xml	added	22581	hy_v:etc/perf/commonresourceconfigs.xml	also 2 more
+etc/perf/commonsysnodesconfigs.xml	added	1042	hy_v:etc/perf/commonsysnodesconfigs.xml	also 2 more
+etc/perf/perfboostsconfig.xml	added	22404	hy_v:etc/perf/perfboostsconfig.xml	also 2 more
+etc/perf/perfconfigstore.xml	added	2637	hy_v:etc/perf/perfconfigstore.xml	also 2 more
+etc/perf/targetconfig.xml	added	2341	hy_v:etc/perf/targetconfig.xml	also 2 more
+etc/perf/targetresourceconfigs.xml	added	5798	hy_v:etc/perf/targetresourceconfigs.xml	also 2 more
+etc/perf/thermalboost.conf	added	736	hy_v:etc/perf/thermalboost.conf	also 2 more
+etc/permissions/android.hardware.audio.low_latency.xml	same	924	px_v:etc/permissions/android.hardware.audio.low_latency.xml	
+etc/permissions/android.hardware.audio.pro.xml	same	917	px_v:etc/permissions/android.hardware.audio.pro.xml	
+etc/permissions/android.hardware.bluetooth.xml	same	820	px_v:etc/permissions/android.hardware.bluetooth.xml	
+etc/permissions/android.hardware.bluetooth_le.xml	same	830	px_v:etc/permissions/android.hardware.bluetooth_le.xml	
+etc/permissions/android.hardware.camera.flash-autofocus.xml	same	1052	px_v:etc/permissions/android.hardware.camera.flash-autofocus.xml	
+etc/permissions/android.hardware.camera.front.xml	same	877	px_v:etc/permissions/android.hardware.camera.front.xml	
+etc/permissions/android.hardware.camera.full.xml	same	1045	px_v:etc/permissions/android.hardware.camera.full.xml	
+etc/permissions/android.hardware.camera.raw.xml	same	912	px_v:etc/permissions/android.hardware.camera.raw.xml	
+etc/permissions/android.hardware.location.gps.xml	same	885	px_v:etc/permissions/android.hardware.location.gps.xml	
+etc/permissions/android.hardware.opengles.aep.xml	same	870	px_v:etc/permissions/android.hardware.opengles.aep.xml	
+etc/permissions/android.hardware.se.omapi.uicc.xml	same	886	px_v:etc/permissions/android.hardware.se.omapi.uicc.xml	
+etc/permissions/android.hardware.sensor.accelerometer.xml	same	824	px_v:etc/permissions/android.hardware.sensor.accelerometer.xml	
+etc/permissions/android.hardware.sensor.compass.xml	same	804	px_v:etc/permissions/android.hardware.sensor.compass.xml	
+etc/permissions/android.hardware.sensor.gyroscope.xml	same	806	px_v:etc/permissions/android.hardware.sensor.gyroscope.xml	
+etc/permissions/android.hardware.sensor.light.xml	same	816	px_v:etc/permissions/android.hardware.sensor.light.xml	
+etc/permissions/android.hardware.sensor.proximity.xml	same	815	px_v:etc/permissions/android.hardware.sensor.proximity.xml	
+etc/permissions/android.hardware.sensor.stepcounter.xml	same	818	px_v:etc/permissions/android.hardware.sensor.stepcounter.xml	
+etc/permissions/android.hardware.sensor.stepdetector.xml	same	811	px_v:etc/permissions/android.hardware.sensor.stepdetector.xml	
+etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml	same	1144	px_v:etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml	
+etc/permissions/android.hardware.usb.accessory.xml	same	845	px_v:etc/permissions/android.hardware.usb.accessory.xml	
+etc/permissions/android.hardware.usb.host.xml	same	868	px_v:etc/permissions/android.hardware.usb.host.xml	
+etc/permissions/android.hardware.vulkan.compute-0.xml	same	866	px_v:etc/permissions/android.hardware.vulkan.compute-0.xml	
+etc/permissions/android.hardware.vulkan.level-1.xml	same	865	px_v:etc/permissions/android.hardware.vulkan.level-1.xml	
+etc/permissions/android.hardware.vulkan.version-1_1.xml	same	902	px_v:etc/permissions/android.hardware.vulkan.version-1_1.xml	
+etc/permissions/android.hardware.wifi.aware.xml	same	837	px_v:etc/permissions/android.hardware.wifi.aware.xml	
+etc/permissions/android.hardware.wifi.direct.xml	same	843	px_v:etc/permissions/android.hardware.wifi.direct.xml	
+etc/permissions/android.hardware.wifi.passpoint.xml	same	845	px_v:etc/permissions/android.hardware.wifi.passpoint.xml	
+etc/permissions/android.hardware.wifi.rtt.xml	same	849	px_v:etc/permissions/android.hardware.wifi.rtt.xml	
+etc/permissions/android.hardware.wifi.xml	same	829	px_v:etc/permissions/android.hardware.wifi.xml	
+etc/permissions/android.software.device_id_attestation.xml	modified	780	UNIQUE	px size 842
+etc/permissions/android.software.freeform_window_management.xml	added	767	UNIQUE	no px counterpart
+etc/permissions/android.software.ipsec_tunnel_migration.xml	same	905	px_v:etc/permissions/android.software.ipsec_tunnel_migration.xml	
+etc/permissions/android.software.ipsec_tunnels.xml	same	875	px_v:etc/permissions/android.software.ipsec_tunnels.xml	
+etc/permissions/android.software.midi.xml	same	745	px_v:etc/permissions/android.software.midi.xml	
+etc/permissions/android.software.picture_in_picture.xml	added	759	UNIQUE	no px counterpart
+etc/permissions/android.software.sip.voip.xml	same	880	px_v:etc/permissions/android.software.sip.voip.xml	
+etc/permissions/android.software.verified_boot.xml	same	753	px_v:etc/permissions/android.software.verified_boot.xml	
+etc/permissions/android.software.vulkan.deqp.level.xml	same	915	px_v:etc/permissions/android.software.vulkan.deqp.level.xml	
+etc/permissions/handheld_core_hardware.xml	same	5242	px_v:etc/permissions/handheld_core_hardware.xml	
+etc/powerhint.json	modified	23349	UNIQUE	px size 22661
+etc/powerhint.xml	added	11622	hy_v:etc/powerhint.xml	also 2 more
+etc/public.libraries.txt	same	1151	px_v:etc/public.libraries.txt	
+etc/qdcm_calib_data_xiaomi_m82_36_02_0a_video_mode_dual_dsi_dphy_panel.xml	same	15508902	px_v:etc/qdcm_calib_data_xiaomi_m82_36_02_0a_video_mode_dual_dsi_dphy_panel.xml	
+etc/qdcm_calib_data_xiaomi_m82_42_02_0b_video_mode_dual_dsi_dphy_panel.xml	same	15508902	px_v:etc/qdcm_calib_data_xiaomi_m82_42_02_0b_video_mode_dual_dsi_dphy_panel.xml	
+etc/r_submix_audio_policy_configuration.xml	same	2105	px_v:etc/r_submix_audio_policy_configuration.xml	
+etc/res/images/charger/battery_fail.png	same	947	px_v:etc/res/images/charger/battery_fail.png	
+etc/res/images/charger/battery_scale.png	same	3290759	px_v:etc/res/images/charger/battery_scale.png	
+etc/res/images/charger/main_font.png	same	14495	px_v:etc/res/images/charger/main_font.png	
+etc/res/values/charger/animation.txt	same	1109	px_v:etc/res/values/charger/animation.txt	
+etc/sec_config	same	13925	px_v:etc/sec_config	
+etc/seccomp_policy/atfwd@2.0.policy	same	1574	px_v:etc/seccomp_policy/atfwd@2.0.policy	
+etc/seccomp_policy/codec2.vendor.base-arm.policy	same	2012	px_v:etc/seccomp_policy/codec2.vendor.base-arm.policy	
+etc/seccomp_policy/codec2.vendor.ext-arm.policy	same	255	px_v:etc/seccomp_policy/codec2.vendor.ext-arm.policy	
+etc/seccomp_policy/imsrtp.policy	same	1930	px_v:etc/seccomp_policy/imsrtp.policy	
+etc/seccomp_policy/vendor.qti.hardware.dsp.policy	same	1545	px_v:etc/seccomp_policy/vendor.qti.hardware.dsp.policy	
+etc/seccomp_policy/wifidisplayhalservice.policy	same	1908	px_v:etc/seccomp_policy/wifidisplayhalservice.policy	
+etc/selinux/genfs_labels_version.txt	same	7	px_v:etc/selinux/genfs_labels_version.txt	
+etc/selinux/plat_pub_versioned.cil	modified	623804	UNIQUE	px size 626224
+etc/selinux/plat_sepolicy_vers.txt	same	7	px_v:etc/selinux/plat_sepolicy_vers.txt	
+etc/selinux/selinux_denial_metadata	same	0	px_v:etc/selinux/selinux_denial_metadata	
+etc/selinux/vendor_file_contexts	modified	110667	UNIQUE	px size 105758
+etc/selinux/vendor_hwservice_contexts	modified	12909	UNIQUE	px size 12261
+etc/selinux/vendor_keystore2_key_contexts	same	172	px_v:etc/selinux/vendor_keystore2_key_contexts	
+etc/selinux/vendor_mac_permissions.xml	modified	4481	UNIQUE	px size 6250
+etc/selinux/vendor_property_contexts	modified	27843	UNIQUE	px size 30595
+etc/selinux/vendor_seapp_contexts	modified	1661	UNIQUE	px size 4797
+etc/selinux/vendor_sepolicy.cil	modified	1428264	UNIQUE	px size 1677350
+etc/selinux/vendor_service_contexts	modified	6018	UNIQUE	px size 4840
+etc/selinux/vendor_tee_service_contexts	same	170	px_v:etc/selinux/vendor_tee_service_contexts	
+etc/selinux/vndservice_contexts	modified	6761	UNIQUE	px size 8601
+etc/sensors/calibratedCheck.json	same	2086	px_v:etc/sensors/calibratedCheck.json	
+etc/sensors/config/ak991x_dri_0.json	same	901	px_v:etc/sensors/config/ak991x_dri_0.json	
+etc/sensors/config/bu27030_0_back.json	same	638	px_v:etc/sensors/config/bu27030_0_back.json	
+etc/sensors/config/lsm6dso_0.json	same	1876	px_v:etc/sensors/config/lsm6dso_0.json	
+etc/sensors/config/sm8250_ak991x_0.json	same	5819	px_v:etc/sensors/config/sm8250_ak991x_0.json	
+etc/sensors/config/sm8250_bmi3x0_0.json	same	9012	px_v:etc/sensors/config/sm8250_bmi3x0_0.json	
+etc/sensors/config/sm8250_bu27030_0_back.json	same	3780	px_v:etc/sensors/config/sm8250_bu27030_0_back.json	
+etc/sensors/config/sm8250_lsm6dso_0.json	same	6006	px_v:etc/sensors/config/sm8250_lsm6dso_0.json	
+etc/sensors/config/sm8250_power_0.json	same	5594	px_v:etc/sensors/config/sm8250_power_0.json	
+etc/sensors/config/sm8250_sx932x_0.json	same	7677	px_v:etc/sensors/config/sm8250_sx932x_0.json	
+etc/sensors/config/sm8250_sx932x_1.json	same	7677	px_v:etc/sensors/config/sm8250_sx932x_1.json	
+etc/sensors/config/sm8250_sx937x_0.json	same	3666	px_v:etc/sensors/config/sm8250_sx937x_0.json	
+etc/sensors/config/sm8250_tcs3701.json	same	6094	px_v:etc/sensors/config/sm8250_tcs3701.json	
+etc/sensors/config/sm8250_tsl2522_0.json	same	6521	px_v:etc/sensors/config/sm8250_tsl2522_0.json	
+etc/sensors/config/sns_amd.json	same	473	px_v:etc/sensors/config/sns_amd.json	
+etc/sensors/config/sns_amd_sw_disabled.json	same	238	px_v:etc/sensors/config/sns_amd_sw_disabled.json	
+etc/sensors/config/sns_aod.json	same	539	px_v:etc/sensors/config/sns_aod.json	
+etc/sensors/config/sns_ccd.json	same	6195	px_v:etc/sensors/config/sns_ccd.json	
+etc/sensors/config/sns_ccd_v3_walk.json	same	1231	px_v:etc/sensors/config/sns_ccd_v3_walk.json	
+etc/sensors/config/sns_cm.json	same	538	px_v:etc/sensors/config/sns_cm.json	
+etc/sensors/config/sns_dae.json	same	228	px_v:etc/sensors/config/sns_dae.json	
+etc/sensors/config/sns_dbtap.json	same	326	px_v:etc/sensors/config/sns_dbtap.json	
+etc/sensors/config/sns_device_orient.json	same	987	px_v:etc/sensors/config/sns_device_orient.json	
+etc/sensors/config/sns_diag_filter.json	same	5405	px_v:etc/sensors/config/sns_diag_filter.json	
+etc/sensors/config/sns_dpc.json	same	692	px_v:etc/sensors/config/sns_dpc.json	
+etc/sensors/config/sns_fmv.json	same	1468	px_v:etc/sensors/config/sns_fmv.json	
+etc/sensors/config/sns_geomag_rv.json	same	962	px_v:etc/sensors/config/sns_geomag_rv.json	
+etc/sensors/config/sns_gyro_cal.json	same	689	px_v:etc/sensors/config/sns_gyro_cal.json	
+etc/sensors/config/sns_mag_cal.json	same	378	px_v:etc/sensors/config/sns_mag_cal.json	
+etc/sensors/config/sns_nonui.json	same	794	px_v:etc/sensors/config/sns_nonui.json	
+etc/sensors/config/sns_oem13.json	same	1072	px_v:etc/sensors/config/sns_oem13.json	
+etc/sensors/config/sns_pedometer.json	same	840	px_v:etc/sensors/config/sns_pedometer.json	
+etc/sensors/config/sns_rmd.json	same	632	px_v:etc/sensors/config/sns_rmd.json	
+etc/sensors/config/sns_rotv.json	same	592	px_v:etc/sensors/config/sns_rotv.json	
+etc/sensors/config/sns_sar_algo.json	same	1247	px_v:etc/sensors/config/sns_sar_algo.json	
+etc/sensors/config/sns_sar_algo_1.json	same	1260	px_v:etc/sensors/config/sns_sar_algo_1.json	
+etc/sensors/config/sns_screen_down.json	same	927	px_v:etc/sensors/config/sns_screen_down.json	
+etc/sensors/config/sns_smd.json	same	1097	px_v:etc/sensors/config/sns_smd.json	
+etc/sensors/config/sns_tilt.json	same	565	px_v:etc/sensors/config/sns_tilt.json	
+etc/sensors/config/sns_tilt_sw_disabled.json	same	240	px_v:etc/sensors/config/sns_tilt_sw_disabled.json	
+etc/sensors/config/sns_tilt_to_wake.json	same	1346	px_v:etc/sensors/config/sns_tilt_to_wake.json	
+etc/sensors/config/sx932x_0.json	same	629	px_v:etc/sensors/config/sx932x_0.json	
+etc/sensors/config/sx932x_1.json	same	629	px_v:etc/sensors/config/sx932x_1.json	
+etc/sensors/config/sx937x_reg_0.json	same	5616	px_v:etc/sensors/config/sx937x_reg_0.json	
+etc/sensors/config/tcs3701.json	same	1042	px_v:etc/sensors/config/tcs3701.json	
+etc/sensors/hals.conf	same	53	px_v:etc/sensors/hals.conf	
+etc/sensors/judge_calibrated.json	same	428	px_v:etc/sensors/judge_calibrated.json	
+etc/sensors/sensor_diag.cfg	same	557	px_v:etc/sensors/sensor_diag.cfg	
+etc/sensors/sns_reg_config	same	553	px_v:etc/sensors/sns_reg_config	
+etc/sound_trigger_mixer_paths.xml	same	13911	px_v:etc/sound_trigger_mixer_paths.xml	
+etc/sound_trigger_platform_info.xml	same	29956	px_v:etc/sound_trigger_platform_info.xml	
+etc/ssg/ta_config.json	same	688	px_v:etc/ssg/ta_config.json	
+etc/ssg/tz_whitelist.json	same	1539	px_v:etc/ssg/tz_whitelist.json	
+etc/thermal-4k.conf	modified	2352	UNIQUE	px size 2352
+etc/thermal-camera.conf	modified	2448	UNIQUE	px size 2448
+etc/thermal-cclassvideo.conf	modified	2432	UNIQUE	px size 2432
+etc/thermal-cgame.conf	modified	1888	UNIQUE	px size 1888
+etc/thermal-chg-only.conf	same	1050	px_v:etc/thermal-chg-only.conf	
+etc/thermal-class0.conf	modified	2192	UNIQUE	px size 2192
+etc/thermal-engine.conf	same	84	px_v:etc/thermal-engine.conf	
+etc/thermal-global-4k.conf	modified	2448	UNIQUE	px size 2448
+etc/thermal-global-camera.conf	modified	2544	UNIQUE	px size 2544
+etc/thermal-global-chg-only.conf	same	1355	px_v:etc/thermal-global-chg-only.conf	
+etc/thermal-global-class0.conf	modified	2224	UNIQUE	px size 2224
+etc/thermal-global-hp-mgame.conf	modified	1776	UNIQUE	px size 1776
+etc/thermal-global-hp-normal.conf	modified	2752	UNIQUE	px size 2752
+etc/thermal-global-huanji.conf	same	2080	px_v:etc/thermal-global-huanji.conf	
+etc/thermal-global-mgame.conf	modified	2160	UNIQUE	px size 2160
+etc/thermal-global-nolimits.conf	modified	1200	UNIQUE	px size 1200
+etc/thermal-global-normal.conf	modified	2816	UNIQUE	px size 2816
+etc/thermal-global-tgame.conf	modified	2080	UNIQUE	px size 2080
+etc/thermal-global-video.conf	modified	2224	UNIQUE	px size 2224
+etc/thermal-global-videochat.conf	modified	2528	UNIQUE	px size 2528
+etc/thermal-huanji.conf	same	1968	px_v:etc/thermal-huanji.conf	
+etc/thermal-india-4k.conf	modified	2432	UNIQUE	px size 2432
+etc/thermal-india-camera.conf	modified	2544	UNIQUE	px size 2544
+etc/thermal-india-chg-only.conf	same	1355	px_v:etc/thermal-india-chg-only.conf	
+etc/thermal-india-class0.conf	modified	2224	UNIQUE	px size 2224
+etc/thermal-india-huanji.conf	same	2080	px_v:etc/thermal-india-huanji.conf	
+etc/thermal-india-mgame.conf	modified	2080	UNIQUE	px size 2080
+etc/thermal-india-nolimits.conf	modified	1072	UNIQUE	px size 1072
+etc/thermal-india-normal.conf	modified	2768	UNIQUE	px size 2768
+etc/thermal-india-tgame.conf	modified	2080	UNIQUE	px size 2080
+etc/thermal-india-video.conf	modified	2224	UNIQUE	px size 2224
+etc/thermal-india-videochat.conf	modified	2528	UNIQUE	px size 2528
+etc/thermal-map-global.conf	same	896	px_v:etc/thermal-map-global.conf	
+etc/thermal-map-india.conf	same	816	px_v:etc/thermal-map-india.conf	
+etc/thermal-map.conf	same	1136	px_v:etc/thermal-map.conf	
+etc/thermal-mgame.conf	modified	1792	UNIQUE	px size 1792
+etc/thermal-nolimits.conf	modified	1104	UNIQUE	px size 1104
+etc/thermal-normal.conf	modified	2560	UNIQUE	px size 2560
+etc/thermal-region-map.conf	same	432	px_v:etc/thermal-region-map.conf	
+etc/thermal-tgame.conf	modified	1776	UNIQUE	px size 1776
+etc/thermal-video.conf	modified	2112	UNIQUE	px size 2112
+etc/thermal-videochat.conf	modified	2416	UNIQUE	px size 2416
+etc/thermal-yuanshen.conf	modified	1808	UNIQUE	px size 1808
+etc/thermald-devices.conf	same	1161	px_v:etc/thermald-devices.conf	
+etc/ueventd.rc	same	27584	px_v:etc/ueventd.rc	
+etc/usb_compositions.conf	same	4004	px_v:etc/usb_compositions.conf	
+etc/usbv2_audio_policy_configuration.xml	modified	3274	UNIQUE	px size 2239
+etc/video_system_specs.json	same	106	px_v:etc/video_system_specs.json	
+etc/vintf/compatibility_matrix.xml	same	1895	px_v:etc/vintf/compatibility_matrix.xml	
+etc/vintf/manifest.xml	same	6186	px_v:etc/vintf/manifest.xml	
+etc/vintf/manifest/android.hardware.biometrics.face-service.xml	added	685	UNIQUE	no px counterpart
+etc/vintf/manifest/android.hardware.cas@1.2-service.xml	same	339	px_v:etc/vintf/manifest/android.hardware.cas@1.2-service.xml	
+etc/vintf/manifest/android.hardware.drm-service.clearkey.xml	same	322	px_v:etc/vintf/manifest/android.hardware.drm-service.clearkey.xml	
+etc/vintf/manifest/android.hardware.graphics.mapper-impl-qti-display.xml	same	660	px_v:etc/vintf/manifest/android.hardware.graphics.mapper-impl-qti-display.xml	
+etc/vintf/manifest/android.hardware.health-service.qti.xml	same	309	px_v:etc/vintf/manifest/android.hardware.health-service.qti.xml	
+etc/vintf/manifest/android.hardware.light-service.lineage.xml	same	305	px_v:etc/vintf/manifest/android.hardware.light-service.lineage.xml	
+etc/vintf/manifest/android.hardware.neuralnetworks@1.3-service-qti-hta.xml	same	361	px_v:etc/vintf/manifest/android.hardware.neuralnetworks@1.3-service-qti-hta.xml	
+etc/vintf/manifest/android.hardware.neuralnetworks@1.3-service-qti.xml	same	460	px_v:etc/vintf/manifest/android.hardware.neuralnetworks@1.3-service-qti.xml	
+etc/vintf/manifest/android.hardware.power-service.lineage.xml	modified	320	UNIQUE	px size 320
+etc/vintf/manifest/android.hardware.thermal-service.qti.xml	same	279	px_v:etc/vintf/manifest/android.hardware.thermal-service.qti.xml	
+etc/vintf/manifest/android.hardware.usb-service.qti.xml	same	291	px_v:etc/vintf/manifest/android.hardware.usb-service.qti.xml	
+etc/vintf/manifest/android.hardware.usb.gadget-service.qti.xml	same	282	px_v:etc/vintf/manifest/android.hardware.usb.gadget-service.qti.xml	
+etc/vintf/manifest/android.hardware.wifi-service.xml	same	297	px_v:etc/vintf/manifest/android.hardware.wifi-service.xml	
+etc/vintf/manifest/android.hardware.wifi.hostapd.xml	same	304	px_v:etc/vintf/manifest/android.hardware.wifi.hostapd.xml	
+etc/vintf/manifest/android.hardware.wifi.supplicant.xml	same	325	px_v:etc/vintf/manifest/android.hardware.wifi.supplicant.xml	
+etc/vintf/manifest/bluetooth_audio.xml	same	330	px_v:etc/vintf/manifest/bluetooth_audio.xml	
+etc/vintf/manifest/boot-service.qti.xml	same	256	px_v:etc/vintf/manifest/boot-service.qti.xml	
+etc/vintf/manifest/c2_manifest_vendor.xml	same	1926	px_v:etc/vintf/manifest/c2_manifest_vendor.xml	
+etc/vintf/manifest/manifest_android.hardware.drm@1.3-service.widevine.xml	same	945	px_v:etc/vintf/manifest/manifest_android.hardware.drm@1.3-service.widevine.xml	
+etc/vintf/manifest/manifest_oplus_stability.xml	added	424	UNIQUE	no px counterpart
+etc/vintf/manifest/manifest_performance_aidl.xml	added	255	c06o:etc/vintf/manifest/manifest_performance_aidl.xml	
+etc/vintf/manifest/manifest_vendor.dolby.hardware.dms.xml	added	315	hy_v:etc/vintf/manifest/manifest_vendor.dolby.hardware.dms.xml	also 2 more
+etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mfidoca.xml	added	1854	hy_v:etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mfidoca.xml	also 2 more
+etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mlipay.xml	added	1854	hy_v:etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mlipay.xml	also 2 more
+etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mtdservice.xml	added	1856	hy_v:etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mtdservice.xml	also 2 more
+etc/vintf/manifest/memtrack_qti.xml	same	255	px_v:etc/vintf/manifest/memtrack_qti.xml	
+etc/vintf/manifest/vendor.lineage.health-service.default.xml	same	371	px_v:etc/vintf/manifest/vendor.lineage.health-service.default.xml	
+etc/vintf/manifest/vendor.qti.hardware.display.allocator-service.xml	same	642	px_v:etc/vintf/manifest/vendor.qti.hardware.display.allocator-service.xml	
+etc/vintf/manifest/vendor.qti.hardware.display.composer-service.xml	same	2953	px_v:etc/vintf/manifest/vendor.qti.hardware.display.composer-service.xml	
+etc/vintf/manifest/vendor.qti.hardware.perf@2.2.xml	added	361	UNIQUE	no px counterpart
+etc/vintf/manifest/vendor.xiaomi.hardware.misys@1.0.xml	added	1845	hy_v:etc/vintf/manifest/vendor.xiaomi.hardware.misys@1.0.xml	also 2 more
+etc/vintf/manifest/vendor.xiaomi.hardware.misys@2.0.xml	added	1845	hy_v:etc/vintf/manifest/vendor.xiaomi.hardware.misys@2.0.xml	also 2 more
+etc/vintf/manifest/vendor.xiaomi.hardware.misys@3.0.xml	added	1845	hy_v:etc/vintf/manifest/vendor.xiaomi.hardware.misys@3.0.xml	also 2 more
+etc/vintf/manifest/vendor.xiaomi.hardware.misys@4.0.xml	added	1845	hy_v:etc/vintf/manifest/vendor.xiaomi.hardware.misys@4.0.xml	also 2 more
+etc/wfdconfig.xml	same	24849	px_v:etc/wfdconfig.xml	
+etc/wifi/WCNSS_qcom_cfg.ini	same	11482	px_v:etc/wifi/WCNSS_qcom_cfg.ini	
+etc/wifi/aoa_cldb_falcon.bin	same	839856	px_v:etc/wifi/aoa_cldb_falcon.bin	
+etc/wifi/aoa_cldb_swl14.bin	same	839856	px_v:etc/wifi/aoa_cldb_swl14.bin	
+etc/wifi/p2p_supplicant_overlay.conf	same	97	px_v:etc/wifi/p2p_supplicant_overlay.conf	
+etc/wifi/wpa_supplicant.conf	same	197	px_v:etc/wifi/wpa_supplicant.conf	
+etc/wifi/wpa_supplicant_overlay.conf	same	229	px_v:etc/wifi/wpa_supplicant_overlay.conf	
+etc/xtra_root_cert.pem	same	1265	px_v:etc/xtra_root_cert.pem	
+etc/xtwifi.conf	same	3517	px_v:etc/xtwifi.conf	
+firmware/CAMERA_ICP.elf	same	3888984	px_v:firmware/CAMERA_ICP.elf	
+firmware/a650_gmu.bin	same	41548	px_v:firmware/a650_gmu.bin	
+firmware/a650_sqe.fw	modified	31988	UNIQUE	px size 31632
+firmware/a650_zap.b00	same	148	px_v:firmware/a650_zap.b00	
+firmware/a650_zap.b01	same	6712	px_v:firmware/a650_zap.b01	
+firmware/a650_zap.b02	same	1676	px_v:firmware/a650_zap.b02	
+firmware/a650_zap.elf	modified	13964	UNIQUE	px size 13964
+firmware/a650_zap.mdt	same	6860	px_v:firmware/a650_zap.mdt	
+firmware/aw882xx_acf.bin	same	5232	px_v:firmware/aw882xx_acf.bin	
+firmware/ipa_fws.b00	same	212	px_v:firmware/ipa_fws.b00	
+firmware/ipa_fws.b01	same	6808	px_v:firmware/ipa_fws.b01	
+firmware/ipa_fws.b02	same	19200	px_v:firmware/ipa_fws.b02	
+firmware/ipa_fws.b03	same	128	px_v:firmware/ipa_fws.b03	
+firmware/ipa_fws.b04	same	560	px_v:firmware/ipa_fws.b04	
+firmware/ipa_fws.elf	same	37552	px_v:firmware/ipa_fws.elf	
+firmware/ipa_fws.mdt	same	7020	px_v:firmware/ipa_fws.mdt	
+firmware/ipa_uc.b00	same	148	px_v:firmware/ipa_uc.b00	
+firmware/ipa_uc.b01	same	6712	px_v:firmware/ipa_uc.b01	
+firmware/ipa_uc.b02	same	35572	px_v:firmware/ipa_uc.b02	
+firmware/ipa_uc.elf	same	47860	px_v:firmware/ipa_uc.elf	
+firmware/ipa_uc.mdt	same	6860	px_v:firmware/ipa_uc.mdt	
+firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini	same	0	px_v:firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini	
+firmware/wlan/qca_cld/wlan_mac.bin	same	0	px_v:firmware/wlan/qca_cld/wlan_mac.bin	
+lib/aconfig_libgui_flags_c_lib.so	same	5768	px_v:lib/aconfig_libgui_flags_c_lib.so	
+lib/android.hardware.audio.common-V5-ndk.so	same	15220	px_v:lib/android.hardware.audio.common-V5-ndk.so	
+lib/android.hardware.audio.common-util.so	same	7172	px_v:lib/android.hardware.audio.common-util.so	
+lib/android.hardware.audio.common@2.0.so	same	3992	px_v:lib/android.hardware.audio.common@2.0.so	
+lib/android.hardware.audio.common@5.0.so	same	12432	px_v:lib/android.hardware.audio.common@5.0.so	
+lib/android.hardware.audio.common@6.0-util.so	same	12764	px_v:lib/android.hardware.audio.common@6.0-util.so	
+lib/android.hardware.audio.common@6.0.so	same	12432	px_v:lib/android.hardware.audio.common@6.0.so	
+lib/android.hardware.audio.effect@6.0-util.so	same	4516	px_v:lib/android.hardware.audio.effect@6.0-util.so	
+lib/android.hardware.audio.effect@6.0.so	modified	893016	UNIQUE	px size 1107244
+lib/android.hardware.audio@6.0-util.so	same	14064	px_v:lib/android.hardware.audio@6.0-util.so	
+lib/android.hardware.audio@6.0.so	modified	529256	UNIQUE	px size 673040
+lib/android.hardware.bluetooth.audio-V6-ndk.so	same	229228	px_v:lib/android.hardware.bluetooth.audio-V6-ndk.so	
+lib/android.hardware.bluetooth.audio-impl.so	same	269136	px_v:lib/android.hardware.bluetooth.audio-impl.so	
+lib/android.hardware.bluetooth.audio@2.0.so	modified	154184	UNIQUE	px size 171040
+lib/android.hardware.bluetooth.audio@2.1.so	modified	118412	UNIQUE	px size 129524
+lib/android.hardware.camera.common@1.0.so	same	4736	px_v:lib/android.hardware.camera.common@1.0.so	
+lib/android.hardware.camera.device@1.0.so	modified	199384	UNIQUE	px size 243092
+lib/android.hardware.camera.device@3.2.so	modified	143848	UNIQUE	px size 165664
+lib/android.hardware.camera.device@3.3.so	modified	66092	UNIQUE	px size 74256
+lib/android.hardware.camera.device@3.4.so	modified	111128	UNIQUE	px size 124052
+lib/android.hardware.camera.device@3.5.so	modified	172124	UNIQUE	px size 196156
+lib/android.hardware.camera.device@3.6.so	modified	167496	UNIQUE	px size 190016
+lib/android.hardware.camera.provider@2.4-external.so	same	78512	px_v:lib/android.hardware.camera.provider@2.4-external.so	
+lib/android.hardware.camera.provider@2.4-legacy.so	same	144372	px_v:lib/android.hardware.camera.provider@2.4-legacy.so	
+lib/android.hardware.camera.provider@2.4.so	modified	103468	UNIQUE	px size 116596
+lib/android.hardware.cas.native@1.0.so	modified	60244	UNIQUE	px size 66520
+lib/android.hardware.cas@1.0.so	modified	164808	UNIQUE	px size 189896
+lib/android.hardware.cas@1.1.so	modified	131456	UNIQUE	px size 146528
+lib/android.hardware.cas@1.2.so	modified	140072	UNIQUE	px size 155388
+lib/android.hardware.common-V2-ndk.so	same	8784	px_v:lib/android.hardware.common-V2-ndk.so	
+lib/android.hardware.common.fmq-V1-ndk.so	same	4080	px_v:lib/android.hardware.common.fmq-V1-ndk.so	
+lib/android.hardware.graphics.allocator-V2-ndk.so	same	28108	px_v:lib/android.hardware.graphics.allocator-V2-ndk.so	
+lib/android.hardware.graphics.allocator@2.0.so	modified	56120	UNIQUE	px size 62460
+lib/android.hardware.graphics.allocator@3.0.so	modified	56204	UNIQUE	px size 62548
+lib/android.hardware.graphics.allocator@4.0.so	modified	53104	UNIQUE	px size 58376
+lib/android.hardware.graphics.bufferqueue@1.0.so	modified	146544	UNIQUE	px size 177224
+lib/android.hardware.graphics.bufferqueue@2.0.so	modified	130172	UNIQUE	px size 154392
+lib/android.hardware.graphics.common-V7-ndk.so	same	18404	px_v:lib/android.hardware.graphics.common-V7-ndk.so	
+lib/android.hardware.graphics.common@1.0.so	same	2604	px_v:lib/android.hardware.graphics.common@1.0.so	
+lib/android.hardware.graphics.common@1.1.so	same	2644	px_v:lib/android.hardware.graphics.common@1.1.so	
+lib/android.hardware.graphics.common@1.2.so	same	3336	px_v:lib/android.hardware.graphics.common@1.2.so	
+lib/android.hardware.graphics.mapper@2.0.so	modified	62280	UNIQUE	px size 70976
+lib/android.hardware.graphics.mapper@2.1.so	modified	65688	UNIQUE	px size 74704
+lib/android.hardware.graphics.mapper@3.0.so	modified	69344	UNIQUE	px size 79804
+lib/android.hardware.graphics.mapper@4.0.so	modified	88368	UNIQUE	px size 105384
+lib/android.hardware.health@1.0.so	same	3956	px_v:lib/android.hardware.health@1.0.so	
+lib/android.hardware.health@2.0.so	modified	111184	UNIQUE	px size 131436
+lib/android.hardware.media.bufferpool2-V2-ndk.so	same	60516	px_v:lib/android.hardware.media.bufferpool2-V2-ndk.so	
+lib/android.hardware.media.bufferpool@2.0.so	modified	142240	UNIQUE	px size 156092
+lib/android.hardware.media.c2@1.0.so	modified	376428	UNIQUE	px size 433988
+lib/android.hardware.media.omx@1.0.so	modified	285276	UNIQUE	px size 340048
+lib/android.hardware.media@1.0.so	same	3244	px_v:lib/android.hardware.media@1.0.so	
+lib/android.hardware.power@1.0.so	modified	57552	UNIQUE	px size 64964
+lib/android.hardware.power@1.1.so	modified	61152	UNIQUE	px size 68860
+lib/android.hardware.power@1.2.so	modified	61460	UNIQUE	px size 69348
+lib/android.hardware.radio@1.0.so	modified	935260	UNIQUE	px size 1352732
+lib/android.hardware.radio@1.1.so	modified	656384	UNIQUE	px size 917796
+lib/android.hardware.security.keymint-V1-ndk.so	same	82040	px_v:lib/android.hardware.security.keymint-V1-ndk.so	
+lib/android.hardware.security.secureclock-V1-ndk.so	same	28020	px_v:lib/android.hardware.security.secureclock-V1-ndk.so	
+lib/android.hardware.sensors@1.0.so	modified	73544	UNIQUE	px size 87212
+lib/android.hardware.soundtrigger@2.0-core.so	same	20972	px_v:lib/android.hardware.soundtrigger@2.0-core.so	
+lib/android.hardware.soundtrigger@2.0.so	modified	106780	UNIQUE	px size 121940
+lib/android.hardware.soundtrigger@2.1.so	modified	116928	UNIQUE	px size 132268
+lib/android.hardware.soundtrigger@2.2.so	modified	71600	UNIQUE	px size 80452
+lib/android.hardware.soundtrigger@2.3.so	modified	93872	UNIQUE	px size 107580
+lib/android.hidl.allocator@1.0.so	modified	54848	UNIQUE	px size 61228
+lib/android.hidl.manager@1.0.so	added	2532	UNIQUE	no px counterpart
+lib/android.hidl.memory.block@1.0.so	added	2628	UNIQUE	no px counterpart
+lib/android.hidl.memory.token@1.0.so	modified	50984	UNIQUE	px size 56280
+lib/android.hidl.memory@1.0.so	modified	87480	UNIQUE	px size 99012
+lib/android.hidl.safe_union@1.0.so	same	2588	px_v:lib/android.hidl.safe_union@1.0.so	
+lib/android.hidl.token@1.0-utils.so	same	8300	px_v:lib/android.hidl.token@1.0-utils.so	
+lib/android.hidl.token@1.0.so	modified	58120	UNIQUE	px size 64984
+lib/android.media.audio.common.types-V5-ndk.so	same	98912	px_v:lib/android.media.audio.common.types-V5-ndk.so	
+lib/android.system.keystore2-V1-ndk.so	same	67024	px_v:lib/android.system.keystore2-V1-ndk.so	
+lib/android.system.suspend-V1-ndk.so	same	26252	px_v:lib/android.system.suspend-V1-ndk.so	
+lib/btaudio_offload_if.so	same	31880	px_v:lib/btaudio_offload_if.so	
+lib/camera.device@1.0-impl.so	modified	115288	UNIQUE	px size 115312
+lib/camera.device@3.2-impl.so	same	157040	px_v:lib/camera.device@3.2-impl.so	
+lib/camera.device@3.3-impl.so	same	24552	px_v:lib/camera.device@3.3-impl.so	
+lib/camera.device@3.4-external-impl.so	same	278360	px_v:lib/camera.device@3.4-external-impl.so	
+lib/camera.device@3.4-impl.so	same	120048	px_v:lib/camera.device@3.4-impl.so	
+lib/camera.device@3.5-external-impl.so	same	104364	px_v:lib/camera.device@3.5-external-impl.so	
+lib/camera.device@3.5-impl.so	same	122116	px_v:lib/camera.device@3.5-impl.so	
+lib/camera.device@3.6-external-impl.so	same	158588	px_v:lib/camera.device@3.6-external-impl.so	
+lib/egl/eglSubDriverAndroid.so	modified	39164	UNIQUE	px size 41804
+lib/egl/libEGL_adreno.so	modified	21584	UNIQUE	px size 21452
+lib/egl/libGLESv1_CM_adreno.so	modified	186536	UNIQUE	px size 186520
+lib/egl/libGLESv2_adreno.so	modified	3299428	UNIQUE	px size 2991256
+lib/egl/libq3dtools_adreno.so	same	165288	px_v:lib/egl/libq3dtools_adreno.so	
+lib/egl/libq3dtools_esx.so	same	958104	px_v:lib/egl/libq3dtools_esx.so	
+lib/hw/android.hardware.audio.effect@6.0-impl.so	same	219544	px_v:lib/hw/android.hardware.audio.effect@6.0-impl.so	
+lib/hw/android.hardware.audio@6.0-impl.so	modified	163336	UNIQUE	px size 163344
+lib/hw/android.hardware.camera.provider@2.4-impl.so	same	12968	px_v:lib/hw/android.hardware.camera.provider@2.4-impl.so	
+lib/hw/android.hardware.graphics.mapper@3.0-impl-qti-display.so	same	36132	px_v:lib/hw/android.hardware.graphics.mapper@3.0-impl-qti-display.so	
+lib/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so	modified	60480	UNIQUE	px size 56348
+lib/hw/android.hardware.sensors@1.0-impl-xiaomi.so	same	39580	px_v:lib/hw/android.hardware.sensors@1.0-impl-xiaomi.so	
+lib/hw/android.hardware.soundtrigger@2.3-impl.so	same	42472	px_v:lib/hw/android.hardware.soundtrigger@2.3-impl.so	
+lib/hw/android.hidl.memory@1.0-impl.so	same	12884	px_v:lib/hw/android.hidl.memory@1.0-impl.so	
+lib/hw/audio.bluetooth.default.so	same	142012	px_v:lib/hw/audio.bluetooth.default.so	
+lib/hw/audio.primary.default.so	same	8248	px_v:lib/hw/audio.primary.default.so	
+lib/hw/audio.primary.kona.so	same	866037	px_v:lib/hw/audio.primary.kona.so	
+lib/hw/audio.r_submix.default.so	same	20032	px_v:lib/hw/audio.r_submix.default.so	
+lib/hw/audio.usbv2.default.so	same	22560	px_v:lib/hw/audio.usbv2.default.so	
+lib/hw/gralloc.default.so	same	12448	px_v:lib/hw/gralloc.default.so	
+lib/hw/gralloc.qcom.so	added	23508	UNIQUE	no px counterpart
+lib/hw/local_time.default.so	same	3916	px_v:lib/hw/local_time.default.so	
+lib/hw/power.default.so	same	2980	px_v:lib/hw/power.default.so	
+lib/hw/sound_trigger.primary.kona.so	same	196508	px_v:lib/hw/sound_trigger.primary.kona.so	
+lib/hw/vendor.qti.hardware.bluetooth_audio@2.0-impl.so	same	67892	px_v:lib/hw/vendor.qti.hardware.bluetooth_audio@2.0-impl.so	
+lib/hw/vibrator.default.so	same	5408	px_v:lib/hw/vibrator.default.so	
+lib/hw/vulkan.adreno.so	modified	1729096	UNIQUE	px size 1456876
+lib/libC2D2.so	same	144556	px_v:lib/libC2D2.so	
+lib/libCB.so	modified	2305264	UNIQUE	px size 2386120
+lib/libEGL_adreno.so	same	0	px_v:lib/libEGL_adreno.so	
+lib/libFileMux_proprietary.so	same	186048	px_v:lib/libFileMux_proprietary.so	
+lib/libGLESv2_adreno.so	same	0	px_v:lib/libGLESv2_adreno.so	
+lib/libOpenCL.so	modified	77316	UNIQUE	px size 77228
+lib/libVkLayer_q3dtools.so	modified	1491584	UNIQUE	px size 1686072
+lib/liba2dpoffload.so	same	45900	px_v:lib/liba2dpoffload.so	
+lib/libacdb-fts.so	same	12828	px_v:lib/libacdb-fts.so	
+lib/libacdbloader.so	same	98844	px_v:lib/libacdbloader.so	
+lib/libacdbrtac.so	same	26312	px_v:lib/libacdbrtac.so	
+lib/libaconfig_storage_read_api_cc.so	same	116740	px_v:lib/libaconfig_storage_read_api_cc.so	
+lib/libadiertac.so	same	23508	px_v:lib/libadiertac.so	
+lib/libadm.so	same	17612	px_v:lib/libadm.so	
+lib/libadpcmdec.so	same	32964	px_v:lib/libadpcmdec.so	
+lib/libadreno_utils.so	modified	60004	UNIQUE	px size 59964
+lib/libadsprpc.so	same	207524	px_v:lib/libadsprpc.so	
+lib/libalsautilsv2.so	same	16956	px_v:lib/libalsautilsv2.so	
+lib/libaudcal.so	same	175764	px_v:lib/libaudcal.so	
+lib/libaudio_log_utils.so	same	18364	px_v:lib/libaudio_log_utils.so	
+lib/libaudiocloudctrl.so	same	45476	px_v:lib/libaudiocloudctrl.so	
+lib/libaudioparsers.so	same	18956	px_v:lib/libaudioparsers.so	
+lib/libaudioroute-v34.so	same	13548	px_v:lib/libaudioroute-v34.so	
+lib/libaudioroute.so	same	12880	px_v:lib/libaudioroute.so	
+lib/libaudioroute_ext.so	same	22605	px_v:lib/libaudioroute_ext.so	
+lib/libaudioutils.so	same	369012	px_v:lib/libaudioutils.so	
+lib/libavservices_minijail.so	same	11720	px_v:lib/libavservices_minijail.so	
+lib/libbase.so	same	140568	px_v:lib/libbase.so	
+lib/libbatterylistener.so	same	33108	px_v:lib/libbatterylistener.so	
+lib/libbinder.so	modified	560936	UNIQUE	px size 565800
+lib/libbluetooth_audio_session.so	same	80988	px_v:lib/libbluetooth_audio_session.so	
+lib/libbluetooth_audio_session_aidl.so	same	1208292	px_v:lib/libbluetooth_audio_session_aidl.so	
+lib/libbluetooth_audio_session_qti.so	same	150076	px_v:lib/libbluetooth_audio_session_qti.so	
+lib/libbluetooth_audio_session_qti_2_1.so	same	182168	px_v:lib/libbluetooth_audio_session_qti_2_1.so	
+lib/libc++.so	same	848140	px_v:lib/libc++.so	
+lib/libc2d30_bltlib.so	same	515848	px_v:lib/libc2d30_bltlib.so	
+lib/libcap.so	same	27828	px_v:lib/libcap.so	
+lib/libcapiv2svacnn.so	same	464104	px_v:lib/libcapiv2svacnn.so	
+lib/libcapiv2svarnn.so	same	169624	px_v:lib/libcapiv2svarnn.so	
+lib/libcapiv2vop.so	same	361504	px_v:lib/libcapiv2vop.so	
+lib/libcdsprpc.so	same	207524	px_v:lib/libcdsprpc.so	
+lib/libclang_rt.ubsan_standalone-arm-android.so	same	749464	px_v:lib/libclang_rt.ubsan_standalone-arm-android.so	
+lib/libcld80211.so	same	10392	px_v:lib/libcld80211.so	
+lib/libcodec2.so	same	2492	px_v:lib/libcodec2.so	
+lib/libcodec2_hal_common.so	same	58620	px_v:lib/libcodec2_hal_common.so	
+lib/libcodec2_hidl@1.0.so	modified	190536	UNIQUE	px size 190804
+lib/libcodec2_hidl_plugin.so	same	64564	px_v:lib/libcodec2_hidl_plugin.so	
+lib/libcodec2_vndk.so	modified	569020	UNIQUE	px size 568388
+lib/libcomprcapture.so	same	3116	px_v:lib/libcomprcapture.so	
+lib/libcrypto.so	same	1152864	px_v:lib/libcrypto.so	
+lib/libcutils.so	modified	62040	UNIQUE	px size 62000
+lib/libdapparamstorage.so	added	14252	hy_v:lib/libdapparamstorage.so	also 2 more
+lib/libdiag.so	same	190640	px_v:lib/libdiag.so	
+lib/libdisplayconfig.qti.so	same	70064	px_v:lib/libdisplayconfig.qti.so	
+lib/libdmabufheap.so	modified	59576	UNIQUE	px size 45872
+lib/libeffects.so	modified	24304	UNIQUE	px size 23472
+lib/libeffectsconfig.so	same	33864	px_v:lib/libeffectsconfig.so	
+lib/libexif.so	same	97332	px_v:lib/libexif.so	
+lib/libexpat.so	same	108048	px_v:lib/libexpat.so	
+lib/libexthwplugin.so	same	27340	px_v:lib/libexthwplugin.so	
+lib/libfastcrc.so	same	13076	px_v:lib/libfastcrc.so	
+lib/libfastcvdsp_stub.so	same	211420	px_v:lib/libfastcvdsp_stub.so	
+lib/libfastcvopt.so	same	3392256	px_v:lib/libfastcvopt.so	
+lib/libflatbuffers-cpp.so	same	892696	px_v:lib/libflatbuffers-cpp.so	
+lib/libfmq.so	same	10420	px_v:lib/libfmq.so	
+lib/libgcs-calwrapper.so	same	8256	px_v:lib/libgcs-calwrapper.so	
+lib/libgcs-ipc.so	same	23380	px_v:lib/libgcs-ipc.so	
+lib/libgcs-osal.so	same	18060	px_v:lib/libgcs-osal.so	
+lib/libgcs.so	same	31392	px_v:lib/libgcs.so	
+lib/libgpudataproducer.so	same	1092128	px_v:lib/libgpudataproducer.so	
+lib/libgralloc.qti.so	modified	17568	UNIQUE	px size 17568
+lib/libgralloccore.so	modified	63228	UNIQUE	px size 59856
+lib/libgralloctypes.so	modified	52604	UNIQUE	px size 52604
+lib/libgrallocutils.so	modified	43396	UNIQUE	px size 43028
+lib/libgsl.so	modified	1969448	UNIQUE	px size 1957992
+lib/libgui.so	modified	1265664	UNIQUE	px size 1267424
+lib/libhardware.so	same	5496	px_v:lib/libhardware.so	
+lib/libhardware_legacy.so	same	16620	px_v:lib/libhardware_legacy.so	
+lib/libhdmiedid.so	same	7600	px_v:lib/libhdmiedid.so	
+lib/libhdmipassthru.so	same	25432	px_v:lib/libhdmipassthru.so	
+lib/libhfp.so	same	24448	px_v:lib/libhfp.so	
+lib/libhidlbase.so	modified	472852	UNIQUE	px size 504336
+lib/libhidlmemory.so	same	19136	px_v:lib/libhidlmemory.so	
+lib/libhidltransport.so	same	2492	px_v:lib/libhidltransport.so	
+lib/libhwbinder.so	same	2492	px_v:lib/libhwbinder.so	
+lib/libion.so	same	7024	px_v:lib/libion.so	
+lib/libjpeg.so	same	355060	px_v:lib/libjpeg.so	
+lib/libjsoncpp.so	same	133428	px_v:lib/libjsoncpp.so	
+lib/libkeystore-engine-wifi-hidl.so	same	28996	px_v:lib/libkeystore-engine-wifi-hidl.so	
+lib/liblistensoundmodel2.so	same	1804476	px_v:lib/liblistensoundmodel2.so	
+lib/libllvm-glnext.so	modified	10611612	UNIQUE	px size 10002388
+lib/libllvm-qcom.so	modified	23266828	UNIQUE	px size 22881840
+lib/libmdsprpc.so	same	207468	px_v:lib/libmdsprpc.so	
+lib/libmedia_helper.so	same	100400	px_v:lib/libmedia_helper.so	
+lib/libmedia_omx.so	modified	147852	UNIQUE	px size 147852
+lib/libmediautils_vendor.so	same	210964	px_v:lib/libmediautils_vendor.so	
+lib/libmemunreachable.so	same	233788	px_v:lib/libmemunreachable.so	
+lib/libmfido.so	added	20732	hy_v:lib/libmfido.so	also 2 more
+lib/libminijail.so	same	125968	px_v:lib/libminijail.so	
+lib/libmlipay.so	added	14928	hy_v:lib/libmlipay.so	also 2 more
+lib/libmlipay@1.1.so	added	18640	hy_v:lib/libmlipay@1.1.so	also 2 more
+lib/libmm-hdcpmgr.so	same	24712	px_v:lib/libmm-hdcpmgr.so	
+lib/libmmosal.so	same	25796	px_v:lib/libmmosal.so	
+lib/libmmrtpdecoder_proprietary.so	same	80460	px_v:lib/libmmrtpdecoder_proprietary.so	
+lib/libmmrtpencoder_proprietary.so	same	52804	px_v:lib/libmmrtpencoder_proprietary.so	
+lib/libmulawdec.so	same	3516	px_v:lib/libmulawdec.so	
+lib/libnbaio_mono.so	same	18784	px_v:lib/libnbaio_mono.so	
+lib/libnetutils.so	same	29776	px_v:lib/libnetutils.so	
+lib/libnl.so	same	178336	px_v:lib/libnl.so	
+lib/libpasn.so	same	356624	px_v:lib/libpasn.so	
+lib/libpiex.so	modified	62236	UNIQUE	px size 62036
+lib/libpiex_shim.so	same	2880	px_v:lib/libpiex_shim.so	
+lib/libpng.so	same	157048	px_v:lib/libpng.so	
+lib/libprocessgroup.so	same	272100	px_v:lib/libprocessgroup.so	
+lib/libprotobuf-cpp-full-6.33.5.so	same	2533312	px_v:lib/libprotobuf-cpp-full-6.33.5.so	
+lib/libprotobuf-cpp-lite-6.33.5.so	same	1068000	px_v:lib/libprotobuf-cpp-lite-6.33.5.so	
+lib/libq3dtools_adreno.so	same	0	px_v:lib/libq3dtools_adreno.so	
+lib/libqcodec2_base.so	same	26952	px_v:lib/libqcodec2_base.so	
+lib/libqcodec2_basecodec.so	same	245932	px_v:lib/libqcodec2_basecodec.so	
+lib/libqcodec2_core.so	same	204096	px_v:lib/libqcodec2_core.so	
+lib/libqcodec2_platform.so	same	43164	px_v:lib/libqcodec2_platform.so	
+lib/libqcodec2_utils.so	same	149204	px_v:lib/libqcodec2_utils.so	
+lib/libqcodec2_v4l2codec.so	same	696760	px_v:lib/libqcodec2_v4l2codec.so	
+lib/libqdMetaData.so	modified	15696	UNIQUE	px size 15824
+lib/libqti-perfd-client.so	same	2996	px_v:lib/libqti-perfd-client.so	
+lib/libqti_vndfwk_detect.so	same	2908	px_v:lib/libqti_vndfwk_detect.so	
+lib/libqtigef.so	same	20140	px_v:lib/libqtigef.so	
+lib/libreference-ril.so	same	87724	px_v:lib/libreference-ril.so	
+lib/libresampler.so	same	17192	px_v:lib/libresampler.so	
+lib/libril.so	same	213796	px_v:lib/libril.so	
+lib/librilutils.so	same	6060	px_v:lib/librilutils.so	
+lib/libscveCommon.so	same	13984	px_v:lib/libscveCommon.so	
+lib/libscveCommon_stub.so	same	4764	px_v:lib/libscveCommon_stub.so	
+lib/libscveObjectSegmentation.so	same	197016	px_v:lib/libscveObjectSegmentation.so	
+lib/libscveObjectSegmentation_stub.so	same	6296	px_v:lib/libscveObjectSegmentation_stub.so	
+lib/libscveObjectTracker.so	same	290164	px_v:lib/libscveObjectTracker.so	
+lib/libscveObjectTracker_stub.so	same	20156	px_v:lib/libscveObjectTracker_stub.so	
+lib/libsdsprpc.so	same	207520	px_v:lib/libsdsprpc.so	
+lib/libsmwrapper.so	same	13844	px_v:lib/libsmwrapper.so	
+lib/libsndmonitor.so	same	18208	px_v:lib/libsndmonitor.so	
+lib/libspeexresampler.so	same	16268	px_v:lib/libspeexresampler.so	
+lib/libspkrprot.so	same	37784	px_v:lib/libspkrprot.so	
+lib/libssl.so	same	407844	px_v:lib/libssl.so	
+lib/libssrec.so	same	25356	px_v:lib/libssrec.so	
+lib/libstagefright_aidl_bufferpool2.so	same	140648	px_v:lib/libstagefright_aidl_bufferpool2.so	
+lib/libstagefright_bufferpool@2.0.1.so	same	140368	px_v:lib/libstagefright_bufferpool@2.0.1.so	
+lib/libstagefright_bufferqueue_helper.so	modified	229352	UNIQUE	px size 229660
+lib/libstagefright_foundation.so	modified	159160	UNIQUE	px size 159272
+lib/libstagefright_omx.so	modified	239172	UNIQUE	px size 238252
+lib/libstagefright_omx_utils.so	same	15448	px_v:lib/libstagefright_omx_utils.so	
+lib/libstagefright_xmlparser.so	modified	82200	UNIQUE	px size 82136
+lib/libsysmon_cdsp_skel.so	same	5224	px_v:lib/libsysmon_cdsp_skel.so	
+lib/libthermalclient.so	same	24876	px_v:lib/libthermalclient.so	
+lib/libtinyalsa.so	same	29072	px_v:lib/libtinyalsa.so	
+lib/libtinyalsav2.so	same	34492	px_v:lib/libtinyalsav2.so	
+lib/libtinycompress.so	modified	15316	UNIQUE	px size 15328
+lib/libtinyxml2.so	same	78908	px_v:lib/libtinyxml2.so	
+lib/libui.so	modified	308716	UNIQUE	px size 308716
+lib/libutils.so	same	82216	px_v:lib/libutils.so	
+lib/libvibratorutils.so	same	3832	px_v:lib/libvibratorutils.so	
+lib/libvndfwk_detect_jni.qti.so	same	4196	px_v:lib/libvndfwk_detect_jni.qti.so	
+lib/libvppclient.so	same	40560	px_v:lib/libvppclient.so	
+lib/libvpphcp.so	same	16928	px_v:lib/libvpphcp.so	
+lib/libvpphvx.so	same	21436	px_v:lib/libvpphvx.so	
+lib/libvpplibrary.so	same	363420	px_v:lib/libvpplibrary.so	
+lib/libwfdaac_vendor.so	same	1134888	px_v:lib/libwfdaac_vendor.so	
+lib/libwfdcodecv4l2_proprietary.so	same	44516	px_v:lib/libwfdcodecv4l2_proprietary.so	
+lib/libwfdcommonutils_proprietary.so	same	53152	px_v:lib/libwfdcommonutils_proprietary.so	
+lib/libwfdconfigutils_proprietary.so	same	83900	px_v:lib/libwfdconfigutils_proprietary.so	
+lib/libwfddisplayconfig_proprietary.so	same	13076	px_v:lib/libwfddisplayconfig_proprietary.so	
+lib/libwfdhdcpcp.so	same	21724	px_v:lib/libwfdhdcpcp.so	
+lib/libwfdhdcpservice_proprietary.so	same	54888	px_v:lib/libwfdhdcpservice_proprietary.so	
+lib/libwfdmminterface_proprietary.so	same	30924	px_v:lib/libwfdmminterface_proprietary.so	
+lib/libwfdmmservice_proprietary.so	same	51224	px_v:lib/libwfdmmservice_proprietary.so	
+lib/libwfdmmsrc_proprietary.so	same	191816	px_v:lib/libwfdmmsrc_proprietary.so	
+lib/libwfdmodulehdcpsession.so	same	17356	px_v:lib/libwfdmodulehdcpsession.so	
+lib/libwfdrtsp_proprietary.so	same	249876	px_v:lib/libwfdrtsp_proprietary.so	
+lib/libwfdsessionmodule.so	same	44284	px_v:lib/libwfdsessionmodule.so	
+lib/libwfdsourcesession_proprietary.so	same	46436	px_v:lib/libwfdsourcesession_proprietary.so	
+lib/libwfdsourcesm_proprietary.so	same	120892	px_v:lib/libwfdsourcesm_proprietary.so	
+lib/libwfduibcinterface_proprietary.so	same	3324	px_v:lib/libwfduibcinterface_proprietary.so	
+lib/libwfduibcsink_proprietary.so	same	22276	px_v:lib/libwfduibcsink_proprietary.so	
+lib/libwfduibcsinkinterface_proprietary.so	same	9044	px_v:lib/libwfduibcsinkinterface_proprietary.so	
+lib/libwfduibcsrc_proprietary.so	same	41892	px_v:lib/libwfduibcsrc_proprietary.so	
+lib/libwfduibcsrcinterface_proprietary.so	same	8936	px_v:lib/libwfduibcsrcinterface_proprietary.so	
+lib/libwfdutils_proprietary.so	same	6132	px_v:lib/libwfdutils_proprietary.so	
+lib/libwifi-hal-ctrl.so	same	5704	px_v:lib/libwifi-hal-ctrl.so	
+lib/libwifi-hal-qcom.so	same	481932	px_v:lib/libwifi-hal-qcom.so	
+lib/libwvkeybox.so	added	13652	hy_v:lib/libwvkeybox.so	also 2 more
+lib/libxml2.so	same	778288	px_v:lib/libxml2.so	
+lib/libyuv.so	same	385668	px_v:lib/libyuv.so	
+lib/libz.so	same	70520	px_v:lib/libz.so	
+lib/mediacas/libclearkeycasplugin.so	same	53452	px_v:lib/mediacas/libclearkeycasplugin.so	
+lib/mediadrm/libdrmclearkeyplugin.so	same	42168	px_v:lib/mediadrm/libdrmclearkeyplugin.so	
+lib/modules/gspca_main.ko	modified	63752	UNIQUE	px size 63752
+lib/modules/modules.alias	same	45	px_v:lib/modules/modules.alias	
+lib/modules/modules.dep	same	104	px_v:lib/modules/modules.dep	
+lib/modules/modules.load	same	0	px_v:lib/modules/modules.load	
+lib/modules/modules.softdep	same	55	px_v:lib/modules/modules.softdep	
+lib/modules/rmnet_perf.ko	modified	69168	UNIQUE	px size 69160
+lib/modules/rmnet_shs.ko	modified	219440	UNIQUE	px size 219376
+lib/rfsa/adsp/capi_v2_aptX_CLHDADV_Encoder.so	same	246688	px_v:lib/rfsa/adsp/capi_v2_aptX_CLHDADV_Encoder.so	
+lib/rfsa/adsp/capi_v2_aptX_CLHDAD_Speech_Decoder.so	same	181408	px_v:lib/rfsa/adsp/capi_v2_aptX_CLHDAD_Speech_Decoder.so	
+lib/rfsa/adsp/capi_v2_dap_cpdp.so	same	724312	px_v:lib/rfsa/adsp/capi_v2_dap_cpdp.so	
+lib/rfsa/adsp/hrtf5c.bin	same	164480	px_v:lib/rfsa/adsp/hrtf5c.bin	
+lib/rfsa/adsp/libQ6MSFR_manager_skel.so	same	25356	px_v:lib/rfsa/adsp/libQ6MSFR_manager_skel.so	
+lib/rfsa/adsp/libSnpeHtpV68Skel.so	same	5201100	px_v:lib/rfsa/adsp/libSnpeHtpV68Skel.so	
+lib/rfsa/adsp/libSnpeHtpV69Skel.so	same	6394984	px_v:lib/rfsa/adsp/libSnpeHtpV69Skel.so	
+lib/rfsa/adsp/libapps_mem_heap.so	same	58412	px_v:lib/rfsa/adsp/libapps_mem_heap.so	
+lib/rfsa/adsp/libbitml_nsp_skel.so	same	2616304	px_v:lib/rfsa/adsp/libbitml_nsp_skel.so	
+lib/rfsa/adsp/libcalculator_domains_skel.so	same	20828	px_v:lib/rfsa/adsp/libcalculator_domains_skel.so	
+lib/rfsa/adsp/libcalculator_skel.so	same	16740	px_v:lib/rfsa/adsp/libcalculator_skel.so	
+lib/rfsa/adsp/libcamera_nn_skel.so	same	809688	px_v:lib/rfsa/adsp/libcamera_nn_skel.so	
+lib/rfsa/adsp/libcvpdsp_skel.so	same	278500	px_v:lib/rfsa/adsp/libcvpdsp_skel.so	
+lib/rfsa/adsp/libdspCV_skel.so	same	33304	px_v:lib/rfsa/adsp/libdspCV_skel.so	
+lib/rfsa/adsp/libdsp_streamer_binning.so	same	20736	px_v:lib/rfsa/adsp/libdsp_streamer_binning.so	
+lib/rfsa/adsp/libfastcvadsp.so	same	1477032	px_v:lib/rfsa/adsp/libfastcvadsp.so	
+lib/rfsa/adsp/libfastcvdsp_skel.so	same	614684	px_v:lib/rfsa/adsp/libfastcvdsp_skel.so	
+lib/rfsa/adsp/libfrc_mobilenet.so	same	3604380	px_v:lib/rfsa/adsp/libfrc_mobilenet.so	
+lib/rfsa/adsp/libhexagon_nn_skel.so	same	1177940	px_v:lib/rfsa/adsp/libhexagon_nn_skel.so	
+lib/rfsa/adsp/libmialgo_basic_cdsp_skel.so	same	682700	px_v:lib/rfsa/adsp/libmialgo_basic_cdsp_skel.so	
+lib/rfsa/adsp/libmialgo_rfs_cdsp_skel.so	same	41980	px_v:lib/rfsa/adsp/libmialgo_rfs_cdsp_skel.so	
+lib/rfsa/adsp/libmobilenet_dsp.so	same	217772	px_v:lib/rfsa/adsp/libmobilenet_dsp.so	
+lib/rfsa/adsp/libscveObjectSegmentation_skel.so	same	33576	px_v:lib/rfsa/adsp/libscveObjectSegmentation_skel.so	
+lib/rfsa/adsp/libscveT2T_skel.so	same	334348	px_v:lib/rfsa/adsp/libscveT2T_skel.so	
+lib/rfsa/adsp/libsnpe_dsp_domains_skel.so	same	1266424	px_v:lib/rfsa/adsp/libsnpe_dsp_domains_skel.so	
+lib/rfsa/adsp/libsnpe_dsp_skel.so	same	1339776	px_v:lib/rfsa/adsp/libsnpe_dsp_skel.so	
+lib/rfsa/adsp/libsnpe_dsp_v65_domains_v2_skel.so	same	1813866	px_v:lib/rfsa/adsp/libsnpe_dsp_v65_domains_v2_skel.so	
+lib/rfsa/adsp/libsnpe_dsp_v66_domains_v2_skel.so	same	1817962	px_v:lib/rfsa/adsp/libsnpe_dsp_v66_domains_v2_skel.so	
+lib/rfsa/adsp/libsnpe_dsp_v68_domains_v3_skel.so	same	10098801	px_v:lib/rfsa/adsp/libsnpe_dsp_v68_domains_v3_skel.so	
+lib/rfsa/adsp/libsns_device_mode_skel.so	same	20824	px_v:lib/rfsa/adsp/libsns_device_mode_skel.so	
+lib/rfsa/adsp/libsns_low_lat_stream_skel.so	same	29628	px_v:lib/rfsa/adsp/libsns_low_lat_stream_skel.so	
+lib/rfsa/adsp/misound_karaoke_res.bin	same	12220	px_v:lib/rfsa/adsp/misound_karaoke_res.bin	
+lib/rfsa/adsp/misound_karaokemix_res.bin	same	12220	px_v:lib/rfsa/adsp/misound_karaokemix_res.bin	
+lib/rfsa/adsp/misound_res.bin	same	86564	px_v:lib/rfsa/adsp/misound_res.bin	
+lib/rfsa/adsp/misound_res_headphone.bin	same	87044	px_v:lib/rfsa/adsp/misound_res_headphone.bin	
+lib/rfsa/adsp/misound_res_spk.bin	same	5760	px_v:lib/rfsa/adsp/misound_res_spk.bin	
+lib/rfsa/adsp/misound_res_spk4ch.bin	same	5860	px_v:lib/rfsa/adsp/misound_res_spk4ch.bin	
+lib/server_configurable_flags.so	same	11560	px_v:lib/server_configurable_flags.so	
+lib/soundfx/libasphere.so	same	8104	px_v:lib/soundfx/libasphere.so	
+lib/soundfx/libaudiopreprocessing.so	same	712216	px_v:lib/soundfx/libaudiopreprocessing.so	
+lib/soundfx/libbundlewrapper.so	same	243172	px_v:lib/soundfx/libbundlewrapper.so	
+lib/soundfx/libdownmix.so	same	18440	px_v:lib/soundfx/libdownmix.so	
+lib/soundfx/libdynproc.so	same	47076	px_v:lib/soundfx/libdynproc.so	
+lib/soundfx/libeffectproxy.so	same	11172	px_v:lib/soundfx/libeffectproxy.so	
+lib/soundfx/libhapticgenerator.so	same	186476	px_v:lib/soundfx/libhapticgenerator.so	
+lib/soundfx/libhwdap.so	added	72880	UNIQUE	no px counterpart
+lib/soundfx/libldnhncr.so	same	19868	px_v:lib/soundfx/libldnhncr.so	
+lib/soundfx/libmisoundfx.so	added	50960	hy_v:lib/soundfx/libmisoundfx.so	also 2 more
+lib/soundfx/libqcompostprocbundle.so	same	32124	px_v:lib/soundfx/libqcompostprocbundle.so	
+lib/soundfx/libqcomvisualizer.so	same	15528	px_v:lib/soundfx/libqcomvisualizer.so	
+lib/soundfx/libqcomvoiceprocessing.so	same	6204	px_v:lib/soundfx/libqcomvoiceprocessing.so	
+lib/soundfx/libreverbwrapper.so	same	209028	px_v:lib/soundfx/libreverbwrapper.so	
+lib/soundfx/libshoebox.so	same	8816	px_v:lib/soundfx/libshoebox.so	
+lib/soundfx/libswdap.so	added	1853308	iq31_v:lib/soundfx/libswdap.so	also 1 more
+lib/soundfx/libswgamedap.so	added	1834576	hy_v:lib/soundfx/libswgamedap.so	also 2 more
+lib/soundfx/libswvqe.so	added	1826272	hy_v:lib/soundfx/libswvqe.so	also 2 more
+lib/soundfx/libvisualizer.so	same	11256	px_v:lib/soundfx/libvisualizer.so	
+lib/soundfx/libvolumelistener.so	same	13268	px_v:lib/soundfx/libvolumelistener.so	
+lib/vendor.display.config@2.0.so	modified	87480	UNIQUE	px size 96668
+lib/vendor.dolby.hardware.dms@2.0.so	added	185604	hy_v:lib/vendor.dolby.hardware.dms@2.0.so	also 2 more
+lib/vendor.qti.hardware.audiohalext@1.0.so	same	57696	px_v:lib/vendor.qti.hardware.audiohalext@1.0.so	
+lib/vendor.qti.hardware.bluetooth_audio@2.0.so	modified	136324	UNIQUE	px size 153952
+lib/vendor.qti.hardware.bluetooth_audio@2.1.so	modified	143688	UNIQUE	px size 158500
+lib/vendor.qti.hardware.capabilityconfigstore@1.0.so	modified	54344	UNIQUE	px size 59736
+lib/vendor.qti.hardware.display.mapper@2.0.so	modified	72932	UNIQUE	px size 81972
+lib/vendor.qti.hardware.display.mapper@3.0.so	modified	70376	UNIQUE	px size 78984
+lib/vendor.qti.hardware.display.mapper@4.0.so	modified	80232	UNIQUE	px size 92704
+lib/vendor.qti.hardware.display.mapperextensions@1.0.so	modified	97416	UNIQUE	px size 117824
+lib/vendor.qti.hardware.display.mapperextensions@1.1.so	modified	86984	UNIQUE	px size 102640
+lib/vendor.qti.hardware.dsp@1.0.so	same	83304	px_v:lib/vendor.qti.hardware.dsp@1.0.so	
+lib/vendor.qti.hardware.vpp@1.1.so	same	127136	px_v:lib/vendor.qti.hardware.vpp@1.1.so	
+lib/vendor.qti.hardware.vpp@1.2.so	same	99040	px_v:lib/vendor.qti.hardware.vpp@1.2.so	
+lib/vendor.qti.hardware.vpp@1.3.so	same	117288	px_v:lib/vendor.qti.hardware.vpp@1.3.so	
+lib/vendor.qti.hardware.wifidisplaysession@1.0.so	same	504460	px_v:lib/vendor.qti.hardware.wifidisplaysession@1.0.so	
+lib/vendor.qti.hardware.wifidisplaysessionl@1.0-halimpl.so	same	42732	px_v:lib/vendor.qti.hardware.wifidisplaysessionl@1.0-halimpl.so	
+lib/vendor.xiaomi.hardware.mfidoca@1.0.so	added	62928	hy_v:lib/vendor.xiaomi.hardware.mfidoca@1.0.so	also 2 more
+lib/vendor.xiaomi.hardware.mlipay@1.0.so	added	63160	hy_v:lib/vendor.xiaomi.hardware.mlipay@1.0.so	also 2 more
+lib/vendor.xiaomi.hardware.mlipay@1.1.so	added	65520	hy_v:lib/vendor.xiaomi.hardware.mlipay@1.1.so	also 2 more
+lib/vendor.xiaomi.hardware.mtdservice@1.0.so	added	80564	hy_v:lib/vendor.xiaomi.hardware.mtdservice@1.0.so	also 2 more
+lib/vndk/libxlog.so	same	10300	px_v:lib/vndk/libxlog.so	
+lib64/android.frameworks.cameraservice.common@2.0.so	added	10872	UNIQUE	no px counterpart
+lib64/android.frameworks.cameraservice.device@2.0.so	added	194928	UNIQUE	no px counterpart
+lib64/android.frameworks.cameraservice.service@2.0.so	added	144800	UNIQUE	no px counterpart
+lib64/android.frameworks.cameraservice.service@2.1.so	added	144608	UNIQUE	no px counterpart
+lib64/android.frameworks.sensorservice-V1-ndk.so	same	81464	px_v:lib64/android.frameworks.sensorservice-V1-ndk.so	
+lib64/android.hardware.audio.common-V5-ndk.so	same	31856	px_v:lib64/android.hardware.audio.common-V5-ndk.so	
+lib64/android.hardware.audio.common-util.so	same	14880	px_v:lib64/android.hardware.audio.common-util.so	
+lib64/android.hardware.audio.common@2.0.so	same	10760	px_v:lib64/android.hardware.audio.common@2.0.so	
+lib64/android.hardware.audio.common@5.0.so	same	23280	px_v:lib64/android.hardware.audio.common@5.0.so	
+lib64/android.hardware.audio.common@6.0-util.so	same	23400	px_v:lib64/android.hardware.audio.common@6.0-util.so	
+lib64/android.hardware.audio.common@6.0.so	same	23280	px_v:lib64/android.hardware.audio.common@6.0.so	
+lib64/android.hardware.audio.effect@6.0-util.so	same	10784	px_v:lib64/android.hardware.audio.effect@6.0-util.so	
+lib64/android.hardware.audio.effect@6.0.so	modified	1287424	UNIQUE	px size 1587000
+lib64/android.hardware.audio@6.0-util.so	same	19416	px_v:lib64/android.hardware.audio@6.0-util.so	
+lib64/android.hardware.audio@6.0.so	modified	761144	UNIQUE	px size 956976
+lib64/android.hardware.bluetooth.audio-V6-ndk.so	same	325080	px_v:lib64/android.hardware.bluetooth.audio-V6-ndk.so	
+lib64/android.hardware.bluetooth.audio-impl.so	same	367208	px_v:lib64/android.hardware.bluetooth.audio-impl.so	
+lib64/android.hardware.bluetooth.audio@2.0.so	modified	218936	UNIQUE	px size 243784
+lib64/android.hardware.bluetooth.audio@2.1.so	modified	165080	UNIQUE	px size 186032
+lib64/android.hardware.bluetooth@1.0.so	modified	131544	UNIQUE	px size 148160
+lib64/android.hardware.boot-V1-ndk.so	same	40080	px_v:lib64/android.hardware.boot-V1-ndk.so	
+lib64/android.hardware.boot@1.0.so	modified	94288	UNIQUE	px size 115168
+lib64/android.hardware.boot@1.1.so	modified	89944	UNIQUE	px size 102584
+lib64/android.hardware.camera.common@1.0.so	same	10760	px_v:lib64/android.hardware.camera.common@1.0.so	
+lib64/android.hardware.camera.device@1.0.so	modified	284936	UNIQUE	px size 342632
+lib64/android.hardware.camera.device@3.2.so	modified	206944	UNIQUE	px size 240760
+lib64/android.hardware.camera.device@3.3.so	modified	94400	UNIQUE	px size 107064
+lib64/android.hardware.camera.device@3.4.so	modified	160832	UNIQUE	px size 177696
+lib64/android.hardware.camera.device@3.5.so	modified	239904	UNIQUE	px size 278344
+lib64/android.hardware.camera.device@3.6.so	modified	231664	UNIQUE	px size 269960
+lib64/android.hardware.camera.provider@2.4-external.so	same	102880	px_v:lib64/android.hardware.camera.provider@2.4-external.so	
+lib64/android.hardware.camera.provider@2.4-legacy.so	same	182008	px_v:lib64/android.hardware.camera.provider@2.4-legacy.so	
+lib64/android.hardware.camera.provider@2.4.so	modified	148728	UNIQUE	px size 169624
+lib64/android.hardware.common-V2-ndk.so	same	18856	px_v:lib64/android.hardware.common-V2-ndk.so	
+lib64/android.hardware.common.fmq-V1-ndk.so	same	14448	px_v:lib64/android.hardware.common.fmq-V1-ndk.so	
+lib64/android.hardware.drm-V2-ndk.so	same	173000	px_v:lib64/android.hardware.drm-V2-ndk.so	
+lib64/android.hardware.drm.common-V1-ndk.so	same	14448	px_v:lib64/android.hardware.drm.common-V1-ndk.so	
+lib64/android.hardware.drm@1.0.so	modified	382272	UNIQUE	px size 461344
+lib64/android.hardware.drm@1.1.so	modified	248672	UNIQUE	px size 303592
+lib64/android.hardware.drm@1.2.so	modified	386280	UNIQUE	px size 457312
+lib64/android.hardware.drm@1.3.so	modified	144136	UNIQUE	px size 160848
+lib64/android.hardware.gatekeeper@1.0.so	modified	90072	UNIQUE	px size 102848
+lib64/android.hardware.gnss@1.0.so	modified	995992	UNIQUE	px size 1131576
+lib64/android.hardware.graphics.allocator-V2-ndk.so	same	44408	px_v:lib64/android.hardware.graphics.allocator-V2-ndk.so	
+lib64/android.hardware.graphics.allocator@2.0.so	modified	81936	UNIQUE	px size 94464
+lib64/android.hardware.graphics.allocator@3.0.so	modified	81936	UNIQUE	px size 94464
+lib64/android.hardware.graphics.allocator@4.0.so	modified	77736	UNIQUE	px size 86136
+lib64/android.hardware.graphics.common-V7-ndk.so	same	31520	px_v:lib64/android.hardware.graphics.common-V7-ndk.so	
+lib64/android.hardware.graphics.common@1.0.so	same	10720	px_v:lib64/android.hardware.graphics.common@1.0.so	
+lib64/android.hardware.graphics.common@1.1.so	same	10736	px_v:lib64/android.hardware.graphics.common@1.1.so	
+lib64/android.hardware.graphics.common@1.2.so	same	10768	px_v:lib64/android.hardware.graphics.common@1.2.so	
+lib64/android.hardware.graphics.composer@2.1.so	modified	262216	UNIQUE	px size 320376
+lib64/android.hardware.graphics.composer@2.2.so	modified	215784	UNIQUE	px size 254256
+lib64/android.hardware.graphics.composer@2.3.so	modified	262320	UNIQUE	px size 317248
+lib64/android.hardware.graphics.composer@2.4.so	modified	328488	UNIQUE	px size 400536
+lib64/android.hardware.graphics.mapper@2.0.so	modified	90232	UNIQUE	px size 106944
+lib64/android.hardware.graphics.mapper@2.1.so	modified	94408	UNIQUE	px size 107072
+lib64/android.hardware.graphics.mapper@3.0.so	modified	102800	UNIQUE	px size 119496
+lib64/android.hardware.graphics.mapper@4.0.so	modified	127736	UNIQUE	px size 157080
+lib64/android.hardware.health-V5-ndk.so	same	73392	px_v:lib64/android.hardware.health-V5-ndk.so	
+lib64/android.hardware.health@1.0.so	same	10736	px_v:lib64/android.hardware.health@1.0.so	
+lib64/android.hardware.health@2.0.so	modified	161272	UNIQUE	px size 194840
+lib64/android.hardware.keymaster@3.0.so	modified	167056	UNIQUE	px size 200728
+lib64/android.hardware.keymaster@4.0.so	modified	196624	UNIQUE	px size 234592
+lib64/android.hardware.keymaster@4.1.so	modified	140864	UNIQUE	px size 158000
+lib64/android.hardware.light-V2-ndk.so	same	35984	px_v:lib64/android.hardware.light-V2-ndk.so	
+lib64/android.hardware.memtrack-V1-ndk.so	same	36024	px_v:lib64/android.hardware.memtrack-V1-ndk.so	
+lib64/android.hardware.neuralnetworks@1.0.so	modified	218728	UNIQUE	px size 239672
+lib64/android.hardware.neuralnetworks@1.1.so	modified	98592	UNIQUE	px size 115296
+lib64/android.hardware.neuralnetworks@1.2.so	modified	406632	UNIQUE	px size 452400
+lib64/android.hardware.neuralnetworks@1.3.so	modified	431616	UNIQUE	px size 485872
+lib64/android.hardware.power-V1-ndk.so	same	35880	px_v:lib64/android.hardware.power-V1-ndk.so	
+lib64/android.hardware.power-V7-ndk.so	same	102568	px_v:lib64/android.hardware.power-V7-ndk.so	
+lib64/android.hardware.power@1.0.so	modified	85936	UNIQUE	px size 98432
+lib64/android.hardware.power@1.1.so	modified	90184	UNIQUE	px size 98632
+lib64/android.hardware.power@1.2.so	modified	85984	UNIQUE	px size 102664
+lib64/android.hardware.radio.config@1.0.so	modified	173208	UNIQUE	px size 194016
+lib64/android.hardware.radio.config@1.1.so	modified	202592	UNIQUE	px size 235768
+lib64/android.hardware.radio.config@1.2.so	modified	156808	UNIQUE	px size 177736
+lib64/android.hardware.radio.deprecated@1.0.so	modified	177336	UNIQUE	px size 198072
+lib64/android.hardware.radio@1.0.so	modified	1382512	UNIQUE	px size 2022688
+lib64/android.hardware.radio@1.1.so	modified	977464	UNIQUE	px size 1404648
+lib64/android.hardware.radio@1.2.so	modified	1078208	UNIQUE	px size 1534608
+lib64/android.hardware.radio@1.3.so	modified	1008192	UNIQUE	px size 1447992
+lib64/android.hardware.radio@1.4.so	modified	1175224	UNIQUE	px size 1664488
+lib64/android.hardware.radio@1.5.so	modified	1371896	UNIQUE	px size 1919224
+lib64/android.hardware.secure_element@1.0.so	modified	140200	UNIQUE	px size 161080
+lib64/android.hardware.secure_element@1.1.so	modified	135792	UNIQUE	px size 152552
+lib64/android.hardware.secure_element@1.2.so	modified	94104	UNIQUE	px size 102640
+lib64/android.hardware.security.keymint-V1-ndk.so	same	121088	px_v:lib64/android.hardware.security.keymint-V1-ndk.so	
+lib64/android.hardware.security.secureclock-V1-ndk.so	same	40344	px_v:lib64/android.hardware.security.secureclock-V1-ndk.so	
+lib64/android.hardware.sensors-V3-ndk.so	same	85944	px_v:lib64/android.hardware.sensors-V3-ndk.so	
+lib64/android.hardware.sensors@1.0.so	modified	106824	UNIQUE	px size 127648
+lib64/android.hardware.soundtrigger@2.0-core.so	same	32432	px_v:lib64/android.hardware.soundtrigger@2.0-core.so	
+lib64/android.hardware.soundtrigger@2.0.so	modified	152568	UNIQUE	px size 177472
+lib64/android.hardware.soundtrigger@2.1.so	modified	164928	UNIQUE	px size 189888
+lib64/android.hardware.soundtrigger@2.2.so	modified	102400	UNIQUE	px size 110928
+lib64/android.hardware.soundtrigger@2.3.so	modified	131512	UNIQUE	px size 152464
+lib64/android.hardware.tetheroffload.config@1.0.so	modified	77704	UNIQUE	px size 86112
+lib64/android.hardware.tetheroffload.control@1.0.so	modified	152832	UNIQUE	px size 182632
+lib64/android.hardware.tetheroffload.control@1.1.so	modified	148584	UNIQUE	px size 173712
+lib64/android.hardware.thermal-V1-ndk.so	same	60856	px_v:lib64/android.hardware.thermal-V1-ndk.so	
+lib64/android.hardware.thermal@1.0.so	modified	86088	UNIQUE	px size 98688
+lib64/android.hardware.thermal@2.0.so	modified	148608	UNIQUE	px size 173880
+lib64/android.hardware.usb-V3-ndk.so	same	69048	px_v:lib64/android.hardware.usb-V3-ndk.so	
+lib64/android.hardware.usb.gadget-V1-ndk.so	same	48296	px_v:lib64/android.hardware.usb.gadget-V1-ndk.so	
+lib64/android.hardware.usb.gadget@1.0.so	modified	123544	UNIQUE	px size 144320
+lib64/android.hardware.usb.gadget@1.1.so	modified	81784	UNIQUE	px size 94328
+lib64/android.hardware.wifi-V4-ndk.so	same	532984	px_v:lib64/android.hardware.wifi-V4-ndk.so	
+lib64/android.hardware.wifi.common-V2-ndk.so	same	14632	px_v:lib64/android.hardware.wifi.common-V2-ndk.so	
+lib64/android.hardware.wifi.hostapd-V3-ndk.so	same	73488	px_v:lib64/android.hardware.wifi.hostapd-V3-ndk.so	
+lib64/android.hardware.wifi.supplicant-V5-ndk.so	same	660952	px_v:lib64/android.hardware.wifi.supplicant-V5-ndk.so	
+lib64/android.hidl.allocator@1.0.so	modified	81896	UNIQUE	px size 90368
+lib64/android.hidl.manager@1.0.so	added	10672	UNIQUE	no px counterpart
+lib64/android.hidl.memory.block@1.0.so	added	10736	UNIQUE	no px counterpart
+lib64/android.hidl.memory.token@1.0.so	modified	73520	UNIQUE	px size 86088
+lib64/android.hidl.memory@1.0.so	modified	127512	UNIQUE	px size 144128
+lib64/android.hidl.safe_union@1.0.so	same	10720	px_v:lib64/android.hidl.safe_union@1.0.so	
+lib64/android.media.audio.common.types-V5-ndk.so	same	144392	px_v:lib64/android.media.audio.common.types-V5-ndk.so	
+lib64/android.system.keystore2-V1-ndk.so	same	102896	px_v:lib64/android.system.keystore2-V1-ndk.so	
+lib64/android.system.net.netd@1.0.so	modified	81808	UNIQUE	px size 86128
+lib64/android.system.net.netd@1.1.so	modified	94064	UNIQUE	px size 110664
+lib64/android.system.suspend-V1-ndk.so	same	44168	px_v:lib64/android.system.suspend-V1-ndk.so	
+lib64/camera.device@1.0-impl.so	modified	151760	UNIQUE	px size 151760
+lib64/camera.device@3.2-impl.so	same	206112	px_v:lib64/camera.device@3.2-impl.so	
+lib64/camera.device@3.3-impl.so	same	34296	px_v:lib64/camera.device@3.3-impl.so	
+lib64/camera.device@3.4-external-impl.so	same	359936	px_v:lib64/camera.device@3.4-external-impl.so	
+lib64/camera.device@3.4-impl.so	same	156456	px_v:lib64/camera.device@3.4-impl.so	
+lib64/camera.device@3.5-external-impl.so	same	139816	px_v:lib64/camera.device@3.5-external-impl.so	
+lib64/camera.device@3.5-impl.so	same	156472	px_v:lib64/camera.device@3.5-impl.so	
+lib64/camera.device@3.6-external-impl.so	same	210696	px_v:lib64/camera.device@3.6-external-impl.so	
+lib64/camera/com.qti.actuator.pipa_cn3927_ov13b10.so	same	11032	px_v:lib64/camera/com.qti.actuator.pipa_cn3927_ov13b10.so	
+lib64/camera/com.qti.eeprom.pipa_aac_hi846w_gt24p64e_front_eeprom.so	same	11056	px_v:lib64/camera/com.qti.eeprom.pipa_aac_hi846w_gt24p64e_front_eeprom.so	
+lib64/camera/com.qti.eeprom.pipa_ofilm_ov13b10_bl24sa64_wide_eeprom.so	same	11056	px_v:lib64/camera/com.qti.eeprom.pipa_ofilm_ov13b10_bl24sa64_wide_eeprom.so	
+lib64/camera/com.qti.eeprom.truly_cmb433.so	same	11168	px_v:lib64/camera/com.qti.eeprom.truly_cmb433.so	
+lib64/camera/com.qti.eeprom.umi_sunny_s5k5e8yx_depth.so	same	11032	px_v:lib64/camera/com.qti.eeprom.umi_sunny_s5k5e8yx_depth.so	
+lib64/camera/com.qti.sensor.imx563.so	same	11064	px_v:lib64/camera/com.qti.sensor.imx563.so	
+lib64/camera/com.qti.sensor.pipa_aac_hi846w_front.so	same	11064	px_v:lib64/camera/com.qti.sensor.pipa_aac_hi846w_front.so	
+lib64/camera/com.qti.sensor.pipa_ofilm_ov13b10_wide.so	same	11064	px_v:lib64/camera/com.qti.sensor.pipa_ofilm_ov13b10_wide.so	
+lib64/camera/com.qti.sensormodule.pipa_aac_hi846w_front.bin	same	238832	px_v:lib64/camera/com.qti.sensormodule.pipa_aac_hi846w_front.bin	
+lib64/camera/com.qti.sensormodule.pipa_ofilm_ov13b10_wide.bin	same	112016	px_v:lib64/camera/com.qti.sensormodule.pipa_ofilm_ov13b10_wide.bin	
+lib64/camera/com.qti.tuned.default.bin	same	933344	px_v:lib64/camera/com.qti.tuned.default.bin	
+lib64/camera/com.qti.tuned.pipa_aac_hi846w_front.bin	same	11110944	px_v:lib64/camera/com.qti.tuned.pipa_aac_hi846w_front.bin	
+lib64/camera/com.qti.tuned.pipa_ofilm_ov13b10_wide.bin	same	22556760	px_v:lib64/camera/com.qti.tuned.pipa_ofilm_ov13b10_wide.bin	
+lib64/camera/components/com.mi.node.aiasd.so	same	577976	px_v:lib64/camera/components/com.mi.node.aiasd.so	
+lib64/camera/components/com.mi.node.facecenter.so	same	20272	px_v:lib64/camera/components/com.mi.node.facecenter.so	
+lib64/camera/components/com.mi.node.gpu3rd.so	same	95048	px_v:lib64/camera/components/com.mi.node.gpu3rd.so	
+lib64/camera/components/com.mi.node.mimovie.so	same	24312	px_v:lib64/camera/components/com.mi.node.mimovie.so	
+lib64/camera/components/com.mi.node.misuperlowlightraw.so	same	53720	px_v:lib64/camera/components/com.mi.node.misuperlowlightraw.so	
+lib64/camera/components/com.mi.node.skinbeautifier.so	same	33432	px_v:lib64/camera/components/com.mi.node.skinbeautifier.so	
+lib64/camera/components/com.mi.node.superlowlightraw.so	same	66288	px_v:lib64/camera/components/com.mi.node.superlowlightraw.so	
+lib64/camera/components/com.qti.camx.chiiqutils.so	same	28648	px_v:lib64/camera/components/com.qti.camx.chiiqutils.so	
+lib64/camera/components/com.qti.eisv2.so	same	293712	px_v:lib64/camera/components/com.qti.eisv2.so	
+lib64/camera/components/com.qti.eisv3.so	same	408920	px_v:lib64/camera/components/com.qti.eisv3.so	
+lib64/camera/components/com.qti.hvx.addconstant.so	same	11232	px_v:lib64/camera/components/com.qti.hvx.addconstant.so	
+lib64/camera/components/com.qti.hvx.binning.so	same	11200	px_v:lib64/camera/components/com.qti.hvx.binning.so	
+lib64/camera/components/com.qti.node.dummyrtb.so	same	19976	px_v:lib64/camera/components/com.qti.node.dummyrtb.so	
+lib64/camera/components/com.qti.node.eisv2.so	same	123976	px_v:lib64/camera/components/com.qti.node.eisv2.so	
+lib64/camera/components/com.qti.node.eisv3.so	same	140656	px_v:lib64/camera/components/com.qti.node.eisv3.so	
+lib64/camera/components/com.qti.node.gpu.so	same	90928	px_v:lib64/camera/components/com.qti.node.gpu.so	
+lib64/camera/components/com.qti.node.ldc.so	same	111088	px_v:lib64/camera/components/com.qti.node.ldc.so	
+lib64/camera/components/com.qti.node.memcpy.so	same	24256	px_v:lib64/camera/components/com.qti.node.memcpy.so	
+lib64/camera/components/com.qti.node.swregistration.so	same	19784	px_v:lib64/camera/components/com.qti.node.swregistration.so	
+lib64/camera/components/com.qti.stats.aec.so	same	495752	px_v:lib64/camera/components/com.qti.stats.aec.so	
+lib64/camera/components/com.qti.stats.aecwrapper.so	same	20736	px_v:lib64/camera/components/com.qti.stats.aecwrapper.so	
+lib64/camera/components/com.qti.stats.af.so	same	298888	px_v:lib64/camera/components/com.qti.stats.af.so	
+lib64/camera/components/com.qti.stats.afd.so	same	98672	px_v:lib64/camera/components/com.qti.stats.afd.so	
+lib64/camera/components/com.qti.stats.afwrapper.so	same	20720	px_v:lib64/camera/components/com.qti.stats.afwrapper.so	
+lib64/camera/components/com.qti.stats.asd.so	same	49432	px_v:lib64/camera/components/com.qti.stats.asd.so	
+lib64/camera/components/com.qti.stats.awb.so	same	388952	px_v:lib64/camera/components/com.qti.stats.awb.so	
+lib64/camera/components/com.qti.stats.awbwrapper.so	same	29032	px_v:lib64/camera/components/com.qti.stats.awbwrapper.so	
+lib64/camera/components/com.qti.stats.haf.so	same	371160	px_v:lib64/camera/components/com.qti.stats.haf.so	
+lib64/camera/components/com.qti.stats.hafoverride.so	same	24264	px_v:lib64/camera/components/com.qti.stats.hafoverride.so	
+lib64/camera/components/com.qti.stats.pdlib.so	same	766464	px_v:lib64/camera/components/com.qti.stats.pdlib.so	
+lib64/camera/components/com.qti.stats.pdlibsony.so	same	61600	px_v:lib64/camera/components/com.qti.stats.pdlibsony.so	
+lib64/camera/components/com.qti.stats.pdlibwrapper.so	same	32736	px_v:lib64/camera/components/com.qti.stats.pdlibwrapper.so	
+lib64/camera/components/com.qti.stats.tracker.so	same	41248	px_v:lib64/camera/components/com.qti.stats.tracker.so	
+lib64/camera/components/com.qtistatic.stats.aec.so	same	29072	px_v:lib64/camera/components/com.qtistatic.stats.aec.so	
+lib64/camera/components/com.qtistatic.stats.af.so	same	29312	px_v:lib64/camera/components/com.qtistatic.stats.af.so	
+lib64/camera/components/com.qtistatic.stats.awb.so	same	29008	px_v:lib64/camera/components/com.qtistatic.stats.awb.so	
+lib64/camera/components/com.qtistatic.stats.pdlib.so	same	20840	px_v:lib64/camera/components/com.qtistatic.stats.pdlib.so	
+lib64/camera/components/com.xiaomi.node.ica.so	same	478512	px_v:lib64/camera/components/com.xiaomi.node.ica.so	
+lib64/camera/components/com.xiaomi.node.mifilter.so	same	28920	px_v:lib64/camera/components/com.xiaomi.node.mifilter.so	
+lib64/camera/components/libubifocus.so	same	3154752	px_v:lib64/camera/components/libubifocus.so	
+lib64/camera/fdconfigpreview.bin	same	1536	px_v:lib64/camera/fdconfigpreview.bin	
+lib64/camera/fdconfigpreviewlite.bin	same	1536	px_v:lib64/camera/fdconfigpreviewlite.bin	
+lib64/camera/fdconfigvideo.bin	same	1536	px_v:lib64/camera/fdconfigvideo.bin	
+lib64/camera/fdconfigvideolite.bin	same	1536	px_v:lib64/camera/fdconfigvideolite.bin	
+lib64/com.dsi.ant@1.0.so	modified	140104	UNIQUE	px size 156816
+lib64/com.qti.feature2.anchorsync.so	same	261040	px_v:lib64/com.qti.feature2.anchorsync.so	
+lib64/com.qti.feature2.demux.so	same	174520	px_v:lib64/com.qti.feature2.demux.so	
+lib64/com.qti.feature2.frameselect.so	same	174768	px_v:lib64/com.qti.feature2.frameselect.so	
+lib64/com.qti.feature2.fusion.so	same	174352	px_v:lib64/com.qti.feature2.fusion.so	
+lib64/com.qti.feature2.generic.so	same	186952	px_v:lib64/com.qti.feature2.generic.so	
+lib64/com.qti.feature2.gs.so	same	607368	px_v:lib64/com.qti.feature2.gs.so	
+lib64/com.qti.feature2.hdr.so	same	157896	px_v:lib64/com.qti.feature2.hdr.so	
+lib64/com.qti.feature2.memcpy.so	same	145560	px_v:lib64/com.qti.feature2.memcpy.so	
+lib64/com.qti.feature2.mfsr.so	same	204016	px_v:lib64/com.qti.feature2.mfsr.so	
+lib64/com.qti.feature2.qcfa.so	same	136800	px_v:lib64/com.qti.feature2.qcfa.so	
+lib64/com.qti.feature2.rawhdr.so	same	149600	px_v:lib64/com.qti.feature2.rawhdr.so	
+lib64/com.qti.feature2.rawsupernight.so	same	41632	px_v:lib64/com.qti.feature2.rawsupernight.so	
+lib64/com.qti.feature2.rt.so	same	215968	px_v:lib64/com.qti.feature2.rt.so	
+lib64/com.qti.feature2.serializer.so	same	166360	px_v:lib64/com.qti.feature2.serializer.so	
+lib64/com.qti.feature2.softispprocess.so	same	45704	px_v:lib64/com.qti.feature2.softispprocess.so	
+lib64/com.qti.feature2.softispsupernight.so	same	37440	px_v:lib64/com.qti.feature2.softispsupernight.so	
+lib64/com.qti.feature2.sr.so	same	33192	px_v:lib64/com.qti.feature2.sr.so	
+lib64/com.qti.feature2.stub.so	same	153856	px_v:lib64/com.qti.feature2.stub.so	
+lib64/com.qti.feature2.swmf.so	same	149616	px_v:lib64/com.qti.feature2.swmf.so	
+lib64/com.qualcomm.qti.dpm.api@1.0.so	same	267680	px_v:lib64/com.qualcomm.qti.dpm.api@1.0.so	
+lib64/com.qualcomm.qti.imscmservice@1.0.so	same	263032	px_v:lib64/com.qualcomm.qti.imscmservice@1.0.so	
+lib64/com.qualcomm.qti.imscmservice@2.0.so	same	265248	px_v:lib64/com.qualcomm.qti.imscmservice@2.0.so	
+lib64/com.qualcomm.qti.imscmservice@2.1.so	same	259608	px_v:lib64/com.qualcomm.qti.imscmservice@2.1.so	
+lib64/com.qualcomm.qti.imscmservice@2.2.so	same	183328	px_v:lib64/com.qualcomm.qti.imscmservice@2.2.so	
+lib64/com.qualcomm.qti.uceservice@2.0.so	same	403856	px_v:lib64/com.qualcomm.qti.uceservice@2.0.so	
+lib64/com.qualcomm.qti.uceservice@2.1.so	same	373368	px_v:lib64/com.qualcomm.qti.uceservice@2.1.so	
+lib64/com.qualcomm.qti.uceservice@2.2.so	same	353208	px_v:lib64/com.qualcomm.qti.uceservice@2.2.so	
+lib64/com.qualcomm.qti.uceservice@2.3.so	same	491472	px_v:lib64/com.qualcomm.qti.uceservice@2.3.so	
+lib64/deviceInfoServiceModule.so	same	184624	px_v:lib64/deviceInfoServiceModule.so	
+lib64/egl/eglSubDriverAndroid.so	modified	105352	UNIQUE	px size 71824
+lib64/egl/libEGL_adreno.so	modified	39848	UNIQUE	px size 39864
+lib64/egl/libGLESv1_CM_adreno.so	modified	237920	UNIQUE	px size 233824
+lib64/egl/libGLESv2_adreno.so	modified	5535280	UNIQUE	px size 4130248
+lib64/egl/libVkLayer_ADRENO_qprofiler.so	added	3122984	UNIQUE	no px counterpart
+lib64/egl/libq3dtools_adreno.so	modified	335792	UNIQUE	px size 239856
+lib64/egl/libq3dtools_esx.so	modified	2304808	UNIQUE	px size 1522456
+lib64/hw/android.hardware.audio.effect@6.0-impl.so	same	312696	px_v:lib64/hw/android.hardware.audio.effect@6.0-impl.so	
+lib64/hw/android.hardware.audio@6.0-impl.so	modified	204552	UNIQUE	px size 204544
+lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so	same	525800	px_v:lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so	
+lib64/hw/android.hardware.camera.provider@2.4-impl.so	same	23240	px_v:lib64/hw/android.hardware.camera.provider@2.4-impl.so	
+lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so	same	37864	px_v:lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so	
+lib64/hw/android.hardware.graphics.mapper@3.0-impl-qti-display.so	same	56016	px_v:lib64/hw/android.hardware.graphics.mapper@3.0-impl-qti-display.so	
+lib64/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so	modified	93152	UNIQUE	px size 84984
+lib64/hw/android.hardware.sensors@1.0-impl-xiaomi.so	same	61024	px_v:lib64/hw/android.hardware.sensors@1.0-impl-xiaomi.so	
+lib64/hw/android.hardware.soundtrigger@2.3-impl.so	same	63744	px_v:lib64/hw/android.hardware.soundtrigger@2.3-impl.so	
+lib64/hw/android.hidl.memory@1.0-impl.so	same	20960	px_v:lib64/hw/android.hidl.memory@1.0-impl.so	
+lib64/hw/audio.bluetooth.default.so	same	196984	px_v:lib64/hw/audio.bluetooth.default.so	
+lib64/hw/audio.primary.default.so	same	15216	px_v:lib64/hw/audio.primary.default.so	
+lib64/hw/audio.primary.kona.so	modified	641024	UNIQUE	px size 641016
+lib64/hw/audio.r_submix.default.so	same	36376	px_v:lib64/hw/audio.r_submix.default.so	
+lib64/hw/audio.usbv2.default.so	same	39992	px_v:lib64/hw/audio.usbv2.default.so	
+lib64/hw/camera.qcom.so	same	9417624	px_v:lib64/hw/camera.qcom.so	
+lib64/hw/com.qti.chi.override.so	same	4785952	px_v:lib64/hw/com.qti.chi.override.so	
+lib64/hw/gralloc.default.so	same	23768	px_v:lib64/hw/gralloc.default.so	
+lib64/hw/gralloc.qcom.so	added	39888	UNIQUE	no px counterpart
+lib64/hw/local_time.default.so	same	14752	px_v:lib64/hw/local_time.default.so	
+lib64/hw/power.default.so	same	14856	px_v:lib64/hw/power.default.so	
+lib64/hw/vendor.qti.hardware.alarm@1.0-impl.so	same	16568	px_v:lib64/hw/vendor.qti.hardware.alarm@1.0-impl.so	
+lib64/hw/vendor.qti.hardware.bluetooth_sar@1.1-impl.so	same	38328	px_v:lib64/hw/vendor.qti.hardware.bluetooth_sar@1.1-impl.so	
+lib64/hw/vendor.qti.hardware.btconfigstore@1.0-impl.so	same	24936	px_v:lib64/hw/vendor.qti.hardware.btconfigstore@1.0-impl.so	
+lib64/hw/vendor.qti.hardware.capabilityconfigstore@1.0-impl.so	same	29656	px_v:lib64/hw/vendor.qti.hardware.capabilityconfigstore@1.0-impl.so	
+lib64/hw/vendor.qti.hardware.qccvndhal@1.0-impl.so	same	20592	px_v:lib64/hw/vendor.qti.hardware.qccvndhal@1.0-impl.so	
+lib64/hw/vendor.qti.hardware.qseecom@1.0-impl.so	same	38336	px_v:lib64/hw/vendor.qti.hardware.qseecom@1.0-impl.so	
+lib64/hw/vendor.qti.hardware.qteeconnector@1.0-impl.so	same	78792	px_v:lib64/hw/vendor.qti.hardware.qteeconnector@1.0-impl.so	
+lib64/hw/vendor.qti.hardware.sensorscalibrate@1.0-impl.so	same	20984	px_v:lib64/hw/vendor.qti.hardware.sensorscalibrate@1.0-impl.so	
+lib64/hw/vendor.qti.hardware.soter@1.0-impl.so	same	33640	px_v:lib64/hw/vendor.qti.hardware.soter@1.0-impl.so	
+lib64/hw/vendor.xiaomi.hardware.misys@1.0-impl.so	added	42768	hy_v:lib64/hw/vendor.xiaomi.hardware.misys@1.0-impl.so	also 2 more
+lib64/hw/vendor.xiaomi.hardware.misys@2.0-impl.so	added	34496	hy_v:lib64/hw/vendor.xiaomi.hardware.misys@2.0-impl.so	also 2 more
+lib64/hw/vendor.xiaomi.hardware.misys@3.0-impl.so	added	43328	hy_v:lib64/hw/vendor.xiaomi.hardware.misys@3.0-impl.so	also 2 more
+lib64/hw/vendor.xiaomi.hardware.misys@4.0-impl.so	added	16816	hy_v:lib64/hw/vendor.xiaomi.hardware.misys@4.0-impl.so	also 2 more
+lib64/hw/vibrator.default.so	same	14832	px_v:lib64/hw/vibrator.default.so	
+lib64/hw/vulkan.adreno.so	modified	5130352	UNIQUE	px size 1900664
+lib64/hw/vulkan.turnip.so	added	19069681	UNIQUE	no px counterpart
+lib64/lib-imscmservice.so	same	281672	px_v:lib64/lib-imscmservice.so	
+lib64/lib-imsdpl.so	same	756736	px_v:lib64/lib-imsdpl.so	
+lib64/lib-imsqimf.so	same	349912	px_v:lib64/lib-imsqimf.so	
+lib64/lib-imsrcs-v2.so	same	707608	px_v:lib64/lib-imsrcs-v2.so	
+lib64/lib-imsrcsbaseimpl.so	same	273416	px_v:lib64/lib-imsrcsbaseimpl.so	
+lib64/lib-imsvtcore.so	same	375728	px_v:lib64/lib-imsvtcore.so	
+lib64/lib-imsxml.so	same	235400	px_v:lib64/lib-imsxml.so	
+lib64/lib-rcsconfig.so	same	332048	px_v:lib64/lib-rcsconfig.so	
+lib64/lib-rtpcommon.so	same	55080	px_v:lib64/lib-rtpcommon.so	
+lib64/lib-rtpcore.so	same	622688	px_v:lib64/lib-rtpcore.so	
+lib64/lib-rtpsl.so	same	168024	px_v:lib64/lib-rtpsl.so	
+lib64/lib-siputility.so	same	196744	px_v:lib64/lib-siputility.so	
+lib64/lib-uceservice.so	same	360560	px_v:lib64/lib-uceservice.so	
+lib64/libAF.so	same	4495184	px_v:lib64/libAF.so	
+lib64/libC2D2.so	modified	189888	UNIQUE	px size 194016
+lib64/libCB.so	modified	11587200	UNIQUE	px size 3166096
+lib64/libEGL_adreno.so	same	0	px_v:lib64/libEGL_adreno.so	
+lib64/libFaceCenterAlgo.so	same	284368	px_v:lib64/libFaceCenterAlgo.so	
+lib64/libGLESv2_adreno.so	same	0	px_v:lib64/libGLESv2_adreno.so	
+lib64/libGPQTEEC_vendor.so	same	24264	px_v:lib64/libGPQTEEC_vendor.so	
+lib64/libGPTEE_vendor.so	same	20008	px_v:lib64/libGPTEE_vendor.so	
+lib64/libGPreqcancel.so	same	20024	px_v:lib64/libGPreqcancel.so	
+lib64/libGPreqcancel_svc.so	same	24144	px_v:lib64/libGPreqcancel_svc.so	
+lib64/libI420colorconvert.so	same	15360	px_v:lib64/libI420colorconvert.so	
+lib64/libOpenCL.so	modified	63976	core:facehal/lib64/libOpenCL.so	also 3 more
+lib64/libOpenCL_adreno.so	added	163456	core:facehal/lib64/libOpenCL_adreno.so	also 1 more
+lib64/libQSEEComAPI.so	same	40824	px_v:lib64/libQSEEComAPI.so	
+lib64/libQTEEConnector_listener.so	same	53728	px_v:lib64/libQTEEConnector_listener.so	
+lib64/libQTEEConnector_vendor.so	same	34552	px_v:lib64/libQTEEConnector_vendor.so	
+lib64/libSNPE.so	same	10501312	px_v:lib64/libSNPE.so	
+lib64/libSecureUILib.so	same	19976	px_v:lib64/libSecureUILib.so	
+lib64/libSnpeHtpPrepare.so	added	16115448	hy_v:lib64/libSnpeHtpPrepare.so	also 2 more
+lib64/libSnpeHtpV68Stub.so	added	358232	hy_v:lib64/libSnpeHtpV68Stub.so	also 2 more
+lib64/libSnpeHtpV69Stub.so	added	358232	hy_v:lib64/libSnpeHtpV69Stub.so	also 2 more
+lib64/libStDrvInt.so	same	28400	px_v:lib64/libStDrvInt.so	
+lib64/libVkLayer_q3dtools.so	modified	2079984	UNIQUE	px size 2364728
+lib64/libXMFaceFocus.so	same	4921272	px_v:lib64/libXMFaceFocus.so	
+lib64/liba2dpoffload.so	modified	56032	UNIQUE	px size 56032
+lib64/libaconfig_storage_read_api_cc.so	same	178544	px_v:lib64/libaconfig_storage_read_api_cc.so	
+lib64/libadreno_app_profiles.so	added	996648	UNIQUE	no px counterpart
+lib64/libadreno_compiler_cl.so	added	31936976	core:facehal/lib64/libadreno_compiler_cl.so	also 1 more
+lib64/libadreno_utils.so	modified	97808	UNIQUE	px size 81376
+lib64/libadsp_default_listener.so	same	15576	px_v:lib64/libadsp_default_listener.so	
+lib64/libadsprpc.so	same	258856	px_v:lib64/libadsprpc.so	
+lib64/libalAILDC.so	same	2263976	px_v:lib64/libalAILDC.so	
+lib64/libalCFR.so	same	350136	px_v:lib64/libalCFR.so	
+lib64/libalLDC.so	same	456416	px_v:lib64/libalLDC.so	
+lib64/libalhLDC.so	same	464456	px_v:lib64/libalhLDC.so	
+lib64/libalsautilsv2.so	same	28080	px_v:lib64/libalsautilsv2.so	
+lib64/libaoa.so	same	62032	px_v:lib64/libaoa.so	
+lib64/libarcsoft_beautyshot.so	same	29569744	px_v:lib64/libarcsoft_beautyshot.so	
+lib64/libarcsoft_dualcam_refocus.so	same	3723536	px_v:lib64/libarcsoft_dualcam_refocus.so	
+lib64/libarcsoft_hdr_detection.so	same	532128	px_v:lib64/libarcsoft_hdr_detection.so	
+lib64/libarcsoft_high_dynamic_range.so	same	15857152	px_v:lib64/libarcsoft_high_dynamic_range.so	
+lib64/libarcsoft_low_light_hdr.so	same	3845400	px_v:lib64/libarcsoft_low_light_hdr.so	
+lib64/libarcsoft_mf_superresolution.so	same	8975736	px_v:lib64/libarcsoft_mf_superresolution.so	
+lib64/libarcsoft_portrait_lighting.so	same	15655680	px_v:lib64/libarcsoft_portrait_lighting.so	
+lib64/libarcsoft_portrait_lighting_c.so	same	18178344	px_v:lib64/libarcsoft_portrait_lighting_c.so	
+lib64/libarcsoft_qnnhtp.so	same	34480	px_v:lib64/libarcsoft_qnnhtp.so	
+lib64/libarcsoft_super_night_raw.so	same	43931984	px_v:lib64/libarcsoft_super_night_raw.so	
+lib64/libasn1cper.so	same	117048	px_v:lib64/libasn1cper.so	
+lib64/libasn1crt.so	same	191048	px_v:lib64/libasn1crt.so	
+lib64/libasn1crtx.so	same	288112	px_v:lib64/libasn1crtx.so	
+lib64/libaudioroute.so	same	23624	px_v:lib64/libaudioroute.so	
+lib64/libaudioutils.so	same	473104	px_v:lib64/libaudioutils.so	
+lib64/libavservices_minijail.so	same	24008	px_v:lib64/libavservices_minijail.so	
+lib64/libbase.so	same	210336	px_v:lib64/libbase.so	
+lib64/libbase64.so	added	11016	hy_v:lib64/libbase64.so	also 2 more
+lib64/libbatterylistener.so	same	27464	px_v:lib64/libbatterylistener.so	
+lib64/libbeauty_face_interface.so	same	4136488	px_v:lib64/libbeauty_face_interface.so	
+lib64/libbinder.so	modified	916784	UNIQUE	px size 925632
+lib64/libbinderdebug.so	same	73984	px_v:lib64/libbinderdebug.so	
+lib64/libbluetooth_audio_session.so	same	106048	px_v:lib64/libbluetooth_audio_session.so	
+lib64/libbluetooth_audio_session_aidl.so	modified	1638680	UNIQUE	px size 1638672
+lib64/libbtnv.so	same	11496	px_v:lib64/libbtnv.so	
+lib64/libc++.so	same	1152760	px_v:lib64/libc++.so	
+lib64/libc++_shared.so	modified	1014768	core:facehal/lib64/libc++_shared.so	also 1 more
+lib64/libc2d30_bltlib.so	modified	703408	UNIQUE	px size 651120
+lib64/libcacertclient.so	same	33576	px_v:lib64/libcacertclient.so	
+lib64/libcalculator_htp.so	added	5400	hy_v:lib64/libcalculator_htp.so	also 2 more
+lib64/libcamera2ndk_vendor.so	added	344096	UNIQUE	no px counterpart
+lib64/libcamera_metadata.so	added	66128	UNIQUE	no px counterpart
+lib64/libcamera_nn_stub.so	same	34632	px_v:lib64/libcamera_nn_stub.so	
+lib64/libcamera_scene.so	same	157768	px_v:lib64/libcamera_scene.so	
+lib64/libcamerapostproc.so	same	377632	px_v:lib64/libcamerapostproc.so	
+lib64/libcamlog.so	same	11320	px_v:lib64/libcamlog.so	
+lib64/libcamxexternalformatutils.so	same	19856	px_v:lib64/libcamxexternalformatutils.so	
+lib64/libcamxfacialfeatures.so	same	4493136	px_v:lib64/libcamxfacialfeatures.so	
+lib64/libcamxfdalgo.so	same	772696	px_v:lib64/libcamxfdalgo.so	
+lib64/libcamxfdengine.so	same	419320	px_v:lib64/libcamxfdengine.so	
+lib64/libcamxifestriping.so	same	74168	px_v:lib64/libcamxifestriping.so	
+lib64/libcamximageformatutils.so	same	59472	px_v:lib64/libcamximageformatutils.so	
+lib64/libcamxncs.so	same	147816	px_v:lib64/libcamxncs.so	
+lib64/libcamxstatscore.so	same	23792	px_v:lib64/libcamxstatscore.so	
+lib64/libcamxswprocessalgo.so	same	36776	px_v:lib64/libcamxswprocessalgo.so	
+lib64/libcamxtintlessalgo.so	same	98760	px_v:lib64/libcamxtintlessalgo.so	
+lib64/libcap.so	modified	47624	UNIQUE	px size 47624
+lib64/libcdfw.so	same	243840	px_v:lib64/libcdfw.so	
+lib64/libcdfw_remote_api.so	same	59736	px_v:lib64/libcdfw_remote_api.so	
+lib64/libcdsp_default_listener.so	same	15576	px_v:lib64/libcdsp_default_listener.so	
+lib64/libcdsprpc.so	same	258832	px_v:lib64/libcdsprpc.so	
+lib64/libcdsprpc_system.so	same	265752	px_v:lib64/libcdsprpc_system.so	
+lib64/libcheckpid.so	added	24832	hy_v:lib64/libcheckpid.so	also 2 more
+lib64/libchilog.so	same	11384	px_v:lib64/libchilog.so	
+lib64/libclang_rt.ubsan_standalone-aarch64-android.so	same	918632	px_v:lib64/libclang_rt.ubsan_standalone-aarch64-android.so	
+lib64/libcld80211.so	same	19392	px_v:lib64/libcld80211.so	
+lib64/libcne.so	same	1427136	px_v:lib64/libcne.so	
+lib64/libcneapiclient.so	same	158856	px_v:lib64/libcneapiclient.so	
+lib64/libcneoplookup.so	same	11704	px_v:lib64/libcneoplookup.so	
+lib64/libcneqmiutils.so	same	11648	px_v:lib64/libcneqmiutils.so	
+lib64/libcom.qti.chinodeutils.so	same	23640	px_v:lib64/libcom.qti.chinodeutils.so	
+lib64/libcomprcapture.so	same	14368	px_v:lib64/libcomprcapture.so	
+lib64/libconfigdb.so	same	33360	px_v:lib64/libconfigdb.so	
+lib64/libcpion.so	same	11112	px_v:lib64/libcpion.so	
+lib64/libcrypto.so	modified	1953904	UNIQUE	px size 1953880
+lib64/libcrypto_shim.so	same	10656	px_v:lib64/libcrypto_shim.so	
+lib64/libcurl.so	modified	688736	UNIQUE	px size 688744
+lib64/libcutils.so	modified	93736	UNIQUE	px size 93736
+lib64/libcvp2.so	same	266480	px_v:lib64/libcvp2.so	
+lib64/libcvp2_hfi.so	same	28912	px_v:lib64/libcvp2_hfi.so	
+lib64/libcvp_common.so	same	19944	px_v:lib64/libcvp_common.so	
+lib64/libcvpcpuRev_skel.so	same	80848	px_v:lib64/libcvpcpuRev_skel.so	
+lib64/libdapparamstorage.so	added	24504	hy_v:lib64/libdapparamstorage.so	also 2 more
+lib64/libdataitems.so	same	223784	px_v:lib64/libdataitems.so	
+lib64/libdiag.so	same	241072	px_v:lib64/libdiag.so	
+lib64/libdisp-aba.so	same	210216	px_v:lib64/libdisp-aba.so	
+lib64/libdisplayconfig.qti.so	same	110080	px_v:lib64/libdisplayconfig.qti.so	
+lib64/libdisplaydebug.so	same	14536	px_v:lib64/libdisplaydebug.so	
+lib64/libdisplayqos.so	same	44992	px_v:lib64/libdisplayqos.so	
+lib64/libdisplayskuutils.so	same	41968	px_v:lib64/libdisplayskuutils.so	
+lib64/libdlbdsservice.so	added	445712	hy_v:lib64/libdlbdsservice.so	also 2 more
+lib64/libdmabufheap.so	modified	87224	UNIQUE	px size 73352
+lib64/libdpmqmihal.so	same	38360	px_v:lib64/libdpmqmihal.so	
+lib64/libdrm.so	same	100976	px_v:lib64/libdrm.so	
+lib64/libdrmfs.so	same	41080	px_v:lib64/libdrmfs.so	
+lib64/libdrmtime.so	same	15416	px_v:lib64/libdrmtime.so	
+lib64/libdrmutils.so	same	18744	px_v:lib64/libdrmutils.so	
+lib64/libdsi_netctrl.so	same	624856	px_v:lib64/libdsi_netctrl.so	
+lib64/libdsutils.so	same	103408	px_v:lib64/libdsutils.so	
+lib64/libdualcam_optical_zoom_control.so	same	276184	px_v:lib64/libdualcam_optical_zoom_control.so	
+lib64/libeffects.so	modified	35720	UNIQUE	px size 35712
+lib64/libeffectsconfig.so	same	48584	px_v:lib64/libeffectsconfig.so	
+lib64/libexif.so	same	133896	px_v:lib64/libexif.so	
+lib64/libexpat.so	modified	168496	UNIQUE	px size 168504
+lib64/libexthwplugin.so	modified	35328	UNIQUE	px size 35328
+lib64/libfacehal_jni.so	added	5552	core:facehal/lib64/libfacehal_jni.so	also 1 more
+lib64/libfastcvdsp_stub.so	same	229968	px_v:lib64/libfastcvdsp_stub.so	
+lib64/libfastcvopt.so	same	3053256	px_v:lib64/libfastcvopt.so	
+lib64/libflatbuffers-cpp.so	modified	1236128	UNIQUE	px size 1236128
+lib64/libfmq.so	same	15448	px_v:lib64/libfmq.so	
+lib64/libgame_enhance.so	same	297424	px_v:lib64/libgame_enhance.so	
+lib64/libgdtap.so	same	89848	px_v:lib64/libgdtap.so	
+lib64/libgps.utils.so	same	189808	px_v:lib64/libgps.utils.so	
+lib64/libgpu_tonemapper.so	modified	88096	UNIQUE	px size 64592
+lib64/libgpudataproducer.so	modified	1008720	UNIQUE	px size 1581648
+lib64/libgralloc.qti.so	modified	31288	UNIQUE	px size 31288
+lib64/libgralloccore.so	modified	93880	UNIQUE	px size 81608
+lib64/libgralloctypes.so	modified	85216	UNIQUE	px size 85216
+lib64/libgrallocutils.so	modified	68160	UNIQUE	px size 68160
+lib64/libgsl.so	modified	2218120	UNIQUE	px size 2129992
+lib64/libhardware.so	same	10992	px_v:lib64/libhardware.so	
+lib64/libhardware_legacy.so	modified	52328	UNIQUE	px size 31672
+lib64/libhdmiedid.so	same	18536	px_v:lib64/libhdmiedid.so	
+lib64/libhdr_tm.so	same	297816	px_v:lib64/libhdr_tm.so	
+lib64/libhexagon_nn_stub.so	same	60216	px_v:lib64/libhexagon_nn_stub.so	
+lib64/libhfp.so	modified	35472	UNIQUE	px size 35472
+lib64/libhidlbase.so	modified	685960	UNIQUE	px size 732240
+lib64/libhidlmemory.so	same	27600	px_v:lib64/libhidlmemory.so	
+lib64/libhidltransport.so	same	10656	px_v:lib64/libhidltransport.so	
+lib64/libhistogram.so	same	28328	px_v:lib64/libhistogram.so	
+lib64/libhta_hexagon_runtime.so	same	3841104	px_v:lib64/libhta_hexagon_runtime.so	
+lib64/libhwbinder.so	same	10656	px_v:lib64/libhwbinder.so	
+lib64/libhydra_common.so	same	19600	px_v:lib64/libhydra_common.so	
+lib64/libidl.so	same	19368	px_v:lib64/libidl.so	
+lib64/libion.so	same	18536	px_v:lib64/libion.so	
+lib64/libipanat.so	same	30896	px_v:lib64/libipanat.so	
+lib64/libipebpsstriping.so	same	266368	px_v:lib64/libipebpsstriping.so	
+lib64/libizat_client_api.so	same	166256	px_v:lib64/libizat_client_api.so	
+lib64/libizat_core.so	same	270144	px_v:lib64/libizat_core.so	
+lib64/libjni_stfaceunlock_api.so	added	29743960	core:facehal/lib64/libjni_stfaceunlock_api.so	also 1 more
+lib64/libjnihelper.so	same	76160	px_v:lib64/libjnihelper.so	
+lib64/libjpeg.so	modified	342032	UNIQUE	px size 342016
+lib64/libjson.so	modified	51704	UNIQUE	px size 51704
+lib64/libjsoncpp.so	modified	196488	UNIQUE	px size 196488
+lib64/libkcl.so	added	2232448	UNIQUE	no px counterpart
+lib64/libkernelmanager.so	added	44920	UNIQUE	no px counterpart
+lib64/libkeymasterdeviceutils.so	same	19840	px_v:lib64/libkeymasterdeviceutils.so	
+lib64/libkeymasterprovision.so	same	61832	px_v:lib64/libkeymasterprovision.so	
+lib64/libkeymasterutils.so	same	38952	px_v:lib64/libkeymasterutils.so	
+lib64/libkeystore-engine-wifi-hidl.so	same	40592	px_v:lib64/libkeystore-engine-wifi-hidl.so	
+lib64/liblbs_core.so	same	143224	px_v:lib64/liblbs_core.so	
+lib64/liblearningmodule.so	added	206048	hy_v:lib64/liblearningmodule.so	also 2 more
+lib64/libllvm-glnext.so	modified	2279784	UNIQUE	px size 13911504
+lib64/libllvm-qcom.so	modified	233176	core:facehal/lib64/libllvm-qcom.so	also 1 more
+lib64/libllvm-qgl.so	added	22741368	UNIQUE	no px counterpart
+lib64/libloc_api_v02.so	same	362824	px_v:lib64/libloc_api_v02.so	
+lib64/libloc_core.so	same	349368	px_v:lib64/libloc_core.so	
+lib64/liblocation_api.so	same	111896	px_v:lib64/liblocation_api.so	
+lib64/liblogwrap_vendor.so	added	19968	hy_v:lib64/liblogwrap_vendor.so	also 2 more
+lib64/liblowi_client.so	same	459664	px_v:lib64/liblowi_client.so	
+lib64/liblowi_wifihal.so	same	218240	px_v:lib64/liblowi_wifihal.so	
+lib64/liblqe.so	same	72352	px_v:lib64/liblqe.so	
+lib64/liblzma.so	modified	187872	UNIQUE	px size 187872
+lib64/libmdmdetect.so	same	19944	px_v:lib64/libmdmdetect.so	
+lib64/libmdmimgload.so	same	37960	px_v:lib64/libmdmimgload.so	
+lib64/libmdsprpc.so	same	258848	px_v:lib64/libmdsprpc.so	
+lib64/libmedia_helper.so	same	134144	px_v:lib64/libmedia_helper.so	
+lib64/libmediautils_vendor.so	same	310408	px_v:lib64/libmediautils_vendor.so	
+lib64/libmemunreachable.so	same	346592	px_v:lib64/libmemunreachable.so	
+lib64/libmeters.so	added	29160	hy_v:lib64/libmeters.so	also 2 more
+lib64/libmfido.so	added	30200	hy_v:lib64/libmfido.so	also 2 more
+lib64/libmi_supernight_raw.so	same	8610768	px_v:lib64/libmi_supernight_raw.so	
+lib64/libmiai_portraitsupernight.so	same	26932560	px_v:lib64/libmiai_portraitsupernight.so	
+lib64/libmialgo_ie_capture.so	same	1706912	px_v:lib64/libmialgo_ie_capture.so	
+lib64/libmialgo_rfs.so	same	264248	px_v:lib64/libmialgo_rfs.so	
+lib64/libmialgo_sd.so	same	178040	px_v:lib64/libmialgo_sd.so	
+lib64/libmialgo_utils.so	same	132872	px_v:lib64/libmialgo_utils.so	
+lib64/libmialgoengine.so	same	366696	px_v:lib64/libmialgoengine.so	
+lib64/libmibokeh_855.so	same	45631232	px_v:lib64/libmibokeh_855.so	
+lib64/libminijail.so	modified	182976	UNIQUE	px size 182976
+lib64/libminkdescriptor.so	same	33552	px_v:lib64/libminkdescriptor.so	
+lib64/libminksocket.so	same	45880	px_v:lib64/libminksocket.so	
+lib64/libmiocr.so	added	3988840	hy_v:lib64/libmiocr.so	also 2 more
+lib64/libmlipay.so	added	25176	hy_v:lib64/libmlipay.so	also 2 more
+lib64/libmlipay@1.1.so	added	29952	hy_v:lib64/libmlipay@1.1.so	also 2 more
+lib64/libmm-color-convertor.so	same	19576	px_v:lib64/libmm-color-convertor.so	
+lib64/libmmcamera_faceproc.so	same	1312512	px_v:lib64/libmmcamera_faceproc.so	
+lib64/libmmcamera_faceproc2.so	same	1419176	px_v:lib64/libmmcamera_faceproc2.so	
+lib64/libmodemapi.so	same	79752	px_v:lib64/libmodemapi.so	
+lib64/libmpbase.so	same	5296	px_v:lib64/libmpbase.so	
+lib64/libmt@1.3.so	added	116992	iq31_v:lib64/libmt@1.3.so	also 1 more
+lib64/libnanopb.so	same	28136	px_v:lib64/libnanopb.so	
+lib64/libnbaio_mono.so	same	20408	px_v:lib64/libnbaio_mono.so	
+lib64/libnetfilter_conntrack.so	modified	98816	UNIQUE	px size 98752
+lib64/libnetmgr.so	same	176328	px_v:lib64/libnetmgr.so	
+lib64/libnetmgr_common.so	same	46048	px_v:lib64/libnetmgr_common.so	
+lib64/libnetmgr_nr_fusion.so	same	24928	px_v:lib64/libnetmgr_nr_fusion.so	
+lib64/libnetmgr_rmnet_ext.so	same	31440	px_v:lib64/libnetmgr_rmnet_ext.so	
+lib64/libnetutils.so	same	39928	px_v:lib64/libnetutils.so	
+lib64/libnfnetlink.so	same	27584	px_v:lib64/libnfnetlink.so	
+lib64/libnl.so	modified	278144	UNIQUE	px size 278144
+lib64/libnlnetmgr.so	same	97648	px_v:lib64/libnlnetmgr.so	
+lib64/liboemcrypto.so	same	167608	px_v:lib64/liboemcrypto.so	
+lib64/libofflinelog.so	same	46176	px_v:lib64/libofflinelog.so	
+lib64/liboffloadhal.so	same	84168	px_v:lib64/liboffloadhal.so	
+lib64/libops.so	same	24464	px_v:lib64/libops.so	
+lib64/libos.so	same	37768	px_v:lib64/libos.so	
+lib64/libpasn.so	same	527768	px_v:lib64/libpasn.so	
+lib64/libpdmapper.so	same	11960	px_v:lib64/libpdmapper.so	
+lib64/libpdnotifier.so	same	16040	px_v:lib64/libpdnotifier.so	
+lib64/libperfconfig.so	added	28616	hy_v:lib64/libperfconfig.so	also 2 more
+lib64/libperfgluelayer.so	added	20168	hy_v:lib64/libperfgluelayer.so	also 2 more
+lib64/libperfioctl.so	added	10872	hy_v:lib64/libperfioctl.so	also 2 more
+lib64/libperfmgr.so	modified	417424	UNIQUE	px size 417416
+lib64/libperipheral_client.so	same	81320	px_v:lib64/libperipheral_client.so	
+lib64/libpiex.so	modified	98672	UNIQUE	px size 98672
+lib64/libpiex_shim.so	same	10680	px_v:lib64/libpiex_shim.so	
+lib64/libpng.so	modified	272144	UNIQUE	px size 272152
+lib64/libprocessgroup.so	modified	371296	UNIQUE	px size 371296
+lib64/libprotobuf-cpp-full-3.9.1.so	same	2286440	px_v:lib64/libprotobuf-cpp-full-3.9.1.so	
+lib64/libprotobuf-cpp-full-6.33.5.so	modified	3443984	UNIQUE	px size 3443968
+lib64/libprotobuf-cpp-lite-3.9.1.so	same	498928	px_v:lib64/libprotobuf-cpp-lite-3.9.1.so	
+lib64/libprotobuf-cpp-lite-6.33.5.so	modified	1480432	UNIQUE	px size 1480416
+lib64/libq3dtools_adreno.so	same	0	px_v:lib64/libq3dtools_adreno.so	
+lib64/libqcbor.so	same	19520	px_v:lib64/libqcbor.so	
+lib64/libqcc_file_agent.so	same	29424	px_v:lib64/libqcc_file_agent.so	
+lib64/libqcci_legacy.so	same	20264	px_v:lib64/libqcci_legacy.so	
+lib64/libqcmaputils.so	same	20560	px_v:lib64/libqcmaputils.so	
+lib64/libqcrilFramework.so	same	765016	px_v:lib64/libqcrilFramework.so	
+lib64/libqcrildatactl.so	same	33616	px_v:lib64/libqcrildatactl.so	
+lib64/libqdMetaData.so	modified	27136	UNIQUE	px size 27136
+lib64/libqdi.so	same	161160	px_v:lib64/libqdi.so	
+lib64/libqdma_file_agent.so	same	29424	px_v:lib64/libqdma_file_agent.so	
+lib64/libqdp.so	same	177840	px_v:lib64/libqdp.so	
+lib64/libqdutils.so	same	35456	px_v:lib64/libqdutils.so	
+lib64/libqisl.so	same	20112	px_v:lib64/libqisl.so	
+lib64/libqmi.so	same	286792	px_v:lib64/libqmi.so	
+lib64/libqmi_cci.so	same	54176	px_v:lib64/libqmi_cci.so	
+lib64/libqmi_client_helper.so	same	21984	px_v:lib64/libqmi_client_helper.so	
+lib64/libqmi_client_qmux.so	same	47464	px_v:lib64/libqmi_client_qmux.so	
+lib64/libqmi_common_so.so	same	11304	px_v:lib64/libqmi_common_so.so	
+lib64/libqmi_csi.so	same	37536	px_v:lib64/libqmi_csi.so	
+lib64/libqmi_encdec.so	same	19440	px_v:lib64/libqmi_encdec.so	
+lib64/libqmi_legacy.so	same	278352	px_v:lib64/libqmi_legacy.so	
+lib64/libqmiservices.so	same	153824	px_v:lib64/libqmiservices.so	
+lib64/libqrtr.so	same	11416	px_v:lib64/libqrtr.so	
+lib64/libqseed3.so	same	127656	px_v:lib64/libqseed3.so	
+lib64/libqservice.so	same	56144	px_v:lib64/libqservice.so	
+lib64/libqsocket.so	same	10872	px_v:lib64/libqsocket.so	
+lib64/libqti-perfd-client.so	modified	55440	hy_v:lib64/libqti-perfd-client.so	also 2 more
+lib64/libqti-perfd.so	added	253928	hy_v:lib64/libqti-perfd.so	also 2 more
+lib64/libqti-util.so	added	28864	hy_v:lib64/libqti-util.so	also 2 more
+lib64/libqti-utils.so	added	10848	hy_v:lib64/libqti-utils.so	also 2 more
+lib64/libqti_vndfwk_detect.so	same	10752	px_v:lib64/libqti_vndfwk_detect.so	
+lib64/libqtikeymaster4.so	same	151056	px_v:lib64/libqtikeymaster4.so	
+lib64/librawnrv2_shared.so	same	15289344	px_v:lib64/librawnrv2_shared.so	
+lib64/librcc.so	same	89528	px_v:lib64/librcc.so	
+lib64/libreference-ril.so	modified	131736	UNIQUE	px size 131736
+lib64/libril-qc-hal-qmi.so	same	35072416	px_v:lib64/libril-qc-hal-qmi.so	
+lib64/libril-qc-logger.so	same	42848	px_v:lib64/libril-qc-logger.so	
+lib64/libril-qc-ltedirectdisc.so	same	10928	px_v:lib64/libril-qc-ltedirectdisc.so	
+lib64/libril-qc-radioconfig.so	same	11280	px_v:lib64/libril-qc-radioconfig.so	
+lib64/libril.so	modified	309392	UNIQUE	px size 309392
+lib64/librilqmiservices.so	same	12976	px_v:lib64/librilqmiservices.so	
+lib64/librilutils.so	same	14888	px_v:lib64/librilutils.so	
+lib64/librmnetctl.so	same	37648	px_v:lib64/librmnetctl.so	
+lib64/librpmb.so	same	42320	px_v:lib64/librpmb.so	
+lib64/libscveCommon.so	same	29536	px_v:lib64/libscveCommon.so	
+lib64/libscveCommon_stub.so	same	15848	px_v:lib64/libscveCommon_stub.so	
+lib64/libscveObjectSegmentation.so	same	207096	px_v:lib64/libscveObjectSegmentation.so	
+lib64/libscveObjectSegmentation_stub.so	same	16328	px_v:lib64/libscveObjectSegmentation_stub.so	
+lib64/libscveObjectTracker.so	same	361552	px_v:lib64/libscveObjectTracker.so	
+lib64/libscveObjectTracker_stub.so	same	28568	px_v:lib64/libscveObjectTracker_stub.so	
+lib64/libsdedrm.so	modified	280528	UNIQUE	px size 280528
+lib64/libsdm-color.so	same	402784	px_v:lib64/libsdm-color.so	
+lib64/libsdm-colormgr-algo.so	same	71192	px_v:lib64/libsdm-colormgr-algo.so	
+lib64/libsdm-diag.so	same	206816	px_v:lib64/libsdm-diag.so	
+lib64/libsdm-disp-vndapis.so	same	144304	px_v:lib64/libsdm-disp-vndapis.so	
+lib64/libsdmcore.so	same	440872	px_v:lib64/libsdmcore.so	
+lib64/libsdmextension.so	same	788600	px_v:lib64/libsdmextension.so	
+lib64/libsdmutils.so	same	48136	px_v:lib64/libsdmutils.so	
+lib64/libsdsprpc.so	same	258848	px_v:lib64/libsdsprpc.so	
+lib64/libsecureui.so	same	41848	px_v:lib64/libsecureui.so	
+lib64/libsecureui_svcsock.so	same	48224	px_v:lib64/libsecureui_svcsock.so	
+lib64/libsensorcal.so	same	58872	px_v:lib64/libsensorcal.so	
+lib64/libsensorndkbridge.so	same	60424	px_v:lib64/libsensorndkbridge.so	
+lib64/libsensorslog.so	same	11152	px_v:lib64/libsensorslog.so	
+lib64/libsettings.so	same	236192	px_v:lib64/libsettings.so	
+lib64/libsndmonitor.so	same	27184	px_v:lib64/libsndmonitor.so	
+lib64/libsnpe_adsp.so	same	17944	px_v:lib64/libsnpe_adsp.so	
+lib64/libsnpe_dsp_domains.so	same	17880	px_v:lib64/libsnpe_dsp_domains.so	
+lib64/libsnpe_dsp_domains_system.so	same	17880	px_v:lib64/libsnpe_dsp_domains_system.so	
+lib64/libsnpe_dsp_domains_v2.so	same	30592	px_v:lib64/libsnpe_dsp_domains_v2.so	
+lib64/libsnpe_dsp_domains_v2_system.so	same	22000	px_v:lib64/libsnpe_dsp_domains_v2_system.so	
+lib64/libsnpe_dsp_domains_v3.so	same	22280	px_v:lib64/libsnpe_dsp_domains_v3.so	
+lib64/libsns_device_mode_stub.so	same	11400	px_v:lib64/libsns_device_mode_stub.so	
+lib64/libsns_fastRPC_util.so	same	11160	px_v:lib64/libsns_fastRPC_util.so	
+lib64/libsns_low_lat_stream_stub.so	same	12080	px_v:lib64/libsns_low_lat_stream_stub.so	
+lib64/libsns_registry_skel.so	same	11152	px_v:lib64/libsns_registry_skel.so	
+lib64/libsnsapi.so	same	1147976	px_v:lib64/libsnsapi.so	
+lib64/libsnsdiaglog.so	same	20376	px_v:lib64/libsnsdiaglog.so	
+lib64/libsoc_helper.so	same	11104	px_v:lib64/libsoc_helper.so	
+lib64/libspcom.so	same	120144	px_v:lib64/libspcom.so	
+lib64/libspeexresampler.so	same	31312	px_v:lib64/libspeexresampler.so	
+lib64/libspkrprot.so	modified	47896	UNIQUE	px size 47896
+lib64/libspl.so	same	11232	px_v:lib64/libspl.so	
+lib64/libsqlite.so	same	1505456	px_v:lib64/libsqlite.so	
+lib64/libssc.so	same	106888	px_v:lib64/libssc.so	
+lib64/libssc_default_listener.so	same	15576	px_v:lib64/libssc_default_listener.so	
+lib64/libssccalapi.so	same	111704	px_v:lib64/libssccalapi.so	
+lib64/libssd.so	same	11280	px_v:lib64/libssd.so	
+lib64/libssl.so	modified	621432	UNIQUE	px size 621432
+lib64/libssrec.so	modified	35288	UNIQUE	px size 35288
+lib64/libstagefright_foundation.so	modified	232376	UNIQUE	px size 232376
+lib64/libswregistrationalgo.so	same	6511936	px_v:lib64/libswregistrationalgo.so	
+lib64/libswvdec.so	same	217080	px_v:lib64/libswvdec.so	
+lib64/libsymphony-cpu.so	same	562944	px_v:lib64/libsymphony-cpu.so	
+lib64/libsynx.so	same	29024	px_v:lib64/libsynx.so	
+lib64/libsysmon_cdsp_skel.so	same	15680	px_v:lib64/libsysmon_cdsp_skel.so	
+lib64/libsystem_health_mon.so	same	11024	px_v:lib64/libsystem_health_mon.so	
+lib64/libtensorflowlite.so	added	3840984	core:facehal/lib64/libtensorflowlite.so	also 1 more
+lib64/libtensorflowlite_gpu_delegate.so	added	5176016	core:facehal/lib64/libtensorflowlite_gpu_delegate.so	also 1 more
+lib64/libthermalclient.so	same	37744	px_v:lib64/libthermalclient.so	
+lib64/libthirdpartpkg.so	same	50224	px_v:lib64/libthirdpartpkg.so	
+lib64/libthreadutils.so	same	46080	px_v:lib64/libthreadutils.so	
+lib64/libtime_genoff.so	same	11080	px_v:lib64/libtime_genoff.so	
+lib64/libtinyalsa.so	same	48040	px_v:lib64/libtinyalsa.so	
+lib64/libtinyalsav2.so	modified	58984	UNIQUE	px size 58992
+lib64/libtinycompress.so	modified	27288	UNIQUE	px size 27296
+lib64/libtinyxml2.so	same	126272	px_v:lib64/libtinyxml2.so	
+lib64/libtinyxml2_1.so	same	106256	px_v:lib64/libtinyxml2_1.so	
+lib64/libtriplecam_optical_zoom_control.so	same	288472	px_v:lib64/libtriplecam_optical_zoom_control.so	
+lib64/libtrustedapploader.so	same	46168	px_v:lib64/libtrustedapploader.so	
+lib64/libtzdrmgenprov.so	same	23664	px_v:lib64/libtzdrmgenprov.so	
+lib64/libui.so	modified	431576	UNIQUE	px size 431576
+lib64/libultrasound.so	same	11200	px_v:lib64/libultrasound.so	
+lib64/libunwindstack.so	same	729744	px_v:lib64/libunwindstack.so	
+lib64/libutils.so	modified	135960	UNIQUE	px size 135952
+lib64/libutilscallstack.so	same	31648	px_v:lib64/libutilscallstack.so	
+lib64/libvibratorutils.so	same	10816	px_v:lib64/libvibratorutils.so	
+lib64/libvideofilter_only.so	same	1038144	px_v:lib64/libvideofilter_only.so	
+lib64/libvidhance.so	same	9436232	px_v:lib64/libvidhance.so	
+lib64/libvidhance_active_ois.so	same	41840	px_v:lib64/libvidhance_active_ois.so	
+lib64/libvidhance_face_stabilizer.so	same	41840	px_v:lib64/libvidhance_face_stabilizer.so	
+lib64/libvidhance_horizon_correction.so	same	41840	px_v:lib64/libvidhance_horizon_correction.so	
+lib64/libvidhance_ldc.so	same	41824	px_v:lib64/libvidhance_ldc.so	
+lib64/libvidhance_stabilizer.so	same	41840	px_v:lib64/libvidhance_stabilizer.so	
+lib64/libvidhance_super_stabilization.so	same	41840	px_v:lib64/libvidhance_super_stabilization.so	
+lib64/libvndfwk_detect_jni.qti.so	same	14664	px_v:lib64/libvndfwk_detect_jni.qti.so	
+lib64/libvppclient.so	same	55552	px_v:lib64/libvppclient.so	
+lib64/libvpphcp.so	same	29912	px_v:lib64/libvpphcp.so	
+lib64/libvpphvx.so	same	36576	px_v:lib64/libvpphvx.so	
+lib64/libvpplibrary.so	same	477936	px_v:lib64/libvpplibrary.so	
+lib64/libwfdaac_vendor.so	modified	1688312	UNIQUE	px size 1688296
+lib64/libwifi-hal-ctrl.so	same	14488	px_v:lib64/libwifi-hal-ctrl.so	
+lib64/libwifi-hal-qcom.so	same	652856	px_v:lib64/libwifi-hal-qcom.so	
+lib64/libwifi-hal.so	same	667432	px_v:lib64/libwifi-hal.so	
+lib64/libwifi-system-iface.so	same	19624	px_v:lib64/libwifi-system-iface.so	
+lib64/libwms.so	same	180392	px_v:lib64/libwms.so	
+lib64/libwpa_client.so	same	31408	px_v:lib64/libwpa_client.so	
+lib64/libwqe.so	same	1096816	px_v:lib64/libwqe.so	
+lib64/libwvhidl.so	same	3070561	px_v:lib64/libwvhidl.so	
+lib64/libwvkeybox.so	added	23384	hy_v:lib64/libwvkeybox.so	also 2 more
+lib64/libxml.so	same	51184	px_v:lib64/libxml.so	
+lib64/libxml2.so	modified	1175768	UNIQUE	px size 1175768
+lib64/libxml2_vendor.so	same	1380136	px_v:lib64/libxml2_vendor.so	
+lib64/libxtadapter.so	same	20320	px_v:lib64/libxtadapter.so	
+lib64/libxtwifi_server_protocol.so	same	624704	px_v:lib64/libxtwifi_server_protocol.so	
+lib64/libxtwifi_server_protocol_uri_v3.so	same	876816	px_v:lib64/libxtwifi_server_protocol_uri_v3.so	
+lib64/libyuv.so	same	670936	px_v:lib64/libyuv.so	
+lib64/libz.so	modified	117992	UNIQUE	px size 117992
+lib64/mediacas/libclearkeycasplugin.so	same	77808	px_v:lib64/mediacas/libclearkeycasplugin.so	
+lib64/mediadrm/libdrmclearkeyplugin.so	same	60976	px_v:lib64/mediadrm/libdrmclearkeyplugin.so	
+lib64/mediadrm/libwvdrmengine.so	same	2900145	px_v:lib64/mediadrm/libwvdrmengine.so	
+lib64/pixel-power-ext-V1-ndk.so	same	35904	px_v:lib64/pixel-power-ext-V1-ndk.so	
+lib64/qcrild_librilutils.so	same	10920	px_v:lib64/qcrild_librilutils.so	
+lib64/qtibus.so	same	472696	px_v:lib64/qtibus.so	
+lib64/qtimutex.so	same	37056	px_v:lib64/qtimutex.so	
+lib64/sensors.mius.proximity.so	same	33648	px_v:lib64/sensors.mius.proximity.so	
+lib64/sensors.ssc.so	same	495496	px_v:lib64/sensors.ssc.so	
+lib64/server_configurable_flags.so	same	19904	px_v:lib64/server_configurable_flags.so	
+lib64/soundfx/libaudiopreprocessing.so	same	1224856	px_v:lib64/soundfx/libaudiopreprocessing.so	
+lib64/soundfx/libbundlewrapper.so	same	238368	px_v:lib64/soundfx/libbundlewrapper.so	
+lib64/soundfx/libdownmix.so	same	27408	px_v:lib64/soundfx/libdownmix.so	
+lib64/soundfx/libdynproc.so	same	82280	px_v:lib64/soundfx/libdynproc.so	
+lib64/soundfx/libeffectproxy.so	same	18760	px_v:lib64/soundfx/libeffectproxy.so	
+lib64/soundfx/libhapticgenerator.so	same	178488	px_v:lib64/soundfx/libhapticgenerator.so	
+lib64/soundfx/libhwdap.so	added	103768	UNIQUE	no px counterpart
+lib64/soundfx/libldnhncr.so	same	31384	px_v:lib64/soundfx/libldnhncr.so	
+lib64/soundfx/libmisoundfx.so	added	79592	hy_v:lib64/soundfx/libmisoundfx.so	also 2 more
+lib64/soundfx/libqcompostprocbundle.so	modified	56640	UNIQUE	px size 56632
+lib64/soundfx/libqcomvisualizer.so	same	27520	px_v:lib64/soundfx/libqcomvisualizer.so	
+lib64/soundfx/libqcomvoiceprocessing.so	same	14728	px_v:lib64/soundfx/libqcomvoiceprocessing.so	
+lib64/soundfx/libreverbwrapper.so	same	202784	px_v:lib64/soundfx/libreverbwrapper.so	
+lib64/soundfx/libswdap.so	added	2052808	iq31_v:lib64/soundfx/libswdap.so	also 1 more
+lib64/soundfx/libswgamedap.so	added	2023528	hy_v:lib64/soundfx/libswgamedap.so	also 2 more
+lib64/soundfx/libswvqe.so	added	1919224	hy_v:lib64/soundfx/libswvqe.so	also 2 more
+lib64/soundfx/libvisualizer.so	same	22912	px_v:lib64/soundfx/libvisualizer.so	
+lib64/soundfx/libvolumelistener.so	same	27544	px_v:lib64/soundfx/libvolumelistener.so	
+lib64/unnhal-acc-adreno.so	same	5400152	px_v:lib64/unnhal-acc-adreno.so	
+lib64/unnhal-acc-common.so	same	2947168	px_v:lib64/unnhal-acc-common.so	
+lib64/unnhal-acc-hta.so	same	879256	px_v:lib64/unnhal-acc-hta.so	
+lib64/unnhal-acc-hvx.so	same	683704	px_v:lib64/unnhal-acc-hvx.so	
+lib64/vendor.display.color@1.0.so	same	180344	px_v:lib64/vendor.display.color@1.0.so	
+lib64/vendor.display.color@1.1.so	same	118512	px_v:lib64/vendor.display.color@1.1.so	
+lib64/vendor.display.color@1.2.so	same	128432	px_v:lib64/vendor.display.color@1.2.so	
+lib64/vendor.display.color@1.3.so	same	141624	px_v:lib64/vendor.display.color@1.3.so	
+lib64/vendor.display.color@1.4.so	same	143368	px_v:lib64/vendor.display.color@1.4.so	
+lib64/vendor.display.color@1.5.so	same	161800	px_v:lib64/vendor.display.color@1.5.so	
+lib64/vendor.display.config@1.0.so	modified	127640	UNIQUE	px size 160904
+lib64/vendor.display.config@1.1.so	modified	102584	UNIQUE	px size 119352
+lib64/vendor.display.config@1.2.so	modified	110808	UNIQUE	px size 131664
+lib64/vendor.display.config@1.3.so	modified	114912	UNIQUE	px size 131664
+lib64/vendor.display.config@1.4.so	modified	123320	UNIQUE	px size 140136
+lib64/vendor.display.config@1.5.so	modified	123160	UNIQUE	px size 144064
+lib64/vendor.display.config@1.6.so	modified	131408	UNIQUE	px size 156400
+lib64/vendor.display.config@1.7.so	modified	152224	UNIQUE	px size 177208
+lib64/vendor.display.config@1.8.so	modified	148176	UNIQUE	px size 173168
+lib64/vendor.display.config@1.9.so	modified	156208	UNIQUE	px size 177120
+lib64/vendor.display.config@2.0.so	modified	131960	UNIQUE	px size 144488
+lib64/vendor.display.postproc@1.0.so	same	76776	px_v:lib64/vendor.display.postproc@1.0.so	
+lib64/vendor.dolby.hardware.dms@2.0-impl.so	added	47792	hy_v:lib64/vendor.dolby.hardware.dms@2.0-impl.so	also 2 more
+lib64/vendor.dolby.hardware.dms@2.0.so	added	259768	hy_v:lib64/vendor.dolby.hardware.dms@2.0.so	also 2 more
+lib64/vendor.lineage.health-V2-ndk.so	same	52472	px_v:lib64/vendor.lineage.health-V2-ndk.so	
+lib64/vendor.oplus.hardware.performance-V5-ndk.so	added	250656	UNIQUE	no px counterpart
+lib64/vendor.oplus.hardware.stability.oplus_project-V3-ndk.so	added	85408	UNIQUE	no px counterpart
+lib64/vendor.qti.data.factory@2.0.so	same	209624	px_v:lib64/vendor.qti.data.factory@2.0.so	
+lib64/vendor.qti.data.factory@2.1.so	same	192688	px_v:lib64/vendor.qti.data.factory@2.1.so	
+lib64/vendor.qti.data.factory@2.2.so	same	197464	px_v:lib64/vendor.qti.data.factory@2.2.so	
+lib64/vendor.qti.data.factory@2.3.so	same	206776	px_v:lib64/vendor.qti.data.factory@2.3.so	
+lib64/vendor.qti.data.mwqem@1.0.so	same	115376	px_v:lib64/vendor.qti.data.mwqem@1.0.so	
+lib64/vendor.qti.data.slm@1.0.so	same	115432	px_v:lib64/vendor.qti.data.slm@1.0.so	
+lib64/vendor.qti.gnss@1.0.so	same	1039072	px_v:lib64/vendor.qti.gnss@1.0.so	
+lib64/vendor.qti.gnss@1.1.so	same	1035336	px_v:lib64/vendor.qti.gnss@1.1.so	
+lib64/vendor.qti.gnss@1.2.so	same	274584	px_v:lib64/vendor.qti.gnss@1.2.so	
+lib64/vendor.qti.gnss@2.0.so	same	182776	px_v:lib64/vendor.qti.gnss@2.0.so	
+lib64/vendor.qti.gnss@2.1.so	same	855544	px_v:lib64/vendor.qti.gnss@2.1.so	
+lib64/vendor.qti.gnss@3.0.so	same	294864	px_v:lib64/vendor.qti.gnss@3.0.so	
+lib64/vendor.qti.gnss@4.0.so	same	457040	px_v:lib64/vendor.qti.gnss@4.0.so	
+lib64/vendor.qti.hardware.alarm@1.0.so	same	80456	px_v:lib64/vendor.qti.hardware.alarm@1.0.so	
+lib64/vendor.qti.hardware.bluetooth_sar@1.0.so	same	76232	px_v:lib64/vendor.qti.hardware.bluetooth_sar@1.0.so	
+lib64/vendor.qti.hardware.bluetooth_sar@1.1.so	same	81240	px_v:lib64/vendor.qti.hardware.bluetooth_sar@1.1.so	
+lib64/vendor.qti.hardware.btconfigstore@1.0.so	modified	86056	UNIQUE	px size 94512
+lib64/vendor.qti.hardware.btconfigstore@2.0.so	modified	90256	UNIQUE	px size 98744
+lib64/vendor.qti.hardware.cacert@1.0.so	same	178928	px_v:lib64/vendor.qti.hardware.cacert@1.0.so	
+lib64/vendor.qti.hardware.camera.postproc@1.0-service-impl.so	same	38224	px_v:lib64/vendor.qti.hardware.camera.postproc@1.0-service-impl.so	
+lib64/vendor.qti.hardware.camera.postproc@1.0.so	modified	181592	UNIQUE	px size 198352
+lib64/vendor.qti.hardware.capabilityconfigstore@1.0.so	modified	77672	UNIQUE	px size 86128
+lib64/vendor.qti.hardware.data.cne.internal.api@1.0.so	same	294600	px_v:lib64/vendor.qti.hardware.data.cne.internal.api@1.0.so	
+lib64/vendor.qti.hardware.data.cne.internal.constants@1.0.so	same	15024	px_v:lib64/vendor.qti.hardware.data.cne.internal.constants@1.0.so	
+lib64/vendor.qti.hardware.data.cne.internal.server@1.0.so	same	295856	px_v:lib64/vendor.qti.hardware.data.cne.internal.server@1.0.so	
+lib64/vendor.qti.hardware.data.connection@1.0.so	same	177632	px_v:lib64/vendor.qti.hardware.data.connection@1.0.so	
+lib64/vendor.qti.hardware.data.connection@1.1.so	same	89944	px_v:lib64/vendor.qti.hardware.data.connection@1.1.so	
+lib64/vendor.qti.hardware.data.dynamicdds@1.0.so	same	254520	px_v:lib64/vendor.qti.hardware.data.dynamicdds@1.0.so	
+lib64/vendor.qti.hardware.data.iwlan@1.0.so	same	214288	px_v:lib64/vendor.qti.hardware.data.iwlan@1.0.so	
+lib64/vendor.qti.hardware.data.latency@1.0.so	same	162752	px_v:lib64/vendor.qti.hardware.data.latency@1.0.so	
+lib64/vendor.qti.hardware.data.lce@1.0.so	same	166376	px_v:lib64/vendor.qti.hardware.data.lce@1.0.so	
+lib64/vendor.qti.hardware.data.qmi@1.0.so	same	243624	px_v:lib64/vendor.qti.hardware.data.qmi@1.0.so	
+lib64/vendor.qti.hardware.display.allocator@3.0.so	modified	77608	UNIQUE	px size 86080
+lib64/vendor.qti.hardware.display.allocator@4.0.so	modified	77592	UNIQUE	px size 81936
+lib64/vendor.qti.hardware.display.composer@3.0.so	modified	252520	UNIQUE	px size 304152
+lib64/vendor.qti.hardware.display.mapper@1.0.so	modified	123608	UNIQUE	px size 148760
+lib64/vendor.qti.hardware.display.mapper@2.0.so	modified	102832	UNIQUE	px size 115544
+lib64/vendor.qti.hardware.display.mapper@3.0.so	modified	98832	UNIQUE	px size 111456
+lib64/vendor.qti.hardware.display.mapper@4.0.so	modified	111256	UNIQUE	px size 136424
+lib64/vendor.qti.hardware.display.mapperextensions@1.0.so	modified	136008	UNIQUE	px size 169528
+lib64/vendor.qti.hardware.display.mapperextensions@1.1.so	modified	127456	UNIQUE	px size 148624
+lib64/vendor.qti.hardware.dsp@1.0.so	same	118856	px_v:lib64/vendor.qti.hardware.dsp@1.0.so	
+lib64/vendor.qti.hardware.fm@1.0.so	same	118408	px_v:lib64/vendor.qti.hardware.fm@1.0.so	
+lib64/vendor.qti.hardware.mwqemadapter@1.0.so	same	199904	px_v:lib64/vendor.qti.hardware.mwqemadapter@1.0.so	
+lib64/vendor.qti.hardware.perf@2.0.so	added	98328	hy_v:lib64/vendor.qti.hardware.perf@2.0.so	also 2 more
+lib64/vendor.qti.hardware.perf@2.1.so	added	132616	hy_v:lib64/vendor.qti.hardware.perf@2.1.so	also 2 more
+lib64/vendor.qti.hardware.perf@2.2.so	added	107976	hy_v:lib64/vendor.qti.hardware.perf@2.2.so	also 2 more
+lib64/vendor.qti.hardware.qccsyshal@1.0.so	same	229600	px_v:lib64/vendor.qti.hardware.qccsyshal@1.0.so	
+lib64/vendor.qti.hardware.qccvndhal@1.0-halimpl.so	same	37952	px_v:lib64/vendor.qti.hardware.qccvndhal@1.0-halimpl.so	
+lib64/vendor.qti.hardware.qccvndhal@1.0.so	same	148496	px_v:lib64/vendor.qti.hardware.qccvndhal@1.0.so	
+lib64/vendor.qti.hardware.qseecom@1.0.so	same	124592	px_v:lib64/vendor.qti.hardware.qseecom@1.0.so	
+lib64/vendor.qti.hardware.qteeconnector@1.0.so	same	222096	px_v:lib64/vendor.qti.hardware.qteeconnector@1.0.so	
+lib64/vendor.qti.hardware.radio.am@1.0.so	same	123408	px_v:lib64/vendor.qti.hardware.radio.am@1.0.so	
+lib64/vendor.qti.hardware.radio.atcmdfwd@1.0.so	same	76696	px_v:lib64/vendor.qti.hardware.radio.atcmdfwd@1.0.so	
+lib64/vendor.qti.hardware.radio.ims@1.0.so	same	518600	px_v:lib64/vendor.qti.hardware.radio.ims@1.0.so	
+lib64/vendor.qti.hardware.radio.ims@1.1.so	same	284728	px_v:lib64/vendor.qti.hardware.radio.ims@1.1.so	
+lib64/vendor.qti.hardware.radio.ims@1.2.so	same	460832	px_v:lib64/vendor.qti.hardware.radio.ims@1.2.so	
+lib64/vendor.qti.hardware.radio.ims@1.3.so	same	486216	px_v:lib64/vendor.qti.hardware.radio.ims@1.3.so	
+lib64/vendor.qti.hardware.radio.ims@1.4.so	same	524864	px_v:lib64/vendor.qti.hardware.radio.ims@1.4.so	
+lib64/vendor.qti.hardware.radio.ims@1.5.so	same	567632	px_v:lib64/vendor.qti.hardware.radio.ims@1.5.so	
+lib64/vendor.qti.hardware.radio.ims@1.6.so	same	663712	px_v:lib64/vendor.qti.hardware.radio.ims@1.6.so	
+lib64/vendor.qti.hardware.radio.ims@1.7.so	same	660064	px_v:lib64/vendor.qti.hardware.radio.ims@1.7.so	
+lib64/vendor.qti.hardware.radio.internal.deviceinfo@1.0.so	same	177928	px_v:lib64/vendor.qti.hardware.radio.internal.deviceinfo@1.0.so	
+lib64/vendor.qti.hardware.radio.lpa@1.0.so	same	178488	px_v:lib64/vendor.qti.hardware.radio.lpa@1.0.so	
+lib64/vendor.qti.hardware.radio.lpa@1.1.so	same	137608	px_v:lib64/vendor.qti.hardware.radio.lpa@1.1.so	
+lib64/vendor.qti.hardware.radio.qcrilhook@1.0.so	same	164904	px_v:lib64/vendor.qti.hardware.radio.qcrilhook@1.0.so	
+lib64/vendor.qti.hardware.radio.qtiradio@1.0.so	same	156448	px_v:lib64/vendor.qti.hardware.radio.qtiradio@1.0.so	
+lib64/vendor.qti.hardware.radio.qtiradio@2.0.so	same	229088	px_v:lib64/vendor.qti.hardware.radio.qtiradio@2.0.so	
+lib64/vendor.qti.hardware.radio.qtiradio@2.1.so	same	245048	px_v:lib64/vendor.qti.hardware.radio.qtiradio@2.1.so	
+lib64/vendor.qti.hardware.radio.qtiradio@2.2.so	same	255928	px_v:lib64/vendor.qti.hardware.radio.qtiradio@2.2.so	
+lib64/vendor.qti.hardware.radio.qtiradio@2.3.so	same	226176	px_v:lib64/vendor.qti.hardware.radio.qtiradio@2.3.so	
+lib64/vendor.qti.hardware.radio.qtiradio@2.4.so	same	227744	px_v:lib64/vendor.qti.hardware.radio.qtiradio@2.4.so	
+lib64/vendor.qti.hardware.radio.uim@1.0.so	same	157920	px_v:lib64/vendor.qti.hardware.radio.uim@1.0.so	
+lib64/vendor.qti.hardware.radio.uim@1.1.so	same	133120	px_v:lib64/vendor.qti.hardware.radio.uim@1.1.so	
+lib64/vendor.qti.hardware.radio.uim@1.2.so	same	160392	px_v:lib64/vendor.qti.hardware.radio.uim@1.2.so	
+lib64/vendor.qti.hardware.radio.uim_remote_client@1.0.so	same	195808	px_v:lib64/vendor.qti.hardware.radio.uim_remote_client@1.0.so	
+lib64/vendor.qti.hardware.radio.uim_remote_client@1.1.so	same	95112	px_v:lib64/vendor.qti.hardware.radio.uim_remote_client@1.1.so	
+lib64/vendor.qti.hardware.radio.uim_remote_client@1.2.so	same	104272	px_v:lib64/vendor.qti.hardware.radio.uim_remote_client@1.2.so	
+lib64/vendor.qti.hardware.radio.uim_remote_server@1.0.so	same	218240	px_v:lib64/vendor.qti.hardware.radio.uim_remote_server@1.0.so	
+lib64/vendor.qti.hardware.sensorscalibrate@1.0.so	same	76632	px_v:lib64/vendor.qti.hardware.sensorscalibrate@1.0.so	
+lib64/vendor.qti.hardware.slmadapter@1.0.so	same	195816	px_v:lib64/vendor.qti.hardware.slmadapter@1.0.so	
+lib64/vendor.qti.hardware.soter@1.0.so	same	116704	px_v:lib64/vendor.qti.hardware.soter@1.0.so	
+lib64/vendor.qti.hardware.tui_comm@1.0.so	same	141896	px_v:lib64/vendor.qti.hardware.tui_comm@1.0.so	
+lib64/vendor.qti.hardware.vpp@1.1.so	same	178104	px_v:lib64/vendor.qti.hardware.vpp@1.1.so	
+lib64/vendor.qti.hardware.vpp@1.2.so	same	137376	px_v:lib64/vendor.qti.hardware.vpp@1.2.so	
+lib64/vendor.qti.hardware.vpp@1.3.so	same	159896	px_v:lib64/vendor.qti.hardware.vpp@1.3.so	
+lib64/vendor.qti.ims.callcapability@1.0.so	same	122568	px_v:lib64/vendor.qti.ims.callcapability@1.0.so	
+lib64/vendor.qti.ims.callinfo@1.0.so	same	114288	px_v:lib64/vendor.qti.ims.callinfo@1.0.so	
+lib64/vendor.qti.ims.factory@1.0.so	same	140480	px_v:lib64/vendor.qti.ims.factory@1.0.so	
+lib64/vendor.qti.ims.factory@1.1.so	same	145016	px_v:lib64/vendor.qti.ims.factory@1.1.so	
+lib64/vendor.qti.ims.rcsconfig@1.0.so	same	156304	px_v:lib64/vendor.qti.ims.rcsconfig@1.0.so	
+lib64/vendor.qti.ims.rcsconfig@1.1.so	same	178840	px_v:lib64/vendor.qti.ims.rcsconfig@1.1.so	
+lib64/vendor.qti.ims.rcsconfig@2.0.so	same	291920	px_v:lib64/vendor.qti.ims.rcsconfig@2.0.so	
+lib64/vendor.qti.ims.rcsconfig@2.1.so	same	146464	px_v:lib64/vendor.qti.ims.rcsconfig@2.1.so	
+lib64/vendor.qti.imsrtpservice@3.0-service-Impl.so	same	68840	px_v:lib64/vendor.qti.imsrtpservice@3.0-service-Impl.so	
+lib64/vendor.qti.imsrtpservice@3.0.so	same	267048	px_v:lib64/vendor.qti.imsrtpservice@3.0.so	
+lib64/vendor.qti.latency@2.0.so	same	116072	px_v:lib64/vendor.qti.latency@2.0.so	
+lib64/vendor.qti.latency@2.1.so	same	81224	px_v:lib64/vendor.qti.latency@2.1.so	
+lib64/vendor.qti.memory.pasrmanager@1.0.so	added	97976	hy_v:lib64/vendor.qti.memory.pasrmanager@1.0.so	also 2 more
+lib64/vendor.qti.memory.pasrmanager@1.1.so	added	111848	hy_v:lib64/vendor.qti.memory.pasrmanager@1.1.so	also 2 more
+lib64/vendor.xiaomi.hardware.mfidoca@1.0.so	added	89872	hy_v:lib64/vendor.xiaomi.hardware.mfidoca@1.0.so	also 2 more
+lib64/vendor.xiaomi.hardware.misys@1.0.so	added	85720	hy_v:lib64/vendor.xiaomi.hardware.misys@1.0.so	also 2 more
+lib64/vendor.xiaomi.hardware.misys@2.0.so	added	140488	hy_v:lib64/vendor.xiaomi.hardware.misys@2.0.so	also 2 more
+lib64/vendor.xiaomi.hardware.misys@3.0.so	added	149880	hy_v:lib64/vendor.xiaomi.hardware.misys@3.0.so	also 2 more
+lib64/vendor.xiaomi.hardware.misys@4.0.so	added	76680	hy_v:lib64/vendor.xiaomi.hardware.misys@4.0.so	also 2 more
+lib64/vendor.xiaomi.hardware.mlipay@1.0.so	added	89840	hy_v:lib64/vendor.xiaomi.hardware.mlipay@1.0.so	also 2 more
+lib64/vendor.xiaomi.hardware.mlipay@1.1.so	added	90768	hy_v:lib64/vendor.xiaomi.hardware.mlipay@1.1.so	also 2 more
+lib64/vendor.xiaomi.hardware.mtdservice@1.0.so	added	112080	hy_v:lib64/vendor.xiaomi.hardware.mtdservice@1.0.so	also 2 more
+lib64/vendor.xiaomi.hardware.mtdservice@1.1.so	added	108528	hy_v:lib64/vendor.xiaomi.hardware.mtdservice@1.1.so	also 2 more
+lib64/vendor.xiaomi.hardware.mtdservice@1.2.so	added	165936	hy_v:lib64/vendor.xiaomi.hardware.mtdservice@1.2.so	also 2 more
+lib64/vendor.xiaomi.hardware.mtdservice@1.3.so	added	149720	hy_v:lib64/vendor.xiaomi.hardware.mtdservice@1.3.so	also 2 more
+odm	same	0	px_v:odm	
+odm_dlkm/etc/build.prop	modified	1042	UNIQUE	px size 934
+radio/qcril_database/qcril.db	same	98304	px_v:radio/qcril_database/qcril.db	
+radio/qcril_database/upgrade/0_initial.sql	same	62251	px_v:radio/qcril_database/upgrade/0_initial.sql	
+radio/qcril_database/upgrade/10_version_update_ecc_table.sql	same	500	px_v:radio/qcril_database/upgrade/10_version_update_ecc_table.sql	
+radio/qcril_database/upgrade/1_version_intro.sql	same	691	px_v:radio/qcril_database/upgrade/1_version_intro.sql	
+radio/qcril_database/upgrade/2_version_add_wps_config.sql	same	480	px_v:radio/qcril_database/upgrade/2_version_add_wps_config.sql	
+radio/qcril_database/upgrade/3_version_update_wps_config.sql	same	355	px_v:radio/qcril_database/upgrade/3_version_update_wps_config.sql	
+radio/qcril_database/upgrade/4_version_update_ecc_table.sql	same	4942	px_v:radio/qcril_database/upgrade/4_version_update_ecc_table.sql	
+radio/qcril_database/upgrade/5_version_update_ecc_table.sql	same	14269	px_v:radio/qcril_database/upgrade/5_version_update_ecc_table.sql	
+radio/qcril_database/upgrade/6_version_update_ecc_table.sql	same	365	px_v:radio/qcril_database/upgrade/6_version_update_ecc_table.sql	
+radio/qcril_database/upgrade/7_version_update_ecc_table.sql	same	17160	px_v:radio/qcril_database/upgrade/7_version_update_ecc_table.sql	
+radio/qcril_database/upgrade/8_version_update_ecc_table.sql	same	4573	px_v:radio/qcril_database/upgrade/8_version_update_ecc_table.sql	
+radio/qcril_database/upgrade/9_version_update_ecc_table.sql	same	421	px_v:radio/qcril_database/upgrade/9_version_update_ecc_table.sql	
+rfs/apq/gnss/hlos	same	0	px_v:rfs/apq/gnss/hlos	
+rfs/apq/gnss/ramdumps	same	0	px_v:rfs/apq/gnss/ramdumps	
+rfs/apq/gnss/readonly/firmware	same	0	px_v:rfs/apq/gnss/readonly/firmware	
+rfs/apq/gnss/readonly/vendor/firmware	same	0	px_v:rfs/apq/gnss/readonly/vendor/firmware	
+rfs/apq/gnss/readwrite	same	0	px_v:rfs/apq/gnss/readwrite	
+rfs/apq/gnss/shared	same	0	px_v:rfs/apq/gnss/shared	
+rfs/mdm/adsp/hlos	same	0	px_v:rfs/mdm/adsp/hlos	
+rfs/mdm/adsp/ramdumps	same	0	px_v:rfs/mdm/adsp/ramdumps	
+rfs/mdm/adsp/readonly/firmware	same	0	px_v:rfs/mdm/adsp/readonly/firmware	
+rfs/mdm/adsp/readonly/vendor/firmware	same	0	px_v:rfs/mdm/adsp/readonly/vendor/firmware	
+rfs/mdm/adsp/readwrite	same	0	px_v:rfs/mdm/adsp/readwrite	
+rfs/mdm/adsp/shared	same	0	px_v:rfs/mdm/adsp/shared	
+rfs/mdm/cdsp/hlos	same	0	px_v:rfs/mdm/cdsp/hlos	
+rfs/mdm/cdsp/ramdumps	same	0	px_v:rfs/mdm/cdsp/ramdumps	
+rfs/mdm/cdsp/readonly/firmware	same	0	px_v:rfs/mdm/cdsp/readonly/firmware	
+rfs/mdm/cdsp/readonly/vendor/firmware	same	0	px_v:rfs/mdm/cdsp/readonly/vendor/firmware	
+rfs/mdm/cdsp/readwrite	same	0	px_v:rfs/mdm/cdsp/readwrite	
+rfs/mdm/cdsp/shared	same	0	px_v:rfs/mdm/cdsp/shared	
+rfs/mdm/mpss/hlos	same	0	px_v:rfs/mdm/mpss/hlos	
+rfs/mdm/mpss/ramdumps	same	0	px_v:rfs/mdm/mpss/ramdumps	
+rfs/mdm/mpss/readonly/firmware	same	0	px_v:rfs/mdm/mpss/readonly/firmware	
+rfs/mdm/mpss/readonly/vendor/firmware	same	0	px_v:rfs/mdm/mpss/readonly/vendor/firmware	
+rfs/mdm/mpss/readwrite	same	0	px_v:rfs/mdm/mpss/readwrite	
+rfs/mdm/mpss/shared	same	0	px_v:rfs/mdm/mpss/shared	
+rfs/mdm/ois/hlos	same	0	px_v:rfs/mdm/ois/hlos	
+rfs/mdm/ois/ramdumps	same	0	px_v:rfs/mdm/ois/ramdumps	
+rfs/mdm/ois/readonly/firmware	same	0	px_v:rfs/mdm/ois/readonly/firmware	
+rfs/mdm/ois/readonly/vendor/firmware	same	0	px_v:rfs/mdm/ois/readonly/vendor/firmware	
+rfs/mdm/ois/readwrite	same	0	px_v:rfs/mdm/ois/readwrite	
+rfs/mdm/ois/shared	same	0	px_v:rfs/mdm/ois/shared	
+rfs/mdm/slpi/hlos	same	0	px_v:rfs/mdm/slpi/hlos	
+rfs/mdm/slpi/ramdumps	same	0	px_v:rfs/mdm/slpi/ramdumps	
+rfs/mdm/slpi/readonly/firmware	same	0	px_v:rfs/mdm/slpi/readonly/firmware	
+rfs/mdm/slpi/readonly/vendor/firmware	same	0	px_v:rfs/mdm/slpi/readonly/vendor/firmware	
+rfs/mdm/slpi/readwrite	same	0	px_v:rfs/mdm/slpi/readwrite	
+rfs/mdm/slpi/shared	same	0	px_v:rfs/mdm/slpi/shared	
+rfs/mdm/tn/hlos	same	0	px_v:rfs/mdm/tn/hlos	
+rfs/mdm/tn/ramdumps	same	0	px_v:rfs/mdm/tn/ramdumps	
+rfs/mdm/tn/readonly/firmware	same	0	px_v:rfs/mdm/tn/readonly/firmware	
+rfs/mdm/tn/readonly/vendor/firmware	same	0	px_v:rfs/mdm/tn/readonly/vendor/firmware	
+rfs/mdm/tn/readwrite	same	0	px_v:rfs/mdm/tn/readwrite	
+rfs/mdm/tn/shared	same	0	px_v:rfs/mdm/tn/shared	
+rfs/mdm/wpss/hlos	same	0	px_v:rfs/mdm/wpss/hlos	
+rfs/mdm/wpss/ramdumps	same	0	px_v:rfs/mdm/wpss/ramdumps	
+rfs/mdm/wpss/readonly/firmware	same	0	px_v:rfs/mdm/wpss/readonly/firmware	
+rfs/mdm/wpss/readonly/vendor/firmware	same	0	px_v:rfs/mdm/wpss/readonly/vendor/firmware	
+rfs/mdm/wpss/readwrite	same	0	px_v:rfs/mdm/wpss/readwrite	
+rfs/mdm/wpss/shared	same	0	px_v:rfs/mdm/wpss/shared	
+rfs/msm/adsp/hlos	same	0	px_v:rfs/msm/adsp/hlos	
+rfs/msm/adsp/ramdumps	same	0	px_v:rfs/msm/adsp/ramdumps	
+rfs/msm/adsp/readonly/firmware	same	0	px_v:rfs/msm/adsp/readonly/firmware	
+rfs/msm/adsp/readonly/vendor/firmware	same	0	px_v:rfs/msm/adsp/readonly/vendor/firmware	
+rfs/msm/adsp/readwrite	same	0	px_v:rfs/msm/adsp/readwrite	
+rfs/msm/adsp/shared	same	0	px_v:rfs/msm/adsp/shared	
+rfs/msm/cdsp/hlos	same	0	px_v:rfs/msm/cdsp/hlos	
+rfs/msm/cdsp/ramdumps	same	0	px_v:rfs/msm/cdsp/ramdumps	
+rfs/msm/cdsp/readonly/firmware	same	0	px_v:rfs/msm/cdsp/readonly/firmware	
+rfs/msm/cdsp/readonly/vendor/firmware	same	0	px_v:rfs/msm/cdsp/readonly/vendor/firmware	
+rfs/msm/cdsp/readwrite	same	0	px_v:rfs/msm/cdsp/readwrite	
+rfs/msm/cdsp/shared	same	0	px_v:rfs/msm/cdsp/shared	
+rfs/msm/mpss/hlos	same	0	px_v:rfs/msm/mpss/hlos	
+rfs/msm/mpss/ramdumps	same	0	px_v:rfs/msm/mpss/ramdumps	
+rfs/msm/mpss/readonly/firmware	same	0	px_v:rfs/msm/mpss/readonly/firmware	
+rfs/msm/mpss/readonly/vendor/firmware	same	0	px_v:rfs/msm/mpss/readonly/vendor/firmware	
+rfs/msm/mpss/readwrite	same	0	px_v:rfs/msm/mpss/readwrite	
+rfs/msm/mpss/shared	same	0	px_v:rfs/msm/mpss/shared	
+rfs/msm/ois/hlos	same	0	px_v:rfs/msm/ois/hlos	
+rfs/msm/ois/ramdumps	same	0	px_v:rfs/msm/ois/ramdumps	
+rfs/msm/ois/readonly/firmware	same	0	px_v:rfs/msm/ois/readonly/firmware	
+rfs/msm/ois/readonly/vendor/firmware	same	0	px_v:rfs/msm/ois/readonly/vendor/firmware	
+rfs/msm/ois/readwrite	same	0	px_v:rfs/msm/ois/readwrite	
+rfs/msm/ois/shared	same	0	px_v:rfs/msm/ois/shared	
+rfs/msm/slpi/hlos	same	0	px_v:rfs/msm/slpi/hlos	
+rfs/msm/slpi/ramdumps	same	0	px_v:rfs/msm/slpi/ramdumps	
+rfs/msm/slpi/readonly/firmware	same	0	px_v:rfs/msm/slpi/readonly/firmware	
+rfs/msm/slpi/readonly/vendor/firmware	same	0	px_v:rfs/msm/slpi/readonly/vendor/firmware	
+rfs/msm/slpi/readwrite	same	0	px_v:rfs/msm/slpi/readwrite	
+rfs/msm/slpi/shared	same	0	px_v:rfs/msm/slpi/shared	
+rfs/msm/wpss/hlos	same	0	px_v:rfs/msm/wpss/hlos	
+rfs/msm/wpss/ramdumps	same	0	px_v:rfs/msm/wpss/ramdumps	
+rfs/msm/wpss/readonly/firmware	same	0	px_v:rfs/msm/wpss/readonly/firmware	
+rfs/msm/wpss/readonly/vendor/firmware	same	0	px_v:rfs/msm/wpss/readonly/vendor/firmware	
+rfs/msm/wpss/readwrite	same	0	px_v:rfs/msm/wpss/readwrite	
+rfs/msm/wpss/shared	same	0	px_v:rfs/msm/wpss/shared	
+usr/idc/NVTCapacitivePen.idc	added	252	UNIQUE	no px counterpart
+usr/idc/Xiaomi_Consumer.idc	added	41	UNIQUE	no px counterpart
+usr/idc/Xiaomi_Keyboard.idc	modified	97	UNIQUE	px size 828
+usr/idc/uinput-fortsense.idc	same	107	px_v:usr/idc/uinput-fortsense.idc	
+usr/idc/uinput-fpc.idc	same	101	px_v:usr/idc/uinput-fpc.idc	
+usr/idc/uinput-goodix.idc	same	104	px_v:usr/idc/uinput-goodix.idc	
+usr/keylayout/Xiaomi_Smart_Pen_Keyboard.kl	modified	66	UNIQUE	px size 128
+usr/keylayout/kona-mtp-snd-card_Button_Jack.kl	same	67	px_v:usr/keylayout/kona-mtp-snd-card_Button_Jack.kl	
+usr/keylayout/uinput-fortsense.kl	same	91	px_v:usr/keylayout/uinput-fortsense.kl	
+usr/keylayout/uinput-fpc.kl	same	304	px_v:usr/keylayout/uinput-fpc.kl	
+usr/keylayout/uinput-goodix.kl	same	217	px_v:usr/keylayout/uinput-goodix.kl	
+vendor_dlkm/etc/build.prop	modified	1103	UNIQUE	px size 985
+etc/media_codecs_c2_dolby_audio.xml	removed	1614	-	
+lib/libsqlite.so	removed	1029168	-	
+lib/libstagefright_foundation-v33.so	removed	154024	-	
+lib/libstagefright_softomx.so	removed	73352	-	
+lib64/android.hardware.graphics.bufferqueue@1.0.so	removed	253416	-	
+lib64/android.hardware.graphics.bufferqueue@2.0.so	removed	224008	-	
+lib64/android.hardware.media.bufferpool2-V2-ndk.so	removed	90088	-	
+lib64/android.hardware.media.bufferpool@2.0.so	removed	227608	-	
+lib64/android.hardware.media.c2@1.0.so	removed	626816	-	
+lib64/android.hardware.media.omx@1.0.so	removed	494072	-	
+lib64/android.hardware.media@1.0.so	removed	10752	-	
+lib64/android.hidl.token@1.0-utils.so	removed	19136	-	
+lib64/android.hidl.token@1.0.so	removed	94432	-	
+lib64/libcodec2.so	removed	10656	-	
+lib64/libcodec2_vndk.so	removed	827968	-	
+lib64/libsfplugin_ccodec_utils.so	removed	706568	-	
+lib64/libstagefright_aidl_bufferpool2.so	removed	168944	-	
+lib64/libstagefright_bufferpool@2.0.1.so	removed	202784	-	
+lib64/libstagefright_bufferqueue_helper.so	removed	335632	-	
+lib64/libstagefright_foundation-v33.so	removed	207488	-	
+overlay/ApertureOverlayDevice.apk	removed	8351	-	
+overlay/CarrierConfigOverlayCommon.apk	removed	69855	-	
+overlay/FrameworkResOverlayCommon.apk	removed	12447	-	
+overlay/FrameworkResOverlayDevice.apk	removed	16614	-	
+overlay/LineageSDKOverlayCommon.apk	removed	8351	-	
+overlay/LineageSettingsOverlayCommon.apk	removed	8351	-	
+overlay/LineageSettingsOverlayDevice.apk	removed	8351	-	
+overlay/LineageSystemUIOverlayDevice.apk	removed	8351	-	
+overlay/NcmTetheringOverlay.apk	removed	8351	-	
+overlay/SettingsOverlayCommon.apk	removed	8351	-	
+overlay/SettingsProviderOverlayCommon.apk	removed	8351	-	
+overlay/SettingsProviderOverlayDevice.apk	removed	8351	-	
+overlay/SystemUIOverlayCommon.apk	removed	8351	-	
+overlay/SystemUIOverlayDevice.apk	removed	8351	-	
+overlay/TelephonyOverlayCommon.apk	removed	8351	-	
+overlay/WifiResourcesOverlayCommon.apk	removed	8351	-	

@@ -21,6 +21,8 @@ Read in this order:
    `maintainer/bugs/*.md`.
 5. [KNOWN-ISSUES.md](KNOWN-ISSUES.md), [TESTING.md](TESTING.md), [REBASE.md](REBASE.md), [KERNEL.md](KERNEL.md).
 6. [PORTING-GUIDE.md](PORTING-GUIDE.md): how the port is made, as a handoff for a port to another device.
+   [HANDOFF-FROM-ZERO.md](HANDOFF-FROM-ZERO.md): the step-by-step runbook to rebuild the setup on a new PC (Part A)
+   and to make the beta4 base from stock sources (Part B).
 
 | Path | Content |
 |---|---|

@@ -1,0 +1,134 @@
+path	status	size	source	note
+bin/commcenterd	added	94864	UNIQUE	no px counterpart
+bin/hw/subsys_daemon	added	165208	UNIQUE	no px counterpart
+bin/init.subsys.sh	added	2848	c06o:bin/init.subsys.sh	
+etc/NOTICE.xml.gz	modified	4756	UNIQUE	px size 4773
+etc/build.prop	modified	1483	UNIQUE	px size 1436
+etc/fs_config_dirs	same	0	px_o:etc/fs_config_dirs	
+etc/fs_config_files	same	0	px_o:etc/fs_config_files	
+etc/gps_modem.cfg	added	3825	c06o:etc/gps_modem.cfg	
+etc/group	same	0	px_o:etc/group	
+etc/init.oplus.mm-sys.sh	added	8873	UNIQUE	no px counterpart
+etc/init/commcenterd.rc	added	95	c06o:etc/init/commcenterd.rc	
+etc/init/subsys_daemon.rc	added	3446	UNIQUE	no px counterpart
+etc/init/virtual_daemon.rc	added	481	UNIQUE	no px counterpart
+etc/modem_custom.cfg	added	3859	UNIQUE	no px counterpart
+etc/modem_data.cfg	added	4139	UNIQUE	no px counterpart
+etc/modem_data_pb.cfg	added	2432	c06o:etc/modem_data_pb.cfg	
+etc/modem_reg_pb.cfg	added	2604	UNIQUE	no px counterpart
+etc/modem_rf.cfg	added	3231	UNIQUE	no px counterpart
+etc/modem_simcard.cfg	added	3311	UNIQUE	no px counterpart
+etc/modem_voice.cfg	added	4139	UNIQUE	no px counterpart
+etc/passwd	same	0	px_o:etc/passwd	
+etc/permissions/android.hardware.telephony.ims.xml	added	162	UNIQUE	no px counterpart
+etc/selinux/odm_file_contexts	same	0	px_o:etc/selinux/odm_file_contexts	
+etc/selinux/odm_hwservice_contexts	same	0	px_o:etc/selinux/odm_hwservice_contexts	
+etc/selinux/odm_mac_permissions.xml	same	101	px_o:etc/selinux/odm_mac_permissions.xml	
+etc/selinux/odm_property_contexts	same	164	px_o:etc/selinux/odm_property_contexts	
+etc/selinux/odm_seapp_contexts	same	0	px_o:etc/selinux/odm_seapp_contexts	
+etc/selinux/odm_sepolicy.cil	same	1	px_o:etc/selinux/odm_sepolicy.cil	
+etc/selinux/odm_service_contexts	modified	1982	UNIQUE	px size 0
+etc/selinux/precompiled_sepolicy	modified	1630613	UNIQUE	px size 1656965
+etc/selinux/precompiled_sepolicy.plat_sepolicy_and_mapping.sha256	modified	65	UNIQUE	px size 65
+etc/selinux/precompiled_sepolicy.product_sepolicy_and_mapping.sha256	modified	65	UNIQUE	px size 65
+etc/selinux/precompiled_sepolicy.system_ext_sepolicy_and_mapping.sha256	modified	65	UNIQUE	px size 65
+etc/vintf/manifest/device_manifest_communication_center_aidl.xml	added	229	c06o:etc/vintf/manifest/device_manifest_communication_center_aidl.xml	
+etc/vintf/manifest/device_manifest_subsys.xml	added	1747	c06o:etc/vintf/manifest/device_manifest_subsys.xml	
+etc/vintf/manifest/network_manifest.xml	added	2625	UNIQUE	no px counterpart
+etc/vintf/network_manifest_dsds.xml	added	2421	UNIQUE	no px counterpart
+etc/vintf/network_manifest_ssss.xml	added	2332	UNIQUE	no px counterpart
+etc/vintf/telephony_manifest_dsds.xml	added	2421	UNIQUE	no px counterpart
+etc/vintf/telephony_manifest_ssss.xml	added	2332	UNIQUE	no px counterpart
+lib/android.hardware.radio@1.0.so	added	1363040	UNIQUE	no px counterpart
+lib/android.hardware.radio@1.1.so	added	934180	UNIQUE	no px counterpart
+lib/android.hardware.radio@1.2.so	added	1046816	UNIQUE	no px counterpart
+lib/android.hardware.radio@1.3.so	added	961140	UNIQUE	no px counterpart
+lib/android.hardware.radio@1.4.so	added	1119772	UNIQUE	no px counterpart
+lib/android.hardware.radio@1.5.so	added	1291132	UNIQUE	no px counterpart
+lib/android.hardware.radio@1.6.so	added	1511820	UNIQUE	no px counterpart
+lib/lib-virtual-modem-protos.so	added	662200	UNIQUE	no px counterpart
+lib/libcommcenterfw.so	added	49144	UNIQUE	no px counterpart
+lib/libcommcenterutils.so	added	10380	UNIQUE	no px counterpart
+lib/libdmtp-protos-lite.so	added	25192	UNIQUE	no px counterpart
+lib/libdmtp.so	added	105792	UNIQUE	no px counterpart
+lib/libdmtpclient.so	added	88236	UNIQUE	no px counterpart
+lib/libprotobuf-cpp-full-21.7.so	added	1651068	UNIQUE	no px counterpart
+lib/libprotobuf-cpp-lite-21.7.so	added	416336	UNIQUE	no px counterpart
+lib/vendor.oplus.hardware.appradio@1.0.so	added	143876	UNIQUE	no px counterpart
+lib/vendor.oplus.hardware.communicationcenter-V1-ndk.so	added	83984	UNIQUE	no px counterpart
+lib/vendor.oplus.hardware.communicationcenter-V2-ndk.so	added	93044	UNIQUE	no px counterpart
+lib/vendor.oplus.hardware.radio@1.0.so	added	436268	UNIQUE	no px counterpart
+lib/vendor.oplus.hardware.subsys-V5-ndk.so	added	122840	UNIQUE	no px counterpart
+lib/vendor.oplus.hardware.subsys_radio-V8-ndk.so	added	782196	UNIQUE	no px counterpart
+lib64/android.hardware.radio@1.0.so	added	1939216	UNIQUE	no px counterpart
+lib64/android.hardware.radio@1.1.so	added	1360000	UNIQUE	no px counterpart
+lib64/android.hardware.radio@1.2.so	added	1493824	UNIQUE	no px counterpart
+lib64/android.hardware.radio@1.3.so	added	1389112	UNIQUE	no px counterpart
+lib64/android.hardware.radio@1.4.so	added	1607632	UNIQUE	no px counterpart
+lib64/android.hardware.radio@1.5.so	added	1862584	UNIQUE	no px counterpart
+lib64/android.hardware.radio@1.6.so	added	2185232	UNIQUE	no px counterpart
+lib64/lib-virtual-modem-api.so	added	501232	UNIQUE	no px counterpart
+lib64/lib-virtual-modem-protos.so	added	944192	UNIQUE	no px counterpart
+lib64/lib-virtual-modem-qti-ims.so	added	340624	UNIQUE	no px counterpart
+lib64/lib-virtual-modem-radio.so	added	415680	UNIQUE	no px counterpart
+lib64/libcommcenterfw.so	added	70600	UNIQUE	no px counterpart
+lib64/libcommcenterutils.so	added	14896	UNIQUE	no px counterpart
+lib64/libdmtp-protos-lite.so	added	36832	UNIQUE	no px counterpart
+lib64/libdmtp.so	added	149360	UNIQUE	no px counterpart
+lib64/libdmtpclient.so	added	130256	UNIQUE	no px counterpart
+lib64/libmindroid-app.so	added	15896	UNIQUE	no px counterpart
+lib64/libmindroid-framework.so	added	1633280	UNIQUE	no px counterpart
+lib64/libprotobuf-cpp-full-21.7.so	added	2397656	UNIQUE	no px counterpart
+lib64/libprotobuf-cpp-lite-21.7.so	added	601488	UNIQUE	no px counterpart
+lib64/libqti-radio-service.so	added	1650864	UNIQUE	no px counterpart
+lib64/libqti-subsys-service.so	added	335248	UNIQUE	no px counterpart
+lib64/libradio-service.so	added	1948200	UNIQUE	no px counterpart
+lib64/libradioapis.so	added	666704	UNIQUE	no px counterpart
+lib64/libsubsys-service.so	added	386216	UNIQUE	no px counterpart
+lib64/libsubsys-utils.so	added	20160	UNIQUE	no px counterpart
+lib64/libvasapi.so	added	52144	c06o:lib64/libvasapi.so	
+lib64/vendor.oplus.hardware.appradio@1.0.so	added	210760	UNIQUE	no px counterpart
+lib64/vendor.oplus.hardware.communicationcenter-V1-ndk.so	added	122776	UNIQUE	no px counterpart
+lib64/vendor.oplus.hardware.communicationcenter-V2-ndk.so	added	127160	UNIQUE	no px counterpart
+lib64/vendor.oplus.hardware.ims@1.0.so	added	171816	UNIQUE	no px counterpart
+lib64/vendor.oplus.hardware.radio@1.0.so	added	641120	UNIQUE	no px counterpart
+lib64/vendor.oplus.hardware.subsys-V5-ndk.so	added	187640	UNIQUE	no px counterpart
+lib64/vendor.oplus.hardware.subsys_radio-V8-ndk.so	added	1168064	UNIQUE	no px counterpart
+bin/hw/vendor.dolby_sp.hardware.dmssp@2.0-service	removed	11288	-	
+bin/hw/vendor.dolby_sp.media.c2@1.0-service	removed	132137	-	
+bin/hw/vendor.dolby_v3_6.hardware.dms360@2.0-service	removed	11752	-	
+etc/dolby/multimedia_dolby_dax_default.xml	removed	218491	-	
+etc/init/vendor.dolby.media.c2@1.0-service.rc	removed	214	-	
+etc/init/vendor.dolby_sp.hardware.dmssp@2.0-service.rc	removed	191	-	
+etc/init/vendor.dolby_v3_6.hardware.dms360@2.0-service.rc	removed	195	-	
+etc/vintf/manifest.xml	removed	307	-	
+etc/vintf/manifest/manifest_dax_dolby_v3_6.xml	removed	324	-	
+etc/vintf/manifest/vendor.dolby.hardware.dms.xml	removed	321	-	
+lib/libdapparamstorage_v3_6.so	removed	16436	-	
+lib/libdeccfg_v3_6.so	removed	36476	-	
+lib/libdlbdsservice_v3_6.so	removed	398325	-	
+lib/libstagefright_soft_ddpdec.so	removed	2698005	-	
+lib/soundfx/libhwdap_v3_6.so	removed	72708	-	
+lib/soundfx/libswdap_v3_6.so	removed	1865692	-	
+lib/vendor.dolby_v3_6.hardware.dms360@2.0.so	removed	189420	-	
+lib64/dolbycodec_shim.so	removed	10672	-	
+lib64/libbase_WriteStringToFd_shim.so	removed	10680	-	
+lib64/libcodec2_hidl@1.0_sp.so	removed	996297	-	
+lib64/libcodec2_hidl_plugin_sp.so	removed	345929	-	
+lib64/libcodec2_soft_ac4dec_sp.so	removed	3144361	-	
+lib64/libcodec2_soft_common_sp.so	removed	343049	-	
+lib64/libcodec2_soft_ddpdec_sp.so	removed	3128337	-	
+lib64/libcodec2_store_dolby_sp.so	removed	80897	-	
+lib64/libcodec2_vndk_sp.so	removed	1389521	-	
+lib64/libdapparamstorage_sp.so	removed	23992	-	
+lib64/libdapparamstorage_v3_6.so	removed	24600	-	
+lib64/libdeccfg_sp.so	removed	59176	-	
+lib64/libdeccfg_v3_6.so	removed	55632	-	
+lib64/libdlbdsservice_sp.so	removed	543601	-	
+lib64/libdlbdsservice_v3_6.so	removed	545481	-	
+lib64/libui_sp.so	removed	490545	-	
+lib64/vendor.dolby_sp.hardware.dmssp@2.0-impl.so	removed	46968	-	
+lib64/vendor.dolby_sp.hardware.dmssp@2.0.so	removed	261976	-	
+lib64/vendor.dolby_v3_6.hardware.dms360@2.0-impl.so	removed	43688	-	
+lib64/vendor.dolby_v3_6.hardware.dms360@2.0.so	removed	264184	-	
+overlay/OplusDolbyResCommon.apk	removed	12447	-	

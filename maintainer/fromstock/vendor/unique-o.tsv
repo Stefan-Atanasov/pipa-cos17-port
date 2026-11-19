@@ -1,0 +1,79 @@
+path	status	size	kind	counterpart	detail
+bin/commcenterd	added	94864	binary	c06(other base)	size 94864 vs 103960
+bin/hw/subsys_daemon	added	165208	binary	c06(other base)	size 165208 vs 205224
+etc/NOTICE.xml.gz	modified	4756	binary	px	size 4756 vs 4773
+etc/build.prop	modified	1483	text	px	diff +15 -15 (raw bytes, apply: patch --binary)
+etc/init.oplus.mm-sys.sh	added	8873	text	c06(other base)	diff +210 -157 (raw bytes, apply: patch --binary)
+etc/init/subsys_daemon.rc	added	3446	text	c06(other base)	diff +37 -35 (raw bytes, apply: patch --binary)
+etc/init/virtual_daemon.rc	added	481	text	c06(other base)	diff +2 -2 (raw bytes, apply: patch --binary)
+etc/modem_custom.cfg	added	3859	binary	c06(other base)	size 3859 vs 4102
+etc/modem_data.cfg	added	4139	binary	c06(other base)	size 4139 vs 4378
+etc/modem_reg_pb.cfg	added	2604	binary	c06(other base)	size 2604 vs 2645
+etc/modem_rf.cfg	added	3231	binary	c06(other base)	size 3231 vs 3247
+etc/modem_simcard.cfg	added	3311	binary	c06(other base)	size 3311 vs 3440
+etc/modem_voice.cfg	added	4139	binary	c06(other base)	size 4139 vs 4378
+etc/permissions/android.hardware.telephony.ims.xml	added	162	text	c06(other base)	diff +2 -17 (raw bytes, apply: patch --binary)
+etc/selinux/odm_service_contexts	modified	1982	text	px	diff +19 -0 (raw bytes, apply: patch --binary)
+etc/selinux/precompiled_sepolicy	modified	1630613	binary	px	size 1630613 vs 1656965
+etc/selinux/precompiled_sepolicy.plat_sepolicy_and_mapping.sha256	modified	65	text	px	diff +1 -1 (raw bytes, apply: patch --binary)
+etc/selinux/precompiled_sepolicy.product_sepolicy_and_mapping.sha256	modified	65	text	px	diff +1 -1 (raw bytes, apply: patch --binary)
+etc/selinux/precompiled_sepolicy.system_ext_sepolicy_and_mapping.sha256	modified	65	text	px	diff +1 -1 (raw bytes, apply: patch --binary)
+etc/vintf/manifest/network_manifest.xml	added	2625	text	-	new file -> patches/*.new
+etc/vintf/network_manifest_dsds.xml	added	2421	text	c06(other base)	diff +18 -45 (raw bytes, apply: patch --binary)
+etc/vintf/network_manifest_ssss.xml	added	2332	text	c06(other base)	diff +16 -38 (raw bytes, apply: patch --binary)
+etc/vintf/telephony_manifest_dsds.xml	added	2421	text	c06(other base)	diff +18 -45 (raw bytes, apply: patch --binary)
+etc/vintf/telephony_manifest_ssss.xml	added	2332	text	c06(other base)	diff +16 -38 (raw bytes, apply: patch --binary)
+lib/android.hardware.radio@1.0.so	added	1363040	binary	c06v(other base)	size 1363040 vs 1354228
+lib/android.hardware.radio@1.1.so	added	934180	binary	c06v(other base)	size 934180 vs 930128
+lib/android.hardware.radio@1.2.so	added	1046816	binary	-	
+lib/android.hardware.radio@1.3.so	added	961140	binary	-	
+lib/android.hardware.radio@1.4.so	added	1119772	binary	-	
+lib/android.hardware.radio@1.5.so	added	1291132	binary	-	
+lib/android.hardware.radio@1.6.so	added	1511820	binary	-	
+lib/lib-virtual-modem-protos.so	added	662200	binary	c06(other base)	size 662200 vs 664520
+lib/libcommcenterfw.so	added	49144	binary	c06(other base)	size 49144 vs 35920
+lib/libcommcenterutils.so	added	10380	binary	c06(other base)	size 10380 vs 10480
+lib/libdmtp-protos-lite.so	added	25192	binary	c06(other base)	size 25192 vs 25236
+lib/libdmtp.so	added	105792	binary	c06(other base)	size 105792 vs 79168
+lib/libdmtpclient.so	added	88236	binary	c06(other base)	size 88236 vs 66392
+lib/libprotobuf-cpp-full-21.7.so	added	1651068	binary	-	
+lib/libprotobuf-cpp-lite-21.7.so	added	416336	binary	-	
+lib/vendor.oplus.hardware.appradio@1.0.so	added	143876	binary	c06(other base)	size 143876 vs 145080
+lib/vendor.oplus.hardware.communicationcenter-V1-ndk.so	added	83984	binary	c06(other base)	size 83984 vs 77404
+lib/vendor.oplus.hardware.communicationcenter-V2-ndk.so	added	93044	binary	c06(other base)	size 93044 vs 81836
+lib/vendor.oplus.hardware.radio@1.0.so	added	436268	binary	c06(other base)	size 436268 vs 435720
+lib/vendor.oplus.hardware.subsys-V5-ndk.so	added	122840	binary	c06(other base)	size 122840 vs 117616
+lib/vendor.oplus.hardware.subsys_radio-V8-ndk.so	added	782196	binary	-	
+lib64/android.hardware.radio@1.0.so	added	1939216	binary	c06v(other base)	size 1939216 vs 1935768
+lib64/android.hardware.radio@1.1.so	added	1360000	binary	c06v(other base)	size 1360000 vs 1351608
+lib64/android.hardware.radio@1.2.so	added	1493824	binary	-	
+lib64/android.hardware.radio@1.3.so	added	1389112	binary	-	
+lib64/android.hardware.radio@1.4.so	added	1607632	binary	-	
+lib64/android.hardware.radio@1.5.so	added	1862584	binary	-	
+lib64/android.hardware.radio@1.6.so	added	2185232	binary	-	
+lib64/lib-virtual-modem-api.so	added	501232	binary	c06(other base)	size 501232 vs 520000
+lib64/lib-virtual-modem-protos.so	added	944192	binary	c06(other base)	size 944192 vs 961656
+lib64/lib-virtual-modem-qti-ims.so	added	340624	binary	-	
+lib64/lib-virtual-modem-radio.so	added	415680	binary	-	
+lib64/libcommcenterfw.so	added	70600	binary	c06(other base)	size 70600 vs 85536
+lib64/libcommcenterutils.so	added	14896	binary	c06(other base)	size 14896 vs 35536
+lib64/libdmtp-protos-lite.so	added	36832	binary	c06(other base)	size 36832 vs 52264
+lib64/libdmtp.so	added	149360	binary	c06(other base)	size 149360 vs 135128
+lib64/libdmtpclient.so	added	130256	binary	c06(other base)	size 130256 vs 119440
+lib64/libmindroid-app.so	added	15896	binary	c06(other base)	size 15896 vs 51888
+lib64/libmindroid-framework.so	added	1633280	binary	c06(other base)	size 1633280 vs 1465208
+lib64/libprotobuf-cpp-full-21.7.so	added	2397656	binary	-	
+lib64/libprotobuf-cpp-lite-21.7.so	added	601488	binary	-	
+lib64/libqti-radio-service.so	added	1650864	binary	c06(other base)	size 1650864 vs 3801936
+lib64/libqti-subsys-service.so	added	335248	binary	-	
+lib64/libradio-service.so	added	1948200	binary	-	
+lib64/libradioapis.so	added	666704	binary	c06(other base)	size 666704 vs 715808
+lib64/libsubsys-service.so	added	386216	binary	-	
+lib64/libsubsys-utils.so	added	20160	binary	c06(other base)	size 20160 vs 52176
+lib64/vendor.oplus.hardware.appradio@1.0.so	added	210760	binary	c06(other base)	size 210760 vs 235600
+lib64/vendor.oplus.hardware.communicationcenter-V1-ndk.so	added	122776	binary	c06(other base)	size 122776 vs 135472
+lib64/vendor.oplus.hardware.communicationcenter-V2-ndk.so	added	127160	binary	c06(other base)	size 127160 vs 135536
+lib64/vendor.oplus.hardware.ims@1.0.so	added	171816	binary	c06(other base)	size 171816 vs 185632
+lib64/vendor.oplus.hardware.radio@1.0.so	added	641120	binary	c06(other base)	size 641120 vs 640032
+lib64/vendor.oplus.hardware.subsys-V5-ndk.so	added	187640	binary	c06(other base)	size 187640 vs 201024
+lib64/vendor.oplus.hardware.subsys_radio-V8-ndk.so	added	1168064	binary	-	

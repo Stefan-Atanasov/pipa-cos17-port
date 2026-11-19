@@ -20,7 +20,7 @@ step 3w). The current release v9 (2026-11-19) is a default run up to step 7x.
 |---|---|
 | `port.sh` | The runner. |
 | `lib.sh` | Helper functions for the steps (`replace_once`, `need_grep`, `set_layer`, `fingerprint`, ...). |
-| `steps/NN-<step>-<name>.sh` | One file for each step (00-base to 51-3x). 52 files. Steps 00-37 match the old layer scripts; 38-3k and later are new steps. Steps 2u, 3k and 3x are optional. `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
+| `steps/NN-<step>-<name>.sh` | One file for each step (`00-base` to `99-7x-live-blur-tile`). 144 files (2026-11-19). Steps 00-37 match the old layer scripts; later steps are new. The runner sorts them by the file name. Steps 2u, 3k, 3x and 5s are optional (off by default). `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
 | `NOTES-refactor.md` | What is not 1:1, every difference, every assumption. |
 
 The old scripts (`build_port.sh`, `build_beta5*.sh`) stay unchanged.

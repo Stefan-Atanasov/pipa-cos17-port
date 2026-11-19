@@ -49,6 +49,7 @@ The scripts expect this layout below one root folder (`PIPA_ROOT`):
 | `port-work/` | Build output (about 30 GB for each run). `port.sh` makes this folder. |
 | `port-work/donor-c06-vendor/` | The C.06 `vendor.img` and `odm.img` (section 1.3). |
 | `tools/smali/`, `tools/apktool/` | smali, baksmali and apktool jars. |
+| `port-inputs/apps-5u/`, `port-inputs/dolby-5z/` | Google apps (step 5u) and stock `libhwdap` files (step 5z). |
 
 ### 1.3 Inputs
 
@@ -62,7 +63,7 @@ Get these inputs. They are not in this repository.
 | SukiSU Nova manager `SukiSU_Nova_v3.0.0_35000-arm64-v8a-release.apk` (step 7u, release package) | `COS17/kernel/sukisu-nova-3.0.0/` | sha256 `1202adb835a64d8b3df703da7884a2966f8728c131cffb29fb5f48d31d81ac85` |
 | SukiSU-Ultra manager `SukiSU_v4.3.0_41100-release.apk` (older kernels walt-r8 to r16) | `COS17/kernel/sukisu-v4.3.0/` | md5 `4dc76f1eae7bd2e6d975261d9d08baf6` |
 | SukiSU-Ultra manager `SukiSU_v4.2.1-r1_41049-release.apk` (only for the optional step 2u, `PORT_WITH_2U=1`) | `COS17/kernel/sukisu-v4.2.1-r1/` | md5 `3d7698ff8f58824d1718594366f5876b` |
-| Google apps for step 5u (Play Store, Gboard, Google app: base APK and splits, from Google Play) | `COS17/port-inputs/apps-5u/<package>/` (about 500 MB, not in git) | `SHA256SUMS` in the folder; a file `version` (versionCode) in each package folder |
+| Google apps for step 5u (Play Store, Gboard, Google app, Gemini: base APK and splits, from Google Play) | `port-inputs/apps-5u/<package>/` (next to `COS17/`; about 500 MB, not in git) | `SHA256SUMS` in the folder; a file `version` (versionCode) in each package folder |
 | Proprietary files (face HAL, charger shim, pen-wake helper, patched module files, boot animations) | their paths in this repository | [BLOBS.md](BLOBS.md) |
 
 Prepare them in this sequence:
@@ -119,7 +120,7 @@ sh maintainer/cryptoeng/build.sh    # maintainer/cryptoeng/cryptoeng.jar (step 3
    a helper update that the ROM accepts.
 
    Refresh the folder `port-inputs/apps-5u` (step 5u) when you want newer Google apps:
-   1. On the tablet, install or update Play Store, Gboard and the Google app from Google Play.
+   1. On the tablet, install or update Play Store, Gboard, the Google app and Gemini from Google Play.
    2. For each package, get the files with `adb shell pm path <package>`. Pull each file with `adb pull` into
       `port-inputs/apps-5u/<package>/` (the base APK and all splits).
    3. Write the versionCode of the package in the file `version` in the same folder.

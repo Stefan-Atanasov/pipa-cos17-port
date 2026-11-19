@@ -11,7 +11,7 @@ A port joins two halves that come from different ROMs:
 
 | Half | Partitions | Source on pipa | Rule |
 |---|---|---|---|
-| Device side | firmware, `vendor`, `odm`, `vendor_boot`, `dtbo`, kernel | a working base for the device (here the beta4 port by 梦归zzz, which has the HyperOS vendor) | Change as little as possible. Pin the images by md5. |
+| Device side | firmware, `vendor`, `odm`, `vendor_boot`, `dtbo`, kernel | a working base for the device (here the beta4 port by 梦归zzz: HyperOS 2 CN firmware and a LineageOS-family Android 17 vendor build of the pipa tree, not the stock HyperOS vendor; `HANDOFF-FROM-ZERO.md` Part B) | Change as little as possible. Pin the images by md5. |
 | System side | `system`, `system_ext`, `product`, OPPO `my_*` partitions | an OPPO donor OTA (here OPD2515 OPPO Pad Mini, `17.0.0.104(CN01)`) | Take it as a whole. Fix it with small, scripted edits. |
 
 Everything you add on top is one of these:
@@ -34,7 +34,8 @@ expects (a node, a property, a HAL, a config) and give it that. Do not add worka
   tablet: layouts, multi-window, pen code). A CN build has more OPPO features; a global build has Google apps.
   Query OPPO's OTA servers for full OTA zips (on pipa: the OPlus-Tracker tool). Keep the zip and its sha256.
 - **Base for the device side:** a working ROM for your device whose vendor matches its kernel and firmware (stock
-  firmware, HyperOS/MIUI vendor, or an earlier port). If a port exists already, start from it: it has solved the
+  firmware, a vendor built from the device tree of a LineageOS-family ROM (this worked on pipa; the stock HyperOS vendor
+  is Android 14/15 and was not tried), or an earlier port). If a port exists already, start from it: it has solved the
   first boot.
 - Check the SoC difference. The donor's system code calls OPPO HALs and kernel nodes that a Xiaomi (or other)
   vendor does not have. Each missing one is a hang, a crash or a dead feature (section 5).
@@ -184,6 +185,7 @@ What made the AI-assisted work reliable on pipa:
 
 | Topic | Document |
 |---|---|
+| Rebuild everything on a new PC, step by step; the beta4 base from stock | `HANDOFF-FROM-ZERO.md` |
 | Build, flash, roll back | `BUILD.md` |
 | ROM layers, service, helper, SELinux, every step | `ARCHITECTURE.md` |
 | New donor version | `REBASE.md` |

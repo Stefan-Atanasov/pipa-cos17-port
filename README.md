@@ -23,7 +23,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 
-**Porting to another device?** Start with [PORTING-GUIDE.md](PORTING-GUIDE.md) (model, tools, pipeline, order of work, gotchas, working with an AI agent).
+**Porting to another device?** Start with [PORTING-GUIDE.md](PORTING-GUIDE.md) (model, tools, pipeline, order of work, gotchas, working with an AI agent). To rebuild the whole setup on a new PC, step by step (also for a local AI model), and to make the beta4 base from stock: [HANDOFF-FROM-ZERO.md](HANDOFF-FROM-ZERO.md).
 
 ## Download and install
 

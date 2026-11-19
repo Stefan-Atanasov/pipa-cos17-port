@@ -1,0 +1,34 @@
+/build.prop	root build.prop: dalvik heapsize 512m / growthlimit 384m
+/system/app/FaceUnlock/FaceUnlock.apk	com.pipa.faceunlock (legacy socket client, R4 — candidate to drop)
+/system/etc/default-permissions/pipa_faceunlock.xml	camera grant for FaceUnlock
+/system/etc/face/model_file	Megvii face model (21 MB)
+/system/etc/face/panorama_mgb	Megvii face model
+/system/lib64/libFaceDetectCA.so	Megvii
+/system/lib64/libMegviiUnlock-jni-1.2.so	Megvii
+/system/lib64/libMegviiUnlock.so	Megvii
+/system/lib64/libmegface.so	Megvii
+/system/app/OppoCamera/OppoCamera.apk	substitute camera (com.oppocamera, Fossify-derived); replaces removed OplusCamera
+/system/etc/default-permissions/default-permissions-miuicamera.xml	MIUI camera perms
+/system/etc/permissions/privapp-permissions-miuicamera.xml	MIUI camera perms
+/system/etc/sysconfig/miuicamera-hiddenapi-package-whitelist.xml	MIUI camera hiddenapi
+/system/priv-app/MiSound/MiSound.apk	Xiaomi MiSound/Dolby UI
+/system/priv-app/MiSound/lib/arm64/libmievent.so	MiSound
+/system/priv-app/MiSound/lib/arm64/libmp3lame.so	MiSound
+/system/priv-app/MiSound/lib/arm64/libnative-lib.so	MiSound
+/system/etc/permissions/privapp-permissions-misound.xml	MiSound
+/system/etc/sysconfig/misound-hiddenapi-package-whitelist.xml	MiSound
+/system/lib64/libxiaomipen.so	pen-mode JNI -> /dev/xiaomi-touch
+/system/etc/media_profiles.xml	camcorder/media profiles for pipa
+/system/etc/permissions/android.hardware.telephony.gsm.xml	telephony feature for ColorOS telephony stack on Wi-Fi-only pad
+/system_ext/apex/com.android.vndk.v30.apex	VNDK compat for re-imported Xiaomi vendor blobs
+/system_ext/apex/com.android.vndk.v31.apex	VNDK compat
+/system_ext/apex/com.android.vndk.v32.apex	VNDK compat
+/system_ext/apex/com.android.vndk.v33.apex	VNDK compat
+/my_product/overlay/PipaCornersOverlay.apk	port RRO
+/my_product/overlay/PipaLauncherOverlay.apk	port RRO
+/my_product/overlay/PipaMiSoundOverlay.apk	port RRO
+/my_product/overlay/PipaSettingsPadOverlay.apk	port RRO
+/system_ext/lib/libupdateprof.qti.so	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib/libtrigger-handler.so	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib64/libupdateprof.qti.so	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib64/libtrigger-handler.so	beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)

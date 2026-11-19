@@ -1,0 +1,784 @@
+####################################
+# from generate-common-build-props
+# These properties identify this partition image.
+####################################
+ro.product.system.brand=Xiaomi
+ro.product.system.device=pipa
+ro.product.system.manufacturer=Xiaomi
+ro.product.system.model=23043RP34G
+ro.product.system.name=pipa
+ro.system.product.cpu.abilist=arm64-v8a,armeabi-v7a,armeabi
+ro.system.product.cpu.abilist32=armeabi-v7a,armeabi
+ro.system.product.cpu.abilist64=arm64-v8a
+ro.system.build.date=Sat Aug 22 08:57:08 UTC 2026
+ro.system.build.date.utc=1787389028
+ro.system.build.fingerprint=Xiaomi/pipa/pipa:17/CP2A.260605.016/eng.androi:user/test-keys
+ro.system.build.id=CP2A.260605.016
+ro.system.build.uuid=DLfU02HhAy8pk8KrdTGYTYyejtCAjzMqfi1BDlgCdMo
+ro.system.build.tags=test-keys
+ro.system.build.type=user
+ro.system.build.version.incremental=1787389028
+ro.system.build.version.release=17
+ro.system.build.version.release_or_codename=17
+ro.system.build.version.sdk=37
+ro.system.build.version.sdk_full=37.0
+####################################
+# from gen_build_prop.py:generate_build_info
+####################################
+# begin build properties
+ro.build.fingerprint=google/mustang_beta/mustang:CANARY/ZP11.260717.006/16004061:user/release-keys
+ro.build.id=CP2A.260605.016
+ro.build.uuid=DLfU02HhAy8pk8KrdTGYTYyejtCAjzMqfi1BDlgCdMo
+ro.build.display.id=CP2A.260605.016 test-keys
+ro.build.version.incremental=1787389028
+ro.build.version.sdk=37
+ro.build.version.sdk_full=37.0
+ro.build.version.preview_sdk=0
+ro.build.version.preview_sdk_fingerprint=REL
+ro.build.version.codename=REL
+ro.build.version.all_codenames=REL
+ro.build.version.known_codenames=Base,Base11,Cupcake,Donut,Eclair,Eclair01,EclairMr1,Froyo,Gingerbread,GingerbreadMr1,Honeycomb,HoneycombMr1,HoneycombMr2,IceCreamSandwich,IceCreamSandwichMr1,JellyBean,JellyBeanMr1,JellyBeanMr2,Kitkat,KitkatWatch,Lollipop,LollipopMr1,M,N,NMr1,O,OMr1,P,Q,R,S,Sv2,Tiramisu,UpsideDownCake,VanillaIceCream,Baklava,CANARY,CinnamonBun
+ro.build.version.release=17
+ro.build.version.release_or_codename=17
+ro.build.version.release_or_preview_display=17
+ro.build.version.security_patch=2026-08-01
+ro.build.version.base_os=
+ro.build.version.min_supported_target_sdk=28
+ro.build.date=Sat Aug 22 08:57:08 UTC 2026
+ro.build.date.utc=1787389028
+ro.build.type=user
+ro.build.user=android-build
+ro.build.host=r-e52bbbc6feee621f-8yyu
+ro.build.tags=test-keys
+ro.build.flavor=pipa-user
+ro.lineage.device=pipa
+ro.evolution.device=pipa
+# ro.product.cpu.abi and ro.product.cpu.abi2 are obsolete,
+# use ro.product.cpu.abilist instead.
+ro.product.cpu.abi=arm64-v8a
+ro.product.locale=en-US
+ro.wifi.channels=
+# Do not try to parse description or thumbprint
+ro.build.description=pipa-user 17 CP2A.260605.016 eng.androi test-keys
+# end build properties
+####################################
+# from device/xiaomi/sm8250-common/system.prop
+####################################
+# Camera
+camera.disable_zsl_mode=true
+vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,org.lineageos.aperture,org.lineageos.aperture.dev
+# CNE
+persist.vendor.cne.feature=1
+# Dalvik
+dalvik.vm.dex2oat64.enabled=true
+# Display
+debug.gralloc.gfx_ubwc_disable=0
+debug.sf.enable_hwc_vds=1
+persist.vendor.color.matrix=2
+# DPM
+persist.vendor.dpm.feature=1
+# Fwk detect
+ro.vendor.qti.va_aosp.support=1
+# IMS
+persist.dbg.volte_avail_ovr=1
+persist.dbg.vt_avail_ovr=1
+persist.dbg.wfc_avail_ovr=1
+# Netflix
+ro.netflix.bsp_rev=Q8250-19134-1
+# Perf
+ro.vendor.qti.core_ctl_max_cpu=4
+ro.vendor.qti.core_ctl_min_cpu=2
+# Radio
+persist.vendor.radio.report_codec=1
+# Zygote
+persist.device_config.runtime_native.usap_pool_enabled=true
+####################################
+# from variable ADDITIONAL_SYSTEM_PROPERTIES
+####################################
+ro.treble.enabled=true
+ro.llndk.api_level=202604
+ro.actionable_compatible_property.enabled=true
+ro.postinstall.fstab.prefix=/system
+ro.secure=1
+ro.appcompat_override.ro.boot.verifiedbootstate=green
+ro.adb.secure=1
+ro.allow.mock.location=0
+ro.debuggable=0
+net.bt.name=Android
+ro.force.debuggable=0
+####################################
+# from variable PRODUCT_SYSTEM_PROPERTIES
+####################################
+hwservicemanager.always_sets_disabled=true
+debug.atrace.tags.enableflags=0
+persist.traced.enable=1
+ro.surface_flinger.game_default_frame_rate_override=60
+persist.pcc.audit_mode.enabled=0
+persist.pcc.audit_mode.max_log_files=10
+persist.pcc.audit_mode.max_log_file_size_kb=10240
+persist.pcc.audit_mode.batching.enabled=1
+persist.pcc.audit_mode.batching.max_batch_size=100
+persist.pcc.audit_mode.batching.flush_time_ms=10000
+dalvik.vm.image-dex2oat-Xms=64m
+dalvik.vm.image-dex2oat-Xmx=512m
+dalvik.vm.dex2oat-Xms=64m
+dalvik.vm.dex2oat-Xmx=512m
+dalvik.vm.usejit=true
+dalvik.vm.dexopt.secondary=true
+dalvik.vm.dexopt.thermal-cutoff=2
+dalvik.vm.appimageformat=lz4
+ro.dalvik.vm.native.bridge=0
+pm.dexopt.post-boot=verify
+pm.dexopt.first-boot=verify
+pm.dexopt.boot-after-ota=verify
+pm.dexopt.boot-after-mainline-update=verify
+pm.dexopt.install=speed-profile
+pm.dexopt.install-fast=skip
+pm.dexopt.install-bulk=speed-profile
+pm.dexopt.install-bulk-secondary=verify
+pm.dexopt.install-bulk-downgraded=verify
+pm.dexopt.install-bulk-secondary-downgraded=verify
+pm.dexopt.bg-dexopt=speed-profile
+pm.dexopt.ab-ota=speed-profile
+pm.dexopt.inactive=verify
+pm.dexopt.cmdline=verify
+pm.dexopt.shared=speed
+dalvik.vm.dex2oat-resolve-startup-strings=true
+dalvik.vm.dex2oat-max-image-block-size=524288
+dalvik.vm.minidebuginfo=true
+dalvik.vm.dex2oat-minidebuginfo=true
+dalvik.vm.madvise.vdexfile.size=104857600
+dalvik.vm.madvise.odexfile.size=104857600
+dalvik.vm.usap_pool_enabled=false
+dalvik.vm.usap_refill_threshold=1
+dalvik.vm.usap_pool_size_max=3
+dalvik.vm.usap_pool_size_min=1
+dalvik.vm.usap_pool_refill_delay_ms=3000
+dalvik.vm.useartservice=true
+dalvik.vm.enable_pr_dexopt=true
+ro.cp_system_other_odex=1
+ro.apex.updatable=true
+ro.camerax.extensions.enabled=true
+ro.com.google.lens.oem_camera_package=com.android.camera
+ro.miui.notch=1
+persist.sys.cam.skip_detach_image=true
+log.tag.CHIUSECASE=ERROR
+persist.vendor.camera.privapp.list=com.android.camera
+ro.com.google.lens.oem_camera_package=com.android.camera
+apexd.config.compressed_apex=true
+####################################
+# from variable PRODUCT_SYSTEM_DEFAULT_PROPERTIES
+####################################
+####################################
+# Adding footer from :applied_backported_fixes
+# with path out/soong/.intermediates/build/make/backported_fixes/applied_backported_fixes/gen/applied_backported_fixes.prop
+####################################
+# The following backported fixes have been applied
+# https://issuetracker.google.com/issues/350037023 with alias 1
+# https://issuetracker.google.com/issues/385124056 with alias 4
+# https://issuetracker.google.com/issues/398591036 with alias 5
+# https://issuetracker.google.com/issues/452390376 with alias 6
+ro.build.backported_fixes.alias_bitset.long_list=114
+# end of file
+####################################
+# from generate-common-build-props
+# These properties identify this partition image.
+####################################
+ro.product.vendor.brand=Xiaomi
+ro.product.vendor.device=pipa
+ro.product.vendor.manufacturer=Xiaomi
+ro.product.vendor.model=23043RP34G
+ro.product.vendor.name=lineage_pipa
+ro.vendor.product.cpu.abilist=arm64-v8a,armeabi-v7a,armeabi
+ro.vendor.product.cpu.abilist32=armeabi-v7a,armeabi
+ro.vendor.product.cpu.abilist64=arm64-v8a
+ro.vendor.build.date=Sat Aug 22 08:57:08 UTC 2026
+ro.vendor.build.date.utc=1787389028
+ro.vendor.build.fingerprint=google/mustang_beta/mustang:CANARY/ZP11.260717.006/16004061:user/release-keys
+ro.vendor.build.id=CP2A.260605.016
+ro.vendor.build.uuid=DLfU02HhAy8pk8KrdTGYTYyejtCAjzMqfi1BDlgCdMo
+ro.vendor.build.tags=test-keys
+ro.vendor.build.type=user
+ro.vendor.build.version.incremental=1787389028
+ro.vendor.build.version.release=17
+ro.vendor.build.version.release_or_codename=17
+ro.vendor.build.version.sdk=37
+ro.vendor.build.version.sdk_full=37.0
+####################################
+# from device/xiaomi/sm8250-common/vendor.prop
+####################################
+# Audio
+aaudio.hw_burst_min_usec=2000
+aaudio.mmap_exclusive_policy=2
+aaudio.mmap_policy=1
+audio.deep_buffer.media=true
+audio.offload.buffer.size.kb=32
+audio.offload.gapless.enabled=true
+persist.vendor.audio.ambisonic.auto.profile=false
+persist.vendor.audio.ambisonic.capture=false
+persist.vendor.audio.apptype.multirec.enabled=false
+persist.vendor.audio.avs.afe_api_version=2
+persist.vendor.audio.fluence.speaker=true
+persist.vendor.audio.fluence.tmic.enabled=false
+persist.vendor.audio.fluence.voicecall=true
+persist.vendor.audio.fluence.voicecomm=true
+persist.vendor.audio.fluence.voicerec=false
+persist.vendor.audio_hal.dsp_bit_width_enforce_mode=24
+persist.vendor.audio.ras.enabled=false
+persist.vendor.audio.ring.filter.mask=0
+persist.vendor.audio.spv3.enable=true
+persist.vendor.audio.voicecall.speaker.stereo=true
+ro.vendor.audio.game.effect=true
+ro.vendor.audio.ring.filter=true
+ro.vendor.audio.scenario.support=true
+ro.vendor.audio.sdk.fluencetype=fluence
+ro.vendor.audio.sdk.ssr=false
+ro.vendor.audio.sfx.earadj=true
+ro.vendor.audio.sfx.scenario=true
+ro.vendor.audio.sos=true
+ro.vendor.audio.soundfx.type=mi
+ro.vendor.audio.soundfx.usb=true
+ro.vendor.audio.surround.support=true
+ro.vendor.audio.us.proximity=true
+ro.vendor.audio.vocal.support=true
+ro.vendor.audio.voice.change.support=true
+ro.vendor.audio.voice.change.youme.support=true
+vendor.audio.capture.enforce_legacy_copp_sr=true
+vendor.audio.dolby.ds2.enabled=false
+vendor.audio.dolby.ds2.hardbypass=false
+vendor.audio.enable.mirrorlink=false
+vendor.audio.feature.a2dp_offload.enable=true
+vendor.audio.feature.afe_proxy.enable=true
+vendor.audio.feature.anc_headset.enable=false
+vendor.audio.feature.audiozoom.enable=false
+vendor.audio.feature.battery_listener.enable=true
+vendor.audio.feature.compr_cap.enable=false
+vendor.audio.feature.compress_in.enable=true
+vendor.audio.feature.compress_meta_data.enable=true
+vendor.audio.feature.concurrent_capture.enable=true
+vendor.audio.feature.custom_stereo.enable=true
+vendor.audio.feature.deepbuffer_as_primary.enable=false
+vendor.audio.feature.display_port.enable=true
+vendor.audio.feature.dsm_feedback.enable=false
+vendor.audio.feature.dynamic_ecns.enable=false
+vendor.audio.feature.ext_hw_plugin.enable=false
+vendor.audio.feature.external_dsp.enable=false
+vendor.audio.feature.external_speaker.enable=false
+vendor.audio.feature.external_speaker_tfa.enable=false
+vendor.audio.feature.fluence.enable=true
+vendor.audio.feature.fm.enable=true
+vendor.audio.feature.hdmi_edid.enable=true
+vendor.audio.feature.hdmi_passthrough.enable=true
+vendor.audio.feature.hfp.enable=true
+vendor.audio.feature.hifi_audio.enable=false
+vendor.audio.feature.hwdep_cal.enable=false
+vendor.audio.feature.incall_music.enable=true
+vendor.audio.feature.keep_alive.enable=true
+vendor.audio.feature.kpi_optimize.enable=true
+vendor.audio.feature.maxx_audio.enable=false
+vendor.audio.feature.multi_voice_session.enable=true
+vendor.audio.feature.ras.enable=true
+vendor.audio.feature.record_play_concurency.enable=false
+vendor.audio.feature.snd_mon.enable=true
+vendor.audio.feature.spkr_prot.enable=false
+vendor.audio.feature.src_trkn.enable=true
+vendor.audio.feature.ssrec.enable=true
+vendor.audio.feature.usb_offload.enable=true
+vendor.audio.feature.usb_offload_burst_mode.enable=true
+vendor.audio.feature.usb_offload_sidetone_volume.enable=false
+vendor.audio.feature.vbat.enable=true
+vendor.audio.feature.wsa.enable=false
+vendor.audio.hal.output.suspend.supported=false
+vendor.audio.hw.aac.encoder=true
+vendor.audio.offload.gapless.enabled=true
+vendor.audio.offload.multiaac.enable=true
+vendor.audio.offload.multiple.enabled=false
+vendor.audio.offload.passthrough=false
+vendor.audio.offload.track.enable=false
+vendor.audio.parser.ip.buffer.size=262144
+vendor.audio.safx.pbe.enabled=false
+vendor.audio.spkcal.copy.inhal=true
+vendor.audio.tunnel.encode=false
+vendor.audio.usb.disable.sidetone=true
+vendor.audio.use.sw.alac.decoder=true
+vendor.audio.use.sw.ape.decoder=true
+vendor.audio.use.sw.mpegh.decoder=true
+vendor.audio.volume.headset.gain.depcal=true
+vendor.audio_hal.in_period_size=144
+vendor.audio_hal.period_size=192
+vendor.voice.path.for.pcm.voip=true
+# Bluetooth
+bluetooth.device.class_of_device=90,2,12
+bluetooth.hardware.power.operating_voltage_mv=3300
+bluetooth.profile.a2dp.source.enabled=true
+bluetooth.profile.asha.central.enabled=true
+bluetooth.profile.avrcp.target.enabled=true
+bluetooth.profile.bap.broadcast.assist.enabled=true
+bluetooth.profile.bap.unicast.client.enabled=true
+bluetooth.profile.bas.client.enabled=true
+bluetooth.profile.csip.set_coordinator.enabled=true
+bluetooth.profile.gatt.enabled=true
+bluetooth.profile.hap.client.enabled=true
+bluetooth.profile.hfp.ag.enabled=true
+bluetooth.profile.hid.device.enabled=true
+bluetooth.profile.hid.host.enabled=true
+bluetooth.profile.map.server.enabled=true
+bluetooth.profile.mcp.server.enabled=true
+bluetooth.profile.opp.enabled=true
+bluetooth.profile.pan.nap.enabled=true
+bluetooth.profile.pan.panu.enabled=true
+bluetooth.profile.pbap.server.enabled=true
+bluetooth.profile.sap.server.enabled=true
+bluetooth.profile.ccp.server.enabled=true
+bluetooth.profile.vcp.controller.enabled=true
+persist.bluetooth.a2dp_offload.cap=sbc-aac-aptx-aptxhd-ldac
+persist.bluetooth.a2dp_offload.disabled=false
+persist.vendor.bt.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac
+persist.vendor.bt.aac_frm_ctl.enabled=true
+persist.vendor.bt.aac_vbr_frm_ctl.enabled=true
+persist.vendor.qcom.bluetooth.soc=hastings
+ro.bluetooth.a2dp_offload.supported=true
+ro.vendor.bluetooth.wipower=false
+vendor.qcom.bluetooth.soc=hastings
+# Chipset
+ro.soc.manufacturer=QTI
+ro.soc.model=SM8250
+# Crypto
+ro.crypto.allow_encrypt_override=true
+ro.crypto.dm_default_key.options_format.version=2
+ro.crypto.volume.filenames_mode=aes-256-cts
+ro.crypto.volume.metadata.method=dm-default-key
+ro.crypto.volume.options=::v2
+# Display
+persist.sys.sf.color_mode=0
+persist.sys.sf.color_saturation=1.0
+persist.sys.sf.native_mode=258
+ro.surface_flinger.enable_frame_rate_override=false
+ro.surface_flinger.force_hwc_copy_for_virtual_displays=true
+ro.surface_flinger.has_HDR_display=true
+ro.surface_flinger.has_wide_color_display=true
+ro.surface_flinger.max_frame_buffer_acquired_buffers=3
+ro.surface_flinger.max_virtual_display_dimension=4096
+ro.surface_flinger.protected_contents=true
+ro.surface_flinger.supports_background_blur=1
+ro.surface_flinger.use_color_management=true
+ro.surface_flinger.wcg_composition_dataspace=143261696
+ro.vendor.display.sensortype=2
+vendor.display.comp_mask=0
+vendor.display.disable_excl_rect=0
+vendor.display.disable_excl_rect_partial_fb=1
+vendor.display.disable_hw_recovery_dump=1
+vendor.display.disable_offline_rotator=1
+vendor.display.disable_scaler=0
+vendor.display.enable_async_powermode=0
+vendor.display.enable_optimize_refresh=1
+vendor.display.enable_posted_start_dyn=1
+vendor.display.qdcm.disable_factory_mode=1
+vendor.display.qdcm.mode_combine=1
+vendor.display.use_layer_ext=0
+vendor.display.use_smooth_motion=0
+# DRM
+drm.service.enabled=true
+# Fingerprint
+persist.vendor.qfp=false
+# FRP
+ro.frp.pst=/dev/block/bootdevice/by-name/frp
+# FUSE
+persist.sys.fuse.passthrough.enable=true
+# Gatekeeper
+vendor.gatekeeper.disable_spu=true
+# Graphics
+debug.sf.auto_latch_unsignaled=0
+debug.sf.early.app.duration=13666666
+debug.sf.early.sf.duration=12333333
+debug.sf.earlyGl.app.duration=13666666
+debug.sf.earlyGl.sf.duration=12333333
+debug.sf.enable_gl_backpressure=0
+debug.sf.enable_transaction_tracing=false
+debug.sf.late.app.duration=13666666
+debug.sf.late.sf.duration=12333333
+debug.sf.use_phase_offsets_as_durations=1
+ro.hardware.egl=adreno
+ro.hardware.vulkan=adreno
+ro.opengles.version=196610
+vendor.gralloc.disable_ubwc=0
+# HVDCP
+persist.vendor.pps.disallowed=1
+persist.vendor.hvdcp_opti.disallowed=1
+# Keystore
+ro.hardware.keystore_desede=true
+# Media
+debug.stagefright.c2inputsurface=-1
+ro.odm.build.media_performance_class=30
+vendor.media.omx=0
+# NFC
+ro.camera.notify_nfc=1
+# OTG
+persist.sys.oem.otg_support=true
+# PASR
+vendor.power.pasr.enabled=false
+# Perf
+ro.vendor.extension_library=libqti-perfd-client.so
+# Qualcomm System Daemon
+persist.vendor.qcomsysd.enabled=1
+# Seamless transfer
+sys.fflag.override.settings_seamless_transfer=true
+# Sensors
+persist.vendor.sensors.allow_non_default_discovery=true
+persist.vendor.sensors.sync_request=true
+# Shutdown
+sys.vendor.shutdown.waittime=500
+# Subsystem Restart
+persist.vendor.ssr.restart_level=ALL_ENABLE
+# USB
+sys.usb.mtp.batchcancel=1
+vendor.usb.diag.func.name=diag
+vendor.usb.dpl.inst.name=dpl
+vendor.usb.qdss.inst.name=qdss
+vendor.usb.rmnet.func.name=gsi
+vendor.usb.rmnet.inst.name=rmnet
+vendor.usb.rndis.func.name=gsi
+vendor.usb.use_ffs_mtp=1
+vendor.usb.use_gadget_hal=1
+# Volume steps
+ro.config.vc_call_vol_steps=11
+# WiFi
+wifi.aware.interface=wifi-aware0
+# Zygote
+zygote.critical_window.minute=10
+####################################
+# from device/xiaomi/pipa/vendor.prop
+####################################
+# Audio
+persist.vendor.audio.delta.refresh=true
+persist.vendor.audio.misound.disable=true
+ro.audio.monitorRotation=true
+ro.vendor.audio.enhance.support=false
+ro.vendor.audio.gain.support=true
+ro.vendor.audio.karaok.support=false
+ro.vendor.audio.ns.support=false
+ro.vendor.audio.sfx.audiovisual=false
+ro.vendor.audio.soundtrigger.appdefine.cnn.level=35
+ro.vendor.audio.soundtrigger.appdefine.gmm.level=65
+ro.vendor.audio.soundtrigger.appdefine.gmm.user.level=55
+ro.vendor.audio.soundtrigger.appdefine.vop.level=10
+ro.vendor.audio.soundtrigger.lowpower=true
+ro.vendor.audio.soundtrigger.snr=14
+ro.vendor.audio.soundtrigger=sva
+ro.vendor.audio.soundtrigger.training.level=50
+ro.vendor.audio.soundtrigger.xanzn.cnn.level=80
+ro.vendor.audio.soundtrigger.xanzn.gmm.level=45
+ro.vendor.audio.soundtrigger.xanzn.gmm.user.level=30
+ro.vendor.audio.soundtrigger.xanzn.vop.level=10
+ro.vendor.audio.soundtrigger.xatx.cnn.level=45
+ro.vendor.audio.soundtrigger.xatx.gmm.level=25
+ro.vendor.audio.soundtrigger.xatx.gmm.user.level=40
+ro.vendor.audio.soundtrigger.xatx.vop.level=-10
+ro.vendor.audio.spk.clean=true
+ro.vendor.audio.spk.stereo=true
+ro.vendor.audio.zoom.support=false
+ro.vendor.audio.zoom.type=1
+vendor.audio.adm.buffering.ms=6
+vendor.audio.offload.buffer.size.kb=32
+vendor.audio_hal.period_multiplier=3
+# Display
+debug.sf.set_idle_timer_ms=1100
+ro.vendor.display.paneltype=2
+vendor.display.enable_hdr10_gpu_target=1
+vendor.display.disable_idle_time_video=1
+vendor.display.disable_idle_time_hdr=1
+ro.surface_flinger.use_content_detection_for_refresh_rate=true
+ro.surface_flinger.set_idle_timer_ms=1100
+# Display Orientation
+ro.surface_flinger.primary_display_orientation=ORIENTATION_0
+debug.sf.ignore_hwc_physical_display_orientation=true
+ro.bootanim.set_orientation_4630946808805831297=ORIENTATION_90
+ro.bootanim.set_orientation_4630946922172900481=ORIENTATION_90
+####################################
+# from android-info.prop
+####################################
+####################################
+# from variable ADDITIONAL_VENDOR_PROPERTIES
+####################################
+ro.bionic.arch=arm64
+ro.bionic.cpu_variant=cortex-a55
+ro.bionic.2nd_arch=arm
+ro.bionic.2nd_cpu_variant=cortex-a55
+dalvik.vm.isa.arm64.variant=cortex-a55
+dalvik.vm.isa.arm64.features=default
+dalvik.vm.isa.arm.variant=cortex-a55
+dalvik.vm.isa.arm.features=default
+ro.minui.default_rotation=ROTATION_RIGHT
+ro.minui.default_touch_rotation=ROTATION_RIGHT
+ro.minui.pixel_format=RGBX_8888
+ro.boot.dynamic_partitions=true
+ro.product.first_api_level=30
+ro.board.api_level=202604
+ro.board.api_frozen=true
+ro.vendor.build.security_patch=2025-04-01
+ro.product.board=kona
+ro.board.platform=kona
+ro.hwui.use_vulkan=
+ro.sf.lcd_density=400
+ro.build.ab_update=true
+ro.vendor.build.ab_ota_partitions=abl,aop,bluetooth,boot,cmnlib,cmnlib64,devcfg,dsp,dtbo,featenabler,hyp,imagefv,keymaster,modem,odm,product,qupfw,system,system_ext,tz,uefisecapp,vbmeta,vbmeta_system,vendor,vendor_boot,xbl,xbl_config
+ro.product.build.16k_page.enabled=false
+####################################
+# from variable PRODUCT_VENDOR_PROPERTIES
+####################################
+ro.zygote=zygote64_32
+ro.config.ringtone=Ring_Synth_04.ogg
+# Removed by post_process_props.py because overridden by ro.config.notification_sound?=OnTheHunt.ogg
+#ro.config.notification_sound?=pixiedust.ogg
+persist.sys.dalvik.vm.lib.2=libart.so
+ro.logd.size.stats=64K
+log.tag.stats_log=I
+ro.carrier=unknown
+ro.config.notification_sound=OnTheHunt.ogg
+ro.config.alarm_alert=Alarm_Classic.ogg
+ro.recovery.usb.vid=18D1
+ro.recovery.usb.adb.pid=D001
+ro.recovery.usb.fastboot.pid=4EE0
+# Removed by post_process_props.py because overridden by ro.zygote=zygote64_32
+#ro.zygote?=zygote32
+external_storage.projid.enabled=1
+external_storage.casefold.enabled=1
+external_storage.sdcardfs.enabled=0
+ro.virtual_ab.enabled=true
+persist.vendor.camera.logInfoMask=false
+####################################
+# from variable PRODUCT_DEFAULT_PROPERTY_OVERRIDES
+####################################
+ro.bootanim.set_orientation_logical_0=ORIENTATION_270
+####################################
+# from variable PRODUCT_PROPERTY_OVERRIDES
+####################################
+ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay_gms
+# end of file
+####################################
+# from generate-common-build-props
+# These properties identify this partition image.
+####################################
+ro.product.odm.brand=Xiaomi
+ro.product.odm.device=pipa
+ro.product.odm.manufacturer=Xiaomi
+ro.product.odm.model=23043RP34G
+ro.product.odm.name=pipa
+ro.odm.product.cpu.abilist=arm64-v8a,armeabi-v7a,armeabi
+ro.odm.product.cpu.abilist32=armeabi-v7a,armeabi
+ro.odm.product.cpu.abilist64=arm64-v8a
+ro.odm.build.date=Sat Aug 22 08:57:08 UTC 2026
+ro.odm.build.date.utc=1787389028
+ro.odm.build.fingerprint=google/mustang_beta/mustang:CANARY/ZP11.260717.006/16004061:user/release-keys
+ro.odm.build.id=CP2A.260605.016
+ro.odm.build.uuid=DLfU02HhAy8pk8KrdTGYTYyejtCAjzMqfi1BDlgCdMo
+ro.odm.build.tags=test-keys
+ro.odm.build.type=user
+ro.odm.build.version.incremental=1787389028
+ro.odm.build.version.release=17
+ro.odm.build.version.release_or_codename=17
+ro.odm.build.version.sdk=37
+ro.odm.build.version.sdk_full=37.0
+####################################
+# from device/xiaomi/sm8250-common/odm.prop
+####################################
+# Fwk detect
+ro.vendor.qti.va_odm.support=1
+####################################
+# from variable PRODUCT_ODM_PROPERTIES
+####################################
+# end of file
+####################################
+# from generate-common-build-props
+# These properties identify this partition image.
+####################################
+ro.product.product.brand=Xiaomi
+ro.product.product.device=pipa
+ro.product.product.manufacturer=Xiaomi
+ro.product.product.model=23043RP34G
+ro.product.product.name=pipa
+ro.product.build.date=Sat Aug 22 08:57:08 UTC 2026
+ro.product.build.date.utc=1787389028
+ro.product.build.fingerprint=google/mustang_beta/mustang:CANARY/ZP11.260717.006/16004061:user/release-keys
+ro.product.build.id=CP2A.260605.016
+ro.product.build.uuid=DLfU02HhAy8pk8KrdTGYTYyejtCAjzMqfi1BDlgCdMo
+ro.product.build.tags=test-keys
+ro.product.build.type=user
+ro.product.build.version.incremental=1787389028
+ro.product.build.version.release=17
+ro.product.build.version.release_or_codename=17
+ro.product.build.version.sdk=37
+ro.product.build.version.sdk_full=37.0
+####################################
+# from gen_build_prop.py:generate_build_info
+####################################
+# begin build properties
+ro.build.fingerprint=google/mustang_beta/mustang:CANARY/ZP11.260717.006/16004061:user/release-keys
+ro.build.id=CP2A.260605.016
+ro.build.uuid=DLfU02HhAy8pk8KrdTGYTYyejtCAjzMqfi1BDlgCdMo
+ro.build.display.id=CP2A.260605.016 test-keys
+ro.build.version.incremental=1787389028
+ro.build.version.sdk=37
+ro.build.version.sdk_full=37.0
+ro.build.version.preview_sdk=0
+ro.build.version.preview_sdk_fingerprint=REL
+ro.build.version.codename=REL
+ro.build.version.all_codenames=REL
+ro.build.version.known_codenames=Base,Base11,Cupcake,Donut,Eclair,Eclair01,EclairMr1,Froyo,Gingerbread,GingerbreadMr1,Honeycomb,HoneycombMr1,HoneycombMr2,IceCreamSandwich,IceCreamSandwichMr1,JellyBean,JellyBeanMr1,JellyBeanMr2,Kitkat,KitkatWatch,Lollipop,LollipopMr1,M,N,NMr1,O,OMr1,P,Q,R,S,Sv2,Tiramisu,UpsideDownCake,VanillaIceCream,Baklava,CANARY,CinnamonBun
+ro.build.version.release=17
+ro.build.version.release_or_codename=17
+ro.build.version.release_or_preview_display=17
+ro.build.version.security_patch=2026-08-01
+ro.build.version.base_os=
+ro.build.version.min_supported_target_sdk=28
+ro.build.date=Sat Aug 22 08:57:08 UTC 2026
+ro.build.date.utc=1787389028
+ro.build.type=user
+ro.build.user=android-build
+ro.build.host=r-e52bbbc6feee621f-8yyu
+ro.build.tags=test-keys
+ro.build.flavor=pipa-user
+ro.lineage.device=pipa
+ro.evolution.device=pipa
+# ro.product.cpu.abi and ro.product.cpu.abi2 are obsolete,
+# use ro.product.cpu.abilist instead.
+ro.product.cpu.abi=arm64-v8a
+ro.product.locale=en-US
+ro.wifi.channels=
+# Do not try to parse description or thumbprint
+ro.build.description=pipa-user 17 CP2A.260605.016 eng.androi test-keys
+# end build properties
+####################################
+# from device/xiaomi/sm8250-common/product.prop
+####################################
+# BPF
+ro.bpf.kver_override=5.10.239
+####################################
+# from variable ADDITIONAL_PRODUCT_PROPERTIES
+####################################
+ro.product.page_size=4096
+ro.build.characteristics=tablet
+ro.product.ab_ota_partitions=abl,aop,bluetooth,boot,cmnlib,cmnlib64,devcfg,dsp,dtbo,featenabler,hyp,imagefv,keymaster,modem,odm,product,qupfw,system,system_ext,tz,uefisecapp,vbmeta,vbmeta_system,vendor,vendor_boot,xbl,xbl_config
+ro.product.cpu.pagesize.max=4096
+ro.dalvik.vm.enable_uffd_gc=true
+####################################
+# from variable PRODUCT_PRODUCT_PROPERTIES
+####################################
+persist.wm.extensions.enabled=true
+is_expressive_design_enabled=true
+persist.sys.activity_anim_perf_override=
+persist.sys.ax_emoji_style=android
+ro.com.google.clientidbase=android-xiaomi
+ro.com.google.ime.theme_id=5
+ro.com.google.ime.system_lm_dir=/product/usr/share/ime/google/d3_lms
+ro.setupwizard.enterprise_mode=1
+ro.setupwizard.esim_cid_ignore=00000001
+setupwizard.feature.baseline_setupwizard_enabled=true
+setupwizard.feature.day_night_mode_enabled=true
+setupwizard.feature.portal_notification=true
+setupwizard.feature.enable_quick_start_flow=true
+setupwizard.feature.enable_restore_anytime=true
+setupwizard.feature.enable_wifi_tracker=true
+setupwizard.feature.lifecycle_refactoring=true
+setupwizard.feature.notification_refactoring=true
+setupwizard.feature.show_pai_screen_in_main_flow.carrier1839=false
+setupwizard.feature.show_pixel_tos=true
+setupwizard.feature.show_support_link_in_deferred_setup=false
+setupwizard.feature.skip_button_use_mobile_data.carrier1839=true
+setupwizard.personal_safety_suw_enabled=true
+setupwizard.theme=glif_expressive
+setupwizard.feature.default_locale_enhancement_enabled=true
+setupwizard.feature.device_info_icon_enabled=true
+setupwizard.feature.provisioning_profile_mode=true
+setupwizard.feature.enable_gil=
+setupwizard.feature.enable_gil_logging=true
+setupwizard.feature.enable_minors_setup_flow=true
+setupwizard.feature.enable_parental_notice_activity=true
+setupwizard.feature.enable_parental_setup=true
+setupwizard.feature.enhanced_setup_design_metrics=true
+setupwizard.feature.is_suw_onboarding_contract_enabled=true
+setupwizard.feature.joined_up_loading=true
+setupwizard.feature.locale_agnostic_enabled=true
+ro.setupwizard.rotation_locked=true
+ro.storage_manager.enabled=false
+ro.storage_manager.show_opt_in=false
+ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html
+ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html
+ro.opa.eligible_device=true
+ro.error.receiver.system.apps=com.google.android.gms
+ro.atrace.core.services=com.google.android.gms,com.google.android.gms.ui,com.google.android.gms.persistent
+charging_string.apply_lotx=true
+charging_string.apply_v2=true
+ro.gwfcactivation.disabled_carriers=1492
+ro.carriersetup.vzw_consent_page=true
+debug.photos.eraser_camo=1
+debug.photos.eraser_suggestion=1
+debug.photos.force_pixel_eol=1
+debug.photos.p_editr.eraser=1
+ro.com.google.clientidbase=android-xiaomi
+persist.sys.strictmode.disable=true
+ro.ota.allow_downgrade=true
+ro.control_privapp_permissions=log
+ro.boot.custom_bootanim=true
+debug.graphics.game_default_frame_rate.disabled=true
+persist.sys.disable_rescue=true
+ro.boot.wificountrycode=00
+ro.surface_flinger.supports_background_blur=1
+dalvik.vm.systemuicompilerfilter=speed
+ro.evolution.build.type=Unofficial
+ro.evolution.build.version=EvolutionX-17.0-20260822-pipa-12.1-Unofficial
+ro.evolution.display.version=v12.1-20260822
+ro.evolution.version=17.0
+ro.modversion=12.1
+ro.config.notification_sound=Kernel.ogg
+ro.config.alarm_alert=Fresh_morning.ogg
+ro.evolutionlegal.url=https://evolution-x.org/legal.php
+media.recorder.show_manufacturer_and_model=true
+persist.wm.extensions.activity_embedding_guard_with_android_15=false
+persist.settings.large_screen_opt.enabled=true
+dalvik.vm.heapstartsize=16m
+dalvik.vm.heapgrowthlimit=256m
+dalvik.vm.heapsize=512m
+dalvik.vm.heaptargetutilization=0.5
+dalvik.vm.heapminfree=8m
+dalvik.vm.heapmaxfree=32m
+dalvik.vm.enable_time_based_gc_trigger=true
+dalvik.vm.jitmaxsize=128m
+dalvik.vm.jitinitialsize=16m
+dalvik.vm.parallel-image-loading=true
+dalvik.vm.madvise.vdexfile.size=104857600
+dalvik.vm.madvise.odexfile.size=104857600
+dalvik.vm.usap_pool_enabled=true
+dalvik.vm.usap_pool_size_max=2
+# end of file
+####################################
+# from generate-common-build-props
+# These properties identify this partition image.
+####################################
+ro.product.system_ext.brand=Xiaomi
+ro.product.system_ext.device=pipa
+ro.product.system_ext.manufacturer=Xiaomi
+ro.product.system_ext.model=23043RP34G
+ro.product.system_ext.name=pipa
+ro.system_ext.build.date=Sat Aug 22 08:57:08 UTC 2026
+ro.system_ext.build.date.utc=1787389028
+ro.system_ext.build.fingerprint=google/mustang_beta/mustang:CANARY/ZP11.260717.006/16004061:user/release-keys
+ro.system_ext.build.id=CP2A.260605.016
+ro.system_ext.build.uuid=DLfU02HhAy8pk8KrdTGYTYyejtCAjzMqfi1BDlgCdMo
+ro.system_ext.build.tags=test-keys
+ro.system_ext.build.type=user
+ro.system_ext.build.version.incremental=1787389028
+ro.system_ext.build.version.release=17
+ro.system_ext.build.version.release_or_codename=17
+ro.system_ext.build.version.sdk=37
+ro.system_ext.build.version.sdk_full=37.0
+####################################
+# from variable PRODUCT_SYSTEM_EXT_PROPERTIES
+####################################
+ro.face.sense_service=true
+ro.launcher.depth.widget=true
+ro.adb.secure=1
+# end of file
+#
+# RECOVERY UI BUILD PROPERTIES
+#

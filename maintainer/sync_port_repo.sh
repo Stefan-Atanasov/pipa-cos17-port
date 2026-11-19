@@ -20,6 +20,7 @@ rsync -a --delete --delete-excluded \
     --exclude='maintainer/kgest/kgest' --exclude='maintainer/jars/' \
     --exclude='module/system/vendor/etc/qdcm_calib_data_*' --exclude='module/system/system_ext/etc/display_brightness_config_*' \
     --exclude='module/framework/' --exclude='maintainer/port-repo/' --exclude='dolby-eq-module/src/dax-default.xml' \
+    --exclude='maintainer/fromstock/vendor/patches/' \
     --include='/maintainer/***' --include='/port-rom/***' --include='/helper/***' --include='/module/***' \
     --include='/port-module/' --include='/port-module/src/***' --include='/dolby-eq-module/***' \
     --exclude='*' \

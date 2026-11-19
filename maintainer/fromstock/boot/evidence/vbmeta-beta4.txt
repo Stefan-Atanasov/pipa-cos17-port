@@ -1,0 +1,82 @@
+=== vbmeta
+Minimum libavb version:   1.0
+Header Block:             256 bytes
+Authentication Block:     576 bytes
+Auxiliary Block:          4352 bytes
+Public key (sha1):        2597c218aae470a130f61162feaae70afd97f011
+Algorithm:                SHA256_RSA4096
+Rollback Index:           0
+Flags:                    3
+Rollback Index Location:  0
+Release String:           'avbtool 1.4.0'
+Descriptors:
+    Chain Partition descriptor:
+      Partition Name:          vbmeta_system
+      Rollback Index Location: 1
+      Public key (sha1):       2597c218aae470a130f61162feaae70afd97f011
+      Flags:                   0
+    Prop: com.android.build.boot.os_version -> '17'
+    Prop: com.android.build.boot.fingerprint -> 'Xiaomi/lineage_pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Prop: com.android.build.dtbo.fingerprint -> 'Xiaomi/lineage_pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Prop: com.android.build.odm.os_version -> '17'
+    Prop: com.android.build.odm.fingerprint -> 'Xiaomi/lineage_pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Prop: com.android.build.vendor.os_version -> '17'
+    Prop: com.android.build.vendor.fingerprint -> 'Xiaomi/lineage_pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Prop: com.android.build.vendor.security_patch -> '2025-04-01'
+    Prop: com.android.build.vendor_boot.fingerprint -> 'Xiaomi/lineage_pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Hash descriptor:
+      Image Size:            57298944 bytes
+      Hash Algorithm:        sha256
+      Partition Name:        boot
+      Salt:                  d88ae0829d64c8953642484b76c60c7f91b64ec270c896d5ed016cf97b69c8e5
+      Digest:                4ef7101b1231cdd57064b73d0cdf5a861e89c2f00e9086a4b5a869ab3b7bb5e2
+      Flags:                 0
+    Hash descriptor:
+      Image Size:            6402048 bytes
+      Hash Algorithm:        sha256
+      Partition Name:        dtbo
+      Salt:                  e01a6190364ce622148822c3c3a471c2d17da61d763dcded18370ea6777bb6d9
+      Digest:                f8cfec5f85fb165a206e702708a1ec8c8d1a72c83d7b2a807e5bca707ab0a98b
+      Flags:                 0
+    Hash descriptor:
+=== vbmeta_system
+Minimum libavb version:   1.0
+Header Block:             256 bytes
+Authentication Block:     576 bytes
+Auxiliary Block:          2752 bytes
+Public key (sha1):        2597c218aae470a130f61162feaae70afd97f011
+Algorithm:                SHA256_RSA4096
+Rollback Index:           1785542400
+Flags:                    0
+Rollback Index Location:  0
+Release String:           'avbtool 1.4.0'
+Descriptors:
+    Prop: com.android.build.product.os_version -> '17'
+    Prop: com.android.build.product.fingerprint -> 'Xiaomi/lineage_pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Prop: com.android.build.product.security_patch -> '2026-08-01'
+    Prop: com.android.build.system.os_version -> '17'
+    Prop: com.android.build.system.fingerprint -> 'Xiaomi/pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Prop: com.android.build.system.security_patch -> '2026-08-01'
+    Prop: com.android.build.system_ext.os_version -> '17'
+    Prop: com.android.build.system_ext.fingerprint -> 'Xiaomi/lineage_pipa/pipa:17/CP2A.260605.016/eng.androi:userdebug/test-keys'
+    Prop: com.android.build.system_ext.security_patch -> '2026-08-01'
+    Hashtree descriptor:
+      Version of dm-verity:  1
+      Image Size:            2938499072 bytes
+      Tree Offset:           2938499072
+      Tree Size:             23142400 bytes
+      Data Block Size:       4096 bytes
+      Hash Block Size:       4096 bytes
+      FEC num roots:         2
+      FEC offset:            2961641472
+      FEC size:              23412736 bytes
+      Hash Algorithm:        sha256
+      Partition Name:        product
+      Salt:                  e1e31fb6a2b86fafb168b273dce23a367bdc382885a07316052f793c490c356c
+      Root Digest:           d985e5867db0beccea31855d480d1eebf5f05e78a31243d23de6b60deacba25b
+      Flags:                 0
+    Hashtree descriptor:
+      Version of dm-verity:  1
+      Image Size:            1257885696 bytes
+      Tree Offset:           1257885696
+      Tree Size:             9912320 bytes

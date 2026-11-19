@@ -1,0 +1,35 @@
+path	md5	identical_in	example	note
+/build.prop	4394cc0c	NONE		root build.prop: dalvik heapsize 512m / growthlimit 384m
+/system/app/FaceUnlock/FaceUnlock.apk	83e9bc0c	NONE		com.pipa.faceunlock (legacy socket client, R4 — candidate to drop)
+/system/etc/default-permissions/pipa_faceunlock.xml	0fafd117	NONE		camera grant for FaceUnlock
+/system/etc/face/model_file	55872202	NONE		Megvii face model (21 MB)
+/system/etc/face/panorama_mgb	d41d8cd9	hyperos1-stock,iqraos3.1,pixelos	hyperos1-stock:system/init.recovery.hardware.rc	Megvii face model
+/system/lib64/libFaceDetectCA.so	7f4009df	pixelos	pixelos:system/system/lib64/libFaceDetectCA.so	Megvii
+/system/lib64/libMegviiUnlock-jni-1.2.so	a0fa17cd	pixelos	pixelos:system/system/lib64/libMegviiUnlock-jni-1.2.so	Megvii
+/system/lib64/libMegviiUnlock.so	909ab3a4	pixelos	pixelos:system/system/lib64/libMegviiUnlock.so	Megvii
+/system/lib64/libmegface.so	749fcb4a	pixelos	pixelos:system/system/lib64/libmegface.so	Megvii
+/system/app/OppoCamera/OppoCamera.apk	de6ba1c8	NONE		substitute camera (com.oppocamera, Fossify-derived); replaces removed OplusCamera
+/system/etc/default-permissions/default-permissions-miuicamera.xml	af7fa290	NONE		MIUI camera perms
+/system/etc/permissions/privapp-permissions-miuicamera.xml	6c4f82ec	NONE		MIUI camera perms
+/system/etc/sysconfig/miuicamera-hiddenapi-package-whitelist.xml	23bd6091	NONE		MIUI camera hiddenapi
+/system/priv-app/MiSound/MiSound.apk	bf1505bb	NONE		Xiaomi MiSound/Dolby UI
+/system/priv-app/MiSound/lib/arm64/libmievent.so	28fdeac5	NONE		MiSound
+/system/priv-app/MiSound/lib/arm64/libmp3lame.so	d6d30cc9	NONE		MiSound
+/system/priv-app/MiSound/lib/arm64/libnative-lib.so	01cb8b63	NONE		MiSound
+/system/etc/permissions/privapp-permissions-misound.xml	3fa4bc58	NONE		MiSound
+/system/etc/sysconfig/misound-hiddenapi-package-whitelist.xml	7cecbe3e	NONE		MiSound
+/system/lib64/libxiaomipen.so	7c06c3ff	NONE		pen-mode JNI -> /dev/xiaomi-touch
+/system/etc/media_profiles.xml	bc0f07fa	hyperos1-stock,iqraos3.1,pixelos	hyperos1-stock:vendor/etc/media_profiles_kona.xml	camcorder/media profiles for pipa
+/system/etc/permissions/android.hardware.telephony.gsm.xml	3bc30589	NONE		telephony feature for ColorOS telephony stack on Wi-Fi-only pad
+/system_ext/apex/com.android.vndk.v30.apex	b6da87a8	NONE		VNDK compat for re-imported Xiaomi vendor blobs
+/system_ext/apex/com.android.vndk.v31.apex	574e2d76	NONE		VNDK compat
+/system_ext/apex/com.android.vndk.v32.apex	3c9304b7	NONE		VNDK compat
+/system_ext/apex/com.android.vndk.v33.apex	6b6a7894	hyperos1-stock	hyperos1-stock:system_ext/apex/com.android.vndk.v33.apex	VNDK compat
+/my_product/overlay/PipaCornersOverlay.apk	aeda0ddd	NONE		port RRO
+/my_product/overlay/PipaLauncherOverlay.apk	5ecb3232	NONE		port RRO
+/my_product/overlay/PipaMiSoundOverlay.apk	49eec90a	NONE		port RRO
+/my_product/overlay/PipaSettingsPadOverlay.apk	0d1f0949	NONE		port RRO
+/system_ext/lib/libupdateprof.qti.so	f8a46f49	NONE		beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib/libtrigger-handler.so	5c88f367	NONE		beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib64/libupdateprof.qti.so	daa1a1de	NONE		beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
+/system_ext/lib64/libtrigger-handler.so	631cad9c	NONE		beta4 (C.05) copy: C.06 only switched AServiceManager_checkService -> waitForService (QSPM/Snapdragon perf HAL absent on pipa), which hangs system_server's display thread (bootloop)
