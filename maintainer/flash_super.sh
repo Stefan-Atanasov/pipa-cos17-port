@@ -154,6 +154,7 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt125)       IMG=$P/port-work/pt125/img/super.img;       MD5=33cb3d07b5029f90d4cce1ee2eac6c81 ;;   # pt124 + 7u SukiSU Nova manager (needs kernel walt-hi9)
     pt127)       IMG=$P/port-work/pt127/img/super.img;       MD5=c3b0e2ef5f6d887fdf918c9d718e0a42 ;;   # pt125 + 7v Gboard after setup + 7w helper 2.1 (MiSound flag, Dolby page)
     pt128)       IMG=$P/port-work/pt128/img/super.img;       MD5=6615f44c1f867097e1c12a7495f5750e ;;   # pt127 + 7x Live blur tile (helper 2.2)
+    fs1a)        IMG=$P/port-work/fs1a/img/super.img;        MD5=46e606a175bf53bfa1b6b9ff079a5a29 ;;   # pt128 + vendor set 1a from PixelOS (BUGS 141, test B8-1a)
     pt97)        IMG=$P/port-work/pt97/img/super.img;        MD5=33673ba0fd654cc7844d9632064e2318 ;;   # pt96 + 6w SELinux: perf HAL swapd pause + healthinfo, nandswap caps
     pt96)        IMG=$P/port-work/pt96/img/super.img;        MD5=f2088152ffb4156796893b24c9d5e215 ;;   # pt95 + 6v drop nandswap_dedup (OPPO hybridswap owns the file)
     *)           IMG=$1; MD5=${2:?md5 required for a custom path} ;;

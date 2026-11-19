@@ -527,6 +527,22 @@ Status (2026-11-19): **offline research only.** The sources below were found by 
 - **stock + patch:** a stock or public file plus a small, known edit.
 - **blob:** made by the beta4 author; no source is known. Keep the beta4 (or `pipa_core`) file.
 
+## B0. Where each part of the port comes from (summary)
+
+| Part | LineageOS family (PixelOS 17 build) | Xiaomi HyperOS | OPPO ColorOS | beta4 author (梦归zzz) | This port |
+|---|---|---|---|---|---|
+| Firmware (18 images) | | HyperOS 2 CN: 17 byte-identical (iqraOS 3.1 `firmware-update`) | | `abl` (changed, source unknown) | |
+| `boot` | | | | TWRP 3.7.1 ramdisk (own build) | the kernel (`walt-hi9`: LineageOS 4.19 base, liyafe pipa drivers, E404 display/touch, OPPO open-source UI First and Hans, SukiSU Nova, susfs) |
+| `vendor_boot`, `dtbo`, `vbmeta` | Lineage recovery ramdisk, dtb, 12 of 13 dtbo entries | | | small edits (cmdline, GPU fragment, flags 3 with the AOSP test key) | |
+| `vendor` (2161 paths) | 1683 (78 %) | 97 Xiaomi files (+3 from HyperOS 2) | 2 (donor C.06) | 367: 306 binaries of an own Lineage-family A17 build, 36 text edits, 15 binaries of unknown origin (OPPO perf/stability HALs, gralloc, turnip, ...), 9 face HAL files (`pipa_core`) | the steps change it further (fixes, SELinux) |
+| `odm` (95 paths) | 10 (SELinux files, passwd/group) | | 7 (donor C.06) | 78 (the OPPO "virtual modem" stack of donor C.05, own scripts, `precompiled_sepolicy`) | |
+| `system`, `system_ext`, `product`, `my_*` | | carried: MiSound (changed), VNDK v33 apex; the Megvii face libraries (also in PixelOS) | the whole system: donor OPD2515 C.07 (ColorOS 17) | carried: FaceUnlock.apk, OppoCamera (Fossify based), 4 overlays, `libxiaomipen.so`; C.05 copies of 2 libraries | 144 steps; `pipa_port` service, helper app, SELinux domain, overlays |
+| Runtime add-ons | | | | `facehal-rs` face HAL + SenseTime libraries, `xiaomi_touch_ioctl`, `chargershim.jar`, `aod_bl.jar` (from `pipa_core`) | the rest of `port-rom/` |
+
+Test build fs1a (B8 test 1a) moves 178 of the 306 author-build vendor binaries to the PixelOS build: the vendor is
+then 86 % PixelOS. The 128 author-build files left: the graphics and display chain (87, test 1b), 32 thermal
+configs, 4 apps, 3 kernel modules, the audio HAL (an 8-byte port patch) and one notice file.
+
 ## B1. What beta4 is made of
 
 | Piece | What it is | From-stock source | Status |
