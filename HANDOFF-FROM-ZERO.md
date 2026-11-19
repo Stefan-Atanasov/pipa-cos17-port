@@ -536,6 +536,10 @@ Status (2026-11-19): **offline research only.** The sources below were found by 
 - **stock + patch:** a stock or public file plus a small, known edit.
 - **blob:** made by the beta4 author; no source is known. Keep the beta4 (or `pipa_core`) file.
 
+"PixelOS" in Part B means a PixelOS 17 (Android 17) test build for pipa from 2026-08-05. A developer gave it to the
+maintainer for personal tests; it is **not public**. Use it only for own tests, and use public sources for releases
+(B10).
+
 ## B0. Where each part of the port comes from (summary)
 
 | Part | LineageOS family (PixelOS 17 build) | Xiaomi HyperOS | OPPO ColorOS | beta4 author (梦归zzz) | This port |
@@ -617,7 +621,8 @@ with `avbtool info_image --image <file>` (`Flags: 3`).
 ## B6. vendor and odm
 
 The beta4 `vendor` is a LineageOS-family **source build** for Android 17 (build id `CP2A.260605.016`, `user`,
-2026-08-22), the same family as PixelOS 17 for pipa (`PixelOS_pipa-17.0-20260805`, same build id, `userdebug`). The
+2026-08-22), the same family as a PixelOS 17 test build for pipa (2026-08-05, same build id, `userdebug`; a private build from a
+developer, not public). The
 author changed the props to OPPO OPD2515, added the port files and took 96 Xiaomi files back from stock HyperOS.
 
 Recipe (no root, makes a tree, not an image): `maintainer/fromstock/vendor/make_vendor_from_stock.sh` and
@@ -625,7 +630,8 @@ Recipe (no root, makes a tree, not an image): `maintainer/fromstock/vendor/make_
 
 1. Make the reference trees. `REF` is a folder with one subfolder for each ROM, and each has the **extracted**
    `vendor/` and `odm/` trees (not images): `pixelos/`, `hyperos1-stock/`, `iqraos3.1/`, `iqraos_v1.0/`. Get the
-   images: PixelOS `PixelOS_pipa-17.0-20260805-1810.zip` (`payload.bin` → `payload_extract.py ... vendor odm`), the
+   images: an Android 17 LineageOS-family pipa build (the maintainer used a private PixelOS 17 test build; use a public
+   build when one exists) (`payload.bin` → `payload_extract.py ... vendor odm`), the
    stock HyperOS fastboot ROM and the iqraOS packages (`super.img` → `simg2img` if sparse → `lpunpack`). Extract each
    EROFS image with `fsck.erofs --extract=<REF>/<rom>/vendor --no-preserve <vendor.img>` (for a real image build: as
    root, with `--xattrs --preserve`). An ext4 image needs `debugfs -R "rdump / <dir>" <img>` instead.
@@ -753,10 +759,13 @@ Checked online on 2026-11-19 (GitHub branches and commits, project download page
 | LineageOS `android_device_xiaomi_pipa` + `TheMuppets/proprietary_vendor_xiaomi_pipa` | active; newest branch `lineage-23.2` (Android 16); last commit 2026-02-27 "update blobs from OS2.0.14.0.UMZMIXM" (HyperOS 2 Global). No `lineage-24.0` (Android 17) branch for pipa yet. |
 | LineageOS `android_device_xiaomi_sm8250-common` + TheMuppets `sm8250-common` | `lineage-24.0` exists and is active (last commits 2026-11-14 and 2026-09-15). |
 | LineageOS `android_kernel_xiaomi_sm8250` | `lineage-24.0` exists (our kernel base). |
-| PixelOS pipa | the website lists Android 16 builds (maintainer Sugakesshaa). Our Android 17 zip came from `download.pixelos.net/seventeen/pipa` (2026-08-05); that folder now redirects to the home page. The PixelOS-Devices GitHub trees for pipa are only `fifteen`. |
+| PixelOS pipa | the website lists Android 16 builds (maintainer Sugakesshaa). The Android 17 PixelOS build used in Part B is a **private test build** that a developer gave the maintainer; it is not public. The PixelOS-Devices GitHub trees for pipa are only `fifteen`. |
 | Other pipa trees | `nullpointer1101/android_device_xiaomi_pipa`: Android 16 branches (`16.axion`, `16.derp`). An Evolution-X pipa tree was on git.evolution-x.org; it does not answer now. |
 | Adreno blobs in TheMuppets `sm8250-common` | `libGLESv2_adreno.so` has not changed since the 2022 import: LineageOS keeps the old stock driver. The beta4 Adreno stack (2025) is from another source (not known). |
 | Xiaomi firmware | HyperOS 2 builds for pipa still came out in 2025-2026 (Global OS2.0.12 in 2025-12; LineageOS took blobs from OS2.0.14 in 2026-02). |
+
+NOTE: Files from the private PixelOS test build are only for own tests. Do not put them in a public release
+without the developer's permission.
 
 So, for now: the best future `vendor` source is LineageOS, when `lineage-24.0` arrives for pipa (build the vendor from
 the device trees, or take it from a LineageOS-family Android 17 build). Newer GPU drivers have no public, official
