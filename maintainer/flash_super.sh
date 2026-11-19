@@ -153,6 +153,7 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt124)       IMG=$P/port-work/pt124/img/super.img;       MD5=dc392467595624794fedc32e2cce7d72 ;;   # pt123 + 7t debug.sf.enable_hwc_vds=1 (Miracast picture, BUGS 80)
     pt125)       IMG=$P/port-work/pt125/img/super.img;       MD5=33cb3d07b5029f90d4cce1ee2eac6c81 ;;   # pt124 + 7u SukiSU Nova manager (needs kernel walt-hi9)
     pt127)       IMG=$P/port-work/pt127/img/super.img;       MD5=c3b0e2ef5f6d887fdf918c9d718e0a42 ;;   # pt125 + 7v Gboard after setup + 7w helper 2.1 (MiSound flag, Dolby page)
+    pt132) IMG=$P/port-work/pt132/img/super.img; MD5=d3c76dd1afd6a77c0ad6393fda5a2a84 ;; # pt131 + 8c composer clamps plane alpha (BUGS 48)
     pt131) IMG=$P/port-work/pt131/img/super.img; MD5=5293cca9f274d1a2e73289801747f155 ;; # v9.1 = pt130 + 8b face preview rotation from the window (BUGS 147)
     pt130) IMG=$P/port-work/pt130/img/super.img; MD5=d29e2a0c22dcde4a89563399729b72cc ;; # v9.1 = pt129 + 8a helper 2.4 (BUGS 146)
     pt129) IMG=$P/port-work/pt129/img/super.img; MD5=83554bd5b0f67b5a07771f17cdf53219 ;; # v9.1 = pt128 + 7y helper 2.3 + 7z MiSound without the beta4 enabler (BUGS 144, 145)

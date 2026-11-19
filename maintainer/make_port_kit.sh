@@ -84,7 +84,7 @@ Everything needed to rebuild the port's ROM layers and the kernel, without image
   for them set **`PIPA_ROOT`** and **`PIPA_OWNER`** through sudo: `sudo env PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh ...`.
 * Step-by-step runbook for a new PC (also for a local AI model): **`docs/HANDOFF-FROM-ZERO.md`** (Part A: rebuild;
   Part B: where every beta4 part comes from and how to make it from stock).
-* Current release: **v9.1** = ROM pt131 (`port.sh` default build, last step 8b, donor OPD2515 `17.0.0.104(CN01)`
+* Current release: **v9.1** = ROM pt132 (`port.sh` default build, last step 8c, donor OPD2515 `17.0.0.104(CN01)`
   = C.07) + kernel walt-hi9. Release notes: `RELEASE-NOTES-v9.1.md`. Next work: `NEXT-SESSION-PROMPT.md`.
 * Folder layout (next to `COS17/`): `donor/OPD2515_11.C.07/img/` (images from the C.07 OTA zip, docs/REBASE.md),
   `port-inputs/apps-5u/` (step 5u), `port-inputs/dolby-5z/` (step 5z), `tools/` (smali, apktool), `port-work/` (build output, about 40 GB free needed).

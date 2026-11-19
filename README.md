@@ -13,7 +13,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **v9.1** (2026-11-19: v9 + an audio hotfix, update from v9 with "keep data"; v9 = first stable, released 2026-11-19): `port.sh` default build (last step 8b, pt131) + kernel `walt-hi9` (SukiSU Nova 3.0.0). Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
+| Current release | **v9.1** (2026-11-19: v9 + an audio hotfix, update from v9 with "keep data"; v9 = first stable, released 2026-11-19): `port.sh` default build (last step 8c, pt132) + kernel `walt-hi9` (SukiSU Nova 3.0.0). Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
 | Next | No build in progress. Ideas and open items: WebRTC noise suppression for calls, dock-drag and setup-wizard layout items (see [BUGS.md](BUGS.md)). |
 | Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. v9 has no `noenc` package. |
 | Previous releases | beta7.2 (2026-11-06, pt68 + `walt-r17`, root SukiSU-Ultra v4.3.0-r1), beta7.1 (2026-11-05), beta6 (2026-10-30). beta7 was withdrawn (grey screen after a clean flash). beta 8 was a tester zip only (pt81 + r17), never a release. |

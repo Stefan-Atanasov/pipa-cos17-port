@@ -5,7 +5,7 @@ Linux PC: tools, inputs, kernel, ROM build, the first flash of a tablet, tests, 
 for a local AI model with a small context window. `PORTING-GUIDE.md` explains *why* the port is made this way; this
 file tells *what to do, in which order, and how to check each result*.
 
-Status: 2026-11-19, release v9.1 (ROM build pt131 = `port.sh` up to step 8b, kernel `walt-hi9`; v9 = pt128, up to step 7x).
+Status: 2026-11-19, release v9.1 (ROM build pt132 = `port.sh` up to step 8c, kernel `walt-hi9`; v9 = pt128, up to step 7x).
 
 - **Part A** rebuilds the current port from its pinned inputs (the normal case).
 - **Part B** tells how to make the base that Part A starts from (beta4) when you do not have it, or for another
@@ -350,7 +350,7 @@ head -c 20 $K/bootimg/boot-mine.img | tail -c 4 | od -An -tx1    # 3c 06 00 20 (
 
 ## A7. Build the ROM
 
-**Goal:** `port-work/<tag>/img/super.img`, the same content as v9.1 (pt131).
+**Goal:** `port-work/<tag>/img/super.img`, the same content as v9.1 (pt132).
 
 **Do:**
 
@@ -367,7 +367,7 @@ out the optional steps 2u, 3k, 3x and 5s. Never publish a build with `PORT_MAINT
 
 - The output ends with the `super.img` path and its md5. Write the md5 down.
 - `port-work/mybuild1/report/PORT-REPORT.txt` lists every step with no error.
-- To compare with the maintainer's current build (pt131; the proof test of 2026-11-19 used pt128), compare the manifests `report/<partition>.tsv` (path, mode, owner, md5,
+- To compare with the maintainer's current build (pt132; the proof test of 2026-11-19 used pt128), compare the manifests `report/<partition>.tsv` (path, mode, owner, md5,
   label), not the image md5 (each image has a random UUID). Tested 2026-11-19 with a kit (`KIT_INPUTS=1`) in an
   empty folder: of 17991 entries only 7 differed from pt128: the 6 APKs signed with the new keys (helper, 5
   overlays) and `ro.pipa.port.apps` in `system_ext/etc/build.prop` (a hash over the APKs). All other rows must match.

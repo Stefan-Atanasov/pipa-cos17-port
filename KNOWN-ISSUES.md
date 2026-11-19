@@ -1,7 +1,7 @@
 # Known issues
 
 This document lists the known problems of the public release **v9.1** (2026-11-19: v9 + an audio hotfix; ROM `port.sh` up to
-step 8b = pt131 + kernel walt-hi9, donor C.07; v9 = first stable, step 7x = pt128). The known issues of v9 apply to v9.1. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
+step 8c = pt132 + kernel walt-hi9, donor C.07; v9 = first stable, step 7x = pt128). The known issues of v9 apply to v9.1. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
 [RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9" are the older lists (beta6 to beta8), kept as a record.
 Updated 2026-11-19.
 
