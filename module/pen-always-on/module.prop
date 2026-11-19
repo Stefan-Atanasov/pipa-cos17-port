@@ -1,0 +1,6 @@
+id=pipa_pen_always_on
+name=Pen always on (pens without Bluetooth)
+version=v1.0
+versionCode=1
+author=Stefan-Atanasov
+description=ColorOS 17 port for Xiaomi Pad 6 (v9+): pen input stays on for active pens without a Bluetooth link (Lenovo Precision Pen etc.). Stock (like HyperOS): only while a Bluetooth pen is connected. Costs a little battery. Uninstall + reboot = stock.
