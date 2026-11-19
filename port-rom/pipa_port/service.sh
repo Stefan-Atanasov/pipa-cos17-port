@@ -601,29 +601,10 @@ remember_display() {
     fi
 }
 
-# B7: facehal-rs adds persist.vendor.facehal.rotation to the camera orientation for every
-# preview frame but ignores the display rotation; on pipa the right extra turn is
-# 90 x display rotation. Only while a camera worker (a second facehal process) runs.
-# pidof scans all of /proc (and logs an SELinux denial for each foreign process while the domain
-# is permissive), so it runs every 3rd tick, and every tick only while a worker was seen in the last 10 s.
-FROT=$(getprop persist.vendor.facehal.rotation)
-FACE_SEEN=-100
-face_rotation_sync() {
-    [ $((tick - FACE_SEEN)) -lt 10 ] || [ $((tick % 3)) = 0 ] || return
-    set -- $(pidof android.hardware.biometrics.face-service.facehal)
-    [ $# -gt 1 ] || return
-    FACE_SEEN=$tick
-    # The display rotation from `cmd display get-displays` into a file (first display = the panel). `dumpsys display`
-    # fails in this domain (FAILED_TRANSACTION, also into a file), and $(...) pipes fail for every system_server tool,
-    # so from 2e to 2u the preview turn was never set (clean flash 2026-10-25: rotated in landscape).
-    cmd display get-displays </dev/null >"$SGET_F" 2>/dev/null || return
-    r=$(grep -m1 -oE 'rotation [0-3]' "$SGET_F")
-    r=${r#rotation }
-    [ -n "$r" ] && [ "$((r * 90))" != "$FROT" ] || return
-    FROT=$((r * 90))
-    setprop persist.vendor.facehal.rotation $FROT
-    log "face preview rotation -> $FROT"
-}
+# B7 / BUGS 147: the face enrollment preview rotation (persist.vendor.facehal.rotation) comes from
+# libpipa_facecrop (LD_PRELOAD in the HAL): it reads the preview window's transform hint before the first
+# frame. The old rotation sync of this service (pidof every 3 s, cmd display while a camera worker ran) set
+# it up to 3 s late: the first preview was rotated, or squashed after a flip.
 
 # B14: magnetic case. The hall is a SW_LID switch (gpio_keys hall_key), so Android's lid
 # handling works, but PhoneWindowManager only sleeps on close with global lid_behavior=1 and
@@ -969,7 +950,6 @@ while true; do
     if [ "${PEN_WAKE:-1}" = 1 ] && [ $armed = 0 ] && [ -x "$IOCTL" ] && { [ "${PEN_BT_ONLY:-1}" = 0 ] || [ "$conn" = 1 ]; }; then
         pen_wake && armed=1
     fi
-    [ "${FACE_HAL:-1}" = 1 ] && face_rotation_sync
     [ "${LID_SYNC:-1}" = 1 ] && lid_check
     [ "${ANIM_TIER:-1}" = 1 ] && anim_check
     [ "${LOG_QUIET:-1}" = 1 ] && log_check

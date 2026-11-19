@@ -2,13 +2,13 @@
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt130** (`port.sh` up to step 8a), kernel **walt-hi9**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
+Build: ROM **pt131** (`port.sh` up to step 8b), kernel **walt-hi9**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
 pipa vendor/odm/firmware from beta4. Root: **SukiSU Nova 3.0.0** (builtin; manager `com.sukisu.nova`).
 Package date 2026-11-19 (v9.1 = v9 + an audio hotfix; v9 was released 2026-11-19).
 
 ## What's new in v9.1 (since v9)
 
-Audio hotfix. Update from v9 with "keep data" (dirty flash); nothing else changed.
+Audio hotfix and a face unlock fix. Update from v9 with "keep data" (dirty flash).
 
 - **No more short sound dropout when you change the volume.** Around 2/3 of the volume bar the speaker tuning
   switches (quiet / loud). Each switch made the pipa helper reset the MiSound sound processor: a short glitch.
@@ -20,6 +20,9 @@ Audio hotfix. Update from v9 with "keep data" (dirty flash); nothing else change
   is now off.
 - **A tap on Dolby Atmos or Xiaomi Sound in Sound effects always works.** Before, a quick tap (within 3 s of
   opening the page, or of coming back from the equalizer) was undone, and the page then showed the wrong effect.
+- **Face unlock setup: the camera preview is upright from the start** (it was rotated the first time after a clean
+  flash or after turning the tablet, then squashed). Also a little less background work: the port service no longer
+  checks for the face camera every 3 s.
 - Tested with music playing: 8 volume steps across 2/3 = 8 resets on v9, 0 on v9.1; sound settings open 5 -> 0;
   MiSound screen open 1 -> 0. Dolby Atmos and Xiaomi Sound switch as before.
 
@@ -149,7 +152,7 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - **Install kernel walt-hi9 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.
 - **If the flash stops with "Failed to set slot B":** the bootloader sometimes reports no slots. Run
   `fastboot reboot bootloader`, then start the flash script again. Nothing was written at that point.
-- **Technical:** ROM super.img md5 `d29e2a0c22dcde4a89563399729b72cc` (pt130), boot image md5 `56033d4292908299d57850f3c49d36d5` (walt-hi9). Source and step list:
+- **Technical:** ROM super.img md5 `5293cca9f274d1a2e73289801747f155` (pt131), boot image md5 `56033d4292908299d57850f3c49d36d5` (walt-hi9). Source and step list:
   https://github.com/Stefan-Atanasov/pipa-cos17-port
 - **KernelSU modules:** script modules (`service.sh`, `post-fs-data.sh`) and `system.prop` work. Modules that
   replace system files (a `system/` folder) need a KernelSU metamodule; none is included. Modules with their own
@@ -190,7 +193,9 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - [x] Music playing: 8 volume steps across 2/3 = 0 resets (v9: 8); sound settings open 0 (v9: 5); MiSound screen open 0 (v9: 1)
 - [x] MiSound: Dolby Atmos <-> Xiaomi Sound switches the effects; the page shows Dolby Atmos after a restart
 - [x] User listening test (helper 2.3): volume changes clean
-- [x] pt130 (v9.1) dirty flash: device_check 57 pass, 0 fail; Dolby on after reboot; quick taps stored
+- [x] pt131 (v9.1 final) dirty flash: device_check 57 pass, 0 fail; face HAL refreshed from the ROM; face unlock OK (user)
+- [x] pt130 dirty flash: device_check 57 pass, 0 fail; Dolby on after reboot; quick taps stored
+- [x] Face setup preview (8b, live on pt130 with the old value set wrong): landscape upright and not squashed from the start; portrait right
 - [x] helper 2.4 live on pt129: quick taps after a cold open and after the equalizer page are stored; page shows the right effect
 
 ## Tests v9 (maintainer device, so far)

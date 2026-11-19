@@ -29,7 +29,9 @@ done
 need_grep 'SGET_F=' "$SE/pipa_port/service.sh"
 need_grep 'settings put system animationBlurrySwitch 0$' "$SE/pipa_port/service.sh"
 need_grep 'show_ime_with_hard_keyboard' "$SE/pipa_port/service.sh"   # =1 at first boot until 6l; 6l sets 0 once on walt-r20+
-need_grep 'cmd display get-displays' "$SE/pipa_port/service.sh"
+# the rotation sync (cmd display get-displays), or since 8b (BUGS 147) its replacement note: the rotation comes from
+# libpipa_facecrop (later steps copy the newest service.sh into this tree too)
+grep -q 'cmd display get-displays' "$SE/pipa_port/service.sh" || need_grep 'BUGS 147' "$SE/pipa_port/service.sh"
 if grep -v '^[[:space:]]*#' "$SE/pipa_port/service.sh" | grep -q 'dumpsys display'; then echo 'dumpsys display cannot work in the service'; exit 1; fi
 if grep -q qs_tile_add "$SE/pipa_port/service.sh"; then echo "qs_tile_add is still in service.sh"; exit 1; fi
 need_grep anim_check "$SE/pipa_port/service.sh"
