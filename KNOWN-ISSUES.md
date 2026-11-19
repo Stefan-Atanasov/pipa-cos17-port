@@ -41,7 +41,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   visible. Scroll to the end of the text or turn the tablet to portrait.
 - **Pens without Bluetooth (for example Lenovo Precision Pen):** as on HyperOS, pen input is on only while a
   Bluetooth pen is connected (saves power). For other pens, install the KernelSU module
-  `pipa-pen-always-on-module-v1.0.zip` (Drive) and reboot; uninstall it to go back. Do not use the old pipa_core
+  `pipa-pen-always-on-module-v1.0.zip` (Drive folder `modules/`) and reboot; uninstall it to go back. Do not use the old pipa_core
   module with v9.
 - **GCam video:** AGC 9.6.19 V7.0 cannot record video (the mod lacks its stream fix for non-Pixel devices; photos and
   HDR+ work). Use the stock camera for video.
