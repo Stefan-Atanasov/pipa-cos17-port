@@ -10,6 +10,33 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 ## Known issues in v9
 
+- **Fewer effects than full ColorOS (by design, since v9).** The port uses ColorOS's "fast" animation level 3 and
+  turns off the window blur and the animation blur: about 0.3 % dropped frames instead of 2.7 % on the SD870. At
+  level 3 ColorOS itself turns off the wallpaper zoom when apps open and close, and some glass effects. Visual blur
+  and Contour glow stay on. The next build will have a switch (BUGS 148). Until then, to get all effects (root,
+  for example in Termux; more stutter, a little more heat and battery use):
+
+  ```sh
+  su -c '
+  echo ANIM_LEVEL=1 >> /data/misc/pipa_port/config.prop
+  settings put global disable_window_blurs 0
+  settings put system animationBlurrySwitch 1
+  settings put global pipa_live_blur 1
+  reboot'
+  ```
+
+  `ANIM_LEVEL=1` is the full ColorOS level (the "ColorOS" state of the old Animations tile in beta7.1).
+  `pipa_live_blur 1` is the same as the "Live blur" tile. To go back to the defaults:
+
+  ```sh
+  su -c '
+  sed -i "/^ANIM_LEVEL=/d" /data/misc/pipa_port/config.prop
+  settings put global disable_window_blurs 1
+  settings put system animationBlurrySwitch 0
+  settings put global pipa_live_blur 0
+  reboot'
+  ```
+
 - **Excel and document viewer:** scrolling in the default document viewer (Excel files) feels jittery. The app is
   slow at 120 Hz; Settings and other apps are smooth.
 - **Cast to TV (Miracast):** fixed on Windows; please test with a TV and report.
