@@ -4,7 +4,8 @@
 # * SukiSU-Ultra was renamed SukiSU Nova (2026-11-15). walt-hi9 has the Nova builtin branch (4bec532d, version 30691)
 #   and accepts only the manager package com.sukisu.nova (same signing certificate 947ae944...). The old bundled
 #   manager (5m, com.sukisu.ultra 41140) cannot talk to it.
-# * system_ext/pipa_port/SukiSU.apk + SukiSU.version: the Nova APK (GitHub release v3.0.0, arm64-v8a, sha256 below).
+# * system_ext/pipa_port/SukiSU.apk + SukiSU.version: the Nova APK (GitHub release v3.0.0, arm64-v8a, sha256 below;
+#   https://github.com/SukiSU-Nova/SukiSU-Nova/releases/download/v3.0.0/SukiSU_Nova_v3.0.0_35000-arm64-v8a-release.apk).
 # * service.sh: ksu_manager installs com.sukisu.nova once and then removes an old com.sukisu.ultra manager (dirty
 #   flash). The Nova manager installs its own ksud 3.0.0 (do not copy ksud by hand).
 #NEEDS: "$HERE/../kernel/sukisu-nova-3.0.0/SukiSU_Nova_v3.0.0_35000-arm64-v8a-release.apk" "$ROM/pipa_port/service.sh"
