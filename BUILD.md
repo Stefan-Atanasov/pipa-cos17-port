@@ -30,10 +30,10 @@ Use a Linux host. The maintainer uses CachyOS (Arch Linux based). Install these 
 The Android SDK must be in `~/Android/Sdk` of the build user, or in `ANDROID_HOME`. The steps run as root: give
 `ANDROID_HOME` through `sudo` if you use it.
 
-Optional, only for the analysis tools in `maintainer/jar-edits/` (not for the build):
+Necessary for the build (10 steps run their jar and dex patch scripts with it; `maintainer/build_parts.sh` makes it):
 
 ```sh
-python3 -m venv maintainer/jar-edits/venv && maintainer/jar-edits/venv/bin/pip install androguard
+python3 -m venv maintainer/jar-edits/venv && maintainer/jar-edits/venv/bin/pip install androguard==4.1.4
 ```
 
 ### 1.2 Folder layout
@@ -65,6 +65,7 @@ Get these inputs. They are not in this repository.
 | SukiSU-Ultra manager `SukiSU_v4.2.1-r1_41049-release.apk` (only for the optional step 2u, `PORT_WITH_2U=1`) | `COS17/kernel/sukisu-v4.2.1-r1/` | md5 `3d7698ff8f58824d1718594366f5876b` |
 | Google apps for step 5u (Play Store, Gboard, Google app, Gemini: base APK and splits, from Google Play) | `port-inputs/apps-5u/<package>/` (next to `COS17/`; about 500 MB, not in git) | `SHA256SUMS` in the folder; a file `version` (versionCode) in each package folder |
 | Proprietary files (face HAL, charger shim, pen-wake helper, patched module files, boot animations) | their paths in this repository | [BLOBS.md](BLOBS.md) |
+| `OplusGames-10.44.6.apk` (step 7c, the update from OPPO's App Market, pulled from a tablet) and `grallocutils-pixelos/lib{,64}/libgrallocutils.so` (step 7h, = the PixelOS 17 vendor files) | `port-work/blobs/` | the step headers |
 
 Prepare them in this sequence:
 
@@ -111,8 +112,10 @@ python3 -I ../../COS17/maintainer/payload_extract.py payload.bin ../../port-work
 5. Build the parts that the steps take from this repository:
 
 ```sh
-sh helper/build.sh                  # helper/out/PipaHelper.apk (steps 2d, 2e, 2p)
-sh maintainer/cryptoeng/build.sh    # maintainer/cryptoeng/cryptoeng.jar (step 3a)
+sh maintainer/build_parts.sh        # all of them, in this order:
+#   androguard venv; helper/out/PipaHelper.apk (steps 2d, 2e, 2p); maintainer/cryptoeng/cryptoeng.jar (step 3a);
+#   maintainer/cts/overlay/out/*.apk (first: it makes the overlay key); maintainer/overlays/{framework,launcher,
+#   location,misound}/out/*.apk (steps 6i, 7k, 7i, 6b)
 ```
 
    WARNING: `helper/build.sh` makes a new signing key in `helper/keys/` if there is no key. Keep this key. The ROM

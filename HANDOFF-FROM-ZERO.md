@@ -173,8 +173,11 @@ There are three sources. Use the first one you have:
 
 1. Put the repository at `$C`:
    - Kit: `mkdir -p "$ROOT" && tar xzf <kit> -C "$ROOT"`, then rename the kit folder to `COS17`. A kit made with
-     `KIT_INPUTS=1` also has `port-inputs/` and `tools/`: **move these two next to `COS17/`** (to `$ROOT/port-inputs`
-     and `$ROOT/tools`). `port-overlay/` and `kernel/sukisu-*/` stay in `COS17/`. Read `KIT-README.md` in the kit.
+     `KIT_INPUTS=1` has all inputs except the donor OTA (no beta4 download is needed). **Move `port-inputs/`, `tools/`
+     and `port-work/` next to `COS17/`** (to `$ROOT/...`). In `COS17/`, unpack the overlay **as root**, so that its
+     owners and SELinux labels come back: `cd "$C" && sudo tar --xattrs --xattrs-include='*' --numeric-owner -xpzf
+     port-overlay.tar.gz`. `work/parts/`, the beta4 folder (without its `super`), `kernel/` and
+     `pipa-susfs-v1.0.zip` stay in `COS17/`. Read `KIT-README.md` in the kit.
    - Git: `git clone <url> "$C"`.
 2. With the public repository only: get each file in `BLOBS.md` (columns "Path", "What", "Where from"; in the
    private repository it is `maintainer/port-repo/BLOBS.md`) and put it at its path. Most
@@ -199,6 +202,7 @@ There are three sources. Use the first one you have:
 | SukiSU-Ultra manager `SukiSU_v4.3.0-r1_41140-release.apk` (step 5m) | `$C/kernel/sukisu-v4.3.0-r1/` | sha256 `79a0db803e1f0bb952760f19250e5fc92566e2569581e4123c9db0b5e3c46bb9` |
 | Google apps, 4 packages: Play Store `com.android.vending`, Gboard `com.google.android.inputmethod.latin`, Google app `com.google.android.googlequicksearchbox`, Gemini `com.google.android.apps.bard` (base APK + splits) | `$ROOT/port-inputs/apps-5u/<package>/` (next to `COS17/`, not in it) | `SHA256SUMS` in the folder |
 | stock `libhwdap` files (step 5z) | `$ROOT/port-inputs/dolby-5z/` | from the kit (`SHA256SUMS`) |
+| `OplusGames-10.44.6.apk` (step 7c) and `grallocutils-pixelos/lib{,64}/libgrallocutils.so` (step 7h, from the PixelOS 17 vendor) | `$ROOT/port-work/blobs/` | from the kit; see the step headers |
 | `pipa-susfs-v1.0.zip` (release extras only) | `$C/` | from the maintainer or the Drive folder `modules/` (the kit has only its source, `susfs-module/`) |
 
 **Do:**
@@ -278,22 +282,26 @@ cd "$ROOT" && sh COS17/maintainer/port/port.sh --check check1 donor/OPD2515_11.C
 It must end with `preflight ok (nothing built)`. Each `MISSING input of <step>` line names a file that you still
 need: get it, then run the check again.
 
-## A5. Build the parts from the repository (helper app, cryptoeng)
+## A5. Build the parts from the repository (venv, helper app, cryptoeng, overlays)
 
-**Goal:** the helper APK and `cryptoeng.jar` exist, signed with **your** key.
+**Goal:** the androguard venv, the helper APK, `cryptoeng.jar` and the 5 overlay APKs exist, signed with **your**
+keys.
 
 **Do:**
 
 ```sh
-cd $C
-sh helper/build.sh                  # makes helper/keys/ (new RSA key) the first time; output helper/out/PipaHelper.apk
-sh maintainer/cryptoeng/build.sh    # output maintainer/cryptoeng/cryptoeng.jar
+cd "$C" && sh maintainer/build_parts.sh
 ```
 
-**Done when:** `~/Android/Sdk/build-tools/37.0.0/apksigner verify --print-certs helper/out/PipaHelper.apk` shows
-`CN=pipa port helper`, and `ls maintainer/cryptoeng/cryptoeng.jar` works.
+The script makes the venv `maintainer/jar-edits/venv` (androguard 4.1.4; 10 steps need it), builds the helper (it
+makes `helper/keys/` the first time), `cryptoeng.jar`, the contextual-search overlay (it makes the overlay key
+`maintainer/cts/overlay/keys/overlay.jks` the first time) and the framework, launcher, location and MiSound overlays.
 
-WARNING: Back up `helper/keys/` to a private place (not git, not the cloud without encryption). All later ROM builds
+**Done when:** the script ends with `parts ok`, and
+`~/Android/Sdk/build-tools/37.0.0/apksigner verify --print-certs helper/out/PipaHelper.apk` shows
+`CN=pipa port helper`.
+
+WARNING: Back up `helper/keys/` and `maintainer/cts/overlay/keys/` to a private place (not git, not the cloud without encryption). All later ROM builds
 and helper updates must use the same key.
 
 NOTE: Your helper has a different signature than the maintainer's. After a dirty flash of your build over the
@@ -360,8 +368,9 @@ out the optional steps 2u, 3k, 3x and 5s. Never publish a build with `PORT_MAINT
 - The output ends with the `super.img` path and its md5. Write the md5 down.
 - `port-work/mybuild1/report/PORT-REPORT.txt` lists every step with no error.
 - To compare with the maintainer's pt128, compare the manifests `report/<partition>.tsv` (path, mode, owner, md5,
-  label), not the image md5 (each image has a random UUID). Your helper APK and files signed with your key differ;
-  all other rows must match.
+  label), not the image md5 (each image has a random UUID). Tested 2026-11-19 with a kit (`KIT_INPUTS=1`) in an
+  empty folder: of 17991 entries only 7 differed from pt128: the 6 APKs signed with the new keys (helper, 5
+  overlays) and `ro.pipa.port.apps` in `system_ext/etc/build.prop` (a hash over the APKs). All other rows must match.
 
 **If it fails:** `docs/BUILD.md` section 2.2. There is no resume: fix, then run again from the start. Do not flash an
 image from a run that stopped.
