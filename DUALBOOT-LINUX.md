@@ -14,7 +14,7 @@ install a dual boot on this port ourselves.** The methods below are from the pip
 
 - **Can Linux read the internal storage of the port?** Not with the normal build: `/data` is encrypted with keys
   that only the TEE of the tablet can use (section 4). An **experimental build without encryption** exists
-  (`beta6-noenc`, section 4); it is not tested.
+  (`beta6-noenc`, section 4); it is not tested. The release v9 has no `noenc` package.
 - **Do I need SELinux permissive?** No. SELinux does not hold encryption keys. `androidboot.selinux=permissive` on the
   kernel command line also does nothing: this is a `user` build, and the vendor boot image sets
   `androidboot.selinux=enforcing`.

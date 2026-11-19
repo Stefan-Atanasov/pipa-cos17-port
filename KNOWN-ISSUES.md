@@ -1,9 +1,9 @@
 # Known issues
 
-This document lists the known problems of the public release **v9** (2026-11-18, first stable: ROM `port.sh` up to
-step 7x = pt128 + kernel walt-hi9, donor C.07). What v9 fixed since beta7.1: `CHANGELOG-beta7.1-to-v9.md`; full notes:
-`RELEASE-NOTES-v9.md`. The sections after "Known issues in v9" are the older lists (beta6 to beta8), kept as a record.
-Updated 2026-11-18.
+This document lists the known problems of the public release **v9** (first stable, released 2026-11-19: ROM `port.sh` up to
+step 7x = pt128 + kernel walt-hi9, donor C.07). What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
+[RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9" are the older lists (beta6 to beta8), kept as a record.
+Updated 2026-11-19.
 
 **Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
@@ -51,7 +51,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 ## For users
 
-### Fixed for beta8 (not released yet)
+### Fixed after beta7.2 (the beta8 tester zip had these; they are in v9)
 
 | Problem in beta7.2 | Fix |
 |---|---|
@@ -167,8 +167,9 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 | Item | Status |
 |---|---|
-| Release paths of the beta7.1 package | Tested with the image pt61 (not as a package): clean flash (setup, installs, device_check 57 pass / 0 fail / 1 warn) and a dirty flash over beta7-based data (pt60, nearly the same code). Not tested: the package scripts, an update from beta6, "keep data" leaves `boot_a`/`dtbo_a` unchanged, night standby on beta7.1. Reports welcome. |
-| Vendor props not loaded (BUGS 83) | 144 of 345 lines of `/vendor/build.prop` are not active (most audio props: HAL feature switches, Fluence, offload). The Breeno microphone fails because of it (a concurrent voice capture lands on a compress-capture path that is off). Cause under investigation (likely SELinux `set` for vendor_init); fix planned for beta8. Lists in `notes/` (maintainer copy). |
+| Release paths of the v9 package | Verified: clean flash of the image pt128 + walt-hi9 (setup, device_check 57 pass / 0 fail / 2 warnings). Not tested: `FlashMac.sh` on a real Mac. Reports welcome. |
+| Release paths of the beta7.1 package (old record) | Tested with the image pt61 (not as a package): clean flash (setup, installs, device_check 57 pass / 0 fail / 1 warn) and a dirty flash over beta7-based data (pt60, nearly the same code). Not tested: the package scripts, an update from beta6, "keep data" leaves `boot_a`/`dtbo_a` unchanged, night standby on beta7.1. Reports welcome. |
+| Vendor props not loaded (BUGS 83) | Closed 2026-11-11: not a bug. `getprop` shows 144 of 345 lines of `/vendor/build.prop` as empty, but boot logs show that `init` loads them (same as stock HyperOS 2). No fix is necessary. |
 | Clean flash of a release package | Image pt61 tested with a clean flash on 2026-11-05 (wipe like the flash script, beta7 firmware and kernel). On the same day, the steps of the package flash script (same script as beta7.1) ran by hand with the beta7 package: beta7.1 changes only `super.img`. |
 | Step 3x (unencrypted `/data`, `PORT_NOENCRYPT=1`) | Built as `beta6-noenc`, `beta7-noenc` (withdrawn) and `beta7.1-noenc` (pt63-noenc), not tested by a user. Clean flash only. |
 | Face unlock and `pipa_port` enforcing | Since 3g the face camera worker had no rules (black enroll preview, no unlock) in the test builds; 3w adds them. Code that the service starts needs rules in `pipa_port_rules.cil`. |

@@ -205,7 +205,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Bootloader "Device does not support slots":** `fastboot reboot bootloader` fixes it (`flash_super.sh` does it).
 - **SELinux compile test:** `maintainer/sepolicy/secil_test.sh <system_ext rules> <vendor rules>` on the device.
 - **KernelSU modules (SukiSU Nova; same for SukiSU 4.3):** script modules and `system.prop` work; `system/` overlays need a metamodule.
-- **Gotchas from the beta8 Dolby work:**
+- **Gotchas from the Dolby work (tester zip beta8, never released; in v9):**
   - Live-test a persistent priv-app or a static overlay without a build: bind-mount the new APK over the ROM file
     (`nsenter -t 1 -m -- mount -o bind ...`, keep the file label), `rm -rf /data/system/package_cache/*`, then
     `setprop ctl.restart zygote`. `adb install -r` refuses persistent apps. The bind ends at the next reboot.

@@ -19,7 +19,7 @@ release, donor OTA, tools) are in [BUILD.md](BUILD.md), section 1.3.
 | `module/system/vendor/lib/hw/audio.primary.kona.so` | Qualcomm audio HAL with the speaker channels in the correct order (baked step) | `module/tools/patch_audio_hal.py` on the pipa `vendor` HAL |
 | `module/system/system_ext/lib*/libupdateprof.qti.so`, `libtrigger-handler.so` | Qualcomm libraries from beta4 (the C.06 versions stop the boot) | beta4 release `system_ext` |
 | `maintainer/bootanim/bootanimation.zip`, `rbootanimation.zip` | Boot animation (step 2e) | The donor animation with the logo centred (`offsety 0`). No script in this repository. |
-| `COS17/kernel/sukisu-v4.3.0/`, `COS17/kernel/sukisu-v4.2.1-r1/` | SukiSU-Ultra manager APKs (steps 2w, 2u) | SukiSU-Ultra releases ([BUILD.md](BUILD.md), section 1.3) |
+| `COS17/kernel/sukisu-v4.3.0/`, `COS17/kernel/sukisu-v4.2.1-r1/` | SukiSU-Ultra manager APKs (old kernels; steps 2w, 2u). The v9 manager (SukiSU Nova v3.0.0, step 7u) is in `COS17/kernel/sukisu-nova-3.0.0/` | SukiSU-Ultra and SukiSU Nova releases ([BUILD.md](BUILD.md), section 1.3) |
 
 ## Files that the build does not need
 

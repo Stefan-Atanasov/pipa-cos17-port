@@ -157,7 +157,7 @@ repository as history and as a test path for one fix. New fixes are step files o
 | 5j | step only | SELinux round 3: camera and media provider UX hints, dex2oat /data search; dontaudit for the perf HAL scene writes (pipa_port owns that node) and app emulator checks. |
 | 5k | step only | Last SELinux items from an advanced capture (camera, recording, split screen, toggles). Result: 0 denials from ROM domains, apps and root. |
 | 5l | step only | Xiaomi game thermal profile while a game is in the foreground: helper 1.0 (`GameKeeper`, UID importance listener, appCategory game) sets `pipa_game_fg`; pipa_port writes `mi_thermald` `sconfig` `GAME_THERMAL_SCENE` (default 20 = no CPU caps below 46 °C skin) and -1 otherwise. |
-| 5m | step only | SukiSU-Ultra manager v4.3.0-r1 (41140) in `system_ext/pipa_port/SukiSU.apk` (the same level as kernel walt-r17); new layer. beta7. |
+| 5m | step only | SukiSU-Ultra manager v4.3.0-r1 (41140) in `system_ext/pipa_port/SukiSU.apk` (the same level as kernel walt-r17); new layer. beta7. Replaced by the Nova manager in 7u. |
 | 5n | step only | Face camera worker guard `libpipa_camguard.so` (LD_PRELOAD): no SIGABRT when the HAL retries with an ANativeWindow in a dark room; dontaudit for OPPO crash log collection. beta7. |
 | 5o | step only | Last SELinux noise (dontaudit only): OPPO game service virtual device lookup, game anti-cheat /proc probes, a system app search of the Play services folder. beta7. |
 | 5p | step only | OPPO game optimizer (oiface) and horae also for games that target SDK 34 (the donor policy stops at `untrusted_app_32`); Play services frame boost hint. beta7. |
@@ -288,7 +288,7 @@ Each switch is 1 (on) or 0 (off). The defaults are in `port-rom/pipa_port/config
 | `SF_BIG_CORES` | 1 | Set the UI First scene that keeps SurfaceFlinger and RenderEngine off the little cores. |
 | `SYSTEM_UX` | 1 | Mark the system_server threads `android.anim`, `android.display` and `android.ui` as UX. |
 | `KSWAPD_NO_PRIME` | 1 | Keep kswapd (memory reclaim) off the prime core. |
-| `ANIM_TIER` | 1 | Set the launcher animation tier (`persist.sys.oplus.anim_level`) from global `pipa_anim_level`, else from `ANIM_LEVEL`. A change restarts the launcher. |
+| `ANIM_TIER` | 1 | Set the launcher animation tier (`persist.sys.oplus.anim_level`) from `ANIM_LEVEL` (default 3; override in `/data/misc/pipa_port/config.prop`, no tile since helper 1.9). A change restarts the launcher. |
 | `ANIM_LEVEL` | 3 | The default animation tier (a value, not a switch). |
 | `SPEED_COMPILE` | 1 | Compile SystemUI, Settings, the Wi-Fi page and the launcher fully, one time for each ROM build (180 s after boot). `SPEED_APPS` changes the list. |
 | `LID_SYNC` | 0 | Magnetic case sync. The helper app does this. |
@@ -310,9 +310,8 @@ Each switch is 1 (on) or 0 (off). The defaults are in `port-rom/pipa_port/config
 | `DolbyKeeper` | Keeps the Dolby and MiSound effects on the output mix (event driven, no polling). Selects the stock Dolby tuning per output and volume. Remembers the effect the user picks in MiSound per output (speaker, Bluetooth, wired, USB) and applies it when the output changes; automatic changes by MiSound are undone. |
 | `PenKeeper`, `PenPill` | Low pen battery notification (15 %). The pen pill shows only when `pipa_pen_fluid` is 0. |
 | `LidKeeper` | Sets the "lock with cover" switch (`lid_behavior`). |
-| `BlurTile`, `LogTile` | Quick Settings tiles "Live blur" (global `pipa_live_blur`, step 7x) and "Logs". |
+| `BlurTile`, `LogTile` | Quick Settings tiles "Live blur" (`persist.sys.oplus.systemui.dynamic_blur` through the service, default off, reboot to apply; step 7x) and "Logs". The "Animations" tile was removed in helper 1.9: animation tier 3 is fixed. Override: `ANIM_LEVEL` in `/data/misc/pipa_port/config.prop`. |
 | Assistant service | Voice interaction service: gesture bar long press starts Circle to Search, corner swipe starts Gemini (step 7s). |
-| `AnimTile` | Quick Settings tile "Animations": writes global `pipa_anim_level` (3 → 2 → 1 → 4). `pipa_port` applies it. |
 | `BootReceiver` | Starts the keepers after boot. |
 
 - Path: `/system/priv-app/PipaHelper`, with `privapp-permissions-pipa-helper.xml` (`WRITE_SECURE_SETTINGS`).

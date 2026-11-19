@@ -4,7 +4,7 @@ Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on 
 
 Build: ROM **pt128** (`port.sh` up to step 7x), kernel **walt-hi9**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
 pipa vendor/odm/firmware from beta4. Root: **SukiSU Nova 3.0.0** (builtin; manager `com.sukisu.nova`).
-Date: 2026-11-18.
+Package date 2026-11-18, released 2026-11-19.
 
 ## What's new in v9 (since beta 8 = pt81 + walt-r17)
 
@@ -127,7 +127,7 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - **The first boot takes about 1 minute longer** than usual: Android compiles the framework. Do not reboot it.
 - Update from beta6, beta7, beta7.1, beta7.2 or beta 8: flash with "keep data" (Enter on Linux, `N` on Windows).
   From another ROM: "y" (clean flash). A clean flash erases data. There is no `noenc` package for v9. Do not change between encrypted and noenc packages with "keep data".
-- **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU
+- **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU Nova
   manager in the background (about 1 minute). Let it finish.
 - **Install kernel walt-hi9 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.
 - **If the flash stops with "Failed to set slot B":** the bootloader sometimes reports no slots. Run
@@ -192,5 +192,6 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - [x] Clean flash pt125 + walt-hi9: setup OK, bundled apps, root; found Gboard default and Sound effects label (fixed in pt127)
 - [x] pt127 dirty: Sound effects page shows Dolby Atmos, device_check 58 pass, 0 fail
 - [x] pt127 log check: 0 denials, crashes, ANRs, tombstones (40 min, incl. SystemUI restarts)
-- [ ] Clean flash pt128 + walt-hi9 (Gboard after setup, Sound effects label, Live blur tile)
+- [x] Clean flash pt128 + walt-hi9: setup OK, Gboard default after setup, Sound effects = Dolby Atmos, tiles Logs + Live blur, root, 0 denials/crashes; device_check 57 pass, 0 fail, 2 warnings (`logd` capture props at default; `sensorCCT` 0 because adaptive colour is off after a clean flash)
+- [x] Night standby v9: about 0.18 %/h (15.5 mAh/h, drops only), 99 % deep sleep
 - [ ] FlashMac.sh on a real Mac

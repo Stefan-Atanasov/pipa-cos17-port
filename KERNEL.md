@@ -8,7 +8,7 @@ beta7, beta7.1 and beta7.2 had `walt-r17` (SukiSU-Ultra v4.3.0-r1, KSU 41140).
 Changes since beta6 (`walt-r8kpm`): touch charger mode (r9, touch lag while charging), the binder UX node of ColorOS
 16+ (r10), DisplayPort fixes for USB-C monitors (r11-r15: 8 bpc, the highest refresh rate the link allows), OPPO's
 `/proc/shell-temp` for the horae thermal service (r16), SukiSU-Ultra v4.3.0-r1 (r17). KPM is not patched since r14.
-After an update from beta6, open the SukiSU manager once and let it update `ksud`.
+After an update from beta6 to a SukiSU-Ultra kernel (r8 to r26), open the SukiSU manager once and let it update `ksud`. With v9 the ROM installs the SukiSU Nova manager itself.
 
 Changes since `walt-r26`: hi1 healthinfo-lite; hi3 `gpu_comp_static=1`; hi5 the NT36532 touch features are sent again after the resume firmware download; hi8 a boost of the MDP clock and bandwidth when the refresh rate drops (O+ Connect underruns); hi9 SukiSU Nova (SukiSU-Ultra was renamed SukiSU Nova). After an update from a SukiSU-Ultra kernel, the SukiSU Nova manager installs its own `ksud`.
 
@@ -56,7 +56,7 @@ blocks the Android freezer: no app is frozen. Check: `getprop sys.hans.enable` =
 - Compiler: AOSP clang r547379 (clang 20).
 - Use the build script in the kernel repository (`build-pipa-cos17.sh`). Refer to its `README.md`.
 - KPM: after the build, patch the `Image` with KernelPatch `kptools` (procedure in the kernel `README.md`). The build
-  scripts do not do this step. Without it, you get `walt-r8` without KPM.
+  scripts do not do this step. Without it, you get `walt-r8` without KPM. KPM is off in `walt-hi9`.
 - Pack the `Image` into a pipa `boot.img`. `pack-boot.sh` (kernel repository) takes your own `boot.img`.
   `maintainer/kernel/mkboot.sh` takes the maintainer's partition backup (`BK`, not in this repository) and
   `magiskboot` in `K`/`bootimg/`. Refer to [BUILD.md](BUILD.md), section 4.

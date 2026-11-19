@@ -344,12 +344,11 @@ KSU_APK=$K bash maintainer/build_release.sh pt128 --boot $B --pkg v9 --name "v9 
 
 `pt128` is the default build. There is no `noenc` package for v9. For beta7.1, the same script made `pt63-noenc` with `PORT_NOENCRYPT=1` (step 3x).
 
-The script needs the extracted beta4 release in `COS17/` (section 1.3), the SukiSU manager APK (`KSU_APK`, default
-the v4.3.0-r1 APK; for walt-hi9 set it to the Nova APK) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.
+The script needs the extracted beta4 release in `COS17/` (section 1.3), the SukiSU manager APK (`KSU_APK`; for walt-hi9 set it to the Nova APK. `build_release.sh` now puts the Nova APK in `extras/`) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.
 
 The output is `<root>/port-work/release/ColorOS17-Port-pipa-<pkg>-<date>/` and a `.7z` file. The package
 contains the beta4 flash scripts (with changes) and firmware, the new `super.img`, the new `boot.img`,
-`RELEASE-NOTES.md`, `README-FLASH.txt`, `extras/` (SukiSU manager, susfs module) and `SHA256SUMS`.
+`RELEASE-NOTES.md`, `README-FLASH.txt`, `extras/` (SukiSU manager APK: Nova from v10, the v9 package still has the old SukiSU-Ultra APK, but the ROM installs Nova itself; `pipa-susfs-v1.0.zip`) and `SHA256SUMS`.
 
 The user runs `FlashLinux.sh` or `FlashWindows.bat`. The script asks one question:
 

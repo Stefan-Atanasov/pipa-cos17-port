@@ -1,6 +1,6 @@
 # Flash without a PC (Bugjaeger on a second Android phone)
 
-Status: **not tested by the maintainer** (2026-11-14). One tester flashed a beta with Bugjaeger and it booted. Bugjaeger has a
+Status: **not tested by the maintainer** (2026-11-14). One tester flashed a beta (before v9) with Bugjaeger and it booted. Bugjaeger has a
 fastboot shell for typed commands; its author says basic commands work but are not fully tested. Use the PC script
 `FlashLinux.sh` if you can. Report your result in the tester group.
 

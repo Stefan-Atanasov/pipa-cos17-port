@@ -3,7 +3,7 @@
 KernelSU / SukiSU / APatch / Magisk module with the measured speaker EQ of step 6a (`maintainer/dolby-eq/`).
 For the Xiaomi Pad 6 (pipa) on a ROM with the **stock HyperOS 2 Dolby tuning file**
 (`/vendor/etc/dolby/dax-default.xml`, md5 `582003e70df30be8964df17610212ef3`): ColorOS 17 port beta7.1 / beta7.2,
-stock HyperOS 2, and other ROMs with that vendor file. The port from beta8 has the EQ built in (the module refuses).
+stock HyperOS 2, and other ROMs with that vendor file. The port since v9 (and the beta8 tester zip) has the EQ built in (the module refuses).
 
 - `post-fs-data.sh` bind-mounts the EQ file (no KernelSU metamodule needed), only over the stock file.
 - After install and after removal, Dolby rebuilds its database once: Dolby settings and the GEQ reset one time.

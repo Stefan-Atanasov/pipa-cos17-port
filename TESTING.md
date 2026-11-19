@@ -5,8 +5,8 @@ This document gives the procedures to check a build on the tablet, and the check
 ## 1. Before you start
 
 1. Connect the tablet with USB.
-2. Root (SukiSU) is necessary for all scripts in this document. After a clean flash, open the SukiSU manager one time
-   and give root to the shell first.
+2. Root (SukiSU Nova) is necessary for all scripts in this document. After a clean flash, open the SukiSU Nova manager
+   one time and give root to the shell first.
 3. Run the scripts from the repository root. Give the USB serial in the variable `ADB` to each script:
    `ADB="adb -s <serial>" sh maintainer/<script>`. The default serials in the scripts are the maintainer's tablet.
 4. Unlock the tablet.
@@ -29,7 +29,7 @@ The release notes and [KNOWN-ISSUES.md](KNOWN-ISSUES.md) use these kinds. Do not
 | Automated | A script checked it (`device_check.sh`, `kernel_check.sh`). Give the pass/fail count. | beta6: 58 pass, 0 fail, 0 warn |
 | Probe | A software check shows the condition, but not the user result. | Netflix Widevine L1 (HD playback not checked) |
 | User report | A tester reported it. The maintainer did not check it. | |
-| Implemented, not tested | The build has the change. No test was done. | SukiSU 4.2.1 → 4.3.0 update |
+| Implemented, not tested | The build has the change. No test was done. | SukiSU 4.2.1 → 4.3.0 update (old, beta5) |
 | Experimental | Optional build or step. Not for normal use. | `beta6-noenc` (3x), 3k |
 
 ## 3. Regression check (automated)
@@ -42,7 +42,7 @@ ADB="adb -s <serial>" sh maintainer/device_check.sh <tag>
 - The report is in `port-work/device-checks/<date>-<tag>.txt`.
 - If `port-work/<tag>/report/` exists (a `port.sh` build on this PC), the script also compares the file md5 values on
   the tablet with the build manifests.
-- Expected result for beta7.2: 56-58 pass, 0 fail (pt68 dirty: 57 pass, 0 fail, 1 warning: nandswap right after boot). For beta7.1: 56-58 pass, 0 fail (clean flash of pt61: 57 pass, 0 fail, 1 warning; pt63 dirty: 56 pass, 0 fail, 2 warnings) (a warning for the IFace start burst in the first minute after a boot is normal).
+- Expected result for v9 (clean flash, pt128 + walt-hi9): 57 pass, 0 fail, 2 warnings (the `logd` capture properties are at their defaults; `sensorCCT` is 0 because adaptive colour is off by default after a clean flash). Older results, kept as a record: for beta7.2: 56-58 pass, 0 fail (pt68 dirty: 57 pass, 0 fail, 1 warning: nandswap right after boot). For beta7.1: 56-58 pass, 0 fail (clean flash of pt61: 57 pass, 0 fail, 1 warning; pt63 dirty: 56 pass, 0 fail, 2 warnings) (a warning for the IFace start burst in the first minute after a boot is normal).
 
 The script checks, among other items:
 
@@ -169,11 +169,11 @@ Test each path on a tablet with a backup, or on a spare install:
 
 | Path | Check after the boot |
 |---|---|
-| Dirty flash ("keep data") from the previous release | Root works, SukiSU manager updated, apps and settings stay. |
-| Clean flash ("y") | Setup wizard (no grey screen), on-screen keyboard, root on the first boot, SukiSU manager, Play Store, Gboard and Google app installed in the first minute, face enroll in portrait and landscape. A dirty flash never runs the setup wizard: test with a clean flash. |
+| Dirty flash ("keep data") from the previous release | Root works, the SukiSU Nova manager is installed (it replaces an old SukiSU-Ultra manager), apps and settings stay. |
+| Clean flash ("y") | Setup wizard (no grey screen), on-screen keyboard, root on the first boot, SukiSU Nova manager, Play Store, Gboard and Google app installed in the first minute, face enroll in portrait and landscape. A dirty flash never runs the setup wizard: test with a clean flash. |
 | "Keep data" with a second system in slot A | `boot_a` and `dtbo_a` are not changed (compare their md5 before and after). |
 | Rollback to the previous release | The tablet boots, data stays. |
-| `beta7.1-noenc` (only with a clean flash) | `getprop ro.crypto.state` shows `unencrypted`. |
+| `beta7.1-noenc` (old, experimental; v9 has no `noenc` package; only with a clean flash) | `getprop ro.crypto.state` shows `unencrypted`. |
 
 ### 8.4 After each boot
 

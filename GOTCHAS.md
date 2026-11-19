@@ -49,8 +49,8 @@ Read the matching entry before you act. CLAUDE.md has a one-line index.
 - **Kernel images: pack only with `mkboot.sh`.** `magiskboot unpack -h`/`repack` changes the header patch level, and
   the bootloader then refuses the kernel with no message (black screen). For `fastboot boot` tests, use only trimmed
   images (`TRIM=1`): a full 196 MB image stopped the bootloader two times.
-- **Own WALT kernel** (on `boot_b` since 2026-10-23; now **walt-r8kpm** = beta6: SukiSU-Ultra v4.3.0 builtin + KPM;
-  beta5 had walt-r6). Lineage 24 core +
+- **Own WALT kernel** (on `boot_b` since 2026-10-23; now **walt-hi9** = v9: SukiSU Nova 3.0.0 builtin, KPM off, susfs 2.3.0;
+  beta6 had walt-r8kpm (SukiSU-Ultra v4.3.0 + KPM), beta7 to beta7.2 had walt-r17, beta5 had walt-r6). The list below is the r3-r8 history. Lineage 24 core +
   liyafe's pipa drivers + E404 display and touch + SukiSU/susfs + OPPO UI First. r3: SurfaceFlinger on the top GPU
   ringbuffer. r4: SurfaceFlinger RenderEngine not on the little cores (`is_sf()`). r5: sysctl
   `kernel.ux_prefer_big`=1 (heavy UX threads on the big cluster), `kernel.frame_rate` default 120. r6: OPPO Hans app
@@ -212,7 +212,7 @@ Read the matching entry before you act. CLAUDE.md has a one-line index.
   live test: `content insert --uri content://com.oplus.customize.coreapp.configmanager.configprovider.AppFeatureProvider/app_feature --bind featurename:s:<name> --bind 'parameters:s:boolean\:true'` + app restart (a reboot removes it).
 - **Bootloader "Device does not support slots":** every slot getvar answers "not found" (seen 2026-11-02 and
   2026-11-04). `fastboot reboot bootloader` fixes it; `flash_super.sh` does that by itself since 2026-11-04.
-- **SukiSU update (kernel + manager):** kernel first (r17 = SukiSU builtin at the release, `kernel/WALT-KERNEL.md`),
+- **SukiSU update (kernel + manager):** kernel first (walt-hi9 = SukiSU Nova 3.0.0 builtin at v9; r17 was SukiSU-Ultra v4.3.0-r1 up to beta7.2, `kernel/WALT-KERNEL.md`),
   then the manager APK (check the release sha256 and the signing cert against the installed one) with `adb install -r`.
   The manager carries its `ksud` as an obfuscated lib (`lib/arm64/lib<random>.so`, about 6 MB); the update runs
   `<that lib> install --libadbroot <manager lib dir>/libadbroot.so`, as the manager does. Save the old
@@ -221,7 +221,7 @@ Read the matching entry before you act. CLAUDE.md has a one-line index.
   installed); `sepolicy.rule` modules use the live patch path (untested since the r8kpm hang).
 - **SELinux compile test:** `maintainer/sepolicy/secil_test.sh <system_ext rules> <vendor rules>` on the tablet
   (push both files to /data/local/tmp): init flags exit code, then the neverallow count (76 = the donor base).
-- **Gotchas from the beta8 Dolby work (2026-11-07):**
+- **Gotchas from the Dolby work (2026-11-07, tester zip beta8, never released; in v9):**
   - Live-test a persistent priv-app or a static overlay without a build: bind-mount the new APK over the ROM file
     (`nsenter -t 1 -m -- mount -o bind ...`, keep the file label), `rm -rf /data/system/package_cache/*`, then
     `setprop ctl.restart zygote`. `adb install -r` refuses persistent apps. The bind ends at the next reboot.
