@@ -760,6 +760,8 @@ Checked online on 2026-11-19 (GitHub branches and commits, project download page
 | LineageOS `android_device_xiaomi_sm8250-common` + TheMuppets `sm8250-common` | `lineage-24.0` exists and is active (last commits 2026-11-14 and 2026-09-15). |
 | LineageOS `android_kernel_xiaomi_sm8250` | `lineage-24.0` exists (our kernel base). |
 | PixelOS pipa | the website lists Android 16 builds (maintainer Sugakesshaa). The Android 17 PixelOS build used in Part B is a **private test build** that a developer gave the maintainer; it is not public. The PixelOS-Devices GitHub trees for pipa are only `fifteen`. |
+| **Evolution X pipa, Android 17 (public sources)** | GitHub `Manan-Santoki`: `device_xiaomi_pipa`, `device_xiaomi_sm8250-common`, `kernel_xiaomi_sm8250`, `hardware_xiaomi`, `vendor_xiaomi_pipa`, `vendor_xiaomi_sm8250-common`, branch `cnb` (Android 17 "Cinnamon Bun"), active (last commits 2026-10-21). The pipa blobs come from HyperOS 2 CN **OS2.0.19.0.UMZCNXM** (newer than LineageOS: OS2.0.14). Unofficial: Evolution X's own OTA list has no pipa, and no public build was found. This is the best public source for an Android 17 vendor today: build `vendorimage` from it. |
+| Public pipa builds (Android 16) | crDroid 12 (`crDroidAndroid-16.0-...-pipa`, SourceForge, 2026-09), DerpFest 16, /e/OS a16 (unofficial). LineageOS has no official pipa builds (its download API does not know the device). An Android 16 vendor under the Android 17 ColorOS system is not tested; never mix its libraries with an Android 17 vendor. |
 | Other pipa trees | `nullpointer1101/android_device_xiaomi_pipa`: Android 16 branches (`16.axion`, `16.derp`). An Evolution-X pipa tree was on git.evolution-x.org; it does not answer now. |
 | Adreno blobs in TheMuppets `sm8250-common` | `libGLESv2_adreno.so` has not changed since the 2022 import: LineageOS keeps the old stock driver. The beta4 Adreno stack (2025) is from another source (not known). |
 | Xiaomi firmware | HyperOS 2 builds for pipa still came out in 2025-2026 (Global OS2.0.12 in 2025-12; LineageOS took blobs from OS2.0.14 in 2026-02). |
@@ -767,8 +769,9 @@ Checked online on 2026-11-19 (GitHub branches and commits, project download page
 NOTE: Files from the private PixelOS test build are only for own tests. Do not put them in a public release
 without the developer's permission.
 
-So, for now: the best future `vendor` source is LineageOS, when `lineage-24.0` arrives for pipa (build the vendor from
-the device trees, or take it from a LineageOS-family Android 17 build). Newer GPU drivers have no public, official
+So, for now: the best public `vendor` source is the Evolution X Android 17 tree set above (build the vendor from
+it: a full ROM source checkout and build, a few hundred GB of disk), later LineageOS when `lineage-24.0` arrives for
+pipa. The private PixelOS 17 test build is the fast way for own tests only. Newer GPU drivers have no public, official
 source; only community packs, tested as a complete set.
 
 The point of tests 1a and 1b (B8): if they pass, the `vendor` no longer depends on the beta4 author's own build, and
