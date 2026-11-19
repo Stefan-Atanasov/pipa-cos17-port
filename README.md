@@ -28,7 +28,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 ## Download and install
 
 - **Builds:** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
-- **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` and `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS).
+- **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` , `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS) and `pipa-susfs-v1.0.zip` (root hiding with the kernel susfs: hides `/data/adb`, module mounts and SELinux log traces from apps).
 - **Support group:** https://t.me/cosforpipa
 
 The package has `FlashLinux.sh` and `FlashWindows.bat`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
