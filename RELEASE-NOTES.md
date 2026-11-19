@@ -1,10 +1,27 @@
-# ColorOS 17 for Xiaomi Pad 6 (pipa) — v9
+# ColorOS 17 for Xiaomi Pad 6 (pipa) — v9.1
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt128** (`port.sh` up to step 7x), kernel **walt-hi9**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
+Build: ROM **pt130** (`port.sh` up to step 8a), kernel **walt-hi9**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
 pipa vendor/odm/firmware from beta4. Root: **SukiSU Nova 3.0.0** (builtin; manager `com.sukisu.nova`).
-Package date 2026-11-18, released 2026-11-19.
+Package date 2026-11-19 (v9.1 = v9 + an audio hotfix; v9 was released 2026-11-19).
+
+## What's new in v9.1 (since v9)
+
+Audio hotfix. Update from v9 with "keep data" (dirty flash); nothing else changed.
+
+- **No more short sound dropout when you change the volume.** Around 2/3 of the volume bar the speaker tuning
+  switches (quiet / loud). Each switch made the pipa helper reset the MiSound sound processor: a short glitch.
+  Helper 2.3 sends the tuning through its own Dolby handle and writes the MiSound setting only when it changes.
+- **No more stutter when you open the sound settings.** The Settings sound page reads the effect state; each read
+  caused 1 to 5 resets with helper 2.2. Now none.
+- **No more blip about 3 s after the MiSound app starts.** The beta4 MiSound app turned on Dolby and the MiSound
+  effect itself 3 s after each start (porter code, not stock). The helper does this job the stock way; that code
+  is now off.
+- **A tap on Dolby Atmos or Xiaomi Sound in Sound effects always works.** Before, a quick tap (within 3 s of
+  opening the page, or of coming back from the equalizer) was undone, and the page then showed the wrong effect.
+- Tested with music playing: 8 volume steps across 2/3 = 8 resets on v9, 0 on v9.1; sound settings open 5 -> 0;
+  MiSound screen open 1 -> 0. Dolby Atmos and Xiaomi Sound switch as before.
 
 ## What's new in v9 (since beta 8 = pt81 + walt-r17)
 
@@ -125,14 +142,14 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 ## Notes
 
 - **The first boot takes about 1 minute longer** than usual: Android compiles the framework. Do not reboot it.
-- Update from beta6, beta7, beta7.1, beta7.2 or beta 8: flash with "keep data" (Enter on Linux, `N` on Windows).
-  From another ROM: "y" (clean flash). A clean flash erases data. There is no `noenc` package for v9. Do not change between encrypted and noenc packages with "keep data".
+- Update from v9, beta6, beta7, beta7.1, beta7.2 or beta 8: flash with "keep data" (Enter on Linux, `N` on Windows).
+  From another ROM: "y" (clean flash). A clean flash erases data. There is no `noenc` package for v9.1. Do not change between encrypted and noenc packages with "keep data".
 - **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU Nova
   manager in the background (about 1 minute). Let it finish.
 - **Install kernel walt-hi9 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.
 - **If the flash stops with "Failed to set slot B":** the bootloader sometimes reports no slots. Run
   `fastboot reboot bootloader`, then start the flash script again. Nothing was written at that point.
-- **Technical:** ROM super.img md5 `6615f44c1f867097e1c12a7495f5750e` (pt128), boot image md5 `56033d4292908299d57850f3c49d36d5` (walt-hi9). Source and step list:
+- **Technical:** ROM super.img md5 `d29e2a0c22dcde4a89563399729b72cc` (pt130), boot image md5 `56033d4292908299d57850f3c49d36d5` (walt-hi9). Source and step list:
   https://github.com/Stefan-Atanasov/pipa-cos17-port
 - **KernelSU modules:** script modules (`service.sh`, `post-fs-data.sh`) and `system.prop` work. Modules that
   replace system files (a `system/` folder) need a KernelSU metamodule; none is included. Modules with their own
@@ -166,6 +183,15 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - Open reports that could not be reproduced: silent microphone recordings, recorder stutter, random screen flicker,
   striped picture in screen sharing.
 - Public list: https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/KNOWN-ISSUES.md
+
+## Tests v9.1
+
+- [x] pt129 (7y + 7z) dirty flash over v9: boot OK, device_check 57 pass, 0 fail; Dolby on after reboot (helper has control)
+- [x] Music playing: 8 volume steps across 2/3 = 0 resets (v9: 8); sound settings open 0 (v9: 5); MiSound screen open 0 (v9: 1)
+- [x] MiSound: Dolby Atmos <-> Xiaomi Sound switches the effects; the page shows Dolby Atmos after a restart
+- [x] User listening test (helper 2.3): volume changes clean
+- [x] pt130 (v9.1) dirty flash: device_check 57 pass, 0 fail; Dolby on after reboot; quick taps stored
+- [x] helper 2.4 live on pt129: quick taps after a cold open and after the equalizer page are stored; page shows the right effect
 
 ## Tests v9 (maintainer device, so far)
 

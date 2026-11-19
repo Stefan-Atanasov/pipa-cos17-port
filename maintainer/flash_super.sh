@@ -153,6 +153,8 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt124)       IMG=$P/port-work/pt124/img/super.img;       MD5=dc392467595624794fedc32e2cce7d72 ;;   # pt123 + 7t debug.sf.enable_hwc_vds=1 (Miracast picture, BUGS 80)
     pt125)       IMG=$P/port-work/pt125/img/super.img;       MD5=33cb3d07b5029f90d4cce1ee2eac6c81 ;;   # pt124 + 7u SukiSU Nova manager (needs kernel walt-hi9)
     pt127)       IMG=$P/port-work/pt127/img/super.img;       MD5=c3b0e2ef5f6d887fdf918c9d718e0a42 ;;   # pt125 + 7v Gboard after setup + 7w helper 2.1 (MiSound flag, Dolby page)
+    pt130) IMG=$P/port-work/pt130/img/super.img; MD5=d29e2a0c22dcde4a89563399729b72cc ;; # v9.1 = pt129 + 8a helper 2.4 (BUGS 146)
+    pt129) IMG=$P/port-work/pt129/img/super.img; MD5=83554bd5b0f67b5a07771f17cdf53219 ;; # v9.1 = pt128 + 7y helper 2.3 + 7z MiSound without the beta4 enabler (BUGS 144, 145)
     pt128)       IMG=$P/port-work/pt128/img/super.img;       MD5=6615f44c1f867097e1c12a7495f5750e ;;   # pt127 + 7x Live blur tile (helper 2.2)
     fs1a)        IMG=$P/port-work/fs1a/img/super.img;        MD5=46e606a175bf53bfa1b6b9ff079a5a29 ;;   # FAILED 2026-11-19 (PixelOS wifi HAL: iface errors, 1 Wi-Fi drop); image deleted
     fs1a2)       IMG=$P/port-work/fs1a2/img/super.img;       MD5=2ba2500a1a61becd8484d769dd11101b ;;   # fs1a without the PixelOS wifi HAL (177 files; BUGS 141)

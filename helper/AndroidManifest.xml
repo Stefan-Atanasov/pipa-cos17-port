@@ -4,8 +4,8 @@
      ActivityManager starts it at boot and never kills it. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.port.pipa.helper"
-    android:versionCode="22"
-    android:versionName="2.2">
+    android:versionCode="24"
+    android:versionName="2.4">
 
     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
 

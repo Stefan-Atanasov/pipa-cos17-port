@@ -1,4 +1,13 @@
-# Changelog: beta7.1 → v9 (Xiaomi Pad 6, ColorOS 17 port)
+# Changelog: beta7.1 → v9.1 (Xiaomi Pad 6, ColorOS 17 port)
+
+## v9.1 (2026-11-19, audio hotfix on top of v9: ROM pt130 + kernel walt-hi9)
+- **No short sound dropout on volume changes** (around 2/3 of the bar) and **no stutter when the sound settings open**: helper 2.3 no longer resets the MiSound sound processor (BUGS 144).
+- **No blip 3 s after the MiSound app starts**: the beta4 porter code that turned on the effects in MiSound is off; the helper does this job the stock way (BUGS 145).
+- **A tap on an effect in Sound effects always works**: a quick tap after opening the page or after the equalizer
+  page was undone before, and the page showed the wrong effect (BUGS 146).
+- Update from v9: flash with "keep data".
+
+## v9 (2026-11-18)
 
 v9 = ROM pt128 + kernel walt-hi9 (2026-11-18). v9 is the first stable release. It includes beta7.2 (2026-11-06) and the beta 8 test build
 (never a public release). Update from beta7.1 or newer: flash with "keep data". From another ROM: clean flash ("y").

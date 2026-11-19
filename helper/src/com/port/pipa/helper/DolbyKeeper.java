@@ -1,8 +1,6 @@
 package com.port.pipa.helper;
 
 import android.app.ActivityManager;
-import android.app.usage.UsageEvents;
-import android.app.usage.UsageStatsManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -67,6 +65,10 @@ import java.util.UUID;
  * own choice (priv_app cannot set persist.audio.effect.device_map), so every cold start brought the default back. Now a
  * change within OPEN_MS of MiSound's last ACTIVITY_RESUMED (UsageStatsManager, PACKAGE_USAGE_STATS) is MiSound's own
  * default and is undone; a real tap comes later.
+ * 2.4 (BUGS 146): that OPEN_MS guard is removed. It also undid real taps (a tap within 3 s of any MiSound screen,
+ * also back from the equalizer page), and MiSound's page then showed the wrong effect. Its cause is gone: MiSound wrote
+ * misound at each open only while its flag (param 25) was 1 (BUGS 136, fixed in 2.1). Test 2026-11-19 (pt129):
+ * 3 cold starts after a force-stop, no tap: MiSound writes nothing.
  *
  * MiSound effect holder (stock: system_server holds it): one long-lived misoundfx handle on session 0, priority -1,
  * enabled only while effect_implementer is "misound"; event driven like the DAP holder (no polling).
@@ -79,7 +81,6 @@ final class DolbyKeeper {
     private static final UUID DAP = UUID.fromString("9d4921da-8225-4f29-aefa-39537a04bcaa");
     private static final UUID TYPE_NULL = UUID.fromString("ec7178ec-e5e1-4432-a3f4-4657e6795210");
     private static final UUID MISOUND = UUID.fromString("5b8e36a5-144a-4c38-b1d7-0002a5d5c51b");
-    private static final long OPEN_MS = 3000; // MiSound's own default arrives this soon after its screen opens
     private static final long SETTLE_MS = 3000; // effect changes this soon after an output change are not the user's
     private static final int PARAM_DS_ON = 5;
     /** MiSound effect param 25 = its own "enabled" flag: android.media.audiofx.MiSound.setEnabled writes it with the
@@ -346,7 +347,7 @@ final class DolbyKeeper {
         String want = effects.getString(device, "dolby");
         if (e.equals(want)) return; // our own write, or nothing new
         boolean settled = SystemClock.elapsedRealtime() - outputChangedAt > SETTLE_MS;
-        if (settled && miSoundForeground() && !miSoundJustOpened()) {
+        if (settled && miSoundForeground()) {
             userChoice = true;
             effects.edit().putString(device, e).apply();
             Log.i(TAG, "effect for " + device + ": " + e);
@@ -387,27 +388,6 @@ final class DolbyKeeper {
         setDsOnTemp("dolby".equals(want));
     }
 
-    /** BUGS 108: did MiSound's screen open less than OPEN_MS ago (its cold-start default, not a tap)? */
-    private boolean miSoundJustOpened() {
-        try {
-            UsageStatsManager u = ctx.getSystemService(UsageStatsManager.class);
-            long now = System.currentTimeMillis();
-            UsageEvents ev = u.queryEvents(now - 15000, now);
-            UsageEvents.Event e = new UsageEvents.Event();
-            long last = 0;
-            while (ev.getNextEvent(e)) {
-                if ("com.miui.misound".equals(e.getPackageName())
-                        && e.getEventType() == UsageEvents.Event.ACTIVITY_RESUMED) {
-                    last = Math.max(last, e.getTimeStamp());
-                }
-            }
-            return last > 0 && now - last < OPEN_MS;
-        } catch (RuntimeException e) {
-            Log.w(TAG, "MiSound usage events: " + e);
-            return false;
-        }
-    }
-
     /** Is MiSound's UI in the foreground (the only place the user picks an effect)? */
     private boolean miSoundForeground() {
         try {
@@ -427,10 +407,19 @@ final class DolbyKeeper {
         setEnabledTemp(DAP, on, on ? 1 : 0);
     }
 
-    /** MiSound's own enabled flag (param 25), as MiSound.setEnabled; needs control of the handle. */
+    /** MiSound's own enabled flag (param 25), as MiSound.setEnabled; needs control of the handle.
+     *  2.3: read it first and write only a change. Each write makes the MiSound effect reset its state
+     *  (MiSound_updateState reset=1): a short audible dropout. 2.2 wrote it at each control change: a stutter at
+     *  each volume step over the tuning threshold and when MiSound's screen opened. */
     private void setMiSoundFlag(AudioEffect e, boolean on) {
         if (!reflect()) return;
         try {
+            byte[] cur = new byte[4];
+            Object g = getParam.invoke(e, PARAM_MISOUND_ON, cur);
+            if (g instanceof Integer && (Integer) g >= 4 && (cur[0] != 0) == on && cur[1] == 0 && cur[2] == 0 && cur[3] == 0) {
+                return;
+            }
+            Log.i(TAG, "MiSound flag -> " + on + " (read " + g + ")");
             Object r = setParam.invoke(e, PARAM_MISOUND_ON, le(on ? 1 : 0));
             if (!Integer.valueOf(AudioEffect.SUCCESS).equals(r)) Log.w(TAG, "MiSound flag " + on + " not accepted (" + r + ")");
         } catch (ReflectiveOperationException | RuntimeException ex) {
@@ -484,8 +473,12 @@ final class DolbyKeeper {
         if (port == tunedPort && id.equals(tunedId)) return;
         AudioEffect t = null;
         try {
-            t = ctor.newInstance(TYPE_NULL, DAP, 0, 0);
-            if (!t.hasControl()) {
+            // 2.3: the main handle when it has control (stock DolbyEffectController also uses its own handle). A
+            // temporary handle takes control from it, and control back runs apply() again: 2.2, BUGS 144.
+            boolean own = fx != null && fx.hasControl();
+            if (!own) t = ctor.newInstance(TYPE_NULL, DAP, 0, 0);
+            AudioEffect h = own ? fx : t;
+            if (!h.hasControl()) {
                 Log.i(TAG, "tuning: no control, " + port + " " + id + " later");
                 return;
             }
@@ -493,11 +486,11 @@ final class DolbyKeeper {
             byte[] v = new byte[4 + name.length];
             System.arraycopy(le(port), 0, v, 0, 4);
             System.arraycopy(name, 0, v, 4, name.length);
-            int r = (Integer) setParam.invoke(t, 4, v);
+            int r = (Integer) setParam.invoke(h, 4, v);
             if (r == AudioEffect.SUCCESS) {
                 tunedPort = port;
                 tunedId = id;
-                Log.i(TAG, "tuning: port " + port + " " + id);
+                Log.i(TAG, "tuning: port " + port + " " + id + (own ? "" : " (temporary handle)"));
             } else {
                 Log.w(TAG, "tuning " + id + " = " + r);
             }
