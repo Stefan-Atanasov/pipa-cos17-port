@@ -37,7 +37,7 @@ sleep 2
 sh_ 'am start -n $(cmd package resolve-activity --brief com.spotify.music | tail -1) >/dev/null 2>&1'; sleep 4
 for _ in 1 2 3; do   # Spotify can need a few seconds after a cold start before play works
 	sh_ 'dumpsys media_session | grep -q "state=PLAYING"' && break
-	sh_ 'input keyevent 126'; sleep 3
+	sh_ 'cmd media_session dispatch play >/dev/null 2>&1'; sleep 3   # the PLAY key was often ignored after a cold start (2026-11-20)
 done
 sh_ 'input keyevent 3'; sleep 2
 find_xy() {   # icon centres by label; the dock's recent-apps section shifts the dock icons, so re-read every round
@@ -132,7 +132,7 @@ echo "launcher  frames janky% p50 p90 p99 slowUI slowDraw: $la"
 echo "systemui  frames janky% p50 p90 p99 slowUI slowDraw: $ui"
 echo "apps      frames janky% - - maxp99 slowUI slowDraw: $apps"
 few=$(for p in $PKGS; do [ $p = com.spotify.music ] && continue; n=$(raw $p | awk '{print $1}'); [ "${n:-0}" -lt 50 ] && printf "%s(%s) " "${p##*.}" "${n:-0}"; done)
-# music_playing is only reported: since 2026-11-02 Spotify often does not start playing in the script (not found yet)
+# music_playing is only reported (2026-11-02..20 Spotify often did not play: input keyevent 126; now media_session dispatch play)
 [ -n "$few" ] && echo "INVALID: apps that hardly opened: $few(a floating window or dialog may block the taps)"
 PA=${PIPA_ROOT:-$(cd "$(dirname "$0")/../.." && pwd)}/port-work/perf-ab
 mkdir -p "$PA"

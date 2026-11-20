@@ -34,7 +34,9 @@ PEN_WATCH=1
 # 1 = pen battery in the ColorOS live alert on dock/undock (needs the patched IPeManager, 2p); 0 = helper pill
 PEN_FLUID=1
 
-# Put back the colour mode, adaptive colour and Bedtime mode that ColorOS resets at boot.
+# Put back the colour mode, adaptive colour and Bedtime mode that ColorOS resets at boot (2e-3s). Kept on (110 check
+# 2026-11-20): adaptive is still reset (pt144 with the restore off: oplus_customize_comfort_color_temperature_enable
+# 1 -> 0 after one reboot); colour mode showed no reset in 37 boots, but its part costs only one settings read.
 COLOR_MODE_RESTORE=1
 ADAPTIVE_RESTORE=1
 

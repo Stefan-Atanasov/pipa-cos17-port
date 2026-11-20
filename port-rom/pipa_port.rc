@@ -3,6 +3,9 @@
 # (maintainer/sepolicy/pipa_port_rules.cil; 3g and 3w added rules).
 on post-fs-data
     mkdir /data/misc/pipa_port 0770 root root
+    # 8q: bug report logs; type pipa_logs_file from system_ext_file_contexts (the helper may read only this folder)
+    mkdir /data/misc/pipa_logs 0755 root root
+    restorecon_recursive /data/misc/pipa_logs
     exec u:r:pipa_port:s0 root root -- /system/bin/sh /system_ext/pipa_port/early.sh
     # Virtual modem HALs for interconnect (ISubsys/default, ISubsysRadio/slot1+2). The odm copy
     # runs as hal_radio_default, which is denied /dev/diag, and never registers.
@@ -40,3 +43,27 @@ service pipa_port /system/bin/sh /system_ext/pipa_port/service.sh
     group root
     seclabel u:r:pipa_port:s0
     disabled
+
+# 8p (BUGS B1, 2026-11-20): one log snapshot when Wi-Fi fails to start (b1_capture.sh, rate limited, newest 5 kept in
+# /data/misc/pipa_port/b1-*.txt). Only init property events start it: no process and no wakeup at idle.
+# ColorOS (oplus-wifi-service OplusWifiSwitchRecover) asks for a cold reset after a failed Wi-Fi switch
+on property:sys.oplus.wifi.coldreset=1
+    start pipa_b1_cap
+# ColorOS "wifi framework stuck" state (OplusWifiSwitchMoniter)
+on property:sys.oplus.wifi.trace=1
+    start pipa_b1_cap
+# Wi-Fi HAL or wificond crashed and init restarts them
+on property:init.svc.vendor.wifi_hal_legacy=restarting
+    start pipa_b1_cap
+on property:init.svc.wificond=restarting
+    start pipa_b1_cap
+# by hand right after a failed start (root): setprop sys.pipa.b1capture $(date +%s)   (any new value)
+on property:sys.pipa.b1capture=*
+    start pipa_b1_cap
+
+service pipa_b1_cap /system/bin/sh /system_ext/pipa_port/b1_capture.sh
+    user root
+    group root
+    seclabel u:r:pipa_port:s0
+    disabled
+    oneshot

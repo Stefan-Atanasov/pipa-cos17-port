@@ -79,3 +79,27 @@ fastboot shell for typed commands; its author says basic commands work but are n
    `fastboot reboot`
 
 The first boot can take a few minutes. If the tablet does not boot, flash again from a PC with `FlashLinux.sh`.
+
+## Alternative: Termux on a second Android phone (community method)
+
+A tester flashed beta 9 like this (2026-11-20). The flash script is the same as on a Linux PC.
+
+CAUTION: Step 3 runs an install script from a third party (github.com/offici5l/termux-adb-fastboot). Read it before
+you run it.
+
+1. Install Termux from F-Droid or the Termux GitHub releases (not the old Play Store version).
+2. Run `termux-setup-storage` and allow the storage access.
+3. Install adb and fastboot:
+   `curl -s https://raw.githubusercontent.com/offici5l/termux-adb-fastboot/main/install | bash`
+4. Extract the release package on the phone (the folder is about 7.4 GB). Example folder: `/sdcard/v9.2`.
+5. Put the tablet in fastboot mode (Power + Volume down) and connect it with a USB OTG cable. Allow the USB access
+   in Termux. `fastboot devices` must show the tablet.
+6. Run the flash script:
+   ```
+   cd /sdcard/v9.2
+   bash FlashLinux.sh
+   ```
+   (`chmod +x` does not work on `/sdcard`; `bash FlashLinux.sh` does not need it.) The script uses the Termux
+   `fastboot` (the bundled one is for x86 PCs).
+7. In the menu, select `1` to update (your apps and data stay) or `2` for a clean install. A clean install erases all
+   data and asks you to type `ERASE`. Then the script runs by itself. Do not disconnect the cable until it says done.

@@ -1,0 +1,171 @@
+@echo off
+rem ColorOS 17 port for Xiaomi Pad 6 (pipa): flash script for Windows. UTF-8, CRLF (build_release.sh converts).
+rem Install types: 1 = update (keep data), 2 = clean install (erase metadata, userdata, frp; needs "ERASE").
+chcp 65001 >nul
+setlocal EnableExtensions
+set "BIN_DIR=%~dp0bin\Windows"
+set "FW_DIR=%~dp0firmware"
+set "SUPER_DIR=%~dp0super"
+set "FASTBOOT=%BIN_DIR%\fastboot.exe"
+set "BOOT_IMAGE=%FW_DIR%\boot.img"
+
+if not exist "%FASTBOOT%" (
+    echo [!] fastboot was not found: "%FASTBOOT%"
+    pause
+    exit /b 1
+)
+if not exist "%SUPER_DIR%\super.img" (
+    echo [!] Super image not found: "%SUPER_DIR%\super.img"
+    pause
+    exit /b 1
+)
+if not exist "%BOOT_IMAGE%" (
+    echo [!] Boot image not found: "%BOOT_IMAGE%"
+    pause
+    exit /b 1
+)
+
+echo ==============================================================================
+echo  ColorOS 17 / Android 17 port for Xiaomi Pad 6 ^(pipa^)
+echo  Version: @NAME@
+echo  Original port: 梦归zzz ^(Coolapk^). Maintainer: @MAINTAINER@
+echo ==============================================================================
+echo.
+echo [*] Put the tablet in bootloader ^(fastboot^) mode and connect it to this computer.
+"%FASTBOOT%" devices | findstr /R /C:"fastboot$" >nul
+if errorlevel 1 (
+    echo [!] No device in fastboot mode was found. Check the cable, the drivers and that the tablet shows FASTBOOT.
+    echo [!] Nothing was flashed.
+    pause
+    exit /b 1
+)
+echo [*] Device found.
+echo.
+echo [*] The system is on slot B. Setting the active slot to B.
+"%FASTBOOT%" set_active b
+if errorlevel 1 (
+    echo [!] Could not set slot B. Try again, or run: fastboot set_active b
+    pause
+    exit /b 1
+)
+echo.
+
+:ask
+echo How do you want to install?
+echo   1^) Update         Keep your apps and data. Only to update this ColorOS port.
+echo   2^) Clean install  ERASE all apps and data. First install, or coming from another ROM.
+set "MODE="
+set /p "MODE=Type 1 or 2 and press Enter: "
+if "%MODE%"=="1" goto :update
+if "%MODE%"=="2" goto :confirm
+echo [!] Please type 1 or 2.
+goto :ask
+:confirm
+set "OK="
+set /p "OK=This erases ALL data on the tablet. Type ERASE to confirm: "
+if "%OK%"=="ERASE" goto :clean
+echo [*] Not confirmed. Nothing was erased.
+goto :ask
+:update
+set "WIPE=n"
+echo [*] Update: your apps and data stay.
+goto :start
+:clean
+set "WIPE=y"
+echo [!] Clean install: all apps and data will be erased.
+:start
+echo.
+
+call :flash abl_ab "%FW_DIR%\abl.img" || goto :abort
+call :flash aop_ab "%FW_DIR%\aop.img" || goto :abort
+call :flash bluetooth_ab "%FW_DIR%\bluetooth.img" || goto :abort
+rem Update: boot and dtbo go to slot B only, so a Linux/UEFI boot image in slot A stays.
+if /I "%WIPE%"=="y" (set "BS=_ab") else (set "BS=_b" & echo [*] Update: boot and dtbo go to slot B only.)
+call :flash boot%BS% "%BOOT_IMAGE%" || goto :abort
+call :flash cmnlib_ab "%FW_DIR%\cmnlib.img" || goto :abort
+call :flash cmnlib64_ab "%FW_DIR%\cmnlib64.img" || goto :abort
+call :flash devcfg_ab "%FW_DIR%\devcfg.img" || goto :abort
+call :flash dsp_ab "%FW_DIR%\dsp.img" || goto :abort
+call :flash dtbo%BS% "%FW_DIR%\dtbo.img" || goto :abort
+call :flash featenabler_ab "%FW_DIR%\featenabler.img" || goto :abort
+call :flash hyp_ab "%FW_DIR%\hyp.img" || goto :abort
+call :flash imagefv_ab "%FW_DIR%\imagefv.img" || goto :abort
+call :flash keymaster_ab "%FW_DIR%\keymaster.img" || goto :abort
+call :flash modem_ab "%FW_DIR%\modem.img" || goto :abort
+call :flash qupfw_ab "%FW_DIR%\qupfw.img" || goto :abort
+call :flash tz_ab "%FW_DIR%\tz.img" || goto :abort
+call :flash uefisecapp_ab "%FW_DIR%\uefisecapp.img" || goto :abort
+call :flash vbmeta_ab "%FW_DIR%\vbmeta.img" || goto :abort
+call :flash vbmeta_system_ab "%FW_DIR%\vbmeta_system.img" || goto :abort
+call :flash vendor_boot_ab "%FW_DIR%\vendor_boot.img" || goto :abort
+call :flash xbl_ab "%FW_DIR%\xbl.img" || goto :abort
+call :flash xbl_config_ab "%FW_DIR%\xbl_config.img" || goto :abort
+
+echo [*] Flashing the super image ^(system^). This takes a few minutes. Do not disconnect the tablet.
+call :flash super "%SUPER_DIR%\super.img" || goto :abort
+echo [*] Super image done. Setting the active slot to B again.
+"%FASTBOOT%" set_active b
+if errorlevel 1 (
+    echo [!] The super image is flashed, but slot B could not be set. Do not reboot.
+    echo [!] Run: fastboot set_active b
+    pause
+    exit /b 1
+)
+echo [*] Current slot:
+"%FASTBOOT%" getvar current-slot 2>&1 | findstr /I "current-slot"
+echo.
+
+if /I "%WIPE%"=="y" (
+    call :erase metadata || goto :abort
+    call :erase userdata || goto :abort
+    "%FASTBOOT%" erase frp || echo [!] Could not erase frp. If you cannot set a screen lock later, run: fastboot erase frp
+)
+
+echo [*] Last check: setting the active slot to B before the reboot.
+"%FASTBOOT%" set_active b
+if errorlevel 1 (
+    echo [!] Could not set slot B. Do not reboot. Run: fastboot set_active b
+    pause
+    exit /b 1
+)
+echo.
+echo ==============================================================================
+echo [*] Done. All partitions are flashed.
+echo [*] The first boot can take several minutes. Wait, and do not reboot by hand.
+echo ==============================================================================
+"%FASTBOOT%" reboot
+echo.
+echo Finished. Press any key to close this window.
+pause >nul
+exit /b 0
+
+:abort
+echo.
+echo [!] Flashing stopped. Fix the problem and run the script again, or run the failed command by hand.
+pause
+exit /b 1
+
+:flash
+set "PARTITION=%~1"
+set "IMAGE=%~2"
+if not exist "%IMAGE%" (
+    echo [!] Missing image: "%IMAGE%"
+    exit /b 1
+)
+echo [*] Flashing %PARTITION% ...
+"%FASTBOOT%" flash "%PARTITION%" "%IMAGE%"
+if errorlevel 1 (
+    echo [!] Could not flash %PARTITION%. Try again, or run the fastboot command above by hand.
+    exit /b 1
+)
+exit /b 0
+
+:erase
+set "PARTITION=%~1"
+echo [*] Erasing %PARTITION%. Please wait.
+"%FASTBOOT%" erase "%PARTITION%"
+if errorlevel 1 (
+    echo [!] Could not erase %PARTITION%. Try again, or run: fastboot erase %PARTITION%
+    exit /b 1
+)
+exit /b 0

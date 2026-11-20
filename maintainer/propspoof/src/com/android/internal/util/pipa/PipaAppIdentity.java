@@ -1,7 +1,9 @@
 package com.android.internal.util.pipa;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -14,6 +16,9 @@ import java.lang.reflect.Field;
  * - Games (BUGS-TODO 62): a gaming device, so that the game offers its high frame rates. Many games pick the frame-rate
  *   menu from a model list (often from their server). Only BRAND, MANUFACTURER, DEVICE, PRODUCT and MODEL change; the
  *   fingerprint stays real (null = keep the real value).
+ * - User choice (helper 2.5, Pipa Helper > Games, BUGS 150): Global "pipa_app_identity" = "pkg=profile;pkg=profile";
+ *   profile = a key of profile() or "real" (the real device). Read once per app start, only for apps that are not
+ *   system apps (system_server and system apps start before or without SettingsProvider: never touched).
  */
 public final class PipaAppIdentity {
     private static final String TAG = "PipaAppIdentity";
@@ -78,7 +83,14 @@ public final class PipaAppIdentity {
         if (context == null) return;
         String pkg = context.getPackageName();
         String[] id;
-        if ("com.netflix.mediaclient".equals(pkg)) {
+        String choice = userChoice(context, pkg);
+        if ("real".equals(choice)) {
+            Log.i(TAG, pkg + " -> real device (user)");
+            return;
+        }
+        if (choice != null && (id = profile(choice)) != null) {
+            // user choice
+        } else if ("com.netflix.mediaclient".equals(pkg)) {
             id = PIXEL_6;
         } else if ("com.google.android.apps.photos".equals(pkg)) {
             id = PIXEL_XL;
@@ -96,6 +108,43 @@ public final class PipaAppIdentity {
             }
         }
         Log.i(TAG, pkg + " -> " + Build.MODEL);
+    }
+
+    /** the user's choice for pkg, or null (port default) */
+    private static String userChoice(Context context, String pkg) {
+        try {
+            ApplicationInfo ai = context.getApplicationInfo();
+            if (ai == null || (ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0) return null;
+            String v = Settings.Global.getString(context.getContentResolver(), "pipa_app_identity");
+            if (v == null || v.isEmpty()) return null;
+            String key = pkg + "=";
+            for (String e : v.split(";")) {
+                if (e.startsWith(key)) return e.substring(key.length()).trim();
+            }
+        } catch (Throwable t) {
+            Log.w(TAG, "user choice: " + t);
+        }
+        return null;
+    }
+
+    /** profile keys for the user choice (the helper shows the same list) */
+    static String[] profile(String k) {
+        switch (k) {
+            case "pixel6": return PIXEL_6;
+            case "pixelxl": return PIXEL_XL;
+            case "rm_nova": return REDMAGIC_NOVA;
+            case "rog6": return ROG6;
+            case "rog6d": return ROG6D;
+            case "y700": return LENOVO_Y700;
+            case "op8p": return OP8P;
+            case "op9p": return OP9P;
+            case "mi11tp": return MI11TP;
+            case "mi13p": return MI13P;
+            case "pocof5": return POCO_F5;
+            case "bs4": return BS4;
+            case "s24u": return S24U;
+            default: return null;
+        }
     }
 
     private static String[] gameProfile(String pkg) {

@@ -165,12 +165,7 @@ face_install() {
     cp -a "$MODDIR/facehal" "$FACE" && log "facehal copied to $FACE"
 }
 
-face_running() {
-    [ "$(getprop init.svc.vendor.facehal)" = running ] && return 0
-    pgrep -f android.hardware.biometrics.face-service.facehal >/dev/null 2>&1
-}
-
-face_start() {
+face_start() {   # prepares and runs the HAL in the foreground (returns when it exits)
     if [ -f /vendor/Khronos/OpenCL/vendors/adreno.icd ] && [ -f /vendor/lib64/libOpenCL_adreno.so ]; then
         cl=libOpenCL.so.819
     else
@@ -188,9 +183,8 @@ face_start() {
     # 5n: libpipa_camguard refuses the worker's window=standard fallback (an ANativeWindow given to the vendor camera
     # NDK, which wants a native handle: SIGABRT in a dark room) with an error code (src/camguard.c)
     [ -f "$FACE/lib64/libpipa_camguard.so" ] && pre=$pre:$FACE/lib64/libpipa_camguard.so
-    LD_PRELOAD=$pre LD_LIBRARY_PATH=$FACE/lib64:$FACE \
-        nohup "$FACE_BIN" >>/data/local/tmp/facehal.log 2>&1 &
-    log "facehal started pid=$! ($cl)"
+    log "facehal started ($cl)"
+    LD_PRELOAD=$pre LD_LIBRARY_PATH=$FACE/lib64:$FACE "$FACE_BIN" </dev/null >>/data/local/tmp/facehal.log 2>&1
 }
 
 if [ "${FACE_HAL:-1}" = 1 ]; then
@@ -200,7 +194,19 @@ if [ "${FACE_HAL:-1}" = 1 ]; then
         setprop ctl.stop vendor.facehal
         for p in $(pgrep -f android.hardware.biometrics.face-service.facehal); do kill -9 "$p"; done
         sleep 1
-        face_start
+        # 110 (2026-11-20): supervisor instead of the 15 s face_running poll of the main loop (getprop + pgrep):
+        # the HAL runs in the foreground here and is started again when it exits; a crash loop backs off.
+        n=0
+        while :; do
+            t0=$(date +%s)
+            face_start
+            r=$?
+            [ $(( $(date +%s) - t0 )) -gt 60 ] && n=0
+            n=$((n + 1))
+            log "facehal exited ($r), restart $n"
+            if [ $n -gt 5 ]; then sleep 60; else sleep 2; fi
+            setprop ctl.stop vendor.facehal
+        done
     ) &
 fi
 
@@ -413,10 +419,11 @@ fi
 # 4k OShare: the ROM copy is patched (tablet -> OPPO phone without the interconnect). An OPPO App Market update
 # installs an unpatched copy in /data/app; remove the update, so the patched ROM copy is used again.
 # 7l (BUGS 127): the same for every other app the port patches (SOTA / store updates would drop the patches).
+# 8m: SAU itself (patched so it updates built-in apps).
 # The ROM copies also carry raised versionCodes (5r, 7l), so this only fires for an update installed before.
 if [ "${OSHARE_ROLLBACK:-1}" = 1 ] && [ "${PATCHED_ROLLBACK:-1}" = 1 ]; then
     for P in com.coloros.oshare com.android.systemui com.android.settings com.android.launcher com.oplus.battery \
-             com.oplus.eyeprotect com.oplus.wallpapers com.oplus.ipemanager; do
+             com.oplus.eyeprotect com.oplus.wallpapers com.oplus.ipemanager com.oplus.sau; do
         : > "$SGET_F"
         pm path "$P" </dev/null >"$SGET_F" 2>/dev/null
         if grep -q '^package:/data/' "$SGET_F"; then
@@ -624,8 +631,10 @@ ANIM_STAMP=/data/misc/pipa_port/anim.stamp
 rm -f "$ANIM_STAMP"
 anim_check() {
     [ -e "$ANIM_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$ANIM_STAMP" ] && return
+    # helper 2.5 (Pipa Helper > Effects > Animation style): global pipa_anim_level 2/3/4; else the config (3)
+    want=$(sget global pipa_anim_level) || return   # a failed read: try again next time
     : > "$ANIM_STAMP"
-    want=${ANIM_LEVEL:-3}
+    case $want in 2|3|4) ;; *) want=${ANIM_LEVEL:-3} ;; esac
     case $want in 1|2|3|4) ;; *) want=3 ;; esac
     [ "$(getprop persist.sys.oplus.anim_level)" = "$want" ] && return
     setprop persist.sys.oplus.anim_level "$want"
@@ -662,6 +671,52 @@ blur_check() {
     setprop persist.sys.oplus.systemui.dynamic_blur "$want"
     log "live blur -> $want (SystemUI uses it after a reboot)"
 }
+# Pen settings of the helper (2.5), read only when settings_global.xml changed (one builtin test per tick, as
+# blur_check; no polling in pen_keys.sh):
+# * BUGS 154, Pen > "Pens without Bluetooth": global pipa_pen_always = 1 keeps pen input on in the touch IC, also
+#   without a Bluetooth pen (Lenovo Precision Pen and other active pens with no link). Default 0 = stock (6u, as
+#   HyperOS: only while the Xiaomi pen is connected). PEN_BT_ONLY=0 in /data/misc/pipa_port/config.prop (the old
+#   "pen always on" module) still wins.
+# * BUGS 153, Pen > Buttons: global pipa_pen_buttons = "<far_mode> <long_ms> <actions...>" -> the kernel filter
+#   (walt-hi12 pipa_pen_buttons.c). double_ms only when a double press has an action (else a short press is instant).
+#   pen_keys.sh reads the actions itself at each press.
+PEN_BT_CFG=${PEN_BT_ONLY:-1}
+PPB=/sys/module/pipa_pen_buttons/parameters
+PEN_SET_STAMP=/data/misc/pipa_port/pen_settings.stamp
+# kernel hi13+ (nanosic driver). A fixed path: pipa_port may not list /sys/module (a glob found nothing, pt136 test)
+KB_SUPER_P=/sys/module/nanosic_driver_v2/parameters/super_alone; [ -e "$KB_SUPER_P" ] || KB_SUPER_P=
+rm -f "$PEN_SET_STAMP"
+pen_settings_check() {
+    [ -e "$PEN_SET_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$PEN_SET_STAMP" ] && return
+    v=$(sget global pipa_pen_always) || return   # a failed read: try again next time
+    if [ -d "$PPB" ]; then
+        c=$(sget global pipa_pen_buttons) || return
+        [ "$c" = null ] && c="1 380"
+        set -f; set -- $c; set +f
+        case "$1" in 0|1|2|3) [ "$(cat $PPB/far_mode)" = "$1" ] || echo "$1" > $PPB/far_mode ;; esac
+        case "$2" in [2-8][0-9][0-9]) [ "$(cat $PPB/long_ms)" = "$2" ] || echo "$2" > $PPB/long_ms ;; esac
+        d=0; [ "$1" = 3 ] && { [ "${7:-none}" != none ] || [ "${8:-none}" != none ]; } && d=300
+        [ "$(cat $PPB/double_ms)" = "$d" ] || echo "$d" > $PPB/double_ms
+    fi
+    # BUGS 155: Super key alone -> action only when the user chose one (else stock)
+    if [ -n "$KB_SUPER_P" ]; then
+        k=$(sget global pipa_kb_super) || return
+        case "$k" in null|default) k=0 ;; *) k=1 ;; esac
+        [ "$(cat "$KB_SUPER_P")" = "$k" ] || echo "$k" > "$KB_SUPER_P"
+    fi
+    : > "$PEN_SET_STAMP"
+    [ "$conn" = 1 ] && ipe_state 2
+    if [ "$PEN_BT_CFG" = 0 ] || [ "$v" = 1 ]; then n=0; else n=1; fi
+    [ "$n" = "${PEN_BT_ONLY:-1}" ] && return
+    PEN_BT_ONLY=$n
+    if [ $n = 0 ]; then
+        armed=0; log "pen input: always on (pens without Bluetooth)"
+    elif [ "$conn" != 1 ] && [ -x "$IOCTL" ]; then
+        "$IOCTL" pen off >/dev/null 2>&1; armed=0
+        echo "$(date) pen off (always-on switch off, not connected)" >> "$PEN_LOG"
+        log "pen input: only with the Bluetooth pen"
+    fi
+}
 # Xiaomi thermal scene (5l). mi_thermald picks its profile from thermal_message/sconfig; on HyperOS PowerKeeper sets
 # it, on ColorOS nobody does (-1 = daily profile: CPU caps from 38 C skin). The helper sets global pipa_game_fg = 1
 # while an app with appCategory "game" is in the foreground; then the game profile GAME_THERMAL_SCENE is used
@@ -678,9 +733,79 @@ game_scene() {   # $1 = scene; builtin echo only
 }
 game_check() {
     [ -e "$GAME_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$GAME_STAMP" ] && return
-    : > "$GAME_STAMP"
     g=$(sget global pipa_game_fg) || return
-    if [ "$g" = 1 ]; then game_scene "${GAME_THERMAL_SCENE:-20}"; else game_scene -1; fi
+    # helper 2.5 (Pipa Helper > Games > Performance profile): global pipa_game_scene 20/13/10, 0 = off; else the config
+    sc=$(sget global pipa_game_scene) || return
+    : > "$GAME_STAMP"   # after the reads: a failed read is tried again next second
+    case $sc in 0|10|13|20) ;; *) sc=${GAME_THERMAL_SCENE:-20} ;; esac
+    if [ "$g" = 1 ] && [ "$sc" != 0 ]; then game_scene "$sc"; else game_scene -1; fi
+}
+# helper 2.5 (Pipa Helper > Effects > Apply / Reset): blur and contour glow are read by SystemUI and the launcher at
+# their start. The helper sets global pipa_fx_restart = 1; this restarts both once (as the beta7.1 once-step) and
+# sets it back to 0. No reboot.
+FX_STAMP=/data/misc/pipa_port/fx.stamp
+rm -f "$FX_STAMP"
+fx_check() {
+    [ -e "$FX_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$FX_STAMP" ] && return
+    v=$(sget global pipa_fx_restart) || return
+    : > "$FX_STAMP"
+    [ "$v" = 1 ] || return
+    settings put global pipa_fx_restart 0 </dev/null >/dev/null 2>&1
+    kill -9 $(pidof com.android.systemui) 2>/dev/null
+    am force-stop com.android.launcher </dev/null >/dev/null 2>&1
+    am start -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null >/dev/null 2>&1
+    log "effects applied: SystemUI + launcher restarted (helper)"
+}
+# 8n (helper 2.6, Pipa Helper > System > Optimise apps): global pipa_dexopt = 1 -> ART's background dexopt job runs
+# once, now (`pm bg-dexopt-job`: the stock job Android runs when the tablet is idle and charging). After a ROM update
+# most apps run from "verify" (interpreter + JIT) until that night job. Only on the user's request: no automatic run.
+# 2 while it runs, 0 after; global pipa_dexopt_last = end time (epoch s). A 2 left by a reboot is reset.
+DEXOPT_STAMP=/data/misc/pipa_port/dexopt.stamp
+DEXOPT_RUN=/data/misc/pipa_port/dexopt.run   # exists while the job runs (a PID test would also see a zombie)
+rm -f "$DEXOPT_STAMP" "$DEXOPT_RUN"
+dexopt_check() {
+    [ -e "$DEXOPT_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$DEXOPT_STAMP" ] && return
+    v=$(sget global pipa_dexopt) || return
+    : > "$DEXOPT_STAMP"
+    [ -e "$DEXOPT_RUN" ] && return
+    if [ "$v" = 2 ]; then settings put global pipa_dexopt 0 </dev/null >/dev/null 2>&1; return; fi
+    [ "$v" = 1 ] || return
+    : > "$DEXOPT_RUN"
+    settings put global pipa_dexopt 2 </dev/null >/dev/null 2>&1
+    log "optimise apps: background dexopt job started (helper)"
+    (
+        t0=$(date +%s)
+        pm bg-dexopt-job </dev/null >/dev/null 2>&1; r=$?
+        t1=$(date +%s)
+        settings put global pipa_dexopt_last "$t1" </dev/null >/dev/null 2>&1
+        rm -f "$DEXOPT_RUN"
+        settings put global pipa_dexopt 0 </dev/null >/dev/null 2>&1
+        log "optimise apps: done (exit $r, $((t1 - t0)) s)"
+    ) &
+}
+# 8q (helper 2.7, Pipa Helper > System > Collect logs): global pipa_logs = 1 -> collect_logs.sh once (redacted tar.gz
+# in /data/misc/pipa_logs, type pipa_logs_file); 2 while it runs, 0 after; global pipa_logs_file = the file name (the
+# helper copies it into Downloads and offers to share it). A 2 left by a reboot is reset.
+LOGS_STAMP=/data/misc/pipa_port/logs.stamp
+LOGS_RUN=/data/misc/pipa_port/logs.run
+rm -f "$LOGS_STAMP" "$LOGS_RUN"
+logs_check() {
+    [ -e "$LOGS_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$LOGS_STAMP" ] && return
+    v=$(sget global pipa_logs) || return
+    : > "$LOGS_STAMP"
+    [ -e "$LOGS_RUN" ] && return
+    if [ "$v" = 2 ]; then settings put global pipa_logs 0 </dev/null >/dev/null 2>&1; return; fi
+    [ "$v" = 1 ] || return
+    : > "$LOGS_RUN"
+    settings put global pipa_logs 2 </dev/null >/dev/null 2>&1
+    log "collect logs: started (helper)"
+    (
+        f=$(sh "$MODDIR/collect_logs.sh" </dev/null 2>/dev/null)
+        [ -n "$f" ] && settings put global pipa_logs_file "$f" </dev/null >/dev/null 2>&1
+        rm -f "$LOGS_RUN"
+        settings put global pipa_logs 0 </dev/null >/dev/null 2>&1
+        log "collect logs: done (${f:-failed})"
+    ) &
 }
 LID_STAMP=/data/misc/pipa_port/lid.stamp
 rm -f "$LID_STAMP"
@@ -802,6 +927,13 @@ pen_mac() {
     awk '/^\[/ { m = $0 } /^Name = Xiaomi Smart Pen$/ { m = substr(m, 2, length(m) - 2); gsub(/:/, "", m); print tolower(m); exit }' \
         /data/misc/bluedroid/bt_config.conf 2>/dev/null
 }
+# BUGS 153: OPPO apps take pencil clicks only while Global ipe_pencil_connect_state = 2 (IPeManager sets it for its own
+# BLE pencils; Notes registers its PENCIL_DOUBLE_CLICK receiver then). 2 while the Xiaomi pen is connected, 0 when not.
+ipe_state() {
+    [ "$(sget global ipe_pencil_connect_state)" = "$1" ] && return
+    settings put global ipe_pencil_connect_state "$1" </dev/null >/dev/null 2>&1
+    log "ipe_pencil_connect_state=$1"
+}
 pen_present() {
     am startservice --user 0 -a com.oplus.ipemanager.action.PENCIL_STATUS_CHANGE \
         -p com.oplus.ipemanager --es present "$1" --es macAddr "$(pen_mac)" --es pencilId 1 >/dev/null 2>&1
@@ -826,7 +958,7 @@ pen_wake() {
     ok=1
     for i in 1 2 3; do
         "$IOCTL" pen on >/dev/null 2>&1 || ok=0
-        sleep 0.5
+        nap 0.5   # 110: builtin wait, no sleep process (3 per screen-on before)
     done
     echo "$(date) pen on applied ok=$ok" >> "$PEN_LOG"
     [ $ok = 1 ]
@@ -947,6 +1079,7 @@ while true; do
     fi
     # 6u (BUGS 111): pen input in the touch IC only while the pen is connected over BT (as HyperOS: the stylus
     # service enables pen mode on connect). Without it the panel scanned for a pen all the time and any active pen wrote.
+    pen_settings_check
     if [ "${PEN_WAKE:-1}" = 1 ] && [ $armed = 0 ] && [ -x "$IOCTL" ] && { [ "${PEN_BT_ONLY:-1}" = 0 ] || [ "$conn" = 1 ]; }; then
         pen_wake && armed=1
     fi
@@ -963,7 +1096,10 @@ while true; do
     fi
     [ $((ctick % 300)) = 150 ] && [ ! -e "$STATE/cts_assistant_v2" ] && cts_assistant
     [ $((ctick % 10)) = 5 ] && [ -e "$STATE/gboard_pending" ] && { gboard_default || :; }
-    case "${GAME_THERMAL_SCENE:-20}" in ''|0) ;; *) game_check ;; esac
+    game_check
+    fx_check
+    [ "${DEXOPT_BUTTON:-1}" = 1 ] && dexopt_check
+    [ "${LOGS_BUTTON:-1}" = 1 ] && logs_check
     if [ "${PEN_WATCH:-1}" = 1 ]; then
         if pen_connected; then c=1; else c=0; fi
         # At boot ColorOS's pen manager is not ready at once (an early message was sometimes ignored and
@@ -971,6 +1107,7 @@ while true; do
         # service start. Since 2p each present=1 also shows the live-alert capsule: one message, not three.
         # Later changes (Bluetooth connect/disconnect) go out at once.
         if [ "$c" != "$conn" ]; then
+            if [ $c = 1 ]; then ipe_state 2; else ipe_state 0; fi
             if [ -z "$conn" ] && [ $c = 1 ]; then resend=0; else pen_present $c; resend=2; fi
             if [ "${PEN_BT_ONLY:-1}" = 1 ] && [ -x "$IOCTL" ]; then
                 if [ $c = 1 ]; then armed=0   # pen on at the next tick
@@ -1007,7 +1144,6 @@ while true; do
     if [ $((tick % 15)) = 0 ]; then
         # 4 sget reads (`settings get` processes): only after a change of the system settings file
         if [ -e "$DISP_DONE" ] && { ! [ -e "$SYS_STAMP" ] || [ "$SYS_XML" -nt "$SYS_STAMP" ]; }; then : > "$SYS_STAMP"; remember_display; fi
-        [ "${FACE_HAL:-1}" = 1 ] && [ $tick -gt 15 ] && ! face_running && face_start
         [ "${SYSTEM_UX:-1}" = 1 ] && [ -w "$UX_TASK" ] && system_ux
     fi
     tick=$((tick + 1))

@@ -153,6 +153,20 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt124)       IMG=$P/port-work/pt124/img/super.img;       MD5=dc392467595624794fedc32e2cce7d72 ;;   # pt123 + 7t debug.sf.enable_hwc_vds=1 (Miracast picture, BUGS 80)
     pt125)       IMG=$P/port-work/pt125/img/super.img;       MD5=33cb3d07b5029f90d4cce1ee2eac6c81 ;;   # pt124 + 7u SukiSU Nova manager (needs kernel walt-hi9)
     pt127)       IMG=$P/port-work/pt127/img/super.img;       MD5=c3b0e2ef5f6d887fdf918c9d718e0a42 ;;   # pt125 + 7v Gboard after setup + 7w helper 2.1 (MiSound flag, Dolby page)
+    pt148) IMG=$P/port-work/pt148/img/super.img; MD5=05601378238518e677771d81048668bc ;; # v9.2 candidate: pt147 + 8r smooth refresh (animatingDelayTime 300, Auto 120 in apps, idle timeout 3500)
+    pt147) IMG=$P/port-work/pt147/img/super.img; MD5=e43ae6bafd98a34f0af7741c4c8f11e4 ;; # v9.2 candidate: pt146 + pipa_logs label via file_contexts/init, meminfo rule, B1 rate limit by wall clock
+    pt146) IMG=$P/port-work/pt146/img/super.img; MD5=b8a2857122839fb9861f0e41fa6d890e ;; # v9.2 candidate: pt144 + 8q helper 2.7 Collect logs / Wi-Fi notice / Games fix, full colour restore
+    pt144) IMG=$P/port-work/pt144/img/super.img; MD5=8b6f89e452ceb54c38b39e2de5a555c4 ;; # pt143 - 8c + 8p B1 Wi-Fi capture + 110 cleanup (face supervisor, restore off) + review fixes, helper 2.6b
+    pt143) IMG=$P/port-work/pt143/img/super.img; MD5=b22d12053f770982017c2a6ce8929031 ;; # pt142 + 8n helper 2.6 Optimise apps + 8o MSP 2.3.0 (BUGS 160 account login)
+    pt142) IMG=$P/port-work/pt142/img/super.img; MD5=3d773d17c7298caac9a6bbd6d783a360 ;; # pt141 + 8m SAU app updates (BUGS 160/161: verity gate only for app updates, productName OPD2515)
+    pt140) IMG=$P/port-work/pt140/img/super.img; MD5=411c2390f74965c3885ece004a568fd3 ;; # pt139 + 8l GCam AGC 8.8.224 V12.0 removable preload
+    pt139) IMG=$P/port-work/pt139/img/super.img; MD5=1c0cd3f7815ea986d943bb8ea9b078c5 ;; # pt138 + 8k in product build.prop (vendor_init could not set vendor_audio_prop)
+    pt138) IMG=$P/port-work/pt138/img/super.img; MD5=3ef53c1a590ba2a3f61379b64de46214 ;; # pt137 + 8j services.jar (BUGS 157 back focus, 158 Miracast temporary groups) + 8k vendor.audio.c2.preferred (BUGS 159 MediaRecorder audio)
+    pt137) IMG=$P/port-work/pt137/img/super.img; MD5=be0d28e0ff10fe8e49abea94370ebe67 ;; # pt136 + 8i Qualcomm SF extension (Miracast HWC only for WFD, Gemini screen share BUGS 156), Super key path fix, keyboard page cleanup
+    pt136) IMG=$P/port-work/pt136/img/super.img; MD5=7858a38369cdb9885bc0ade9eba304ee ;; # pt135 + 8h Pipa Helper round 2 (effects, games, Super key BUGS 155)
+    pt135) IMG=$P/port-work/pt135/img/super.img; MD5=686aa42601781a79a79eb400951f9d36 ;; # pt134 + 8g device identity per game, Pipa Helper Games page (BUGS 150)
+    pt134) IMG=$P/port-work/pt134/img/super.img; MD5=023f8ac3ab4096ae3dabf0aa45dcdf49 ;; # pt133 + 8f OPPO init: AOSP charger trigger on qcom (BUGS 152)
+    pt133) IMG=$P/port-work/pt133/img/super.img; MD5=e03e06df5690569f75af0371c1c99049 ;; # pt132 + 8d offline charging (BUGS 152) + 8e pen buttons, Pipa Helper app 2.5 (BUGS 153/154)
     pt132) IMG=$P/port-work/pt132/img/super.img; MD5=d3c76dd1afd6a77c0ad6393fda5a2a84 ;; # pt131 + 8c composer clamps plane alpha (BUGS 48)
     pt131) IMG=$P/port-work/pt131/img/super.img; MD5=5293cca9f274d1a2e73289801747f155 ;; # v9.1 = pt130 + 8b face preview rotation from the window (BUGS 147)
     pt130) IMG=$P/port-work/pt130/img/super.img; MD5=d29e2a0c22dcde4a89563399729b72cc ;; # v9.1 = pt129 + 8a helper 2.4 (BUGS 146)

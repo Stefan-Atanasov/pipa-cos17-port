@@ -1,0 +1,15 @@
+; pipa port 8q: Pipa Helper > System > Collect logs. The pipa_port service (collect_logs.sh) writes a redacted
+; tar.gz into /data/misc/pipa_logs (own type pipa_logs_file); the helper (priv_app) reads it and copies it into
+; Downloads through MediaStore. The helper may read only this type, nothing else of the port.
+(type pipa_logs_file)
+(roletype object_r pipa_logs_file)
+(typeattributeset file_type (pipa_logs_file))
+(typeattributeset data_file_type (pipa_logs_file))
+(typeattributeset core_data_file_type (pipa_logs_file))
+(allow pipa_port pipa_logs_file (dir (create getattr setattr open read search write add_name remove_name rmdir relabelfrom relabelto)))
+(allow pipa_port pipa_logs_file (file (create getattr setattr open read write append unlink rename relabelfrom relabelto)))
+(allow pipa_port system_data_file (dir (relabelfrom)))
+(allow pipa_port system_data_file (file (relabelfrom)))
+(allow priv_app pipa_logs_file (dir (getattr search open read)))
+(allow priv_app pipa_logs_file (file (getattr open read)))
+(allow pipa_port proc_meminfo (file (getattr open read)))

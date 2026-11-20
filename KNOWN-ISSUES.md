@@ -5,7 +5,7 @@ step 8c = pt132 + kernel walt-hi9, donor C.07; v9 = first stable, step 7x = pt12
 [RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9" are the older lists (beta6 to beta8), kept as a record.
 Updated 2026-11-20.
 
-**Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
+**Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then add the bug and the file to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
 ## Known issues in v9
@@ -70,8 +70,12 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   Bluetooth pen is connected (saves power). For other pens, install the KernelSU module
   `pipa-pen-always-on-module-v1.0.zip` (Drive folder `modules/`) and reboot; uninstall it to go back. Do not use the old pipa_core
   module with v9.
-- **GCam video:** AGC 9.6.19 V7.0 cannot record video (the mod lacks its stream fix for non-Pixel devices; photos and
-  HDR+ work). Use the stock camera for video.
+- **GCam (recommended: AGC 8.8.224 V12.0 by BigKaka):** download the standard APK `AGC8.8.224_V12.0.apk`
+  (package `com.agc.gcam88`) from https://www.celsoazevedo.com/files/android/google-camera/dev-BigKaka/f/dl96/ .
+  Tested on pipa (2026-11-20): photos, HDR+ and video with sound (1080p) work from the build with step 8k. The
+  OPPO camera gives flat photos on pipa (it has no OPPO image processing on Xiaomi camera hardware); GCam does its
+  processing in the app. Do not use AGC 9.6.19: V7.0 has no video (the app lacks a class), V6.0 has no video (it
+  crashes on a missing camera key). On first start, allow "All files access" when GCam asks.
 - **Floating window from the dock:** hold the icon still in the middle of the screen until "Floating window" shows.
 - **"Tweak" modules (for example SmoothPad):** do not use them with v9. SmoothPad v3.6 locks 120 Hz, keeps the GPU
   awake, holds CPU floors, re-applies scheduler values every 12-15 s (a loop that wakes the CPU), resizes zram,
@@ -191,6 +195,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 | Pen back button | It no longer takes a screenshot. | None necessary: it is the standard second stylus button now (apps decide what it does). | Changed on purpose in beta6. |
 | Network sharing with a phone | The tablet does not use the phone's network while Wi-Fi is connected. | Turn Wi-Fi off. After a reboot, if the phone's SIM does not show, turn the sharing off and on in the phone link once. | Normal Android behaviour (mobile data only without Wi-Fi). Works: tested 2026-10-30. |
 | Game Assistant latency | Game Assistant shows about 200 ms network latency. | None necessary. | It measures to a server in China; the network is not slow. |
+| HeyTap account login | Before v9.2: "Device environment not secure" at sign-in or sign-up. | Update to v9.2 or later (MSP 2.3.0 in the ROM). Use the phone number of your existing account: it logs in. | Fixed in v9.2 (BUGS 160). |
 | HeyTap account | A ColorOS CN tablet and a global OPPO/OnePlus phone show as two different accounts. | None. | By design: CN and global HeyTap are separate servers. |
 | OPPO earbuds | No pop-up when you open the earbuds case. | Install the OPPO wireless earbuds app from the OPPO store and keep it. | Workaround from a user (2026-11-02). |
 | Sounds while charging | At a low battery level (1-20 %), while gaming and charging, some sounds play. | None. | Open, cause not confirmed. Step 4w removes one candidate (bypass cap/charge switching at 14/15 %). Also seen: a wall charger connects two times in 0.6 s at plug-in. Please send the time, the battery level, a screen recording with sound and a bug report. |

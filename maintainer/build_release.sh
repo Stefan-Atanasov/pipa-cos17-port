@@ -10,8 +10,8 @@
 #     --7z         also write <out>.7z next to the folder
 # Output: ~/Documents/pipa/port-work/release/ColorOS17-Port-pipa-<tag>-<yyyymmdd>/
 #
-# The flash scripts keep the original behaviour: one script, "y" = clean flash (erase metadata + userdata),
-# Enter = dirty flash (keep data). The original build credit stays; a maintainer line is added.
+# Flash scripts (2026-11-20): our English templates in maintainer/release/ (menu: 1 = update, keep data; 2 = clean
+# install, erase metadata + userdata + frp, confirmed with "ERASE"). The original port credit stays in the banner.
 set -euo pipefail
 COS=$(cd "$(dirname "$0")/.." && pwd)
 SRC="$COS/ColorOS17 Port for pipa-beta4-20261017"
@@ -50,36 +50,20 @@ chmod +x "$OUT"/bin/Linux/{adb,fastboot,magiskboot}
 [ -z "$BOOT" ] || cp "$BOOT" "$OUT/firmware/boot.img"
 [ $SUPER = 0 ] || cp --reflink=auto "$SUPER_IMG" "$OUT/super/super.img"
 
-# Linux script: banner + make the bundled fastboot executable (7z/zip lose the exec bit), else use the system one
-python3 -I - "$SRC/FlashLinux.sh" "$OUT/FlashLinux.sh" "$NAME" "$MAINTAINER" <<'EOF'
-import sys
-src, dst, name, maint = sys.argv[1:]
-s = open(src, encoding='utf-8').read()
-old = 'echo "System version: ColorOS17 / Android 17"\n'
-assert s.count(old) == 1
-s = s.replace(old, old.replace('Android 17"', f'Android 17 {name}"') +
-              f'echo\necho "维护者：{maint}"\necho "Maintainer: {maint}"\n')
-old = '[[ -x "$FASTBOOT" ]] ||'
-assert s.count(old) == 1
-s = s.replace(old, 'chmod +x "$FASTBOOT" 2>/dev/null\n'
-              '[[ -x "$FASTBOOT" ]] || FASTBOOT="$(command -v fastboot || true)"\n'
-              '[[ -n "$FASTBOOT" && -x "$FASTBOOT" ]] ||', 1)
-# dirty flash: boot and dtbo only to slot B (the port boots from B), so a Linux/UEFI boot image in boot_a/dtbo_a
-# survives a port update (docs/DUALBOOT-LINUX.md). A clean flash still writes both slots.
-old = 'flash boot_ab "$BOOT_IMAGE"\n'
-assert s.count(old) == 1
-s = s.replace(old, 'if [[ "$WIPE" == true ]]; then BS=_ab; else BS=_b; echo "[*] Keep data: boot and dtbo go to slot B only (slot A is not changed)."; fi\n'
-              'flash "boot$BS" "$BOOT_IMAGE"\n')
-old = 'flash dtbo_ab "$FW_DIR/dtbo.img"\n'
-assert s.count(old) == 1
-s = s.replace(old, 'flash "dtbo$BS" "$FW_DIR/dtbo.img"\n')
-# clean flash: also erase frp. A screen lock of the old ROM stays in frp; then ColorOS cannot set a PIN
-# ("Screen lock was already changed"). Not fatal: userdata is already erased at this point.
-old = '    erase_partition userdata\n'
-assert s.count(old) == 1
-s = s.replace(old, old + '    "$FASTBOOT" erase frp || echo "[!] Could not erase frp. If you cannot set a screen lock, run: fastboot erase frp"\n')
+# Linux script (2026-11-20): our English template maintainer/release/FlashLinux.sh.in (menu: 1 = update, keep
+# data; 2 = clean install, needs "ERASE"). Same partitions and order as the beta4 script (checked here), boot/dtbo
+# only to slot B on an update (docs/DUALBOOT-LINUX.md), frp erased on a clean install.
+python3 -I - "$COS/maintainer/release/FlashLinux.sh.in" "$OUT/FlashLinux.sh" "$NAME" "$MAINTAINER" "$SRC/FlashLinux.sh" <<'EOF2'
+import re, sys
+tpl, dst, name, maint, orig = sys.argv[1:]
+s = open(tpl, encoding='utf-8').read().replace('@NAME@', name).replace('@MAINTAINER@', maint)
+def parts(t):
+    return [re.sub(r'(_ab|_b|\$BS|\$\{BS\}|"|%BS%)', '', p) for p in re.findall(r'^\s*(?:call :)?flash\s+(\S+)', t, re.M)]
+a, b = parts(open(orig, encoding='utf-8').read()), parts(s)
+assert a == b, 'flash list differs from beta4: %s vs %s' % (a, b)
 open(dst, 'w', encoding='utf-8').write(s)
-EOF
+print('FlashLinux.sh: %d partitions as beta4' % len(b))
+EOF2
 chmod +x "$OUT/FlashLinux.sh"
 
 # macOS script (2026-11-15, testers asked): the Linux script with Google's universal macOS fastboot (Intel + Apple
@@ -103,29 +87,19 @@ open(dst, 'w', encoding='utf-8').write(s)
 EOF
 chmod +x "$OUT/FlashMac.sh"
 
-# Windows script: GBK + CRLF like the original (cmd runs it with chcp 936)
-python3 -I - "$SRC/FlashWindows.bat" "$OUT/FlashWindows.bat" "$NAME" "$MAINTAINER" <<'EOF'
-import sys
-src, dst, name, maint = sys.argv[1:]
-s = open(src, 'rb').read().decode('gbk')
-old = 'echo System version: ColorOS 17 / Android 17\r\n'
-assert s.count(old) == 1
-s = s.replace(old, old.replace('Android 17', f'Android 17 {name}') +
-              f'echo.\r\necho 维护者：{maint}\r\necho Maintainer: {maint}\r\n')
-# dirty flash: boot and dtbo only to slot B (see the Linux script)
-old = 'call :flash boot_ab "%BOOT_IMAGE%" || goto :abort\r\n'
-assert s.count(old) == 1
-s = s.replace(old, 'if /I "%WIPE%"=="y" (set "BS=_ab") else (set "BS=_b" & echo [*] Keep data: boot and dtbo go to slot B only.)\r\n'
-              'call :flash boot%BS% "%BOOT_IMAGE%" || goto :abort\r\n')
-old = 'call :flash dtbo_ab "%FW_DIR%\\dtbo.img" || goto :abort\r\n'
-assert s.count(old) == 1
-s = s.replace(old, 'call :flash dtbo%BS% "%FW_DIR%\\dtbo.img" || goto :abort\r\n')
-# clean flash: also erase frp (see the Linux script)
-old = '    call :erase userdata || goto :abort\r\n'
-assert s.count(old) == 1
-s = s.replace(old, old + '    "%FASTBOOT%" erase frp || echo [!] Could not erase frp. If you cannot set a screen lock, run: fastboot erase frp\r\n')
-open(dst, 'wb').write(s.encode('gbk'))
-EOF
+# Windows script (2026-11-20): our English template maintainer/release/FlashWindows.bat.in, UTF-8 (chcp 65001)
+# with CRLF. Same partitions and order as the beta4 script (checked here).
+python3 -I - "$COS/maintainer/release/FlashWindows.bat.in" "$OUT/FlashWindows.bat" "$NAME" "$MAINTAINER" "$SRC/FlashWindows.bat" <<'EOF2'
+import re, sys
+tpl, dst, name, maint, orig = sys.argv[1:]
+s = open(tpl, encoding='utf-8').read().replace('@NAME@', name).replace('@MAINTAINER@', maint)
+def parts(t):
+    return [re.sub(r'(_ab|_b|%BS%|")', '', p) for p in re.findall(r'^\s*call :flash\s+(\S+)', t, re.M)]
+a, b = parts(open(orig, 'rb').read().decode('gbk')), parts(s)
+assert a == b, 'flash list differs from beta4: %s vs %s' % (a, b)
+open(dst, 'wb').write(s.replace('\r\n', '\n').replace('\n', '\r\n').encode('utf-8'))
+print('FlashWindows.bat: %d partitions as beta4' % len(b))
+EOF2
 
 # release notes: RELEASE-NOTES-<pkg>.md (e.g. beta6; checked at the start, no fallback to old notes)
 cp "$NOTES" "$OUT/RELEASE-NOTES.md"
@@ -144,13 +118,13 @@ Needs an unlocked bootloader. Back up your data first.
 2. Linux: ./FlashLinux.sh    Windows: FlashWindows.bat (Xiaomi/Google USB drivers installed)
    macOS: open Terminal, type "bash " (with a space), drag FlashMac.sh into the window, press Enter.
    Use a direct USB cable, not a hub (a hub can break the large super flash).
-3. The script asks: "y" = clean flash (erases all data, needed when coming from another ROM),
-   Enter = dirty flash (keeps data, for updating this port).
+3. The script asks how to install: 1 = update (keeps apps and data, to update this port),
+   2 = clean install (erases all data; first install or coming from another ROM; type ERASE to confirm).
 4. The first boot takes a few minutes. Do not reboot it manually.
 5. Root: the port installs the SukiSU manager on the first boot. If it is missing, install
    extras/$(basename "$KSU_APK") and open it once.
    Optional root hiding: extras/pipa-susfs-v1.0.zip as a module.
-6. Start the flash script in a terminal: the wipe question needs an answer (y or Enter).
+6. Start the flash script in a terminal: the install question needs an answer (1 or 2).
 Rollback: flash the previous package the same way.
 Play Integrity: BASIC only (unlocked bootloader). Known issues: see RELEASE-NOTES.md.
 EOF

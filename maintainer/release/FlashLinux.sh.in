@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+# ColorOS 17 port for Xiaomi Pad 6 (pipa): flash script for Linux (FlashMac.sh is made from this file).
+# Flashes the firmware, boot, dtbo and the super image; slot B is the active slot.
+# Install types: 1 = update (keep data), 2 = clean install (erase metadata, userdata, frp; needs "ERASE").
+set -u
+
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+BIN_DIR="$SCRIPT_DIR/bin/Linux"
+FW_DIR="$SCRIPT_DIR/firmware"
+SUPER_DIR="$SCRIPT_DIR/super"
+FASTBOOT="$BIN_DIR/fastboot"
+BOOT_IMAGE="$FW_DIR/boot.img"
+
+die() {
+    echo "[!] $1"
+    exit 1
+}
+
+chmod +x "$FASTBOOT" 2>/dev/null
+[[ -x "$FASTBOOT" ]] || FASTBOOT="$(command -v fastboot || true)"
+[[ -n "$FASTBOOT" && -x "$FASTBOOT" ]] || die "fastboot was not found or cannot run: $FASTBOOT"
+[[ -f "$SUPER_DIR/super.img" ]] || die "Super image not found: $SUPER_DIR/super.img"
+[[ -f "$BOOT_IMAGE" ]] || die "Boot image not found: $BOOT_IMAGE"
+
+echo "================================================================================="
+echo " ColorOS 17 / Android 17 port for Xiaomi Pad 6 (pipa)"
+echo " Version: @NAME@"
+echo " Original port: 梦归zzz (Coolapk). Maintainer: @MAINTAINER@"
+echo "================================================================================="
+echo
+
+echo "[*] Put the tablet in bootloader (fastboot) mode and connect it to this computer."
+if ! "$FASTBOOT" devices | awk '$2 == "fastboot" { found = 1 } END { exit !found }'; then
+    die "No device in fastboot mode was found. Check the cable, the drivers and that the tablet shows FASTBOOT."
+fi
+echo "[*] Device found."
+echo
+
+echo "[*] The system is on slot B. Setting the active slot to B."
+"$FASTBOOT" set_active b || die "Could not set slot B. Try again, or run: fastboot set_active b"
+echo
+
+echo "How do you want to install?"
+echo "  1) Update         Keep your apps and data. Only to update this ColorOS port."
+echo "  2) Clean install  ERASE all apps and data. First install, or coming from another ROM."
+while true; do
+    read -r -p "Type 1 or 2 and press Enter: " choice || die "No input. Run the script in a terminal."
+    case "$choice" in
+        1)
+            WIPE=false
+            echo "[*] Update: your apps and data stay."
+            break
+            ;;
+        2)
+            read -r -p "This erases ALL data on the tablet. Type ERASE to confirm: " confirm || die "No input. Run the script in a terminal."
+            if [[ "$confirm" == "ERASE" ]]; then
+                WIPE=true
+                echo "[!] Clean install: all apps and data will be erased."
+                break
+            fi
+            echo "[*] Not confirmed. Nothing was erased."
+            ;;
+        *)
+            echo "[!] Please type 1 or 2."
+            ;;
+    esac
+done
+echo
+
+flash() {
+    local partition="$1"
+    local image="$2"
+    [[ -f "$image" ]] || die "Missing image: $image"
+    echo "[*] Flashing $partition ..."
+    "$FASTBOOT" flash "$partition" "$image" || die "Could not flash $partition. Try again, or run the fastboot command above by hand."
+}
+
+erase_partition() {
+    local partition="$1"
+    echo "[*] Erasing $partition. Please wait."
+    "$FASTBOOT" erase "$partition" || die "Could not erase $partition. Try again, or run: fastboot erase $partition"
+}
+
+flash abl_ab "$FW_DIR/abl.img"
+flash aop_ab "$FW_DIR/aop.img"
+flash bluetooth_ab "$FW_DIR/bluetooth.img"
+# Update: boot and dtbo go to slot B only, so a Linux/UEFI boot image in slot A stays (docs/DUALBOOT-LINUX.md).
+if [[ "$WIPE" == true ]]; then BS=_ab; else BS=_b; echo "[*] Update: boot and dtbo go to slot B only (slot A is not changed)."; fi
+flash "boot$BS" "$BOOT_IMAGE"
+flash cmnlib_ab "$FW_DIR/cmnlib.img"
+flash cmnlib64_ab "$FW_DIR/cmnlib64.img"
+flash devcfg_ab "$FW_DIR/devcfg.img"
+flash dsp_ab "$FW_DIR/dsp.img"
+flash "dtbo$BS" "$FW_DIR/dtbo.img"
+flash featenabler_ab "$FW_DIR/featenabler.img"
+flash hyp_ab "$FW_DIR/hyp.img"
+flash imagefv_ab "$FW_DIR/imagefv.img"
+flash keymaster_ab "$FW_DIR/keymaster.img"
+flash modem_ab "$FW_DIR/modem.img"
+flash qupfw_ab "$FW_DIR/qupfw.img"
+flash tz_ab "$FW_DIR/tz.img"
+flash uefisecapp_ab "$FW_DIR/uefisecapp.img"
+flash vbmeta_ab "$FW_DIR/vbmeta.img"
+flash vbmeta_system_ab "$FW_DIR/vbmeta_system.img"
+flash vendor_boot_ab "$FW_DIR/vendor_boot.img"
+flash xbl_ab "$FW_DIR/xbl.img"
+flash xbl_config_ab "$FW_DIR/xbl_config.img"
+
+echo "[*] Flashing the super image (system). This takes a few minutes. Do not disconnect the tablet."
+flash super "$SUPER_DIR/super.img"
+
+echo "[*] Super image done. Setting the active slot to B again."
+"$FASTBOOT" set_active b || die "The super image is flashed, but slot B could not be set. Do not reboot. Run: fastboot set_active b"
+echo "[*] Current slot:"
+"$FASTBOOT" getvar current-slot 2>&1 || true
+echo
+
+if [[ "$WIPE" == true ]]; then
+    erase_partition metadata
+    erase_partition userdata
+    # A screen lock of the old ROM stays in frp; then ColorOS cannot set a PIN. Not fatal.
+    "$FASTBOOT" erase frp || echo "[!] Could not erase frp. If you cannot set a screen lock later, run: fastboot erase frp"
+fi
+
+echo "[*] Last check: setting the active slot to B before the reboot."
+"$FASTBOOT" set_active b || die "Could not set slot B. Do not reboot. Run: fastboot set_active b"
+
+echo "================================================================================="
+echo "[*] Done. All partitions are flashed."
+echo "[*] The first boot can take several minutes. Wait, and do not reboot by hand."
+echo "================================================================================="
+"$FASTBOOT" reboot

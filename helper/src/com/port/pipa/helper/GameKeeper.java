@@ -34,6 +34,7 @@ final class GameKeeper {
     private final PackageManager pm;
     private final SparseBooleanArray isGameUid = new SparseBooleanArray();
     private final Set<Integer> fgGames = new HashSet<>();
+    private final Set<Integer> fgUids = new HashSet<>();   // all foreground app uids: a list change re-checks them
     private int written = -1;
 
     GameKeeper(Context ctx) {
@@ -41,8 +42,31 @@ final class GameKeeper {
         this.pm = ctx.getPackageManager();
     }
 
+    /** helper 2.5: apps the user marks as games (Pipa Helper > Games), Global pipa_game_apps = "pkg,pkg" */
+    static final String MANUAL = "pipa_game_apps";
+    private volatile Set<String> manual = new HashSet<>();
+
+    private void readManual() {
+        Set<String> m = new HashSet<>();
+        String v = Settings.Global.getString(ctx.getContentResolver(), MANUAL);
+        if (v != null) for (String p : v.split(",")) if (!p.isEmpty()) m.add(p.trim());
+        synchronized (this) {
+            manual = m;
+            isGameUid.clear();   // decide again with the new list
+            // an app that is already open counts at once (before: only from its next start)
+            fgGames.clear();
+            for (int uid : fgUids) if (isGame(uid)) fgGames.add(uid);
+            if (written != -1) write(fgGames.isEmpty() ? 0 : 1);
+        }
+    }
+
     void start() {
         write(0);   // no game at start (boot, or a helper restart)
+        readManual();
+        ctx.getContentResolver().registerContentObserver(Settings.Global.getUriFor(MANUAL), false,
+                new android.database.ContentObserver(new android.os.Handler(android.os.Looper.getMainLooper())) {
+                    @Override public void onChange(boolean self) { readManual(); }
+                });
         try {
             ActivityManager am = ctx.getSystemService(ActivityManager.class);
             Class<?> lc = Class.forName("android.app.ActivityManager$OnUidImportanceListener");
@@ -69,8 +93,9 @@ final class GameKeeper {
 
     private synchronized void onUidImportance(int uid, int importance) {
         if (DEBUG && uid >= 10000) Log.d(TAG, "uid " + uid + " importance " + importance + " game " + isGame(uid));
-        if (!isGame(uid)) return;
         boolean fg = importance <= IMPORTANCE_FOREGROUND;
+        if (uid >= 10000) { if (fg) fgUids.add(uid); else fgUids.remove(uid); }
+        if (!isGame(uid)) return;
         boolean changed = fg ? fgGames.add(uid) : fgGames.remove(uid);
         if (changed) write(fgGames.isEmpty() ? 0 : 1);
     }
@@ -82,6 +107,7 @@ final class GameKeeper {
         String[] pkgs = pm.getPackagesForUid(uid);
         if (pkgs != null) {
             for (String p : pkgs) {
+                if (manual.contains(p)) { game = true; break; }
                 try {
                     ApplicationInfo ai = pm.getApplicationInfo(p, 0);
                     // appCategory="game", or the old android:isGame="true" (FLAG_IS_GAME), as Android's GameManager

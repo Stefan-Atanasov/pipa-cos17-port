@@ -1,0 +1,12 @@
+; pipa port 8p: B1 Wi-Fi failure capture (system_ext/pipa_port/b1_capture.sh, init service pipa_b1_cap in pipa_port.rc,
+; started only by init property triggers). Denials seen in a runcon test 2026-11-20 (pt143): dmesg, logcat, getprop of
+; wifi_hal_prop, ls /sys/class/net. logcat rules = AOSP read_logd(); dmesg = syslog read (as dumpstate).
+(allow pipa_port logcat_exec (file (getattr open read execute execute_no_trans map)))
+(allow pipa_port logdr_socket (sock_file (write)))
+(allow pipa_port logd (unix_stream_socket (connectto)))
+(allow pipa_port kmsg_device (chr_file (getattr open read)))
+(allow pipa_port kernel (system (syslog_read)))
+(allow pipa_port self (capability2 (syslog)))
+(allow pipa_port wifi_hal_prop (file (getattr map open read)))
+(allow pipa_port sysfs_net (dir (getattr open read search)))
+(allow pipa_port sysfs_net (lnk_file (getattr read)))
