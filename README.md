@@ -31,7 +31,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 - **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` , `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS) and `pipa-susfs-v1.0.zip` (root hiding with the kernel susfs: hides `/data/adb`, module mounts and SELinux log traces from apps).
 - **Support group:** https://t.me/cosforpipa
 
-The package `ColorOS17-Port-pipa-v9.1-20261119.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; not tested on a real Mac), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
+The package `ColorOS17-Port-pipa-v9.1-20261119.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
 first. The flash script asks one question:
 
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.

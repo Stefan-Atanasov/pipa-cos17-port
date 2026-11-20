@@ -124,7 +124,7 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - The touch shim no longer sets the edge filter when the keyboard shows (fewer missed edge swipes).
 - There is no DSP "Hey Breeno" wake-up: the pipa sound trigger cannot run it, and the audio service crashed in a
   loop when it was on. The flags are off now.
-- **macOS:** new flash script `FlashMac.sh` (with Google's macOS fastboot). Not tested on a real Mac yet.
+- **macOS:** new flash script `FlashMac.sh` (with Google's macOS fastboot). A user flashed with it successfully on a Mac (2026-11-20).
 - Kernel walt-hi1 adds two OPPO status files that ColorOS services read (`/proc/oplus_healthinfo`, `/proc/fg_info`).
   No visible change.
 - Update from beta8-test: flash with "keep data". The first boot after the update can take longer.
@@ -229,4 +229,4 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - [x] pt127 log check: 0 denials, crashes, ANRs, tombstones (40 min, incl. SystemUI restarts)
 - [x] Clean flash pt128 + walt-hi9: setup OK, Gboard default after setup, Sound effects = Dolby Atmos, tiles Logs + Live blur, root, 0 denials/crashes; device_check 57 pass, 0 fail, 2 warnings (`logd` capture props at default; `sensorCCT` 0 because adaptive colour is off after a clean flash)
 - [x] Night standby v9: about 0.18 %/h (15.5 mAh/h, drops only), 99 % deep sleep
-- [ ] FlashMac.sh on a real Mac
+- [x] FlashMac.sh on a real Mac (user report 2026-11-20)

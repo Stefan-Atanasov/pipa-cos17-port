@@ -208,7 +208,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 | Item | Status |
 |---|---|
-| Release paths of the v9 package | Verified: clean flash of the image pt128 + walt-hi9 (setup, device_check 57 pass / 0 fail / 2 warnings). Not tested: `FlashMac.sh` on a real Mac. Reports welcome. |
+| Release paths of the v9 package | Verified: clean flash of the image pt128 + walt-hi9 (setup, device_check 57 pass / 0 fail / 2 warnings). `FlashMac.sh` on a real Mac: works (user report, 2026-11-20). |
 | Release paths of the beta7.1 package (old record) | Tested with the image pt61 (not as a package): clean flash (setup, installs, device_check 57 pass / 0 fail / 1 warn) and a dirty flash over beta7-based data (pt60, nearly the same code). Not tested: the package scripts, an update from beta6, "keep data" leaves `boot_a`/`dtbo_a` unchanged, night standby on beta7.1. Reports welcome. |
 | Vendor props not loaded (BUGS 83) | Closed 2026-11-11: not a bug. `getprop` shows 144 of 345 lines of `/vendor/build.prop` as empty, but boot logs show that `init` loads them (same as stock HyperOS 2). No fix is necessary. |
 | Clean flash of a release package | Image pt61 tested with a clean flash on 2026-11-05 (wipe like the flash script, beta7 firmware and kernel). On the same day, the steps of the package flash script (same script as beta7.1) ran by hand with the beta7 package: beta7.1 changes only `super.img`. |
