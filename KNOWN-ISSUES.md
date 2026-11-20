@@ -3,7 +3,7 @@
 This document lists the known problems of the public release **v9.1** (2026-11-19: v9 + an audio hotfix; ROM `port.sh` up to
 step 8c = pt132 + kernel walt-hi9, donor C.07; v9 = first stable, step 7x = pt128). The known issues of v9 apply to v9.1. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
 [RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9" are the older lists (beta6 to beta8), kept as a record.
-Updated 2026-11-19.
+Updated 2026-11-20.
 
 **Found a new bug?** Add it to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
@@ -80,6 +80,13 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   screen-on drain, broken OPPO features, and bug reports without kernel logs. Before you report a battery, pen pill,
   rendering or "feature gone" bug, remove such modules in the SukiSU Nova manager and reboot. If an app stays
   frozen, re-enable it: `pm enable <package>`.
+
+- **No charging animation when the tablet is off (BUGS 152).** Power off + charger shows only the Xiaomi logo; it
+  charges, but nothing shows the level. Cause: the ColorOS `init.rc` runs OPPO's own charge-mode boot on Qualcomm
+  instead of the charger service. Fix planned for the next build (stock `class_start charger`, as on HyperOS).
+- **Keyboard case: the Caps Lock LED stays off (BUGS 151)** and **a rare short white flash in normal use (BUGS 48:
+  display underrun right after the refresh rate goes up).** Both are fixed in the test kernel walt-hi11 (in testing,
+  source: branch `hi11-test` of the kernel repo); they go into the next build when the test passes.
 
 ## Older lists (beta6 to beta8)
 
