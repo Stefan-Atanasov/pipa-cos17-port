@@ -1,4 +1,12 @@
-# Changelog: beta7.1 → v9.2 (Xiaomi Pad 6, ColorOS 17 port)
+# Changelog: beta7.1 → v9.3 (Xiaomi Pad 6, ColorOS 17 port)
+
+## v9.3 (2026-11-21: ROM pt151 + kernel walt-hi15)
+- **Pen buttons work in StarNotes and other drawing apps again** (stopped in v9.2): with the pen near the screen the button reaches apps over Bluetooth as well as through the screen, as in v9.1 (kernel hi14/hi15, BUGS 166).
+- **Press first, then bring the pen down** now counts as a near press (eraser / stylus button); before, the pen wrote ink and Quick Note opened. A press right after a lift (0.8 s) also counts as near (kernel hi15, BUGS 169).
+- **Long press 500 ms by default** (was 380 ms); Pipa Helper > Pen > Pen buttons.
+- **Pen buttons no longer stop after a reboot** with the Pen buttons test screen open (BUGS 167).
+- **32-bit-only apps start again** (they closed at once since beta4): 32-bit graphics driver from stock HyperOS (BUGS 168).
+- Pipa Helper 2.9.
 
 ## v9.2 (2026-11-21: ROM pt150 + kernel walt-hi13)
 - **Smoother app open/close, swipes and scrolling:** the refresh rate switches 300 ms after an open/close animation, apps run at 120 Hz in Auto again (video apps 60 Hz, document apps 90 Hz), and the screen drops to 60 Hz 3.5 s after the last touch (BUGS 163).

@@ -298,6 +298,11 @@ fi
 if [ "${BLUR_DEFAULT:-1}" = 1 ] && [ "$(sget system animationBlurrySwitch)" = null ]; then
     settings put system animationBlurrySwitch 0 && log "animation blur default -> 0"
 fi
+# BUGS 167: the helper's Pen buttons test screen sets global pipa_pen_test 1 while open and 0 when it closes; a reboot
+# with the screen open left it at 1 and every pen action went to the (closed) test screen. Nothing is open at boot.
+if [ "$(sget global pipa_pen_test)" = 1 ]; then
+    settings put global pipa_pen_test 0 </dev/null >/dev/null 2>&1 && log "pipa_pen_test was left at 1 -> 0"
+fi
 if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(sget secure stylus_buttons_enabled)" = null ]; then
     settings put secure stylus_buttons_enabled 1
     touch "$STATE/stylus_default_set"
@@ -699,7 +704,7 @@ pen_settings_check() {
     v=$(sget global pipa_pen_always) || return   # a failed read: try again next time
     if [ -d "$PPB" ]; then
         c=$(sget global pipa_pen_buttons) || return
-        [ "$c" = null ] && c="1 380"
+        [ "$c" = null ] && c="1 500"   # v9.3: default long press 380 -> 500 ms (BUGS 169)
         set -f; set -- $c; set +f
         case "$1" in 0|1|2|3) [ "$(cat $PPB/far_mode)" = "$1" ] || echo "$1" > $PPB/far_mode ;; esac
         case "$2" in [2-8][0-9][0-9]) [ "$(cat $PPB/long_ms)" = "$2" ] || echo "$2" > $PPB/long_ms ;; esac

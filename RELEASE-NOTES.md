@@ -1,10 +1,31 @@
-# ColorOS 17 for Xiaomi Pad 6 (pipa) — v9.2
+# ColorOS 17 for Xiaomi Pad 6 (pipa) — v9.3
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt150** (`port.sh` up to step 8s), kernel **walt-hi13**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
+Build: ROM **pt151** (`port.sh` up to step 8u), kernel **walt-hi15**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
 pipa vendor/odm/firmware from beta4. Root: **SukiSU Nova 3.0.0** (builtin; manager `com.sukisu.nova`).
 Package date 2026-11-21.
+
+## What's new in v9.3 (since v9.2)
+
+Update from v9, v9.1 or v9.2 with "1) Update" in the flash script (keeps your apps and data).
+
+**Pen buttons (kernel walt-hi15, Pipa Helper 2.9)**
+- **Pen buttons work in StarNotes and other drawing apps again** (they stopped in v9.2). With the pen near the screen,
+  the button now reaches apps over Bluetooth as well as through the screen, as in v9.1. Apps that use "hold the
+  button to erase" (StarNotes "Button (press and hold)", Xodo, ...) work again. One press is still one press.
+- **Press first, then bring the pen down:** if you press a pen button with the pen a few cm above the screen and then
+  move it down to write or erase, the press now counts as a near press (stylus button, e.g. eraser). Before, the pen
+  wrote ink and Quick Note opened. A press right after you lift the pen (within 0.8 s) also counts as near.
+- **Long press is 500 ms by default** (was 380 ms), so there is more time to bring the pen down. You can change it
+  in Pipa Helper > Pen > Pen buttons.
+- **Pen buttons no longer stop working after a reboot** with the Pen buttons test screen open.
+- StarNotes: its pen button actions are off until you set them (StarNotes > Settings > Stylus settings).
+  "Primary key" and "Button (press and hold)" both work.
+
+**32-bit apps**
+- **32-bit-only apps start again.** They closed at once on every build since beta4 (the 32-bit graphics driver did
+  not start). The 32-bit driver now comes from stock HyperOS. 64-bit apps and games keep the newer driver.
 
 ## What's new in v9.2 (since v9.1)
 
@@ -206,13 +227,13 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 
 - **The first boot takes about 1 minute longer** than usual: Android compiles the framework. Do not reboot it.
 - Update from v9, beta6, beta7, beta7.1, beta7.2 or beta 8: flash with "keep data" (Enter on Linux, `N` on Windows).
-  From another ROM: "y" (clean flash). A clean flash erases data. A separate `v9.2-noenc` package (no /data encryption, Linux dual boot, clean flash only, experimental) exists. Do not change between encrypted and noenc packages with "keep data".
+  From another ROM: "y" (clean flash). A clean flash erases data. A separate `v9.2-noenc` package (no /data encryption, Linux dual boot, clean flash only, experimental) exists; there is no v9.3 noenc yet. Do not change between encrypted and noenc packages with "keep data".
 - **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU Nova
   manager in the background (about 1 minute). Let it finish.
-- **Install kernel walt-hi13 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.
+- **Install kernel walt-hi15 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.
 - **If the flash stops with "Failed to set slot B":** the bootloader sometimes reports no slots. Run
   `fastboot reboot bootloader`, then start the flash script again. Nothing was written at that point.
-- **Technical:** ROM super.img md5 `005ee0e577d7228043b20e9902d97ab8` (pt150), boot image md5 `01411925545c09346e1991760bf527b3` (walt-hi13). Source and step list:
+- **Technical:** ROM super.img md5 `83d2a2c60e473c0e66a0411092613346` (pt151), boot image md5 `384b81f8290e8c899ec4f91ff5c909ef` (walt-hi15). Source and step list:
   https://github.com/Stefan-Atanasov/pipa-cos17-port
 - **KernelSU modules:** script modules (`service.sh`, `post-fs-data.sh`) and `system.prop` work. Modules that
   replace system files (a `system/` folder) need a KernelSU metamodule; none is included. Modules with their own
@@ -246,6 +267,13 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 - Open reports that could not be reproduced: silent microphone recordings, recorder stutter, random screen flicker,
   striped picture in screen sharing.
 - Public list: https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/KNOWN-ISSUES.md
+
+## Tests v9.3
+
+- [x] walt-hi14 (hi15 base): all Pen buttons settings, Xodo eraser by screen / Bluetooth / both, StarNote both modes, OPPO Notes one switch per press, device_check 58 pass, 0 fail
+- [x] 32-bit EGL test (app_process32): no context with the beta4 set, OpenGL ES 3.2 on Adreno 650 with the HyperOS set
+- [ ] hi15: press with the pen away, then bring it down (real pen)
+- [ ] pt151: 32-bit test app opens; device_check
 
 ## Tests v9.1
 

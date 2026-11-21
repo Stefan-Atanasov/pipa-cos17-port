@@ -1,14 +1,14 @@
 # Known issues
 
-This document lists the known problems of the public release **v9.2** (2026-11-21; ROM `port.sh` up to
-step 8s = pt150 + kernel walt-hi13, donor C.07; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 and v9.1 apply to v9.2 unless this list says they are fixed. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
-[RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9.2" are the older lists (beta6 to beta8), kept as a record.
+This document lists the known problems of the public release **v9.3** (2026-11-21; ROM `port.sh` up to
+step 8u = pt151 + kernel walt-hi15, donor C.07; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9, v9.1 and v9.2 apply to v9.3 unless this list says they are fixed. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
+[RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9.3 / v9.2" are the older lists (beta6 to beta8), kept as a record.
 Updated 2026-11-21.
 
 **Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then add the bug and the file to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
-## Known issues in v9.2
+## Known issues in v9.3 / v9.2
 
 - **Fewer effects than full ColorOS (by design, since v9).** The port uses ColorOS's "fast" animation level 3 and
   turns off the window blur and the animation blur: about 0.3 % dropped frames instead of 2.7 % on the SD870. At
@@ -84,6 +84,11 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   rendering or "feature gone" bug, remove such modules in the SukiSU Nova manager and reboot. If an app stays
   frozen, re-enable it: `pm enable <package>`.
 
+- **Fixed in v9.3 (were open in v9.2):** pen buttons in StarNotes and other apps that use "hold the button" (BUGS 166,
+  kernel hi14/hi15); press first, then bring the pen down wrote ink and opened Quick Note (BUGS 169); pen buttons dead
+  after a reboot with the Pen buttons test screen open (BUGS 167); 32-bit-only apps closing at once (BUGS 168, 32-bit
+  graphics driver from stock HyperOS). Watch: one 32-bit test app crashed once in OPPO's frame capture on its very
+  first start after boot (not reproduced in 11 more starts); report 32-bit app crashes with Collect logs.
 - **Fixed in v9.2 (were open in v9.1):** no charging screen when the tablet is off (BUGS 152); Caps Lock LED of the
   keyboard case (BUGS 151); random short white flash after a refresh rate rise (BUGS 48, kernel hi10 and later);
   less smooth than beta 8 (BUGS 163, step 8r); animation style restarting the home screen (BUGS 165); Settings closing

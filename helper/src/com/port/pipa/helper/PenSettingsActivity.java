@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * helper 2.5 (BUGS 153): settings and live test for the two Xiaomi Smart Pen buttons.
  *
- * Kernel walt-hi12 (pipa_pen_buttons.c) decides each press once. Pen near the screen: stylus buttons in the pen
+ * Kernel walt-hi15 (pipa_pen_buttons.c) decides each press once (a far press turns near when the pen reaches the screen). Pen near the screen: stylus buttons in the pen
  * events (apps decide: eraser, menu). Pen away (far_mode): 0 off, 1 page down/up (HyperOS), 2 stylus buttons,
  * 3 custom actions (short F21/F22, double F19/F20); a long press (F23/F24) runs an action in modes 1-3.
  * pen_keys.sh runs the actions. One global setting, "pipa_pen_buttons":
@@ -49,7 +49,7 @@ import java.util.List;
 public final class PenSettingsActivity extends Activity {
     static final String KEY = "pipa_pen_buttons", TEST = "pipa_pen_test";
     static final String ACTION_PRESS = "com.port.pipa.helper.PEN_ACTION";
-    static final String DEFAULT = "1 380 quicknote screenshot none none none none";
+    static final String DEFAULT = "1 500 quicknote screenshot none none none none";
     static final String APP = "app";   // spinner entry "Open an app..."
     static final String[] ACTIONS = { "none", "screenshot", "quicknote", "quickpaint", "circle", "assistant",
             "playpause", "next", "previous", "volup", "voldown", "flashlight", "dnd", "rotate", "lock", "notifications", "quicksettings", "camera", "back", "home", "recents", APP };
@@ -63,7 +63,7 @@ public final class PenSettingsActivity extends Activity {
     private static final int F_LONG = 0, B_LONG = 1, F_SHORT = 2, B_SHORT = 3, F_DOUBLE = 4, B_DOUBLE = 5;
     private static final long NEAR_MS = 200;
 
-    private int farMode = 1, longMs = 380;
+    private int farMode = 1, longMs = 500;
     private final String[] slot = { "quicknote", "screenshot", "none", "none", "none", "none" };
     private final Spinner[] spin = new Spinner[6];
     private final View[] customRows = new View[4];
@@ -306,7 +306,7 @@ public final class PenSettingsActivity extends Activity {
     private void parse(String v) {
         String[] d = DEFAULT.split(" ");
         String[] p = v == null ? d : v.trim().split("\\s+");
-        farMode = 1; longMs = 380;
+        farMode = 1; longMs = 500;
         try {
             farMode = Math.max(0, Math.min(3, Integer.parseInt(p[0])));
             if (p.length > 1) longMs = Math.max(250, Math.min(800, Integer.parseInt(p[1])));

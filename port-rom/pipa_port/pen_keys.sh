@@ -87,7 +87,7 @@ sget2() {   # sget2 <namespace> <key>
 }
 pget() { sget2 global "$1"; }
 PEN_CFG=-
-PEN_DEFAULT="1 380 quicknote screenshot none none none none"
+PEN_DEFAULT="1 500 quicknote screenshot none none none none"   # v9.3: long press 500 ms (BUGS 169)
 set -- $PEN_DEFAULT; LONG_FRONT=$3; LONG_BACK=$4; SHORT_FRONT=$5; SHORT_BACK=$6; DBL_FRONT=$7; DBL_BACK=$8
 pen_cfg() {   # the actions (the service applies far_mode, long_ms and double_ms to the kernel)
 	c=$(pget pipa_pen_buttons) || return

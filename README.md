@@ -13,7 +13,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **v9.2** (2026-11-21: smoother refresh rate, account sign-in, app updates, Collect logs, pen and keyboard fixes; update from v9 or v9.1 with "keep data"): `port.sh` default build (last step 8s, pt150) + kernel `walt-hi13` (SukiSU Nova 3.0.0), Pipa Helper 2.8. Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
+| Current release | **v9.3** (2026-11-21: pen buttons in StarNotes and drawing apps, press-then-bring-down counts as near, 32-bit apps start again; update from v9, v9.1 or v9.2 with "keep data"): `port.sh` default build (last step 8u, pt151) + kernel `walt-hi15` (SukiSU Nova 3.0.0), Pipa Helper 2.9. Download: https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (also on Google Drive). Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
 | Next | No build in progress. Ideas and open items: WebRTC noise suppression for calls, dock-drag and setup-wizard layout items (see [BUGS.md](BUGS.md)). |
 | Experimental | `v9.2-noenc` (2026-11-21): v9.2 without `/data` encryption, for Linux dual boot (step 3x). Not booted by the maintainer. Clean flash only. Older: `beta7.1-noenc`. v9 and v9.1 have no `noenc` package. |
 | Previous releases | v9.1 (2026-11-19, pt132 + `walt-hi9`, audio hotfix), v9 (2026-11-18, pt128 + `walt-hi9`, first stable), beta7.2 (2026-11-06, pt68 + `walt-r17`, root SukiSU-Ultra v4.3.0-r1), beta7.1 (2026-11-05), beta6 (2026-10-30). beta7 was withdrawn (grey screen after a clean flash). beta 8 was a tester zip only (pt81 + r17), never a release. |
@@ -27,13 +27,14 @@ build. The main build is one command, `maintainer/port/port.sh`.
 
 ## Download and install
 
-- **Builds:** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
+- **Builds (SourceForge, recommended):** https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (one folder per release, e.g. `v9.3/`)
+- **Builds (Google Drive mirror):** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
 - **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` , `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS) and `pipa-susfs-v1.0.zip` (root hiding with the kernel susfs: hides `/data/adb`, module mounts and SELinux log traces from apps).
 - **Support group:** https://t.me/cosforpipa
 
 Screenshots of the ROM and Pipa Helper (v9.2): https://drive.google.com/drive/folders/1StUhuz_dL07ydvdHJ1SriYAR-_zObTJ5
 
-The package `ColorOS17-Port-pipa-v9.2-20261121.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
+The package `ColorOS17-Port-pipa-v9.3-20261121.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
 first. The flash script asks one question:
 
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.

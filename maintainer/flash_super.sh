@@ -156,6 +156,7 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt149) IMG=$P/port-work/pt149/img/super.img; MD5=acef0dfe170696832c8728344651fdce ;; # v9.2 final: pt148 + 8s helper 2.8 (no Live blur QS tile, animation style waits for Apply)
     pt150-noenc) IMG=$P/port-work/pt150-noenc/img/super.img; MD5=e225756da0bd1bab95c8bc609841d890 ;; # v9.2-noenc: pt150 + 3x (/data not encrypted; clean flash only, cannot be dirty-flashed over an encrypted /data)
     pt150) IMG=$P/port-work/pt150/img/super.img; MD5=005ee0e577d7228043b20e9902d97ab8 ;; # v9.2 FINAL: pt149 + helper 2.8 Rich/Smooth only, reboot note, Reset waits for Apply
+    pt151) IMG=$P/port-work/pt151/img/super.img; MD5=83d2a2c60e473c0e66a0411092613346 ;; # v9.3: 8t 32-bit Adreno set (BUGS 168), 8u helper 2.9 pen long press 500 + pen test reset (BUGS 167/169)
     pt148) IMG=$P/port-work/pt148/img/super.img; MD5=05601378238518e677771d81048668bc ;; # v9.2 candidate: pt147 + 8r smooth refresh (animatingDelayTime 300, Auto 120 in apps, idle timeout 3500)
     pt147) IMG=$P/port-work/pt147/img/super.img; MD5=e43ae6bafd98a34f0af7741c4c8f11e4 ;; # v9.2 candidate: pt146 + pipa_logs label via file_contexts/init, meminfo rule, B1 rate limit by wall clock
     pt146) IMG=$P/port-work/pt146/img/super.img; MD5=b8a2857122839fb9861f0e41fa6d890e ;; # v9.2 candidate: pt144 + 8q helper 2.7 Collect logs / Wi-Fi notice / Games fix, full colour restore
