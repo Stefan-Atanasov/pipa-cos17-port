@@ -91,12 +91,12 @@ you run it.
 2. Run `termux-setup-storage` and allow the storage access.
 3. Install adb and fastboot:
    `curl -s https://raw.githubusercontent.com/offici5l/termux-adb-fastboot/main/install | bash`
-4. Extract the release package on the phone (the folder is about 7.4 GB). Example folder: `/sdcard/v9.2`.
+4. Extract the release package on the phone (the folder is about 7.4 GB). Example folder: `/sdcard/v9.3`.
 5. Put the tablet in fastboot mode (Power + Volume down) and connect it with a USB OTG cable. Allow the USB access
    in Termux. `fastboot devices` must show the tablet.
 6. Run the flash script:
    ```
-   cd /sdcard/v9.2
+   cd /sdcard/v9.3
    bash FlashLinux.sh
    ```
    (`chmod +x` does not work on `/sdcard`; `bash FlashLinux.sh` does not need it.) The script uses the Termux

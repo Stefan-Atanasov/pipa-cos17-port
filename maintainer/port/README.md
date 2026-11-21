@@ -12,7 +12,7 @@ The old chain ran 36 scripts. Each script extracted the images of the previous s
 When `port.sh` was new (2026-10-29), its `--until 3h` result had the same files as the 3h images of the old chain
 (`NOTES-refactor.md`). The image bytes differ: `mkfs.erofs` puts a random UUID in each image. Compare the files, not
 the image md5. Since 3k, new fixes are step files only. beta6 (2026-10-30) is a default `port.sh` run (last active
-step 3w). The current release v9 (2026-11-19) is a default run up to step 7x.
+step 3w). The current release v9.3 (2026-11-21) is a default run up to step 8u (pt151).
 
 ## Files
 
@@ -40,7 +40,7 @@ sudo sh maintainer/port/port.sh single ~/Documents/pipa/donor/OPD2515_11.C.06/im
 
 - `<tag>` is the name of the run. Use a new tag. The run deletes `port-work/<tag>/`. The runner refuses a tag that
   the old chain used (`port-work/<tag>-baked` exists) unless you set `PORT_FORCE=1`.
-- `--until <step>` stops after this step. Step names: the files in `steps/` (`base baked 1c 2a ... 2z 3a ... 3z 4a ... 4z 5a ... 5x 5z 6a ... 6w 7a ... 7z 8a 8b 8c 8d ... 8s`; see `steps/`). The default is the last step (8s). Steps after v9: 7y helper 2.3, 7z MiSound without the beta4 enabler, 8a helper 2.4, 8b face preview rotation, 8c composer plane alpha clamp; after v9.1: 8d charger mode, 8e pen buttons, 8f charger init, 8g game identity, 8h helper effects page, 8i Qualcomm display extension, 8j back gesture and Wi-Fi display, 8k C2 audio encoder, 8m SAU app updates, 8n optimise apps, 8o MSP 2.3.0, 8p Wi-Fi log capture, 8q collect logs, 8r smooth refresh, 8s helper 2.8 (animation style waits for Apply). The release v9.2 (pt150) is this default build. Step 2u does nothing without `PORT_WITH_2U=1`, step 3k nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). The default build ends at 8s (v9.2; v9.1 ended at 8c; v9 ended at 7x; beta7.2 ended at 5x; beta6 ended at 3w). `--until 3h` gives the old chain's 3h.
+- `--until <step>` stops after this step. Step names: the files in `steps/` (`base baked 1c 2a ... 2z 3a ... 3z 4a ... 4z 5a ... 5x 5z 6a ... 6w 7a ... 7z 8a 8b 8c 8d ... 8u`; see `steps/`). The default is the last step (8s). Steps after v9: 7y helper 2.3, 7z MiSound without the beta4 enabler, 8a helper 2.4, 8b face preview rotation, 8c composer plane alpha clamp; after v9.1: 8d charger mode, 8e pen buttons, 8f charger init, 8g game identity, 8h helper effects page, 8i Qualcomm display extension, 8j back gesture and Wi-Fi display, 8k C2 audio encoder, 8m SAU app updates, 8n optimise apps, 8o MSP 2.3.0, 8p Wi-Fi log capture, 8q collect logs, 8r smooth refresh, 8s helper 2.8 (animation style waits for Apply). The release v9.2 (pt150) is this default build. Step 2u does nothing without `PORT_WITH_2U=1`, step 3k nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). The default build ends at 8s (v9.2; v9.1 ended at 8c; v9 ended at 7x; beta7.2 ended at 5x; beta6 ended at 3w). `--until 3h` gives the old chain's 3h.
 - `--keep-tree` keeps `port-work/<tag>/tree`. Without it, the runner deletes the tree after a good run. After a
   failed run, the tree always stays.
 - `--check` does the preflight and stops.

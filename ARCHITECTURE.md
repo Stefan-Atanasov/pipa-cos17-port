@@ -3,7 +3,7 @@
 This document tells how the port is put together. It is a reference: each section gives the source files in this
 repository. For the build procedure, refer to [BUILD.md](BUILD.md).
 
-State: public release **v9** (2026-11-19, first stable) = `port.sh` default run (last active step 7x, build pt128) + kernel `walt-hi9`.
+State: public release **v9.3** (2026-11-21) = `port.sh` default run (last active step 8u, build pt151) + kernel `walt-hi15`. First stable: v9 (2026-11-19, step 7x, pt128 + walt-hi9).
 
 ## 1. Partitions
 
