@@ -16,7 +16,7 @@ STEP=7x
 python3 -I - "$HERE/../helper/out/PipaHelper.apk" <<'PY'
 import sys, zipfile
 d = zipfile.ZipFile(sys.argv[1]).read('classes.dex')
-assert b'BlurTile' in d and b'pipa_live_blur' in d, 'PipaHelper.apk is not 2.2 (no BlurTile)'
+assert b'pipa_live_blur' in d, 'PipaHelper.apk without pipa_live_blur'   # helper 2.8 (8s) has no tile, the Effects switch writes it
 PY
 SE=$T/system_ext
 cat "$ROM/pipa_port/service.sh" > "$SE/pipa_port/service.sh"   # in place: owner, mode and label stay

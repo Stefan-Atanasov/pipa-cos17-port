@@ -133,7 +133,9 @@
     <string name="fx_tier_rich">Rich: all parallel animations (heavier)</string>
     <string name="fx_tier_smooth">Smooth: fewest dropped frames (default)</string>
     <string name="fx_tier_light">Light: simple animations</string>
-    <string name="fx_tier_applied">The home screen restarts in a few seconds. Reboot to apply it everywhere.</string>
+    <string name="fx_anim_note">A new animation style applies fully after a reboot. Apply restarts only the status bar and the home screen.</string>
+    <string name="fx_reset_done">Defaults set. Tap Apply, or reboot to apply them everywhere.</string>
+    <string name="fx_tier_applied">Tap Apply to restart the home screen with the new style. Reboot to apply it everywhere.</string>
     <string name="fx_speed">Animation speed</string>
     <string name="fx_speed_off">Off (no animations)</string>
     <string name="fx_speed_05">Very fast (0.5×)</string>
@@ -155,7 +157,7 @@
     <string name="fx_applying">Applying: the status bar and home screen restart.</string>
     <string name="fx_reset">Reset to defaults</string>
     <string name="fx_reset_sum">The animation and blur settings the port ships with.</string>
-    <string name="fx_reset_confirm">Set all animation and blur settings back to the port defaults? The status bar and home screen restart.</string>
+    <string name="fx_reset_confirm">Set all animation and blur settings back to the port defaults? Then tap Apply, or reboot to apply them everywhere.</string>
     <string name="fx_reset_do">Reset</string>
     <string name="game_note">While a game is open, the tablet uses this Xiaomi thermal profile; when you close it, the daily profile comes back. Games are detected automatically (the app says it is a game); tap an app below to add others.</string>
     <string name="game_scene_20">Cool: no CPU limits below 46 °C (default)</string>

@@ -133,6 +133,7 @@ EOF
 du -sh "$OUT"
 if [ $SEVENZ = 1 ]; then
 	command -v 7z >/dev/null || { echo "7z not installed"; exit 1; }
+	rm -f "$OUT.7z"   # 7z a would add to an old archive of the same name
 	(cd "$(dirname "$OUT")" && 7z a -mx=5 "$(basename "$OUT").7z" "$(basename "$OUT")" >/dev/null)
 	ls -la "$OUT.7z"
 fi

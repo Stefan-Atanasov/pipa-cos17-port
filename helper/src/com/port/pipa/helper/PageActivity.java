@@ -249,8 +249,9 @@ public final class PageActivity extends Activity {
 
     // ------------------------------------------------------------------ Effects
 
-    private static final int[] TIERS = { 2, 3, 4 };
-    private static final int[] TIER_LABELS = { R.string.fx_tier_rich, R.string.fx_tier_smooth, R.string.fx_tier_light };
+    // helper 2.8 (user): Rich (2) and Smooth (3, stock default) only; Light (4) dropped the full-scene continuity
+    private static final int[] TIERS = { 2, 3 };
+    private static final int[] TIER_LABELS = { R.string.fx_tier_rich, R.string.fx_tier_smooth };
     private static final float[] SCALES = { 0f, 0.5f, 0.75f, 1f, 1.5f, 2f };
     private static final int[] SCALE_LABELS = { R.string.fx_speed_off, R.string.fx_speed_05, R.string.fx_speed_075,
             R.string.fx_speed_1, R.string.fx_speed_15, R.string.fx_speed_2 };
@@ -308,6 +309,7 @@ public final class PageActivity extends Activity {
         ak.setVisibility(View.GONE);
 
         Ui.header(col, getString(R.string.fx_h_anim));
+        Ui.note(col, getString(R.string.fx_anim_note));
         LinearLayout k = Ui.card(col);
         View tier = Ui.link(k, "≋", getString(R.string.fx_tier), "", v -> chooseTier());
         Ui.divider(k);
@@ -454,7 +456,10 @@ public final class PageActivity extends Activity {
                     Status.putGlobal(this, "pipa_live_blur", 0);
                     Status.putGlobal(this, "disable_window_blurs", 1);
                     for (Runnable r : fxRefresh) r.run();
-                    applyFx();
+                    // 8s (user): no automatic restart; Apply (status bar + home screen) or Reboot (everywhere)
+                    needRestart();
+                    rebootRow.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, R.string.fx_reset_done, Toast.LENGTH_LONG).show();
                 })
                 .setNegativeButton(android.R.string.cancel, null).show();
     }

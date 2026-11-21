@@ -629,18 +629,26 @@ GLOBAL_XML=/data/system/users/0/settings_global.xml
 # ANIM_LEVEL in /data/misc/pipa_port/config.prop still overrides it (testing); the launcher restarts to apply a change.
 ANIM_STAMP=/data/misc/pipa_port/anim.stamp
 rm -f "$ANIM_STAMP"
+ANIM_FIRST=1
 anim_check() {
     [ -e "$ANIM_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$ANIM_STAMP" ] && return
     # helper 2.5 (Pipa Helper > Effects > Animation style): global pipa_anim_level 2/3/4; else the config (3)
     want=$(sget global pipa_anim_level) || return   # a failed read: try again next time
     : > "$ANIM_STAMP"
-    case $want in 2|3|4) ;; *) want=${ANIM_LEVEL:-3} ;; esac
+    case $want in 2|3) ;; *) want=${ANIM_LEVEL:-3} ;; esac   # helper 2.8: Rich 2 / Smooth 3 (a stored Light 4 -> the default)
     case $want in 1|2|3|4) ;; *) want=3 ;; esac
+    first=$ANIM_FIRST; ANIM_FIRST=0
     [ "$(getprop persist.sys.oplus.anim_level)" = "$want" ] && return
     setprop persist.sys.oplus.anim_level "$want"
-    am force-stop com.android.launcher </dev/null >/dev/null 2>&1
-    am start -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null >/dev/null 2>&1
-    log "launcher animation tier -> $want"
+    # 8s (BUGS 165): a change from the helper waits for its Apply button (pipa_fx_restart: SystemUI + launcher restart,
+    # fx_check); only the first check after boot (config override) restarts the launcher itself.
+    if [ "$first" = 1 ]; then
+        am force-stop com.android.launcher </dev/null >/dev/null 2>&1
+        am start -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null >/dev/null 2>&1
+        log "launcher animation tier -> $want (boot, launcher restarted)"
+    else
+        log "launcher animation tier -> $want (applied with the helper's Apply or at the next launcher start)"
+    fi
 }
 # Log level (5x, beta7.2, tester report 2026-11-06). Quiet (default): persist.log.tag=I, liblog drops debug and verbose
 # lines in the writing process (no logd work, no framework edits; errors, warnings, crashes and ANRs stay). The helper's
