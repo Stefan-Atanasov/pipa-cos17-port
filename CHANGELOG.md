@@ -15,6 +15,33 @@
 - Less background work (face unlock service restart only when it stops). Flash scripts in English.
 - Update from v9 or v9.1: flash with "keep data".
 
+### Test builds between v9.1 and v9.2 (ROM pt133 to pt150, kernel hi10 to hi13)
+
+Each test build adds `port.sh` steps (files in `maintainer/port/steps/`) on top of the build before. Builds that are
+missing here (pt141, pt145) were not flashed. BUGS numbers refer to [BUGS.md](BUGS.md).
+
+| Build | Steps | Change |
+|---|---|---|
+| pt133 | 8d, 8e | Charging screen when powered off (BUGS 152); pen buttons, Pipa Helper 2.5 (BUGS 153, 154) |
+| pt134 | 8f | OPPO init: AOSP charger trigger on Qualcomm (BUGS 152) |
+| pt135 | 8g | Device identity per game, Pipa Helper Games page (BUGS 150) |
+| pt136 | 8h | Pipa Helper round 2: Effects page, Games, Super key (BUGS 148, 155) |
+| pt137 | 8i | Qualcomm SurfaceFlinger extension: Miracast HWC only for Wi-Fi Display, Gemini screen share (BUGS 156); keyboard page |
+| pt138 | 8j, 8k | Back swipe with the keyboard open (BUGS 157), Miracast groups (BUGS 158); sound in third-party camera video (BUGS 159) |
+| pt139 | 8k | Audio property moved to product build.prop |
+| pt140 | 8l | GCam AGC 8.8.224 V12.0 as a removable preload |
+| pt142 | 8m | OPPO app updates (SAU) work again (BUGS 161) |
+| pt143 | 8n, 8o | Pipa Helper 2.6: Optimise apps; MSP 2.3.0: OPPO account sign-in (BUGS 160) |
+| pt144 | 8p | Wi-Fi problem capture (B1); less background work (face unlock service supervisor, BUGS 110) |
+| pt146 | 8q | Pipa Helper 2.7: Collect logs, Wi-Fi notice, Games fix; full colour settings restore |
+| pt147 | 8q | Log folder label, rate limit of the Wi-Fi capture |
+| pt148 | 8r | Smooth refresh: rate change 300 ms after an animation, Auto 120 Hz in apps (video 60, documents 90), idle timeout 3.5 s (BUGS 163) |
+| pt149 | 8s | Pipa Helper 2.8: no Live blur Quick Settings tile, animation style waits for Apply or reboot |
+| pt150 | 8s | Animation style: Rich and Smooth only, reboot note, Reset waits for Apply (BUGS 165). **= v9.2** |
+
+Kernel: `walt-hi10` MDP clock boost on every refresh rate change (white flash, BUGS 48); `walt-hi11` keyboard Caps Lock
+LED (BUGS 151); `walt-hi12`, `walt-hi13` pen buttons in the kernel. v9.2 ships `walt-hi13`.
+
 ## v9.1 (2026-11-19, audio hotfix on top of v9: ROM pt132 + kernel walt-hi9)
 - **No short sound dropout on volume changes** (around 2/3 of the bar) and **no stutter when the sound settings open**: helper 2.3 no longer resets the MiSound sound processor (BUGS 144).
 - **No blip 3 s after the MiSound app starts**: the beta4 porter code that turned on the effects in MiSound is off; the helper does this job the stock way (BUGS 145).
