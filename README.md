@@ -28,6 +28,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 ## Download and install
 
 - **Builds (SourceForge, recommended):** https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (one folder per release, e.g. `v9.3/`)
+- **v9.3 on Gofile (fast, temporary):** https://gofile.io/d/D5iyheCj (Gofile deletes files after some time without downloads: if the link has expired, use SourceForge or Drive)
 - **Builds (Google Drive mirror):** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
 - **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` , `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS) and `pipa-susfs-v1.0.zip` (root hiding with the kernel susfs: hides `/data/adb`, module mounts and SELinux log traces from apps).
 - **Support group:** https://t.me/cosforpipa
