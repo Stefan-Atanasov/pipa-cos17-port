@@ -5,7 +5,7 @@ Linux PC: tools, inputs, kernel, ROM build, the first flash of a tablet, tests, 
 for a local AI model with a small context window. `PORTING-GUIDE.md` explains *why* the port is made this way; this
 file tells *what to do, in which order, and how to check each result*.
 
-Status: 2026-11-19, release v9.1 (ROM build pt132 = `port.sh` up to step 8c, kernel `walt-hi9`; v9 = pt128, up to step 7x).
+Status: 2026-11-21, release v9.2 (ROM build pt150 = `port.sh` up to step 8s, kernel `walt-hi13`; v9.1 = pt132, up to step 8c; v9 = pt128, up to step 7x).
 
 - **Part A** rebuilds the current port from its pinned inputs (the normal case).
 - **Part B** tells how to make the base that Part A starts from (beta4) when you do not have it, or for another
@@ -310,7 +310,7 @@ change keys, and check `adb shell dumpsys package com.port.pipa.helper | grep ve
 
 ## A6. Build the kernel
 
-**Goal:** a boot image with the `walt-hi9` kernel (Linux 4.19.325, SukiSU Nova 3.0.0 built in, susfs 2.3.0).
+**Goal:** a boot image with the `walt-hi13` kernel (Linux 4.19.325, SukiSU Nova 3.0.0 built in, susfs 2.3.0). Since hi9 it adds: hi10 display clock raised for every refresh rate change (no white flash after a 60 -> 90 Hz switch), hi11 keyboard Caps Lock LED off at screen off; hi12 and hi13 are further fixes (see `RELEASE-NOTES-v9.2.md` and the kernel repository).
 
 **Needs:** A1 (clang), the beta4 release (for the base `boot.img` with TWRP and for `magiskboot`).
 
@@ -350,7 +350,7 @@ head -c 20 $K/bootimg/boot-mine.img | tail -c 4 | od -An -tx1    # 3c 06 00 20 (
 
 ## A7. Build the ROM
 
-**Goal:** `port-work/<tag>/img/super.img`, the same content as v9.1 (pt132).
+**Goal:** `port-work/<tag>/img/super.img`, the same content as v9.2 (pt150).
 
 **Do:**
 
@@ -360,14 +360,14 @@ sh COS17/maintainer/port/port.sh --check mybuild1 donor/OPD2515_11.C.07/img     
 sudo sh COS17/maintainer/port/port.sh mybuild1 donor/OPD2515_11.C.07/img            # about 4 min, 40 GB free needed
 ```
 
-Use a new tag for each run (the run deletes `port-work/<tag>/`). The default build applies all steps to 7x and leaves
+Use a new tag for each run (the run deletes `port-work/<tag>/`). The default build applies all steps to 8s and leaves
 out the optional steps 2u, 3k, 3x and 5s. Never publish a build with `PORT_MAINTAINER_ADB=1` (step 5s).
 
 **Done when:**
 
 - The output ends with the `super.img` path and its md5. Write the md5 down.
 - `port-work/mybuild1/report/PORT-REPORT.txt` lists every step with no error.
-- To compare with the maintainer's current build (pt132; the proof test of 2026-11-19 used pt128), compare the manifests `report/<partition>.tsv` (path, mode, owner, md5,
+- To compare with the maintainer's current build (pt150; the proof test of 2026-11-19 used pt128), compare the manifests `report/<partition>.tsv` (path, mode, owner, md5,
   label), not the image md5 (each image has a random UUID). Tested 2026-11-19 with a kit (`KIT_INPUTS=1`) in an
   empty folder: of 17991 entries only 7 differed from pt128: the 6 APKs signed with the new keys (helper, 5
   overlays) and `ro.pipa.port.apps` in `system_ext/etc/build.prop` (a hash over the APKs). All other rows must match.
@@ -545,7 +545,7 @@ maintainer for personal tests; it is **not public**. Use it only for own tests, 
 | Part | LineageOS family (PixelOS 17 build) | Xiaomi HyperOS | OPPO ColorOS | beta4 author (梦归zzz) | This port |
 |---|---|---|---|---|---|
 | Firmware (18 images) | | HyperOS 2 CN: 17 byte-identical (iqraOS 3.1 `firmware-update`) | | `abl` (changed, source unknown) | |
-| `boot` | | | | TWRP 3.7.1 ramdisk (own build) | the kernel (`walt-hi9`: LineageOS 4.19 base, liyafe pipa drivers, E404 display/touch, OPPO open-source UI First and Hans, SukiSU Nova, susfs) |
+| `boot` | | | | TWRP 3.7.1 ramdisk (own build) | the kernel (`walt-hi13`: LineageOS 4.19 base, liyafe pipa drivers, E404 display/touch, OPPO open-source UI First and Hans, SukiSU Nova, susfs) |
 | `vendor_boot`, `dtbo`, `vbmeta` | Lineage recovery ramdisk, dtb, 12 of 13 dtbo entries | | | small edits (cmdline, GPU fragment, flags 3 with the AOSP test key) | |
 | `vendor` (2161 paths) | 1683 (78 %) | 97 Xiaomi files (+3 from HyperOS 2) | 2 (donor C.06) | 367: 306 binaries of an own Lineage-family A17 build, 36 text edits, 15 binaries of unknown origin (OPPO perf/stability HALs, gralloc, turnip, ...), 9 face HAL files (`pipa_core`) | the steps change it further (fixes, SELinux) |
 | `odm` (95 paths) | 10 (SELinux files, passwd/group) | | 7 (donor C.06) | 78 (the OPPO "virtual modem" stack of donor C.05, own scripts, `precompiled_sepolicy`) | |

@@ -13,13 +13,13 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **v9.1** (2026-11-19: v9 + an audio hotfix, update from v9 with "keep data"; v9 = first stable, released 2026-11-19): `port.sh` default build (last step 8c, pt132) + kernel `walt-hi9` (SukiSU Nova 3.0.0). Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
+| Current release | **v9.2** (2026-11-21: smoother refresh rate, account sign-in, app updates, Collect logs, pen and keyboard fixes; update from v9 or v9.1 with "keep data"): `port.sh` default build (last step 8s, pt150) + kernel `walt-hi13` (SukiSU Nova 3.0.0), Pipa Helper 2.8. Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
 | Next | No build in progress. Ideas and open items: WebRTC noise suppression for calls, dock-drag and setup-wizard layout items (see [BUGS.md](BUGS.md)). |
-| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. v9 has no `noenc` package. |
-| Previous releases | beta7.2 (2026-11-06, pt68 + `walt-r17`, root SukiSU-Ultra v4.3.0-r1), beta7.1 (2026-11-05), beta6 (2026-10-30). beta7 was withdrawn (grey screen after a clean flash). beta 8 was a tester zip only (pt81 + r17), never a release. |
+| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. v9 to v9.2 have no `noenc` package. |
+| Previous releases | v9.1 (2026-11-19, pt132 + `walt-hi9`, audio hotfix), v9 (2026-11-18, pt128 + `walt-hi9`, first stable), beta7.2 (2026-11-06, pt68 + `walt-r17`, root SukiSU-Ultra v4.3.0-r1), beta7.1 (2026-11-05), beta6 (2026-10-30). beta7 was withdrawn (grey screen after a clean flash). beta 8 was a tester zip only (pt81 + r17), never a release. |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
-| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-hi9`: SukiSU Nova 3.0.0 (builtin), susfs, OPPO memory (hybridswap), touch and display fixes. |
+| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-hi13`: SukiSU Nova 3.0.0 (builtin), susfs, OPPO memory (hybridswap), touch and display fixes (hi10: display clock for every refresh rate change, no white flash; hi11: keyboard Caps Lock LED). |
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 
@@ -31,12 +31,14 @@ build. The main build is one command, `maintainer/port/port.sh`.
 - **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` , `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS) and `pipa-susfs-v1.0.zip` (root hiding with the kernel susfs: hides `/data/adb`, module mounts and SELinux log traces from apps).
 - **Support group:** https://t.me/cosforpipa
 
-The package `ColorOS17-Port-pipa-v9.1-20261119.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
+Screenshots of the ROM and Pipa Helper (v9.2): https://drive.google.com/drive/folders/1StUhuz_dL07ydvdHJ1SriYAR-_zObTJ5
+
+The package `ColorOS17-Port-pipa-v9.2-20261121.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
 first. The flash script asks one question:
 
 - `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
 - Dirty flash ("keep data"): press Enter in `FlashLinux.sh`, or `N` in `FlashWindows.bat` (Enter does nothing there).
-  Use it for an update from beta7.2, beta7.1, beta7 or beta6.
+  Use it for an update from v9, v9.1, beta7.2, beta7.1, beta7 or beta6.
 
 Clean flash from a different ROM: the flash scripts also erase `frp` (since 2026-10-30, 17:00). If `frp` is not
 erased, the screen lock of the old ROM stays there, and ColorOS cannot set a new PIN ("Screen lock was already

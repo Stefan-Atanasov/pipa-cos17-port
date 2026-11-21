@@ -1,10 +1,11 @@
 # Kernel
 
-The port uses an own kernel (Linux 4.19.325). The public release v9 (2026-11-19) has
-`walt-hi9`: SukiSU Nova 3.0.0 (builtin, commit `4bec532d`, kernel version 30691; manager package `com.sukisu.nova`), susfs 2.3.0.
-The branch `oppo` of https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 has the hi9 source.
-Test build `walt-hi11` (2026-11-20, for testers, not released): branch `hi11-test` = hi9 + hi10 (MDP boost also after a
-refresh-rate rise, BUGS 48) + hi11 (keyboard Caps Lock LED, BUGS 151).
+The port uses an own kernel (Linux 4.19.325). The public release v9.2 (2026-11-21) has
+`walt-hi13`: SukiSU Nova 3.0.0 (builtin, commit `4bec532d`, kernel version 30691; manager package `com.sukisu.nova`), susfs 2.3.0.
+The branch `oppo` of https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 has the hi13 source.
+Since `walt-hi9` (v9, v9.1): hi10 MDP clock boost on every refresh-rate change (no white flash, BUGS 48); hi11 keyboard
+Caps Lock LED (BUGS 151); hi12 and hi13 pen buttons handled in the kernel (`pipa_pen_buttons.c`: near/away actions,
+long and double press).
 beta7, beta7.1 and beta7.2 had `walt-r17` (SukiSU-Ultra v4.3.0-r1, KSU 41140).
 
 Changes since beta6 (`walt-r8kpm`): touch charger mode (r9, touch lag while charging), the binder UX node of ColorOS

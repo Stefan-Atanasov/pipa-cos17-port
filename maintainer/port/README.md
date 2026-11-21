@@ -20,7 +20,7 @@ step 3w). The current release v9 (2026-11-19) is a default run up to step 7x.
 |---|---|
 | `port.sh` | The runner. |
 | `lib.sh` | Helper functions for the steps (`replace_once`, `need_grep`, `set_layer`, `fingerprint`, ...). |
-| `steps/NN-<step>-<name>.sh` | One file for each step (`00-base` to `99-8c-composer-planealpha`). 149 files (2026-11-19). Steps 00-37 match the old layer scripts; later steps are new. The runner sorts them by the file name. Steps 2u, 3k, 3x and 5s are optional (off by default). `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
+| `steps/NN-<step>-<name>.sh` | One file for each step (`00-base` to `99-8s-helper-2.8-anim-apply`). 163 files (2026-11-21). Steps 00-37 match the old layer scripts; later steps are new. The runner sorts them by the file name. Steps 2u, 3k, 3x and 5s are optional (off by default). `odm_closure.py` checks the odm libraries (see `NOTES-3k-odm-c06.md`). |
 | `NOTES-refactor.md` | What is not 1:1, every difference, every assumption. |
 
 The old scripts (`build_port.sh`, `build_beta5*.sh`) stay unchanged.
@@ -40,7 +40,7 @@ sudo sh maintainer/port/port.sh single ~/Documents/pipa/donor/OPD2515_11.C.06/im
 
 - `<tag>` is the name of the run. Use a new tag. The run deletes `port-work/<tag>/`. The runner refuses a tag that
   the old chain used (`port-work/<tag>-baked` exists) unless you set `PORT_FORCE=1`.
-- `--until <step>` stops after this step. Step names: the files in `steps/` (`base baked 1c 2a ... 2z 3a ... 3z 4a ... 4z 5a ... 5x 5z 6a ... 6w 7a ... 7z 8a 8b 8c`; see `steps/`). The default is the last step (8c; after v9: 7y helper 2.3, 7z MiSound without the beta4 enabler, 8a helper 2.4, 8b face preview rotation, 8c composer plane alpha clamp). The release v9 (pt128) is this default build. Step 2u does nothing without `PORT_WITH_2U=1`, step 3k nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). The default build ends at 8c (v9.1; v9 ended at 7x; beta7.2 ended at 5x; beta6 ended at 3w). `--until 3h` gives the old chain's 3h.
+- `--until <step>` stops after this step. Step names: the files in `steps/` (`base baked 1c 2a ... 2z 3a ... 3z 4a ... 4z 5a ... 5x 5z 6a ... 6w 7a ... 7z 8a 8b 8c 8d ... 8s`; see `steps/`). The default is the last step (8s). Steps after v9: 7y helper 2.3, 7z MiSound without the beta4 enabler, 8a helper 2.4, 8b face preview rotation, 8c composer plane alpha clamp; after v9.1: 8d charger mode, 8e pen buttons, 8f charger init, 8g game identity, 8h helper effects page, 8i Qualcomm display extension, 8j back gesture and Wi-Fi display, 8k C2 audio encoder, 8m SAU app updates, 8n optimise apps, 8o MSP 2.3.0, 8p Wi-Fi log capture, 8q collect logs, 8r smooth refresh, 8s helper 2.8 (animation style waits for Apply). The release v9.2 (pt150) is this default build. Step 2u does nothing without `PORT_WITH_2U=1`, step 3k nothing without `PORT_ODM_C06=1`, step 3x nothing without `PORT_NOENCRYPT=1` (unencrypted /data for Linux dual boot; clean flash only). The default build ends at 8s (v9.2; v9.1 ended at 8c; v9 ended at 7x; beta7.2 ended at 5x; beta6 ended at 3w). `--until 3h` gives the old chain's 3h.
 - `--keep-tree` keeps `port-work/<tag>/tree`. Without it, the runner deletes the tree after a good run. After a
   failed run, the tree always stays.
 - `--check` does the preflight and stops.

@@ -1,20 +1,20 @@
 # Known issues
 
-This document lists the known problems of the public release **v9.1** (2026-11-19: v9 + an audio hotfix; ROM `port.sh` up to
-step 8c = pt132 + kernel walt-hi9, donor C.07; v9 = first stable, step 7x = pt128). The known issues of v9 apply to v9.1. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
-[RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9" are the older lists (beta6 to beta8), kept as a record.
-Updated 2026-11-20.
+This document lists the known problems of the public release **v9.2** (2026-11-21; ROM `port.sh` up to
+step 8s = pt150 + kernel walt-hi13, donor C.07; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 and v9.1 apply to v9.2 unless this list says they are fixed. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
+[RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9.2" are the older lists (beta6 to beta8), kept as a record.
+Updated 2026-11-21.
 
 **Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then add the bug and the file to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
-## Known issues in v9
+## Known issues in v9.2
 
 - **Fewer effects than full ColorOS (by design, since v9).** The port uses ColorOS's "fast" animation level 3 and
   turns off the window blur and the animation blur: about 0.3 % dropped frames instead of 2.7 % on the SD870. At
   level 3 ColorOS itself turns off the wallpaper zoom when apps open and close, and some glass effects. Visual blur
-  and Contour glow stay on. The next build will have a switch (BUGS 148). Until then, to get all effects (root,
-  for example in Termux; more stutter, a little more heat and battery use):
+  and Contour glow stay on. Since v9.2 there is a switch: Pipa Helper > Effects (animation style, animation speed, blur, contour glow; Apply, no
+  reboot). To get all effects by hand (root, for example in Termux; more stutter, a little more heat and battery use):
 
   ```sh
   su -c '
@@ -44,7 +44,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   (see above). If location still fails, send a log.
 - **RAM in heavy games:** in BGMI and Racing Master with less than 1 GB free, frames drop and sound can cut. Tested on
   8 GB only. **The 6 GB Pad 6 is not tested** (OPPO's rule gives it a 3072 MB lz4 zram).
-- **Keyboard cover:** fold, Super key and the typing fix are still under test. With the cover attached Android lists
+- **Keyboard cover:** fold and the typing fix are still under test (the Caps Lock LED and the Super key action are new in v9.2). With the cover attached Android lists
   a touchpad and a mouse the cover does not have (cosmetic; a game may show a controller icon).
 - **Breeno:** the microphone sometimes does not work (not reproduced).
 - **Scrolling at 144 Hz with music or a video in the background** can judder a little (the media pill in the
@@ -52,7 +52,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 - **Torch:** one tester saw the torch stay on and the tile turn grey. Not reproduced. The torch shares its LED
   with the rear camera: if it happens, note which app was open.
 - **Refresh rate:** the panel stayed at 120 Hz on a static screen once; the cause is unknown. A reboot clears it.
-- **Wi-Fi:** it sometimes does not turn on. Reboot the tablet.
+- **Wi-Fi:** it sometimes does not turn on. Reboot the tablet. If the notification "Wi-Fi problem logged" shows, tap it and collect the logs (Pipa Helper > System > Collect logs).
 - **Smart charging:** the 80 % hold needs ColorOS's sleep prediction, which trains only after several nights without
   a reboot. The fixed charging limit works.
 - **Navigation bar:** some apps draw content behind it.
@@ -60,16 +60,15 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 - **Play Integrity:** only BASIC integrity. No keybox is included.
 - **Find My Device** (it cannot be switched on) and **cloud password sync** are not available.
 - **USB-C monitor:** colours on the monitor are a bit warm.
-- Open reports that could not be reproduced: silent microphone recordings, recorder stutter, random screen flicker,
-  striped picture in screen sharing.
+- Open reports that could not be reproduced: silent microphone recordings, recorder stutter, striped picture in screen sharing.
 - Public list: https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/KNOWN-ISSUES.md
 
 - **Setup wizard (clean flash, landscape):** on the "Enhancement services" page the Next button bar is barely
   visible. Scroll to the end of the text or turn the tablet to portrait.
 - **Pens without Bluetooth (for example Lenovo Precision Pen):** as on HyperOS, pen input is on only while a
-  Bluetooth pen is connected (saves power). For other pens, install the KernelSU module
-  `pipa-pen-always-on-module-v1.0.zip` (Drive folder `modules/`) and reboot; uninstall it to go back. Do not use the old pipa_core
-  module with v9.
+  Bluetooth pen is connected (saves power). For other pens, turn on Pipa Helper > Pen > always on (v9.2), or install the KernelSU module
+  `pipa-pen-always-on-module-v1.0.zip` (Drive folder `modules/`) and reboot. Do not use the old pipa_core
+  module with v9 or later.
 - **GCam (recommended: AGC 8.8.224 V12.0 by BigKaka):** download the standard APK `AGC8.8.224_V12.0.apk`
   (package `com.agc.gcam88`) from https://www.celsoazevedo.com/files/android/google-camera/dev-BigKaka/f/dl96/ .
   Tested on pipa (2026-11-20): photos, HDR+ and video with sound (1080p) work from the build with step 8k. The
@@ -77,7 +76,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   processing in the app. Do not use AGC 9.6.19: V7.0 has no video (the app lacks a class), V6.0 has no video (it
   crashes on a missing camera key). On first start, allow "All files access" when GCam asks.
 - **Floating window from the dock:** hold the icon still in the middle of the screen until "Floating window" shows.
-- **"Tweak" modules (for example SmoothPad):** do not use them with v9. SmoothPad v3.6 locks 120 Hz, keeps the GPU
+- **"Tweak" modules (for example SmoothPad):** do not use them with v9 or later. SmoothPad v3.6 locks 120 Hz, keeps the GPU
   awake, holds CPU floors, re-applies scheduler values every 12-15 s (a loop that wakes the CPU), resizes zram,
   freezes 32 OPPO apps (among them `deepthinker`, `obrain`, `appsense` and `pantanal.ums`, which live alerts and the
   pen pill use), forces the `skiavk` renderer and silences kernel logs (`printk 0`). Result: much more standby and
@@ -85,12 +84,11 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   rendering or "feature gone" bug, remove such modules in the SukiSU Nova manager and reboot. If an app stays
   frozen, re-enable it: `pm enable <package>`.
 
-- **No charging animation when the tablet is off (BUGS 152).** Power off + charger shows only the Xiaomi logo; it
-  charges, but nothing shows the level. Cause: the ColorOS `init.rc` runs OPPO's own charge-mode boot on Qualcomm
-  instead of the charger service. Fix planned for the next build (stock `class_start charger`, as on HyperOS).
-- **Keyboard case: the Caps Lock LED stays off (BUGS 151)** and **a rare short white flash in normal use (BUGS 48:
-  display underrun right after the refresh rate goes up).** Both are fixed in the test kernel walt-hi11 (in testing,
-  source: branch `hi11-test` of the kernel repo); they go into the next build when the test passes.
+- **Fixed in v9.2 (were open in v9.1):** no charging screen when the tablet is off (BUGS 152); Caps Lock LED of the
+  keyboard case (BUGS 151); random short white flash after a refresh rate rise (BUGS 48, kernel hi10 and later);
+  less smooth than beta 8 (BUGS 163, step 8r); animation style restarting the home screen (BUGS 165); Settings closing
+  on a back swipe with the keyboard open (BUGS 157); no sound in video recording of third-party camera apps
+  (BUGS 159); "Device environment not secure" at HeyTap sign-in (BUGS 160); no app updates for built-in OPPO apps (BUGS 161).
 
 ## Older lists (beta6 to beta8)
 

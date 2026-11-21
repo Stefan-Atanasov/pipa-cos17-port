@@ -1,4 +1,19 @@
-# Changelog: beta7.1 → v9.1 (Xiaomi Pad 6, ColorOS 17 port)
+# Changelog: beta7.1 → v9.2 (Xiaomi Pad 6, ColorOS 17 port)
+
+## v9.2 (2026-11-21: ROM pt150 + kernel walt-hi13)
+- **Smoother app open/close, swipes and scrolling:** the refresh rate switches 300 ms after an open/close animation, apps run at 120 Hz in Auto again (video apps 60 Hz, document apps 90 Hz), and the screen drops to 60 Hz 3.5 s after the last touch (BUGS 163).
+- **White flash fixed (kernel hi10):** the display clock is raised for every refresh rate change (BUGS 48).
+- **OPPO / HeyTap account sign-in works** ("Device environment not secure" is gone; MSP 2.3.0, BUGS 160).
+- **Built-in OPPO apps get updates again** (SAU, BUGS 161).
+- **Gemini Live screen share works.** Cast to a Windows PC reconnects.
+- **Pen buttons** work also a few cm away from the screen; Notes pen/eraser switch and the shortcut wheel work. Pens without Bluetooth: Pipa Helper > Pen > always on.
+- **Keyboard cover:** Caps Lock LED turns off at screen off (kernel hi11); the Super key alone can run an action you choose.
+- **Charging while powered off** shows the charging screen again (BUGS 152).
+- **Settings:** a back swipe with the keyboard open closes only the keyboard (BUGS 157).
+- **Video recording with sound in third-party camera apps** (for example GCam, BUGS 159).
+- **Pipa Helper 2.8:** System > Collect logs (logs without personal data in Download); Effects page (animation style, speed, blur, contour glow, Apply without reboot); animation style waits for Apply or Reboot; "Light" removed; Live blur tile removed (switch stays in Effects); Games: device identity per game, own games list; System > Optimise apps.
+- Less background work (face unlock service restart only when it stops). Flash scripts in English.
+- Update from v9 or v9.1: flash with "keep data".
 
 ## v9.1 (2026-11-19, audio hotfix on top of v9: ROM pt132 + kernel walt-hi9)
 - **No short sound dropout on volume changes** (around 2/3 of the bar) and **no stutter when the sound settings open**: helper 2.3 no longer resets the MiSound sound processor (BUGS 144).

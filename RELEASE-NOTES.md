@@ -1,10 +1,68 @@
-# ColorOS 17 for Xiaomi Pad 6 (pipa) — v9.1
+# ColorOS 17 for Xiaomi Pad 6 (pipa) — v9.2
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt132** (`port.sh` up to step 8c), kernel **walt-hi9**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
+Build: ROM **pt150** (`port.sh` up to step 8s), kernel **walt-hi13**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
 pipa vendor/odm/firmware from beta4. Root: **SukiSU Nova 3.0.0** (builtin; manager `com.sukisu.nova`).
-Package date 2026-11-19 (v9.1 = v9 + an audio hotfix; v9 was released 2026-11-19).
+Package date 2026-11-21.
+
+## What's new in v9.2 (since v9.1)
+
+Update from v9 or v9.1 with "1) Update" in the flash script (keeps your apps and data).
+
+**Accounts and updates**
+- **OPPO / HeyTap account sign-in works.** It said "Device environment not secure". The account app needs a newer
+  HeyTap mobile services app (MSP 2.3.0, from a stock ColorOS 17 device, OPPO signature). Use the phone number of your
+  existing account: it signs in.
+- **Built-in OPPO apps get their updates again** (system app updates, "SAU"). The updater quit at once on this port.
+  Apps that the port changes keep their port version. OPPO system patches and OTA updates stay off on purpose.
+
+**Display, cast and Gemini**
+- **Smoother app open/close, swipes and scrolling (refresh rate).** Our traces showed that most short stutters come
+  from refresh rate switches (60/90/120 Hz) in the middle of an animation: 18 % of frames near a switch were late, 5 %
+  elsewhere. Three changes, all with OPPO's own settings:
+  - the refresh rate changes 300 ms after an open/close animation, not on its first frames (as HyperOS does);
+  - apps run at 120 Hz in Auto again (as in beta 8); video apps (YouTube, Netflix, ...) keep 60 Hz, and document
+    apps (Docs, Office, WPS, PDF) keep 90 Hz, where 120 Hz janks;
+  - the screen drops to 60 Hz 3.5 s after your last touch (was 2.5 s), so short pauses between swipes no longer
+    switch. Reading and idle still save power.
+  Result: a third fewer switches, none right after animations, no 90 Hz switches. Battery in our test was the same
+  (in use 3.8 W, static screen 1.3 W, YouTube 1.9 W). For 120 Hz in every app (more power with video):
+  Settings > Display > Screen refresh rate > High, then turn off "Supported apps".
+- **White flash fixed (kernel):** on some panels the display lost a frame right after a 60 -> 90 Hz switch. The
+  kernel now raises the display clock for every refresh change.
+- **Gemini Live screen share works** (it showed a black screen and was very slow). Miracast stays smooth.
+- **Cast to a Windows PC reconnects** without deleting the old Wi-Fi Direct group, and the PC prompt shows at once.
+
+**Pen, keyboard and charging**
+- **Pen buttons** work also when the pen is a few cm away from the screen; Notes pen/eraser switch and the OPPO
+  shortcut wheel work. **Active pens without Bluetooth** (non-Xiaomi): Pipa Helper > Pen > always on.
+- **Keyboard cover:** Caps Lock LED turns off when the screen goes off; pressing the Super key alone can run an
+  action you choose (Pipa Helper > Keyboard > Super key; Super shortcuts stay as they are).
+- **Charging while powered off** shows the charging screen again (it showed only the Xiaomi logo).
+
+**Apps**
+- **Settings:** a back swipe while the keyboard is open closes only the keyboard (it closed Settings in two-pane view).
+- **Video recording in third-party camera apps has sound again** (e.g. GCam): the system now picks the right audio
+  encoder. GCam is not included; a tested version is linked in the known issues.
+
+**Pipa Helper 2.8**
+- **System > Collect logs:** one tap after a problem saves the logs in Download (about 30 s), with personal data
+  removed (emails, account and device names, phone numbers, Wi-Fi names and passwords, MAC addresses, locations).
+  A notification lets you share the file or open the GitHub issues. Please attach it to bug reports.
+- If Wi-Fi does not start correctly, a notification "Wi-Fi problem logged" asks you to collect the logs.
+- Effects: animation style, animation speed, blur and contour glow, Apply (no reboot), reboot after a style change.
+  **Animation style now waits for you:** choose Smooth (stock) or Rich, then tap Apply (status bar + home screen) or
+  Reboot (everywhere). Before, the home screen restarted at once and closed the helper. "Light" is gone (it dropped
+  OPPO's continuity animations); if you used it, you get Smooth. Reset to defaults also waits for Apply or Reboot.
+- The "Live blur" Quick Settings tile is removed. The switch is in Pipa Helper > Effects > Live blur.
+- Games: performance profile, device identity per game (try "real device" if a game looks wrong), your own games list
+  (a game you add while it is open gets its profile at once).
+- System: **Optimise apps** compiles your apps now, as Android does at night while charging (useful after an update).
+
+**Under the hood**
+- Less background work: the face unlock service is restarted only when it stops (no check every 15 s).
+- Flash scripts in English: 1 = update (keep data), 2 = clean install (type ERASE to confirm).
 
 ## What's new in v9.1 (since v9)
 
@@ -23,9 +81,8 @@ Audio hotfix and a face unlock fix. Update from v9 with "keep data" (dirty flash
 - **Face unlock setup: the camera preview is upright from the start** (it was rotated the first time after a clean
   flash or after turning the tablet, then squashed). Also a little less background work: the port service no longer
   checks for the face camera every 3 s.
-- **Display driver: no more refused transparency values after a screen rotation.** For 10-20 s after each rotation
-  the driver refused about 20 values per second, and the layer kept its old transparency. This is a likely cause
-  of the short white flash that some testers saw. Please report if you still see it.
+- (Withdrawn in v9.2) Display driver change for transparency values after a rotation: the refused values were
+  rotation transforms (normal Android behaviour), not the white flash. The real cause of the flash is fixed in v9.2.
 - Tested with music playing: 8 volume steps across 2/3 = 8 resets on v9, 0 on v9.1; sound settings open 5 -> 0;
   MiSound screen open 1 -> 0. Dolby Atmos and Xiaomi Sound switch as before.
 
@@ -149,13 +206,13 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 
 - **The first boot takes about 1 minute longer** than usual: Android compiles the framework. Do not reboot it.
 - Update from v9, beta6, beta7, beta7.1, beta7.2 or beta 8: flash with "keep data" (Enter on Linux, `N` on Windows).
-  From another ROM: "y" (clean flash). A clean flash erases data. There is no `noenc` package for v9.1. Do not change between encrypted and noenc packages with "keep data".
+  From another ROM: "y" (clean flash). A clean flash erases data. There is no `noenc` package for v9.2. Do not change between encrypted and noenc packages with "keep data".
 - **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU Nova
   manager in the background (about 1 minute). Let it finish.
-- **Install kernel walt-hi9 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.
+- **Install kernel walt-hi13 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.
 - **If the flash stops with "Failed to set slot B":** the bootloader sometimes reports no slots. Run
   `fastboot reboot bootloader`, then start the flash script again. Nothing was written at that point.
-- **Technical:** ROM super.img md5 `d3c76dd1afd6a77c0ad6393fda5a2a84` (pt132), boot image md5 `56033d4292908299d57850f3c49d36d5` (walt-hi9). Source and step list:
+- **Technical:** ROM super.img md5 `005ee0e577d7228043b20e9902d97ab8` (pt150), boot image md5 `01411925545c09346e1991760bf527b3` (walt-hi13). Source and step list:
   https://github.com/Stefan-Atanasov/pipa-cos17-port
 - **KernelSU modules:** script modules (`service.sh`, `post-fs-data.sh`) and `system.prop` work. Modules that
   replace system files (a `system/` folder) need a KernelSU metamodule; none is included. Modules with their own
