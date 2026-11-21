@@ -48,7 +48,7 @@ Rule of the port: a fix should copy what stock OPPO or stock HyperOS does, not i
 | USB-C monitor density | Windows 125 % scaling (200 dpi at 1440p) |
 | Display size Large (410) | same UI size as OnePlus Pad 3 / Pad 2 Pro |
 | Graphics/HWUI build props | beta4 (aligned to AOSPA); HWUI split as on stock OPPO |
-| OPPO perf and stability HALs | a community "C17 power-key fix" package (via beta4) |
+| OPPO perf and stability HALs | stock OPPO binaries (built from OPPO source for ColorOS 16 / Android 16; source phone unknown), from a community "C17 power-key fix" package (via beta4) |
 
 **Kernel** (Linux 4.19, [kernel_xiaomi_pipa_cos17](https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17))
 

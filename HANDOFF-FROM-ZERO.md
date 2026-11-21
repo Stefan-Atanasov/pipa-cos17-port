@@ -672,7 +672,7 @@ What only beta4 has (the vendor gaps):
    thermal and Wi-Fi HALs; IPower v7 where PixelOS has v6).
 2. The Adreno 2025 stack (`vulkan.adreno.so` with a 40-byte patch, GLES/EGL, `libllvm-qgl`, `libkcl`, a650
    firmware), `vulkan.turnip.so`, `gralloc.qcom.so`.
-3. The OPPO performance and stability HAL binaries (from a community "C17 power-key fix" package), camera service
+3. The OPPO performance and stability HAL binaries (stock OPPO builds for Android 16, compiled from OPPO source `vendor/oplus/hardware/...`; from a community "C17 power-key fix" package, source phone unknown), camera service
    compat libraries, `android.hidl.manager`.
 4. The 32 edited (Xiaomi-encrypted) `thermal-*.conf`, the recompiled `vendor_sepolicy.cil` (user build), the
    `mac_permissions` signer, 4 re-signed apps.
