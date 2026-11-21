@@ -310,7 +310,7 @@ change keys, and check `adb shell dumpsys package com.port.pipa.helper | grep ve
 
 ## A6. Build the kernel
 
-**Goal:** a boot image with the `walt-hi13` kernel (Linux 4.19.325, SukiSU Nova 3.0.0 built in, susfs 2.3.0). Since hi9 it adds: hi10 display clock raised for every refresh rate change (no white flash after a 60 -> 90 Hz switch), hi11 keyboard Caps Lock LED off at screen off; hi12 and hi13 are further fixes (see `RELEASE-NOTES-v9.2.md` and the kernel repository).
+**Goal:** a boot image with the `walt-hi13` kernel (Linux 4.19.325, SukiSU Nova 3.0.0 built in, susfs 2.3.0). Since hi9 it adds: hi10 display clock raised for every refresh rate change (no white flash after a 60 -> 90 Hz switch), hi11 keyboard Caps Lock LED off at screen off; hi12 pen buttons handled in the kernel (`pipa_pen_buttons.c`), hi13 keyboard Super key alone (BUGS 155).
 
 **Needs:** A1 (clang), the beta4 release (for the base `boot.img` with TWRP and for `magiskboot`).
 
