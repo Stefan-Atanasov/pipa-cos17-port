@@ -206,7 +206,7 @@ If you have the "beta 8" test zip (beta8-test-20261107), this is what changed fo
 
 - **The first boot takes about 1 minute longer** than usual: Android compiles the framework. Do not reboot it.
 - Update from v9, beta6, beta7, beta7.1, beta7.2 or beta 8: flash with "keep data" (Enter on Linux, `N` on Windows).
-  From another ROM: "y" (clean flash). A clean flash erases data. There is no `noenc` package for v9.2. Do not change between encrypted and noenc packages with "keep data".
+  From another ROM: "y" (clean flash). A clean flash erases data. A separate `v9.2-noenc` package (no /data encryption, Linux dual boot, clean flash only, experimental) exists. Do not change between encrypted and noenc packages with "keep data".
 - **The first minutes after a clean flash:** the port installs Play Store, Gboard, the Google app and the SukiSU Nova
   manager in the background (about 1 minute). Let it finish.
 - **Install kernel walt-hi13 with the ROM** (the package does this; the bundled Nova manager needs it). The beta8 test zip has r17, which still has the touch bug. RAM expansion needs r24 or newer.

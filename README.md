@@ -15,7 +15,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 | ROM | ColorOS 17 (Android 17) |
 | Current release | **v9.2** (2026-11-21: smoother refresh rate, account sign-in, app updates, Collect logs, pen and keyboard fixes; update from v9 or v9.1 with "keep data"): `port.sh` default build (last step 8s, pt150) + kernel `walt-hi13` (SukiSU Nova 3.0.0), Pipa Helper 2.8. Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
 | Next | No build in progress. Ideas and open items: WebRTC noise suppression for calls, dock-drag and setup-wizard layout items (see [BUGS.md](BUGS.md)). |
-| Experimental | `beta7.1-noenc`: beta7.1 without `/data` encryption, for Linux dual boot (step 3x). Not booted yet. Clean flash only. v9 to v9.2 have no `noenc` package. |
+| Experimental | `v9.2-noenc` (2026-11-21): v9.2 without `/data` encryption, for Linux dual boot (step 3x). Not booted by the maintainer. Clean flash only. Older: `beta7.1-noenc`. v9 and v9.1 have no `noenc` package. |
 | Previous releases | v9.1 (2026-11-19, pt132 + `walt-hi9`, audio hotfix), v9 (2026-11-18, pt128 + `walt-hi9`, first stable), beta7.2 (2026-11-06, pt68 + `walt-r17`, root SukiSU-Ultra v4.3.0-r1), beta7.1 (2026-11-05), beta6 (2026-10-30). beta7 was withdrawn (grey screen after a clean flash). beta 8 was a tester zip only (pt81 + r17), never a release. |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |

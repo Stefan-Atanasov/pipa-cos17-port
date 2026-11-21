@@ -185,7 +185,7 @@ Options:
 | `PORT_OVERLAY_SRC=<dir>` | A different `port-overlay` folder. It must have `system/` and `system_ext/`. |
 | `PORT_WITH_2U=1` | Also apply step 2u (SukiSU preload). Not used for releases. |
 | `PORT_ODM_C06=1` | Also apply step 3k (`odm` interconnect stack from C.06). Built, not tested. |
-| `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `beta7.1-noenc`). Experimental. Clean flash only. |
+| `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `v9.2-noenc`, `beta7.1-noenc`). Experimental. Clean flash only. |
 | `PORT_MAINTAINER_ADB=1` | Also apply step 5s (the build host's adb key, USB debugging on at the first boot) for unattended clean-flash tests on your own tablet. Never publish such a build: `build_release.sh` refuses it. |
 
 Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 8s (v9.2; v9.1 ended at 8c; v9 ended at 7x; beta7.2 ended at 5x; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
@@ -259,7 +259,7 @@ sh maintainer/flash_super.sh -y port-work/<tag>/img/super.img <md5>
    flashes the original beta4 `super`. The other names in the script are the maintainer's images.
 
 - `-y` answers the confirmation question. It is necessary when there is no terminal.
-- `flash_super.sh` cannot change the encryption of `/data`. For `beta7.1-noenc` (step 3x), use the release package and
+- `flash_super.sh` cannot change the encryption of `/data`. For `v9.2-noenc` (step 3x), use the release package and
   a clean flash (section 5).
 - The kernel must agree with the ROM. Refer to [KERNEL.md](KERNEL.md), section 4.
 
@@ -349,7 +349,7 @@ bash maintainer/build_release.sh pt150 --boot $B --pkg v9.2 --name "v9.2 (pt150 
 Then copy the changelog into the package, write `SHA256SUMS` again and make the `.7z` (`7z a -mx=5`): the script does not add
 `CHANGELOG.md`.
 
-`pt150` is the default build. There is no `noenc` package for v9, v9.1 or v9.2. For beta7.1, the same script made `pt63-noenc` with `PORT_NOENCRYPT=1` (step 3x).
+`pt150` is the default build. There is no `noenc` package for v9 or v9.1. For v9.2, the same script made `pt150-noenc` with `PORT_NOENCRYPT=1` (step 3x): `sudo env PORT_NOENCRYPT=1 sh port.sh pt150-noenc <donor-img>`, then `build_release.sh pt150-noenc --pkg v9.2-noenc --boot $B --name "v9.2-noenc (pt150-noenc + walt-hi13)" --7z`. For beta7.1 it made `pt63-noenc`.
 
 The script needs the extracted beta4 release in `COS17/` (section 1.3), the SukiSU manager APK (`KSU_APK`; for walt-hi9 and later set it to the Nova APK. `build_release.sh` now puts the Nova APK in `extras/`) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.
 
