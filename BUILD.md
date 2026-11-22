@@ -361,8 +361,8 @@ The user runs `FlashLinux.sh` or `FlashWindows.bat`. The script asks one questio
 
 | Answer | Flash | Data |
 |---|---|---|
-| `y` (clean flash) | All firmware, `boot`, `dtbo`, `vendor_boot`, `vbmeta` to both slots, `super`. Slot B active. | Erases `metadata` and `userdata`. |
-| Enter on Linux, `N` on Windows (dirty flash) | All firmware, `vendor_boot` and `vbmeta` to both slots; `boot` and `dtbo` only to slot B; `super`. Slot B active. | Stays. |
+| `2` (clean install; type `ERASE` to confirm) | All firmware, `boot`, `dtbo`, `vendor_boot`, `vbmeta` to both slots, `super`. Slot B active. | Erases `metadata` and `userdata`. |
+| `1` (update, dirty flash) | All firmware, `vendor_boot` and `vbmeta` to both slots; `boot` and `dtbo` only to slot B; `super`. Slot B active. | Stays. |
 
 WARNING: A dirty flash also writes the firmware (bootloader, modem, `vbmeta`). Only the data stays.
 

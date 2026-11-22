@@ -83,8 +83,8 @@ The kernel:
   `vendor/etc/fstab.qcom` has no `fileencryption=`, `metadata_encryption=`, `keydirectory=` and `inlinecrypt` on
   `/data`, so Android formats `/data` without encryption. Then Linux can read it (f2fs).
   - **Not tested.** Nobody has booted it yet.
-  - **Clean flash only** (flash script, answer `y`). "Keep data" over an encrypted install does not work. To go back
-    to the normal build, flash it with `y` again.
+  - **Clean flash only** (flash script, answer `2`, then `ERASE`). "Keep data" over an encrypted install does not work. To go back
+    to the normal build, flash it again with `2`.
   - Check after the first boot: `adb shell getprop ro.crypto.state` must show `unencrypted`.
   - No protection at rest: anyone with the tablet in the bootloader or TWRP can read your files.
 
@@ -92,7 +92,7 @@ The kernel:
 
 | Script | Writes |
 |---|---|
-| `FlashLinux.sh` / `FlashWindows.bat`, **clean flash** ("y") | All firmware `_ab`, `boot_ab`, `dtbo_ab`, `vendor_boot_ab`, `vbmeta_ab`, `super`; erases `metadata` and `userdata`. **Overwrites a Linux image in `boot_a` and `dtbo_a`.** |
+| `FlashLinux.sh` / `FlashWindows.bat`, **clean flash** (`2`) | All firmware `_ab`, `boot_ab`, `dtbo_ab`, `vendor_boot_ab`, `vbmeta_ab`, `super`; erases `metadata` and `userdata`. **Overwrites a Linux image in `boot_a` and `dtbo_a`.** |
 | Same, **dirty flash** (Enter on Linux, `N` on Windows), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps the Linux image in `boot_a` and `dtbo_a`** (`vendor_boot_a` and `vbmeta_a` get the beta4 images again). Not tested on a device yet. |
 | Same, dirty flash, **beta5 and older** | Like a clean flash without the erase: `boot_ab` and `dtbo_ab`. Flash your Linux image to `boot_a` again after the update, and erase `dtbo_a` again. |
 

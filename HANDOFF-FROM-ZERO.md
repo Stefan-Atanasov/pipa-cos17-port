@@ -392,7 +392,7 @@ scripts).
    (A11 step 2 makes it; you can run that step before this one). `flash_super.sh` (A9) cannot do the first flash: it
    writes only `super`.
    Extract it. Put the tablet in fastboot mode (Power + Volume down). Run `FlashLinux.sh` (Linux),
-   `FlashWindows.bat` (Windows) or `FlashMac.sh` and answer `y` (clean flash). The script writes the firmware, `boot`,
+   `FlashWindows.bat` (Windows) or `FlashMac.sh` and answer `2` (clean install), then type `ERASE`. The script writes the firmware, `boot`,
    `dtbo`, `vendor_boot`, `vbmeta` and `vbmeta_system` to both slots (the beta4 `vbmeta.img` has flags 3: verity and verification
    off), writes `super` (slot B only), sets slot B active and erases `userdata` and `metadata`.
 3. Wait for the first boot (some minutes). Do the setup wizard.
@@ -472,7 +472,7 @@ KSU_APK=$C/kernel/sukisu-nova-3.0.0/SukiSU_Nova_v3.0.0_35000-arm64-v8a-release.a
   bash $C/maintainer/build_release.sh mybuild1 --boot $K/bootimg/boot-mine.img --pkg <pkg> --name "<text>" --7z
 ```
 
-3. Clean-flash test of the package (the person runs `FlashLinux.sh`, answer `y`), then A10.
+3. Clean-flash test of the package (the person runs `FlashLinux.sh`, answer `2`, then `ERASE`), then A10.
 4. Publish (ask the person before each one; these are outward actions):
    - Public repository: `sh maintainer/sync_port_repo.sh "<message>"`. It copies the files into
      `$ROOT/port-work/port-repo` and pushes from there. One time before: `git clone <your public repo url>

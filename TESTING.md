@@ -138,7 +138,7 @@ Do these checks before you publish a release package. Record the result of each 
 
 ### 8.1 Risks
 
-WARNING: A clean flash ("y" in `FlashLinux.sh` / `FlashWindows.bat`) erases `userdata` and `metadata`. All data on
+WARNING: A clean flash (answer `2`, then `ERASE`, in `FlashLinux.sh` / `FlashWindows.bat`) erases `userdata` and `metadata`. All data on
 the tablet is lost. Make a backup first.
 
 WARNING: The flash scripts write the firmware (bootloader, modem, `vbmeta`, `vendor_boot`) to both slots also in a
@@ -170,7 +170,7 @@ Test each path on a tablet with a backup, or on a spare install:
 | Path | Check after the boot |
 |---|---|
 | Dirty flash ("keep data") from the previous release | Root works, the SukiSU Nova manager is installed (it replaces an old SukiSU-Ultra manager), apps and settings stay. |
-| Clean flash ("y") | Setup wizard (no grey screen), on-screen keyboard, root on the first boot, SukiSU Nova manager, Play Store, Gboard and Google app installed in the first minute, face enroll in portrait and landscape. A dirty flash never runs the setup wizard: test with a clean flash. |
+| Clean flash (answer `2`, then `ERASE`) | Setup wizard (no grey screen), on-screen keyboard, root on the first boot, SukiSU Nova manager, Play Store, Gboard and Google app installed in the first minute, face enroll in portrait and landscape. A dirty flash never runs the setup wizard: test with a clean flash. |
 | "Keep data" with a second system in slot A | `boot_a` and `dtbo_a` are not changed (compare their md5 before and after). |
 | Rollback to the previous release | The tablet boots, data stays. |
 | `beta7.1-noenc` (old, experimental; v9 has no `noenc` package; only with a clean flash) | `getprop ro.crypto.state` shows `unencrypted`. |

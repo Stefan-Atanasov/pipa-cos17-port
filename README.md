@@ -38,9 +38,13 @@ Screenshots of the ROM and Pipa Helper (v9.2): https://drive.google.com/drive/fo
 The package `ColorOS17-Port-pipa-v9.3-20261121.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
 first. The flash script asks one question:
 
-- `y`: clean flash. **All data on the tablet is erased.** Use it when you come from a different ROM.
-- Dirty flash ("keep data"): press Enter in `FlashLinux.sh`, or `N` in `FlashWindows.bat` (Enter does nothing there).
-  Use it for an update from v9, v9.1, beta7.2, beta7.1, beta7 or beta6.
+- `1` (Update): keep your apps and data. Use it for an update from an older version of this port (v9.x, beta7.2,
+  beta7.1, beta7, beta6).
+- `2` (Clean install): **all data on the tablet is erased** (the script asks you to type `ERASE`). Use it for the first
+  install and when you come from a different ROM (HyperOS, crDroid, LineageOS, other ports). You do not need to flash
+  HyperOS first: the package has the full HyperOS 2 firmware for pipa.
+
+The same choice is in `FlashLinux.sh`, `FlashMac.sh` and `FlashWindows.bat`.
 
 Clean flash from a different ROM: the flash scripts also erase `frp` (since 2026-10-30, 17:00). If `frp` is not
 erased, the screen lock of the old ROM stays there, and ColorOS cannot set a new PIN ("Screen lock was already
