@@ -75,20 +75,33 @@ Release paths that are not tested yet for v9 (clean install): refer to [KNOWN-IS
 
 ## Documents
 
+For users:
+
 | Document | Contents |
 |---|---|
 | [RELEASE-NOTES.md](RELEASE-NOTES.md) | What the current release changes, how to install it, the tests. |
 | [KNOWN-ISSUES.md](KNOWN-ISSUES.md) | Open problems, workarounds and status. |
+| [CHANGELOG.md](CHANGELOG.md) | All changes since beta7.1, in short. |
+| [FLASH-WITHOUT-PC.md](FLASH-WITHOUT-PC.md) | Flash from a second Android phone (Bugjaeger) instead of a PC. Not tested by the maintainer. |
+| [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md) | Dual boot with Linux: partitions, encryption, what the flash scripts write. |
+| [CREDITS.md](CREDITS.md) | Where each part and each tweak of the port comes from; people and projects. |
+
+For developers and co-maintainers:
+
+| Document | Contents |
+|---|---|
 | [BUILD.md](BUILD.md) | Host, inputs, build, flash and roll back the ROM and the kernel. Make a release package. |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | How the port is put together: partitions, build steps, `pipa_port` service, helper app, SELinux, kernel. |
+| [ROM-BACKGROUND.md](ROM-BACKGROUND.md) | Why the ROM code does what it does. |
+| [KERNEL.md](KERNEL.md) | The kernel: parts, branches, settings, build. |
 | [TESTING.md](TESTING.md) | Check a build: regression check, smoothness test, kernel check, release checklist. |
 | [REBASE.md](REBASE.md) | Move the port to a new OPPO donor build. |
-| [KERNEL.md](KERNEL.md) | The kernel: parts, branches, settings, build. |
-| [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md) | Dual boot with Linux: partitions, encryption, what the flash scripts write. |
+| [GOTCHAS.md](GOTCHAS.md) | Traps found during the work and how to avoid them. |
 | [BUGS.md](BUGS.md) | The maintainer bug list: cause, evidence and next step for each bug. |
 | [BLOBS.md](BLOBS.md) | Files that are not in this repository and where to get them. |
-| [CREDITS.md](CREDITS.md) | Where each part and each tweak of the port comes from; people and projects. |
-| [AGENTS.md](AGENTS.md) | Instructions for AI coding agents (`CLAUDE.md` imports it). |
+| [PORTING-GUIDE.md](PORTING-GUIDE.md) | Port ColorOS to another device: model, tools, pipeline, order of work. |
+| [HANDOFF-FROM-ZERO.md](HANDOFF-FROM-ZERO.md) | Rebuild the whole setup on a new PC, step by step. |
+| [AGENTS.md](AGENTS.md) | Instructions for AI coding agents (`CLAUDE.md` imports it; more in [CLAUDE-REFERENCE.md](CLAUDE-REFERENCE.md)). |
 | `maintainer/port/README.md` | Full description of `port.sh`, the step list and how to add a step. |
 | `maintainer/port/NOTES-3k-odm-c06.md` | The optional step 3k. |
 | `maintainer/bugs/` | Old offline analyses of bugs (historical). |

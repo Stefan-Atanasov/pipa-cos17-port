@@ -2,8 +2,8 @@
 
 This document lists the known problems of the public release **v9.3** (2026-11-21; ROM `port.sh` up to
 step 8u = pt151 + kernel walt-hi15, donor C.07; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9, v9.1 and v9.2 apply to v9.3 unless this list says they are fixed. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
-[RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9.3 / v9.2" are the older lists (beta6 to beta8), kept as a record.
-Updated 2026-11-21.
+[RELEASE-NOTES.md](RELEASE-NOTES.md).
+GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-23.
 
 **Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then open a bug report on GitHub and attach the file: https://github.com/Stefan-Atanasov/pipa-cos17-port/issues/new/choose
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
@@ -94,8 +94,6 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   less smooth than beta 8 (BUGS 163, step 8r); animation style restarting the home screen (BUGS 165); Settings closing
   on a back swipe with the keyboard open (BUGS 157); no sound in video recording of third-party camera apps
   (BUGS 159); "Device environment not secure" at HeyTap sign-in (BUGS 160); no app updates for built-in OPPO apps (BUGS 161).
-
-## Older lists (beta6 to beta8)
 
 ## For users
 
