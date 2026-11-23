@@ -14,12 +14,12 @@ install a dual boot on this port ourselves.** The methods below are from the pip
 
 - **Can Linux read the internal storage of the port?** Not with the normal build: `/data` is encrypted with keys
   that only the TEE of the tablet can use (section 4). An **experimental build without encryption** exists
-  (`beta6-noenc`, section 4); it is not tested. The release v9 has no `noenc` package.
+  (`v9.3-noenc`, section 4); it is not tested by the maintainer.
 - **Do I need SELinux permissive?** No. SELinux does not hold encryption keys. `androidboot.selinux=permissive` on the
   kernel command line also does nothing: this is a `user` build, and the vendor boot image sets
   `androidboot.selinux=enforcing`.
 - **Do I need to turn off Android encryption for dual boot?** No. Linux uses its own boot image and its own root
-  partition. Only if Linux must read the Android `/data`: then the experimental `beta6-noenc` build is necessary
+  partition. Only if Linux must read the Android `/data`: then the experimental `v9.3-noenc` package is necessary
   (clean flash, all data erased, no encryption).
 - **Is dual boot possible?** Yes, with the community methods (section 6). It needs a **format of all Android data**,
   because `userdata` uses all the free space.
@@ -79,7 +79,7 @@ The kernel:
 - AOSP says that `wrappedkey_v0` is not compatible with the upstream Linux kernel. TWRP in the port can decrypt
   `/data` because it runs the Android keymaster in the TEE.
 - **Keep `metadata` and `persist`.** If you erase `metadata`, Android cannot open `/data` again (format needed).
-- **Experimental build without encryption: `beta6-noenc`** (2026-10-30, port step 3x, `PORT_NOENCRYPT=1`). Its
+- **Experimental build without encryption: `v9.3-noenc`** (2026-11-23; first `beta6-noenc`; port step 3x, `PORT_NOENCRYPT=1`). Its
   `vendor/etc/fstab.qcom` has no `fileencryption=`, `metadata_encryption=`, `keydirectory=` and `inlinecrypt` on
   `/data`, so Android formats `/data` without encryption. Then Linux can read it (f2fs).
   - **Not tested.** Nobody has booted it yet.

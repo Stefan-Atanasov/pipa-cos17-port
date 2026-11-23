@@ -259,7 +259,7 @@ sh maintainer/flash_super.sh -y port-work/<tag>/img/super.img <md5>
    flashes the original beta4 `super`. The other names in the script are the maintainer's images.
 
 - `-y` answers the confirmation question. It is necessary when there is no terminal.
-- `flash_super.sh` cannot change the encryption of `/data`. For `v9.2-noenc` (step 3x), use the release package and
+- `flash_super.sh` cannot change the encryption of `/data`. For `v9.3-noenc` (step 3x), use the release package and
   a clean flash (section 5).
 - The kernel must agree with the ROM. Refer to [KERNEL.md](KERNEL.md), section 4.
 
@@ -349,7 +349,7 @@ bash maintainer/build_release.sh pt151 --boot $B --pkg v9.3 --name "v9.3"
 Then copy the changelog into the package, write `SHA256SUMS` again and make the `.7z` (`7z a -mx=5`): the script does not add
 `CHANGELOG.md`.
 
-`pt150` is the default build. There is no `noenc` package for v9 or v9.1. For v9.2, the same script made `pt150-noenc` with `PORT_NOENCRYPT=1` (step 3x): `sudo env PORT_NOENCRYPT=1 sh port.sh pt150-noenc <donor-img>`, then `build_release.sh pt150-noenc --pkg v9.2-noenc --boot $B --name "v9.2-noenc (pt150-noenc + walt-hi13)" --7z`. For beta7.1 it made `pt63-noenc`.
+`pt150` is the default build. There is no `noenc` package for v9 or v9.1. For v9.2, the same script made `pt150-noenc` with `PORT_NOENCRYPT=1` (step 3x): `sudo env PORT_NOENCRYPT=1 sh port.sh pt150-noenc <donor-img>`, then `build_release.sh pt150-noenc --pkg v9.2-noenc --boot $B --name "v9.2-noenc (pt150-noenc + walt-hi13)" --7z`. For beta7.1 it made `pt63-noenc`. v9.3-noenc (`pt151-noenc`) was made later, after the tree had new steps: `vendor.img` of pt151 extracted, the step 3x edit applied, `mkfs.erofs -zlz4hc -C65536 -T0`, `lpmake` with the port.sh arguments and the other pt151 images; the package is the v9.3 package with this `super.img`, `RELEASE-NOTES-v9.3-noenc.md` and the version banner.
 
 The script needs the extracted beta4 release in `COS17/` (section 1.3), the SukiSU manager APK (`KSU_APK`; for walt-hi9 and later set it to the Nova APK. `build_release.sh` now puts the Nova APK in `extras/`) and `COS17/pipa-susfs-v1.0.zip`. `--7z` needs `7z`.
 
