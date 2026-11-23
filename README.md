@@ -30,7 +30,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 - **Builds (SourceForge, recommended):** https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (one folder per release, e.g. `v9.3/`)
 - **v9.3 on Gofile (fast, temporary):** https://gofile.io/d/D5iyheCj (Gofile deletes files after some time without downloads: if the link has expired, use SourceForge or Drive)
 - **Builds (Google Drive mirror):** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
-- **Modules:** the Drive folder `modules/` has the user modules `pipa-dolby-speaker-eq-module-v1.0.zip` , `pipa-pen-always-on-module-v1.0.zip` (a pen without Bluetooth; stock needs a BT pen, as HyperOS) and `pipa-susfs-v1.0.zip` (root hiding with the kernel susfs: hides `/data/adb`, module mounts and SELinux log traces from apps).
+- **Modules: none needed.** v9.3 has everything built in: root (SukiSU Nova), the Dolby speaker EQ, pen input always on for pens without Bluetooth (Pipa Helper > Pen) and all fixes. Do not install old pipa modules or performance modules (Uperf and similar): they fight the ColorOS settings, and we cannot help with bugs that they cause. **Optional:** `pipa-susfs-v1.0.zip` (in the package `extras/` and in the Drive folder `modules/`): root hiding with the kernel susfs (hides `/data/adb`, module mounts and SELinux log traces from apps). The Drive modules `pipa-dolby-speaker-eq-module` and `pipa-pen-always-on-module` are only for beta7.x; the EQ module refuses to install on newer builds.
 - **Support group:** https://t.me/cosforpipa
 
 Screenshots of the ROM and Pipa Helper (v9.2): https://drive.google.com/drive/folders/1StUhuz_dL07ydvdHJ1SriYAR-_zObTJ5
