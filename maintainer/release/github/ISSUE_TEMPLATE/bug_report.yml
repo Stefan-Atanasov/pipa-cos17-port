@@ -1,0 +1,66 @@
+name: Bug report
+description: Report a bug in the ColorOS 17 port for the Xiaomi Pad 6 (pipa).
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read [KNOWN-ISSUES.md](https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/KNOWN-ISSUES.md) first.
+        Right after the bug: Pipa Helper > System > **Collect logs**. The file in Download has no personal data. Attach it below.
+        Bugs with performance modules (Uperf and similar) or old pipa modules installed are not supported.
+  - type: input
+    id: build
+    attributes:
+      label: Build
+      description: Settings > About device, or the package name (for example v9.3).
+      placeholder: v9.3
+    validations:
+      required: true
+  - type: dropdown
+    id: flash
+    attributes:
+      label: Install type
+      options:
+        - Clean install (2, ERASE)
+        - Update / dirty flash (1)
+    validations:
+      required: true
+  - type: input
+    id: from
+    attributes:
+      label: Previous ROM or version
+      placeholder: v9.2 / HyperOS 2 / crDroid
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Tap ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result
+      placeholder: "Expected: ... Actual: ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: often
+    attributes:
+      label: How often
+      options:
+        - Always
+        - Sometimes
+        - Once
+  - type: textarea
+    id: extra
+    attributes:
+      label: Root, modules, LSPosed
+      description: Root manager, installed modules and LSPosed modules (or "none").
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and screenshots
+      description: Drag the pipa-logs-*.tar.gz file and screenshots here.

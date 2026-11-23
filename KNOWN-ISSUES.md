@@ -5,7 +5,7 @@ step 8u = pt151 + kernel walt-hi15, donor C.07; v9.2 = step 8s, pt150 + walt-hi1
 [RELEASE-NOTES.md](RELEASE-NOTES.md). The sections after "Known issues in v9.3 / v9.2" are the older lists (beta6 to beta8), kept as a record.
 Updated 2026-11-21.
 
-**Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then add the bug and the file to the bug report document: https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
+**Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then open a bug report on GitHub and attach the file: https://github.com/Stefan-Atanasov/pipa-cos17-port/issues/new/choose
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
 ## Known issues in v9.3 / v9.2

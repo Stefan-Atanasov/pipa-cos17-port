@@ -69,8 +69,9 @@ Release paths that are not tested yet for v9 (clean install): refer to [KNOWN-IS
 ## Known issues and bug reports
 
 - Open problems and workarounds: [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
-- **Report a bug:** https://docs.google.com/document/d/1nCv448YX7-I_X9f0O-01NkF6mV-mJFdkRph2O8JJM7c/edit?usp=sharing
-  Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened.
+- **Report a bug:** https://github.com/Stefan-Atanasov/pipa-cos17-port/issues/new/choose (GitHub Issues; Pipa Helper > System > Report a bug opens the same page). Right after the
+  bug, use Pipa Helper > System > **Collect logs** and attach the file. The form asks for the build, the install type,
+  the steps, and what you expected and what happened.
 
 ## Documents
 

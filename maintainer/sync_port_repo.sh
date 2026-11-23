@@ -12,7 +12,7 @@ MSG=${1:-"sync from COS17 $(date +%F)"}
 mkdir -p "$R"
 cd "$COS"
 rsync -a --delete --delete-excluded \
-    --filter='P .git/' --exclude='.git/' \
+    --filter='P .git/' --exclude='.git/' --filter='P .github/' \
     --exclude='maintainer/jar-edits/venv/' --exclude='__pycache__/' --exclude='*.pyc' \
     --exclude='helper/keys/' --exclude='keys/' --exclude='*.jks' --exclude='*.pk8' --exclude='helper/out/' --exclude='out/' --exclude='*.log' --exclude='*.class' --exclude='*.dex' \
     --exclude='*.so' --exclude='*.jar' --exclude='*.apk' --exclude='*.7z' --exclude='*.img' --exclude='*.zip' \
@@ -34,6 +34,7 @@ grep -rIl 'KSPASS=[^$]' "$R/helper" >/dev/null 2>&1 && { echo "helper password i
 # BUGS.md; the internal root notes (CLAUDE.md, AGENTS.md, MAINTAINER-STATUS.md, HISTORY.md, kernel/*.md ...) stay local
 cp "$COS"/docs/*.md "$HERE/port-repo/BLOBS.md" "$R/"
 cp "$COS/LICENSE" "$R/LICENSE"
+mkdir -p "$R/.github" && cp -r "$COS/maintainer/release/github/." "$R/.github/"   # issue forms (bug report)
 cp "$COS/RELEASE-NOTES-v9.3.md" "$R/RELEASE-NOTES.md"   # the current release (change with each release)
 cp "$COS/CHANGELOG-beta7.1-to-v9.3.md" "$R/CHANGELOG.md"
 # bug list for co-maintainers and their agents: the maintainer's BUGS-TODO.md, with a note on links to private docs
