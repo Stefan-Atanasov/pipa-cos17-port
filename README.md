@@ -27,6 +27,7 @@ build. The main build is one command, `maintainer/port/port.sh`.
 
 ## Download and install
 
+- **All links in one page (to share):** [DOWNLOADS.md](DOWNLOADS.md)
 - **Builds (SourceForge, recommended):** https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (one folder per release, e.g. `v9.3/`)
 - **v9.3 on Gofile (fast, temporary):** https://gofile.io/d/D5iyheCj (Gofile deletes files after some time without downloads: if the link has expired, use SourceForge or Drive)
 - **v9.3-noenc on Gofile (experimental, no /data encryption, clean install only):** https://gofile.io/d/Fqn9Po3L
@@ -80,6 +81,7 @@ For users:
 
 | Document | Contents |
 |---|---|
+| [DOWNLOADS.md](DOWNLOADS.md) | All download links in one page: ROM builds, md5, extras, help. |
 | [RELEASE-NOTES.md](RELEASE-NOTES.md) | What the current release changes, how to install it, the tests. |
 | [KNOWN-ISSUES.md](KNOWN-ISSUES.md) | Open problems, workarounds and status. |
 | [CHANGELOG.md](CHANGELOG.md) | All changes since beta7.1, in short. |
