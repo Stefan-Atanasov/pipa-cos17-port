@@ -1,0 +1,32 @@
+{
+  "version": "pt167 test",
+  "build": 167,
+  "date": "2026-11-26",
+  "notes": "https://drive.google.com/drive/folders/1PxEpHpfAHVrajpavvO9l7TmccjJzWPOH",
+  "downloads": "https://drive.google.com/drive/folders/1PxEpHpfAHVrajpavvO9l7TmccjJzWPOH",
+  "ota": {
+    "payloads": [
+      {
+        "from": "pt165",
+        "offset": 41,
+        "size": 96848488,
+        "headers": "FILE_HASH=NR8jw0UfjkblE297tbWTWL2fEB+iwKtnTfi3UHaZx8s=\nFILE_SIZE=96848488\nMETADATA_HASH=Zaqs608UTlIWHr4HMLIORYi96oUyHNMEcywOWmFaELc=\nMETADATA_SIZE=310441",
+        "urls": [
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/pt167/ota-pt167-from-pt165.zip",
+          "https://pixeldrain.com/api/file/7vG34Fwa",
+          "https://drive.usercontent.google.com/download?id=1kBcchQGpUBHjZ2RdbzQQEE-easAMu0dO&export=download&confirm=t"
+        ]
+      },
+      {
+        "offset": 61,
+        "size": 6049466462,
+        "headers": "FILE_HASH=T6EyAjhUCKA8JqADE3UcgkblS5Tpz1g+Bcm9dUd/i7M=\nFILE_SIZE=6049466462\nMETADATA_HASH=ZY0ltxAQWY9dDsEf0IBMMTchKb8AlGMyD/U27AO5rOI=\nMETADATA_SIZE=202613",
+        "urls": [
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/pt167/ota-pt167.zip",
+          "https://pixeldrain.com/api/file/bXQmPzC7",
+          "https://drive.usercontent.google.com/download?id=1plIa06LpAkhQVgc8cbKiW9Y5SQ_yGwey&export=download&confirm=t"
+        ]
+      }
+    ]
+  }
+}
