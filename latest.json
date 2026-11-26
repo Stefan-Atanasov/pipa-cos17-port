@@ -1,29 +1,29 @@
 {
-  "version": "pt173 test",
-  "build": 173,
+  "version": "pt175 test",
+  "build": 175,
   "date": "2026-11-27",
   "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/TEST-NOTES.md",
   "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
   "ota": {
     "payloads": [
       {
-        "from": "pt171",
+        "from": "pt172",
         "offset": 41,
-        "size": 100072519,
-        "headers": "FILE_HASH=EvumMh57qR8PcHQi7p/Iul0DQ1+noJIxyM8f0iGqd/g=\nFILE_SIZE=100072519\nMETADATA_HASH=tzHEWf1eBBBfE9xohU7n/vl9DP4ZsKYqC1lAdvQaFgI=\nMETADATA_SIZE=2194272",
+        "size": 100755363,
+        "headers": "FILE_HASH=/VdHTntlUeU77b0/AwTXspR9taKvDNTH//57mNmzLoM=\nFILE_SIZE=100755363\nMETADATA_HASH=LPbn+Yuf9Jojck8lIlTgSwoVukQ70inLYJbykKsFF9s=\nMETADATA_SIZE=2216880",
         "urls": [
-          "https://pixeldrain.com/api/file/pJjeERTD",
-          "https://drive.usercontent.google.com/download?id=10fsRPr-ImHjTWej8CRAZAvm2H5HMuwCH&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/FrrgQmmx",
+          "https://drive.usercontent.google.com/download?id=1HEAnX8SvS-0XzM9n8IibhH9t3o4cM6cb&export=download&confirm=t"
         ]
       },
       {
-        "from": "pt172",
+        "from": "pt173",
         "offset": 41,
-        "size": 101718123,
-        "headers": "FILE_HASH=3LQYLEdKIvVif84bT604zZj4Qd1L3HDW2I9sPvHX7ZE=\nFILE_SIZE=101718123\nMETADATA_HASH=va1ATThsemCI8xhNngJBym+HEjjwpH8nGCFjAKemLAk=\nMETADATA_SIZE=4123642",
+        "size": 98631481,
+        "headers": "FILE_HASH=OeRThQ+LTKsVrpObACLMyXqJ5RzmBLneWeAYGfUHjY0=\nFILE_SIZE=98631481\nMETADATA_HASH=rwm65cUsR1FM+v3kKnJu4iHU8wGunI8o/jy2mWvrUxQ=\nMETADATA_SIZE=694243",
         "urls": [
-          "https://pixeldrain.com/api/file/fas7MxrB",
-          "https://drive.usercontent.google.com/download?id=1JQfxhZ9OLFICQv9nzNvAuGkoIhBWJSYv&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/L3roq1w3",
+          "https://drive.usercontent.google.com/download?id=13Rm4pHQmivjwTDnsFwQ6Vy6cnkW4MEi4&export=download&confirm=t"
         ]
       }
     ]
