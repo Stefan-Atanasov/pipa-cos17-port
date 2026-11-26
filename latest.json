@@ -7,16 +7,6 @@
   "ota": {
     "payloads": [
       {
-        "from": "pt167",
-        "offset": 41,
-        "size": 102580781,
-        "headers": "FILE_HASH=0zyKj7HHzdAhnxu2Hd7592S83YO0FSrokT10CHfbtI8=\nFILE_SIZE=102580781\nMETADATA_HASH=AkKgy2wrxwP+9gk70RlWBcZ1eJSk7W9Nk1jBTe3KK10=\nMETADATA_SIZE=4810299",
-        "urls": [
-          "https://pixeldrain.com/api/file/XhAM9yMo",
-          "https://drive.usercontent.google.com/download?id=11AHNMQ0i4jrkApRQMN7u4CBT38qP1ft3&export=download&confirm=t"
-        ]
-      },
-      {
         "from": "pt171",
         "offset": 41,
         "size": 97931216,
