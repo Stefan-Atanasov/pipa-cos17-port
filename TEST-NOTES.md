@@ -1,4 +1,4 @@
-# pt171 test build: tester notes
+# pt172 test build: tester notes
 
 Test build of the ColorOS 17 port for the Xiaomi Pad 6 (`pipa`), for testers only. Base: pt167 (v10 release
 candidate) + the fixes below. Kernel: walt-hi16 with KernelSU (SukiSU Nova, built in). The current release is
@@ -6,7 +6,7 @@ v9.3 ([RELEASE-NOTES.md](RELEASE-NOTES.md)).
 
 ## Install
 
-- From pt167 (or pt169): Pipa Helper > System > Updates > Check for updates, then Install update (about 100 MB, a
+- From pt167: Pipa Helper > System > Updates > Check for updates, then Install update (about 100 MB, a
   delta). The tablet restarts one time at the end. Your data stays.
 - From v9.3 or older, or from another test build: there is no package for this build. Wait for v10.
 - Do not install below 30 % battery without the charger.
@@ -20,6 +20,8 @@ v9.3 ([RELEASE-NOTES.md](RELEASE-NOTES.md)).
 - BGMI uses the same screen refresh rule as PUBG MOBILE.
 - Charging limit (Settings > Battery): the limit also holds while the screen is off. Before, the tablet could charge
   past the limit while it slept.
+- Smart Sidebar: with Screen resolution = Low, the sidebar has its normal size again (before: about 2 times too
+  big).
 - Collect logs (Pipa Helper > System): errors of the last hours are kept in a file that stays after a restart, and
   the app log reaches about 25 minutes back (before: about 13 minutes). The file stays below 10 MB.
 
