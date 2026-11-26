@@ -25,6 +25,16 @@
           "https://pixeldrain.com/api/file/sYJLgFXM",
           "https://drive.usercontent.google.com/download?id=1l-B709dgGeD2ib7RA-Qpn0Dbd4-I9sHq&export=download&confirm=t"
         ]
+      },
+      {
+        "from": "pt175",
+        "offset": 41,
+        "size": 96765349,
+        "headers": "FILE_HASH=eYy63SEWnNTDotAfybMSil4tEK8f/CSd2qhoqDvlTI8=\nFILE_SIZE=96765349\nMETADATA_HASH=LPdhFzldId/XvmEntsBTzZETbph2ZpqEtDgZIsb0aLQ=\nMETADATA_SIZE=291620",
+        "urls": [
+          "https://pixeldrain.com/api/file/yjkEdKSQ",
+          "https://drive.usercontent.google.com/download?id=10l17IdpV8Cfk1SaIZxsNoPyC_QWB3vzd&export=download&confirm=t"
+        ]
       }
     ]
   }

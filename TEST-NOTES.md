@@ -6,7 +6,7 @@ v9.3 ([RELEASE-NOTES.md](RELEASE-NOTES.md)).
 
 ## Install
 
-- From pt172 or pt176: Pipa Helper > System > Updates > Check for updates, then Install update (about 100 MB, a
+- From pt172, pt175 or pt176: Pipa Helper > System > Updates > Check for updates, then Install update (about 100 MB, a
   delta). The tablet restarts one time at the end. Your data stays.
 - From v9.3 or older, or from another test build: there is no package for this build. Wait for v10.
 - Do not install below 30 % battery without the charger.
