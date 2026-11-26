@@ -1,6 +1,6 @@
 {
-  "version": "pt175 test",
-  "build": 175,
+  "version": "pt176 test",
+  "build": 176,
   "date": "2026-11-27",
   "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/TEST-NOTES.md",
   "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
@@ -9,21 +9,21 @@
       {
         "from": "pt172",
         "offset": 41,
-        "size": 100755363,
-        "headers": "FILE_HASH=/VdHTntlUeU77b0/AwTXspR9taKvDNTH//57mNmzLoM=\nFILE_SIZE=100755363\nMETADATA_HASH=LPbn+Yuf9Jojck8lIlTgSwoVukQ70inLYJbykKsFF9s=\nMETADATA_SIZE=2216880",
+        "size": 100755394,
+        "headers": "FILE_HASH=BCoB1+UQ4vd7SJny9AY49f9FKqYVXydHakgb8auaS0s=\nFILE_SIZE=100755394\nMETADATA_HASH=yhQjtzTHk9G5CjAxYDIqtVCyOlVSZAY8Su0KgfKLo/o=\nMETADATA_SIZE=2216880",
         "urls": [
-          "https://pixeldrain.com/api/file/FrrgQmmx",
-          "https://drive.usercontent.google.com/download?id=1HEAnX8SvS-0XzM9n8IibhH9t3o4cM6cb&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/YfxszWQA",
+          "https://drive.usercontent.google.com/download?id=1mLJBZaltUkfadEfxqlN89wwfw5x_bIX4&export=download&confirm=t"
         ]
       },
       {
-        "from": "pt173",
+        "from": "pt175",
         "offset": 41,
-        "size": 98631481,
-        "headers": "FILE_HASH=OeRThQ+LTKsVrpObACLMyXqJ5RzmBLneWeAYGfUHjY0=\nFILE_SIZE=98631481\nMETADATA_HASH=rwm65cUsR1FM+v3kKnJu4iHU8wGunI8o/jy2mWvrUxQ=\nMETADATA_SIZE=694243",
+        "size": 96763301,
+        "headers": "FILE_HASH=F+VaFzampSKc7Qda4urKQFOqn7uxfUnVWtyswf4jZ/4=\nFILE_SIZE=96763301\nMETADATA_HASH=BLEqTAGgxi9vhWaPAicC6Bof02MTkBHXtloioZ8miDs=\nMETADATA_SIZE=291087",
         "urls": [
-          "https://pixeldrain.com/api/file/L3roq1w3",
-          "https://drive.usercontent.google.com/download?id=13Rm4pHQmivjwTDnsFwQ6Vy6cnkW4MEi4&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/58rYMC3R",
+          "https://drive.usercontent.google.com/download?id=1o_2Bm13im8x9fOKy-ck-XThmdpbjtE4k&export=download&confirm=t"
         ]
       }
     ]
