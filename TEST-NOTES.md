@@ -23,9 +23,13 @@ v9.3 ([RELEASE-NOTES.md](RELEASE-NOTES.md)).
 - Collect logs (Pipa Helper > System): errors of the last hours are kept in a file that stays after a restart, and
   the app log reaches about 25 minutes back (before: about 13 minutes). The file stays below 10 MB.
 
-## Known
+## How bypass charging works (stock ColorOS)
 
-- Bypass charging in games starts only when Game Assistant > Bypass charging has "auto open" on, or when you turn it
-  on in the Game Assistant panel. Bypass charging turns off when you disconnect the charger (as on stock ColorOS).
+- In a game, bypass charging starts only when Game Assistant > Bypass charging has "auto open" on, or when you turn
+  it on in the Game Assistant panel. It starts at or above the level that you set there.
+- It turns off when you disconnect the charger and while the screen is off. This is the same on stock ColorOS.
+
+## Report a problem
+
 - Report a problem: Pipa Helper > System > Collect logs right after the problem, without a restart, and send the
   file.
