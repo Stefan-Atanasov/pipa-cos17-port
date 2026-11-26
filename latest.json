@@ -1,30 +1,29 @@
 {
-  "version": "pt167 test",
-  "build": 167,
+  "version": "pt171 test",
+  "build": 171,
   "date": "2026-11-26",
   "notes": "https://drive.google.com/drive/folders/1PxEpHpfAHVrajpavvO9l7TmccjJzWPOH",
   "downloads": "https://drive.google.com/drive/folders/1PxEpHpfAHVrajpavvO9l7TmccjJzWPOH",
   "ota": {
     "payloads": [
       {
-        "from": "pt165",
+        "from": "pt167",
         "offset": 41,
-        "size": 96848488,
-        "headers": "FILE_HASH=NR8jw0UfjkblE297tbWTWL2fEB+iwKtnTfi3UHaZx8s=\nFILE_SIZE=96848488\nMETADATA_HASH=Zaqs608UTlIWHr4HMLIORYi96oUyHNMEcywOWmFaELc=\nMETADATA_SIZE=310441",
+        "size": 101422089,
+        "headers": "FILE_HASH=rjdNOWtqe7iCSL6Z9X/Qqj5QNr3WkIgPnWfRBxOOC8Q=\nFILE_SIZE=101422089\nMETADATA_HASH=Ex1rTVTnnOkKu+l4ILUwLnMdcdBNSFHIiqolBPMPeGE=\nMETADATA_SIZE=4429035",
         "urls": [
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/pt167/ota-pt167-from-pt165.zip",
-          "https://pixeldrain.com/api/file/7vG34Fwa",
-          "https://drive.usercontent.google.com/download?id=1kBcchQGpUBHjZ2RdbzQQEE-easAMu0dO&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/vhPmW5Lk",
+          "https://drive.usercontent.google.com/download?id=1xjoqStp9UiYIdE2_5Zs8bAiunBrKIrbP&export=download&confirm=t"
         ]
       },
       {
-        "offset": 61,
-        "size": 6049466462,
-        "headers": "FILE_HASH=T6EyAjhUCKA8JqADE3UcgkblS5Tpz1g+Bcm9dUd/i7M=\nFILE_SIZE=6049466462\nMETADATA_HASH=ZY0ltxAQWY9dDsEf0IBMMTchKb8AlGMyD/U27AO5rOI=\nMETADATA_SIZE=202613",
+        "from": "pt169",
+        "offset": 41,
+        "size": 100973051,
+        "headers": "FILE_HASH=a9PyN3A/lmdaxeEq/k3YHxyqVgyW6fv+26loLZ5hl0o=\nFILE_SIZE=100973051\nMETADATA_HASH=+58nOm/0lP6OWNeRCfoKxXk4liy+fSJCr82EISzcAUE=\nMETADATA_SIZE=4429876",
         "urls": [
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/pt167/ota-pt167.zip",
-          "https://pixeldrain.com/api/file/bXQmPzC7",
-          "https://drive.usercontent.google.com/download?id=1plIa06LpAkhQVgc8cbKiW9Y5SQ_yGwey&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/GnSntxgo",
+          "https://drive.usercontent.google.com/download?id=1MJXx8GZrLqoFKeCH-dV_T0EhdBaDRPdf&export=download&confirm=t"
         ]
       }
     ]
