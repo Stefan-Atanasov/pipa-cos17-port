@@ -1,7 +1,7 @@
 {
-  "version": "pt172 test",
-  "build": 172,
-  "date": "2026-11-26",
+  "version": "pt173 test",
+  "build": 173,
+  "date": "2026-11-27",
   "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/TEST-NOTES.md",
   "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
   "ota": {
@@ -9,11 +9,21 @@
       {
         "from": "pt171",
         "offset": 41,
-        "size": 97931216,
-        "headers": "FILE_HASH=VFY/SDwiOMWWygEQEQ1t8J1ORHVKcWt2P2pzq0dN9sg=\nFILE_SIZE=97931216\nMETADATA_HASH=LXQd2jpR+6SAPZupw2WBmo/eHyCCAZ4v7vEKxRu/t64=\nMETADATA_SIZE=674155",
+        "size": 100072519,
+        "headers": "FILE_HASH=EvumMh57qR8PcHQi7p/Iul0DQ1+noJIxyM8f0iGqd/g=\nFILE_SIZE=100072519\nMETADATA_HASH=tzHEWf1eBBBfE9xohU7n/vl9DP4ZsKYqC1lAdvQaFgI=\nMETADATA_SIZE=2194272",
         "urls": [
-          "https://pixeldrain.com/api/file/pZMSZQxg",
-          "https://drive.usercontent.google.com/download?id=1XC6FIzBrbMOVjsw0VPnkqgo_mo59Kg5r&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/pJjeERTD",
+          "https://drive.usercontent.google.com/download?id=10fsRPr-ImHjTWej8CRAZAvm2H5HMuwCH&export=download&confirm=t"
+        ]
+      },
+      {
+        "from": "pt172",
+        "offset": 41,
+        "size": 101718123,
+        "headers": "FILE_HASH=3LQYLEdKIvVif84bT604zZj4Qd1L3HDW2I9sPvHX7ZE=\nFILE_SIZE=101718123\nMETADATA_HASH=va1ATThsemCI8xhNngJBym+HEjjwpH8nGCFjAKemLAk=\nMETADATA_SIZE=4123642",
+        "urls": [
+          "https://pixeldrain.com/api/file/fas7MxrB",
+          "https://drive.usercontent.google.com/download?id=1JQfxhZ9OLFICQv9nzNvAuGkoIhBWJSYv&export=download&confirm=t"
         ]
       }
     ]
