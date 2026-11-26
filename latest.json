@@ -2,8 +2,8 @@
   "version": "pt171 test",
   "build": 171,
   "date": "2026-11-26",
-  "notes": "https://drive.google.com/drive/folders/1PxEpHpfAHVrajpavvO9l7TmccjJzWPOH",
-  "downloads": "https://drive.google.com/drive/folders/1PxEpHpfAHVrajpavvO9l7TmccjJzWPOH",
+  "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/TEST-NOTES.md",
+  "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
   "ota": {
     "payloads": [
       {

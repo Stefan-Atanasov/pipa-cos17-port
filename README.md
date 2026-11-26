@@ -83,6 +83,7 @@ For users:
 |---|---|
 | [DOWNLOADS.md](DOWNLOADS.md) | All download links in one page: ROM builds, md5, extras, help. |
 | [RELEASE-NOTES.md](RELEASE-NOTES.md) | What the current release changes, how to install it, the tests. |
+| [TEST-NOTES.md](TEST-NOTES.md) | The current test build (testers only): what is new, how to install it by OTA. |
 | [KNOWN-ISSUES.md](KNOWN-ISSUES.md) | Open problems, workarounds and status. |
 | [CHANGELOG.md](CHANGELOG.md) | All changes since beta7.1, in short. |
 | [FLASH-WITHOUT-PC.md](FLASH-WITHOUT-PC.md) | Flash from a second Android phone (Bugjaeger) instead of a PC. Not tested by the maintainer. |
