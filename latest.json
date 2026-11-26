@@ -1,6 +1,6 @@
 {
-  "version": "pt176 test",
-  "build": 176,
+  "version": "pt177 test",
+  "build": 177,
   "date": "2026-11-27",
   "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/TEST-NOTES.md",
   "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
@@ -9,21 +9,21 @@
       {
         "from": "pt172",
         "offset": 41,
-        "size": 100755394,
-        "headers": "FILE_HASH=BCoB1+UQ4vd7SJny9AY49f9FKqYVXydHakgb8auaS0s=\nFILE_SIZE=100755394\nMETADATA_HASH=yhQjtzTHk9G5CjAxYDIqtVCyOlVSZAY8Su0KgfKLo/o=\nMETADATA_SIZE=2216880",
+        "size": 100755204,
+        "headers": "FILE_HASH=jbXzdpCGJvCPkPUcNqpTsamVYi6NnUvvveH3rbHbmH4=\nFILE_SIZE=100755204\nMETADATA_HASH=BmRWpsOxjyTLbtHKcsuZnyyNL5uXQzkc8h6pCfpSj2Q=\nMETADATA_SIZE=2217145",
         "urls": [
-          "https://pixeldrain.com/api/file/YfxszWQA",
-          "https://drive.usercontent.google.com/download?id=1mLJBZaltUkfadEfxqlN89wwfw5x_bIX4&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/HT8eSGqF",
+          "https://drive.usercontent.google.com/download?id=1mPkJDzOcytldsqlooI8PURv2t8hRUZqS&export=download&confirm=t"
         ]
       },
       {
-        "from": "pt175",
+        "from": "pt176",
         "offset": 41,
-        "size": 96763301,
-        "headers": "FILE_HASH=F+VaFzampSKc7Qda4urKQFOqn7uxfUnVWtyswf4jZ/4=\nFILE_SIZE=96763301\nMETADATA_HASH=BLEqTAGgxi9vhWaPAicC6Bof02MTkBHXtloioZ8miDs=\nMETADATA_SIZE=291087",
+        "size": 96765303,
+        "headers": "FILE_HASH=HlrUQUjkoOnmqM0gcgkjq9WoSJKjdqPeOc8twHAkcro=\nFILE_SIZE=96765303\nMETADATA_HASH=D2DwMqlwKiknU/VlEiukUfliviD4MGOCDTW0I7FRbdQ=\nMETADATA_SIZE=291620",
         "urls": [
-          "https://pixeldrain.com/api/file/58rYMC3R",
-          "https://drive.usercontent.google.com/download?id=1o_2Bm13im8x9fOKy-ck-XThmdpbjtE4k&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/sYJLgFXM",
+          "https://drive.usercontent.google.com/download?id=1l-B709dgGeD2ib7RA-Qpn0Dbd4-I9sHq&export=download&confirm=t"
         ]
       }
     ]

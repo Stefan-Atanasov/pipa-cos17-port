@@ -1,4 +1,4 @@
-# pt176 test build: tester notes
+# pt177 test build: tester notes
 
 Test build of the ColorOS 17 port for the Xiaomi Pad 6 (`pipa`), for testers only. Base: pt167 (v10 release
 candidate) + the fixes below. Kernel: walt-hi16 with KernelSU (SukiSU Nova, built in). The current release is
@@ -6,7 +6,7 @@ v9.3 ([RELEASE-NOTES.md](RELEASE-NOTES.md)).
 
 ## Install
 
-- From pt172 or pt175: Pipa Helper > System > Updates > Check for updates, then Install update (about 100 MB, a
+- From pt172 or pt176: Pipa Helper > System > Updates > Check for updates, then Install update (about 100 MB, a
   delta). The tablet restarts one time at the end. Your data stays.
 - From v9.3 or older, or from another test build: there is no package for this build. Wait for v10.
 - Do not install below 30 % battery without the charger.
@@ -17,9 +17,10 @@ v9.3 ([RELEASE-NOTES.md](RELEASE-NOTES.md)).
   Play services (and with it Quick Share); On turns them on again.
 - Floating windows: up to 4 at the same time (before: 2; the third one closed the oldest).
 - BGMI uses the same screen refresh rule as PUBG MOBILE.
-- Screen refresh rate Auto and High (120 Hz): 120 Hz everywhere, as on the OPPO Pad Mini (before: 144 Hz on the lock screen and in
-  apps without a rule, and a switch to 120 Hz in each unlock animation, which made it stutter). 144 Hz stays
-  available as its own setting in Settings > Display > Screen refresh rate.
+- Screen refresh rate: the lock screen now follows your setting. Auto and High run at 120 Hz on the lock screen,
+  the home screen and in apps, as on the OPPO Pad Mini. Before, the lock screen ran at 144 Hz and switched to
+  120 Hz in each unlock animation, which made it stutter. With High > Refresh rate > FPS Max 144 Hz, everything
+  runs at 144 Hz. As on stock ColorOS, games in OPPO's list can use up to 144 Hz.
 - Charging limit (Settings > Battery): the limit also holds while the screen is off. Before, the tablet could charge
   past the limit while it slept.
 - Settings > Display > Screen resolution is removed (as in v9.3). Low broke parts of ColorOS (boot logo, lock screen
