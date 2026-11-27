@@ -22,7 +22,9 @@
         "size": 6049383759,
         "headers": "FILE_HASH=UXD5RzcZC76rCzws7CKmo03i7mbqHE5UxmaJlsPcues=\nFILE_SIZE=6049383759\nMETADATA_HASH=pOikeCVDMcql+ljf06s4RbDcDUVOFPBBLtyLjaGCxRM=\nMETADATA_SIZE=202616",
         "urls": [
-          "https://pixeldrain.com/api/file/Prd3f2dh"
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10.1/ota-v10.1.zip",
+          "https://pixeldrain.com/api/file/Prd3f2dh",
+          "https://drive.usercontent.google.com/download?id=1LqEqsZz_iy3uXhZCVzrryPC7havtynjb&export=download&confirm=t"
         ]
       }
     ]
