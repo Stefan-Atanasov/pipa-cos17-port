@@ -1,32 +1,7 @@
 {
-  "version": "v10.1",
-  "build": 181,
+  "version": "v10",
+  "build": 180,
   "date": "2026-11-27",
   "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/RELEASE-NOTES.md",
-  "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
-  "ota": {
-    "payloads": [
-      {
-        "from": "pt180",
-        "offset": 41,
-        "size": 96763130,
-        "headers": "FILE_HASH=nGDPC1gNsM5SPx8Kl+EtYhsIw8oGUrkdHaODM/4R0Rk=\nFILE_SIZE=96763130\nMETADATA_HASH=/ix/eD8/hWZRge4E6X0VMrP10x1ajBPVLE6wfL7czVM=\nMETADATA_SIZE=291468",
-        "urls": [
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10.1/ota-v10.1-from-pt180.zip",
-          "https://pixeldrain.com/api/file/JKX74kAh",
-          "https://drive.usercontent.google.com/download?id=1O-aZzJcrYn-taF59A0SH_Ajvk3FrWWMZ&export=download&confirm=t"
-        ]
-      },
-      {
-        "offset": 61,
-        "size": 6049383759,
-        "headers": "FILE_HASH=UXD5RzcZC76rCzws7CKmo03i7mbqHE5UxmaJlsPcues=\nFILE_SIZE=6049383759\nMETADATA_HASH=pOikeCVDMcql+ljf06s4RbDcDUVOFPBBLtyLjaGCxRM=\nMETADATA_SIZE=202616",
-        "urls": [
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10.1/ota-v10.1.zip",
-          "https://pixeldrain.com/api/file/Prd3f2dh",
-          "https://drive.usercontent.google.com/download?id=1LqEqsZz_iy3uXhZCVzrryPC7havtynjb&export=download&confirm=t"
-        ]
-      }
-    ]
-  }
+  "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md"
 }
