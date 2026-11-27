@@ -7,7 +7,7 @@ show (offline analysis), what to capture on a device, and where a fix would live
 Status: **open** (not investigated), **analysed** (offline cause candidates), **fix planned**,
 **fixed in <build>**.
 
-Updated 2026-11-27: last release **v10 = pt178 + walt-hi17** (2026-11-27: updates without a PC, smoother unlock and wake, 4 floating windows; the OTA base for the next versions). Before: v9.3 = pt151 + walt-hi15 (2026-11-21). Open: BUGS 214 (camera service restart, face unlock in the dark), time zone after a clean install (China time).
+Updated 2026-11-26: last release **v9.3 = pt151 + walt-hi15** (2026-11-21). **v9.4 release candidate = pt167** + walt-hi16-su (OTA with deltas and mirrors 9c-9h, prime-core game thread 9f, screen resolution 9g, helper 3.6; one tester; clean flash on hold). Before: 2026-11-23: next build = steps 8v + 8w + walt-hi16 (pen near mode, dt2w switch, helper 3.0; 8w libgsl BUGS 185). New public reports arrive as GitHub Issues (form: maintainer/release/github/). Older header: 2026-11-21 02:15: last release **v9.2 = pt150 + walt-hi13** (2026-11-21; pt133-pt150 = 8d-8s). Before: v9.1 = pt132 + walt-hi9 (2026-11-19). Test builds since then: pt133-pt143 (tablet: pt142 + walt-hi13; pt143 = v9.2 candidate). Everything "fixed in" a build up to pt128 or walt-hi9 is in v9, pt132 is v9.1; **pt133 and later are not released yet** ("ships in v9.2"). Earlier: v9 = pt128 + walt-hi9 (2026-11-19 00:40, first stable). Earlier: beta7.2 (pt68 + walt-r17, 2026-11-06), beta6 (2026-10-30).
 `notes/STABILITY-PERF.md` (old stability and performance plan, captures D1-D17), `notes/PHASE2-ROM-INTEGRATION.md`
 (how the runtime fixes went into the ROM).
 

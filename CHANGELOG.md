@@ -1,19 +1,4 @@
-# Changelog: beta7.1 → v10 (Xiaomi Pad 6, ColorOS 17 port)
-
-## v10 (2026-11-27: ROM pt178 + kernel walt-hi17)
-- **Updates without a PC:** Pipa Helper > System > Updates installs new versions into the second system slot (about 100 MB deltas, one restart, automatic fallback to the old system). Optional daily check with a notification (BUGS 191, 193). v10 is the base: every v10 install (this package or the OTA) gets the next versions this way. From v9.3 or older: flash v10 with the PC once.
-- **Smoother unlock:** the lock screen follows the refresh rate setting (Auto and High: 120 Hz; FPS Max 144 Hz: 144 Hz). Before, it ran at 144 Hz and switched to 120 Hz in each unlock animation (BUGS 210, 212).
-- **No stutter after wake:** kernel walt-hi17 sends the panel's dimming command in one transfer (one 25 ms frame on every wake before; BUGS 213).
-- **Games:** the main game thread runs on the fastest core (steadier BGMI / PUBG frame rate, BUGS 175); BGMI uses the PUBG refresh rule.
-- **Pen buttons in Notein and StarNote** work as on HyperOS ("Apps made for the Xiaomi pen", kernel walt-hi16+, BUGS 170).
-- **Hotspot:** 5 GHz and Wi-Fi 6 (BUGS 171). **Dual Wi-Fi** (BUGS 173). Hotspot and Dolby Atmos tiles (BUGS 172).
-- **Battery health** page with "Maximum capacity" (BUGS 176). **Extra dim** works (BUGS 190). **Double tap to wake** can be turned off (BUGS 174).
-- **Google switch** in Settings > Google settings; no repeated prompts with Google off (BUGS 200).
-- **Charging limit** holds with the screen off (BUGS 204).
-- **Up to 4 floating windows** (was 2): OPPO's panorama multi-window mode is off; it allows only 2 windows on 8 GB tablets (BUGS 201).
-- **Collect logs** includes the log of a spontaneous restart and a persistent error log (BUGS 183, 198).
-- **Note:** after a clean install the tablet starts on China time (UTC+8); set your time zone once in Settings > Date & time.
-- Pipa Helper 3.7.
+# Changelog: beta7.1 → v9.3 (Xiaomi Pad 6, ColorOS 17 port)
 
 ## v9.3 (2026-11-21: ROM pt151 + kernel walt-hi15)
 - **Pen buttons work in StarNotes and other drawing apps again** (stopped in v9.2): with the pen near the screen the button reaches apps over Bluetooth as well as through the screen, as in v9.1 (kernel hi14/hi15, BUGS 166).

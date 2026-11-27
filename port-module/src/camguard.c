@@ -92,3 +92,21 @@ int ACameraCaptureSession_abortCaptures(void* session) {
     LOGW("ACameraCaptureSession_abortCaptures: stopRepeating instead (vendor NDK flush deadlock)");
     return stop ? stop(session) : 0;
 }
+
+// 2026-11-27 (BUGS 214): in a dark room the worker also tries camera "3" (a second, logical front camera). The QTI
+// CHI override maps its 640x480 YUV stream to UsecaseVTCam, whose session has no input stream ("Input and Output
+// Stream cannot be NULL m_pInputYuvStream 0x0"): camera.provider SIGSEGV in CamX::Session::Initialize (fault addr
+// 0x20), the provider restarts. Camera "1" is the front camera that face unlock uses. Refuse "3" with an error code:
+// the worker reports "camera open failed" and goes on with its next candidate, as for any camera that fails to open.
+typedef int (*open_fn)(void* mgr, const char* id, void* callbacks, void** device);
+
+__attribute__((visibility("default")))
+int ACameraManager_openCamera(void* mgr, const char* id, void* callbacks, void** device) {
+    static open_fn real;
+    if (!real) real = (open_fn)dlsym(RTLD_NEXT, "ACameraManager_openCamera");
+    if (id && id[0] == '3' && id[1] == '\0') {
+        LOGW("ACameraManager_openCamera: camera 3 refused (VTCam usecase crashes the camera provider)");
+        return ACAMERA_ERROR_INVALID_PARAMETER;
+    }
+    return real ? real(mgr, id, callbacks, device) : ACAMERA_ERROR_INVALID_PARAMETER;
+}

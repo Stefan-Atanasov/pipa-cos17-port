@@ -1,63 +1,39 @@
 {
-  "version": "v10",
-  "build": 178,
+  "version": "pt177 test",
+  "build": 177,
   "date": "2026-11-27",
-  "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/RELEASE-NOTES.md",
+  "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/TEST-NOTES.md",
   "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
   "ota": {
     "payloads": [
       {
-        "from": "pt177",
+        "from": "pt172",
         "offset": 41,
-        "size": 96762576,
-        "headers": "FILE_HASH=FURfjf2DxCxvXFVvlqmk9RxB3PRY3nkgI2gS0jd4mOA=\nFILE_SIZE=96762576\nMETADATA_HASH=e98e2KFCSDZZPQZaukPLV5VxWFofznc2vKPVeE3tiRk=\nMETADATA_SIZE=291112",
+        "size": 100755204,
+        "headers": "FILE_HASH=jbXzdpCGJvCPkPUcNqpTsamVYi6NnUvvveH3rbHbmH4=\nFILE_SIZE=100755204\nMETADATA_HASH=BmRWpsOxjyTLbtHKcsuZnyyNL5uXQzkc8h6pCfpSj2Q=\nMETADATA_SIZE=2217145",
         "urls": [
-          "https://pixeldrain.com/api/file/ybHKmHyN",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=17uOD8fbxxDPoqMmNgobiqw_Ey-CY903B",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt177.zip"
+          "https://pixeldrain.com/api/file/HT8eSGqF",
+          "https://drive.usercontent.google.com/download?id=1mPkJDzOcytldsqlooI8PURv2t8hRUZqS&export=download&confirm=t"
         ]
       },
       {
         "from": "pt176",
         "offset": 41,
-        "size": 96765499,
-        "headers": "FILE_HASH=CK+QS7WtSPbEmmKzAx5sMpNIbUANEPBwvTJW1mGihao=\nFILE_SIZE=96765499\nMETADATA_HASH=dnH2LMVw0+ydCd7jG+BL9GCImOjjfZqTqUlJGGKWtgk=\nMETADATA_SIZE=291620",
+        "size": 96765303,
+        "headers": "FILE_HASH=HlrUQUjkoOnmqM0gcgkjq9WoSJKjdqPeOc8twHAkcro=\nFILE_SIZE=96765303\nMETADATA_HASH=D2DwMqlwKiknU/VlEiukUfliviD4MGOCDTW0I7FRbdQ=\nMETADATA_SIZE=291620",
         "urls": [
-          "https://pixeldrain.com/api/file/GBhHh86p",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1uY53zTgk40TTYGKLCANkWsSB680UYD5w",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt176.zip"
+          "https://pixeldrain.com/api/file/sYJLgFXM",
+          "https://drive.usercontent.google.com/download?id=1l-B709dgGeD2ib7RA-Qpn0Dbd4-I9sHq&export=download&confirm=t"
         ]
       },
       {
         "from": "pt175",
         "offset": 41,
-        "size": 96765549,
-        "headers": "FILE_HASH=IWK/+HDbyzIdb0rJRyoem46WlpmO/725IXV7doJt/KY=\nFILE_SIZE=96765549\nMETADATA_HASH=pstFDPdlgIXDOhNt1ZNyn2TLAOsV/e3NjLaO+lZ6ooY=\nMETADATA_SIZE=291620",
+        "size": 96765349,
+        "headers": "FILE_HASH=eYy63SEWnNTDotAfybMSil4tEK8f/CSd2qhoqDvlTI8=\nFILE_SIZE=96765349\nMETADATA_HASH=LPdhFzldId/XvmEntsBTzZETbph2ZpqEtDgZIsb0aLQ=\nMETADATA_SIZE=291620",
         "urls": [
-          "https://pixeldrain.com/api/file/7SBuTrNo",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1Aqm3mYPMwCdbjPPJecPcWKY82t7_6zhb",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt175.zip"
-        ]
-      },
-      {
-        "from": "pt172",
-        "offset": 41,
-        "size": 100755363,
-        "headers": "FILE_HASH=e9C2TDptpK3VXWItkS5U5qYDHZnUJKrPn0nrTdHEor0=\nFILE_SIZE=100755363\nMETADATA_HASH=/bqB76ZA2yPyiUZMPNBPmLO9wfhwFvktLwILIHnqQNc=\nMETADATA_SIZE=2217145",
-        "urls": [
-          "https://pixeldrain.com/api/file/MK1JJcXY",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1B1ZuuRpQRSWaJUIfMcfl8sgExTnBaUBC",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt172.zip"
-        ]
-      },
-      {
-        "offset": 61,
-        "size": 6049383179,
-        "headers": "FILE_HASH=aovaASBhEK7/xujedtlMr40Kp9ONai9JHWJiFMQ7Nhk=\nFILE_SIZE=6049383179\nMETADATA_HASH=JObsElNjUC7jHtW4qrEU6liZdhc2O/7t4MFJIpRs6Vs=\nMETADATA_SIZE=202616",
-        "urls": [
-          "https://pixeldrain.com/api/file/Ufa7Ry6E",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1uqwgEyFQx2eXKfnbn1BB7_-4w6r6CLIM",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10.zip"
+          "https://pixeldrain.com/api/file/yjkEdKSQ",
+          "https://drive.usercontent.google.com/download?id=10l17IdpV8Cfk1SaIZxsNoPyC_QWB3vzd&export=download&confirm=t"
         ]
       }
     ]
