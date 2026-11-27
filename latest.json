@@ -1,39 +1,63 @@
 {
-  "version": "pt177 test",
-  "build": 177,
+  "version": "v10",
+  "build": 180,
   "date": "2026-11-27",
-  "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/TEST-NOTES.md",
+  "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/RELEASE-NOTES.md",
   "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
   "ota": {
     "payloads": [
       {
-        "from": "pt172",
+        "from": "pt177",
         "offset": 41,
-        "size": 100755204,
-        "headers": "FILE_HASH=jbXzdpCGJvCPkPUcNqpTsamVYi6NnUvvveH3rbHbmH4=\nFILE_SIZE=100755204\nMETADATA_HASH=BmRWpsOxjyTLbtHKcsuZnyyNL5uXQzkc8h6pCfpSj2Q=\nMETADATA_SIZE=2217145",
+        "size": 96767715,
+        "headers": "FILE_HASH=PTWpmLj+eoV7tXtE5nKMpKkuBqtjAa4G8kObA5hYqdo=\nFILE_SIZE=96767715\nMETADATA_HASH=/M6g2WhdbzeT+5NoS0pgIPXdMCvHpQMAlN5iuJFyffc=\nMETADATA_SIZE=292132",
         "urls": [
-          "https://pixeldrain.com/api/file/HT8eSGqF",
-          "https://drive.usercontent.google.com/download?id=1mPkJDzOcytldsqlooI8PURv2t8hRUZqS&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/mfy3z7kC",
+          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1YstHKZpkR8D4bPBBOBDKVv-XH9NrzrTA",
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt177.zip"
         ]
       },
       {
         "from": "pt176",
         "offset": 41,
-        "size": 96765303,
-        "headers": "FILE_HASH=HlrUQUjkoOnmqM0gcgkjq9WoSJKjdqPeOc8twHAkcro=\nFILE_SIZE=96765303\nMETADATA_HASH=D2DwMqlwKiknU/VlEiukUfliviD4MGOCDTW0I7FRbdQ=\nMETADATA_SIZE=291620",
+        "size": 96769842,
+        "headers": "FILE_HASH=Xtk9/OxXhVenEi+tV10e7NXhaIQ1FYvaI+rX6dUg1zQ=\nFILE_SIZE=96769842\nMETADATA_HASH=Pr2G4WNBh2n+bUgrsK2OIDebYW5akFVGgKZ5+Ta2y2Y=\nMETADATA_SIZE=292302",
         "urls": [
-          "https://pixeldrain.com/api/file/sYJLgFXM",
-          "https://drive.usercontent.google.com/download?id=1l-B709dgGeD2ib7RA-Qpn0Dbd4-I9sHq&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/kbvdxWwt",
+          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1aYjHEdQ96pOiD6NZfZgnykvPgu23qc2Z",
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt176.zip"
         ]
       },
       {
         "from": "pt175",
         "offset": 41,
-        "size": 96765349,
-        "headers": "FILE_HASH=eYy63SEWnNTDotAfybMSil4tEK8f/CSd2qhoqDvlTI8=\nFILE_SIZE=96765349\nMETADATA_HASH=LPdhFzldId/XvmEntsBTzZETbph2ZpqEtDgZIsb0aLQ=\nMETADATA_SIZE=291620",
+        "size": 96769827,
+        "headers": "FILE_HASH=PaqLWdo2x8JnYWapGObgkcrowdfAeSwBYNJ8NuDaPZg=\nFILE_SIZE=96769827\nMETADATA_HASH=Hrdy8VAsa5iJ2ETVGW7ZBRJWKVa4h9QkMKi9XHAV9xI=\nMETADATA_SIZE=292302",
         "urls": [
-          "https://pixeldrain.com/api/file/yjkEdKSQ",
-          "https://drive.usercontent.google.com/download?id=10l17IdpV8Cfk1SaIZxsNoPyC_QWB3vzd&export=download&confirm=t"
+          "https://pixeldrain.com/api/file/89gk1GR5",
+          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1Ysxv4KYG6jyTHiBOhDgfwpbWIlsgTkUu",
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt175.zip"
+        ]
+      },
+      {
+        "from": "pt172",
+        "offset": 41,
+        "size": 100759738,
+        "headers": "FILE_HASH=W4hkPZ6UnarEytXs/0ScnUtYK3KeR1XB5xN6OXFdfYw=\nFILE_SIZE=100759738\nMETADATA_HASH=vUqahCrYcK1Gh2Egx5KRjnSktLiiQxVhgUTZs13BcPU=\nMETADATA_SIZE=2217484",
+        "urls": [
+          "https://pixeldrain.com/api/file/fi4pkxYC",
+          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1MgnR6urSvWAkLJ1EByNxEAegE1yeLFvZ",
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt172.zip"
+        ]
+      },
+      {
+        "offset": 61,
+        "size": 6049383329,
+        "headers": "FILE_HASH=8JTZMy04bwX0m7lXn3rtTsqQ0yVs1bNauLbHmSlXB7Q=\nFILE_SIZE=6049383329\nMETADATA_HASH=Imgf4gAH5Ak0qoaoN4xz1p6ct7u2lcMNc8f6RTSXqLY=\nMETADATA_SIZE=202616",
+        "urls": [
+          "https://pixeldrain.com/api/file/PbQvYvhg",
+          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1bVP5FLGa9cMUs_Uh09qttvtpCNFuFEL8",
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10.zip"
         ]
       }
     ]

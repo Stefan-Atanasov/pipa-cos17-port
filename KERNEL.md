@@ -1,11 +1,11 @@
 # Kernel
 
-The port uses an own kernel (Linux 4.19.325). The public release v9.3 (2026-11-21) has
-`walt-hi15`: SukiSU Nova 3.0.0 (builtin, commit `4bec532d`, kernel version 30691; manager package `com.sukisu.nova`), susfs 2.3.0.
-The branch `oppo` of https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 has the hi13 source.
+The port uses an own kernel (Linux 4.19.325). The public release v10 (2026-11-27) has
+`walt-hi17`: SukiSU Nova 3.0.0 (builtin, commit `4bec532d`, kernel version 30691; manager package `com.sukisu.nova`), susfs 2.3.0.
+The branch `oppo` of https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 has the hi17 source.
 Since `walt-hi9` (v9, v9.1): hi10 MDP clock boost on every refresh-rate change (no white flash, BUGS 48); hi11 keyboard
 Caps Lock LED (BUGS 151); hi12 pen buttons handled in the kernel (`pipa_pen_buttons.c`: near/away actions, long and
-double press); hi13 keyboard Super key alone (BUGS 155); hi14 near pen presses also held as stylus buttons over Bluetooth (StarNotes, BUGS 166); hi15 a far press turns near when the pen reaches the screen, near window 800 ms, long press 500 ms, held button released on disconnect (BUGS 169). Test build `walt-hi16` (2026-11-22, not released, not booted yet): `near_mode` 1 = a near press is the page key, as HyperOS (Notein, StarNote; the ROM sets it per foreground app, step 8v; BUGS 170).
+double press); hi13 keyboard Super key alone (BUGS 155); hi14 near pen presses also held as stylus buttons over Bluetooth (StarNotes, BUGS 166); hi15 a far press turns near when the pen reaches the screen, near window 800 ms, long press 500 ms, held button released on disconnect (BUGS 169). hi16 `near_mode` 1 = a near press is the page key, as HyperOS (Notein, StarNote; the ROM sets it per foreground app, step 8v; BUGS 170); hi17 the panel's dimming-on command goes out as one DSI batch (no 25 ms display stall about 0.5 s after each wake, BUGS 213). The release boot image is the "-su" variant: its ramdisk has the first-stage `snapuserd` for OTA boots.
 beta7, beta7.1 and beta7.2 had `walt-r17` (SukiSU-Ultra v4.3.0-r1, KSU 41140).
 
 Changes since beta6 (`walt-r8kpm`): touch charger mode (r9, touch lag while charging), the binder UX node of ColorOS

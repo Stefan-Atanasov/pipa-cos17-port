@@ -3,8 +3,8 @@
 This document gives the procedures to build, flash and roll back the ROM and the kernel. It also gives the
 procedure to make a release package. For the parts of the ROM, refer to [ARCHITECTURE.md](ARCHITECTURE.md).
 
-The public release **v9.3** (2026-11-21) is a `port.sh` run with the default options (last active step 8u,
-build pt151) and kernel `walt-hi15`. v9.2 was the same run up to step 8s (pt150, `walt-hi13`); v9.1 was the same run up to step 8c (pt132, `walt-hi9`); v9 up to step 7x (pt128).
+The public release **v10** (2026-11-27) is a `port.sh` run with the default options (last active step 9u,
+build pt180) and kernel `walt-hi17`. v9.3 was the same run up to step 8u (pt151, `walt-hi15`); v9.2 was the same run up to step 8s (pt150, `walt-hi13`); v9.1 was the same run up to step 8c (pt132, `walt-hi9`); v9 up to step 7x (pt128).
 
 NOTE: The scripts were made and tested on one PC (the maintainer's). Section 1.4 tells how they find their folders.
 
@@ -188,7 +188,7 @@ Options:
 | `PORT_NOENCRYPT=1` | Also apply step 3x (`/data` without encryption, `v9.2-noenc`, `beta7.1-noenc`). Experimental. Clean flash only. |
 | `PORT_MAINTAINER_ADB=1` | Also apply step 5s (the build host's adb key, USB debugging on at the first boot) for unattended clean-flash tests on your own tablet. Never publish such a build: `build_release.sh` refuses it. |
 
-Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 8u (v9.3; v9.2 ended at 8s; v9.1 ended at 8c; v9 ended at 7x; beta7.2 ended at 5x; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
+Without options, steps 2u, 3k, 3x and 5s do nothing. Thus the default build ends at 9u (v10; v9.3 ended at 8u; v9.2 ended at 8s; v9.1 ended at 8c; v9 ended at 7x; beta7.2 ended at 5x; beta7.1 ended at 5v; beta7 ended at 5r; beta6 ended at 3w). Give the variables
 through `sudo env`, for example `sudo env PORT_NOENCRYPT=1 sh COS17/maintainer/port/port.sh ...`.
 
 The output is in `port-work/<tag>/`:
@@ -340,10 +340,11 @@ bash maintainer/build_release.sh <tag> --pkg <name> --boot <boot.img> --name "<v
 - `--boot`: the kernel image. Without it, the package has the beta4 kernel.
 - `--no-super`: no `super.img` (to test the packaging).
 
-Command for v9.3 (`B` is the kernel image `boot-walt-hi15.img`; the default `KSU_APK` is the SukiSU Nova manager APK):
+Command for v10 (`B` is the kernel image `boot-walt-hi17-su.img`: the "-su" ramdisk has the first-stage `snapuserd` that
+OTA boots need; the default `KSU_APK` is the SukiSU Nova manager APK):
 
 ```sh
-bash maintainer/build_release.sh pt151 --boot $B --pkg v9.3 --name "v9.3"
+bash maintainer/build_release.sh pt180 --boot $B --pkg v10 --name "v10 (pt180)" --7z
 ```
 
 Then copy the changelog into the package, write `SHA256SUMS` again and make the `.7z` (`7z a -mx=5`): the script does not add

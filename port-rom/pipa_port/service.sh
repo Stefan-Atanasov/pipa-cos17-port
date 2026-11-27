@@ -187,9 +187,16 @@ face_start() {   # prepares and runs the HAL in the foreground (returns when it 
         cl=libOpenCL.so.stock
     fi
     [ -f "$FACE/lib64/$cl" ] && cp -f "$FACE/lib64/$cl" "$FACE/lib64/libOpenCL.so"
+    # 9u (BUGS 215): the HAL creates the face folder of every other user itself (rules_9u: dir create); before, a second
+    # user, guest or private space got none: createSession failed and system_server retried without end. Listing
+    # /data/vendor_de here would need read on vendor_userdir_file: not needed.
     mkdir -p /data/vendor_de/0/facedata/facehal/templates
     chmod 0770 /data/vendor_de/0/facedata
     chmod 0700 /data/vendor_de/0/facedata/facehal
+    # a face log that grew without end (verbose logging, the retry loop above): cut it once at the HAL start
+    for f in /data/vendor_de/0/facedata/facehal.log /data/local/tmp/facehal.log; do
+        [ "$(stat -c %s "$f" 2>/dev/null || echo 0)" -gt 8388608 ] && : > "$f"
+    done
     chmod 0755 "$FACE_BIN" 2>/dev/null
     # B7: libpipa_facecrop crops the enrollment preview to the square ColorOS view (src/facecrop.c)
     # 8 (3f): libpipa_eyeguard clamps an eye ROI outside the frame in crop_eyes (src/eyeguard.c): no SIGSEGV

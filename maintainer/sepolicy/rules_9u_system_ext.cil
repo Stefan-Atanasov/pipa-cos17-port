@@ -1,0 +1,4 @@
+; pipa port 9u (BUGS 215): the face HAL (domain pipa_port) creates /data/vendor_de/<user>/facedata/facehal for each
+; user. Without dir create a second user (another user, guest, private space) gets no face folder: createSession fails,
+; system_server retries FaceStartUserClient without end (~4000/s, 1.5 cores busy, facehal.log grows GBs).
+(allow pipa_port face_vendor_data_file (dir (create)))
