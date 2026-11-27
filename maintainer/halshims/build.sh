@@ -19,5 +19,9 @@ with zipfile.ZipFile(out, 'w', zipfile.ZIP_STORED) as z:   # stored: steps can g
     for p in sorted(Path('out/dex').glob('classes*.dex')):
         info = zipfile.ZipInfo(p.name, (1980, 1, 1, 0, 0, 0))
         z.writestr(info, p.read_bytes())
+    # step 8v checks that the built-in touch shim is the current maintainer/touchshim/TouchService.java
+    import hashlib
+    info = zipfile.ZipInfo('touchservice.sha256', (1980, 1, 1, 0, 0, 0))
+    z.writestr(info, hashlib.sha256(Path('../touchshim/TouchService.java').read_bytes()).hexdigest() + '\n')
 print(out)
 PY

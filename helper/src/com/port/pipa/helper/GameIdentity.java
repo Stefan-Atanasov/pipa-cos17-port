@@ -23,6 +23,7 @@ final class GameIdentity {
         { "pocof5", "POCO F5" },
         { "bs4", "Black Shark 4" },
         { "s24u", "Samsung Galaxy S24 Ultra" },
+        { "pad6", "Xiaomi Pad 6 (as HyperOS; pen apps)" },
         { "pixel6", "Google Pixel 6" },
         { "pixelxl", "Google Pixel XL" },
     };
@@ -70,7 +71,9 @@ final class GameIdentity {
             "com.dts.freefireth", "pocof5",
             "com.mobile.legends", "pocof5",
             "com.proximabeta.mf.uamo", "bs4",
-            "com.blizzard.diablo.immortal", "s24u"
+            "com.blizzard.diablo.immortal", "s24u",
+            "com.orion.notein.global", "pad6",
+            "com.onyx.galaxy.global.note", "pad6"
     };
 
     static String defaultFor(String pkg) {

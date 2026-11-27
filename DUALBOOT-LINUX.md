@@ -100,6 +100,15 @@ The kernel:
 - The port has no OTA updater. (On ROMs with A/B OTA, an update writes the inactive slot = the Linux slot. HyperOS
   users reported Linux boot failures after updates.)
 
+### OTA updates (Pipa Helper, next release)
+
+- An OTA update installs the ROM into the other slot, kernel included, and the next update goes back. So with OTA the
+  port uses slot A and slot B in turn, and `boot_a` is no longer free.
+- Before an install, the ROM checks the boot partition of the other slot. If it holds something that is not a port
+  boot image (for example a Linux or UEFI image), the install stops and Pipa Helper shows why. Nothing is written.
+- If you use dual boot with `boot_a`: do not use OTA updates. Update with `FlashLinux.sh` / `FlashWindows.bat` and
+  keep the data (Enter / `N`): these write slot B only.
+
 ## 6. Dual boot methods used on pipa
 
 1. **Linux boot image in slot A** (TheMojoMan `xiaomi-pipa`): flash the Linux boot image to `boot_a`, erase `dtbo_a`,

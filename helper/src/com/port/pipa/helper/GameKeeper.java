@@ -23,6 +23,11 @@ import java.util.Set;
  * uses). The foreground state comes from ActivityManager.addOnUidImportanceListener (system API, called by
  * reflection; needs PACKAGE_USAGE_STATS, privapp whitelist in the ROM): a callback when a uid crosses the
  * IMPORTANCE_FOREGROUND line, no polling. The setting is written only when the state changes.
+ *
+ * helper 3.0 (BUGS 170): the same listener drives the pen near mode. Global pipa_pen_near = 1 while an app of the
+ * "Apps made for the Xiaomi pen" list (Global pipa_pen_apps = "pkg,pkg"; not set = PEN_PRESET) is in the foreground,
+ * or always when Global pipa_pen_near_all = 1. pipa_port writes it to the kernel (pipa_pen_buttons near_mode): a near
+ * pen press is then the page key, as on HyperOS.
  */
 final class GameKeeper {
     private static final String TAG = "PipaHelper.Game";
@@ -36,6 +41,59 @@ final class GameKeeper {
     private final Set<Integer> fgGames = new HashSet<>();
     private final Set<Integer> fgUids = new HashSet<>();   // all foreground app uids: a list change re-checks them
     private int written = -1;
+
+    static final String PEN_APPS = "pipa_pen_apps", PEN_ALL = "pipa_pen_near_all", PEN_NEAR = "pipa_pen_near";
+    /** apps made for the Xiaomi pen: Notein, StarNote (both read the page keys only; BUGS 170) */
+    static final String[] PEN_PRESET = { "com.orion.notein.global", "com.onyx.galaxy.global.note" };
+    private volatile Set<String> penApps = new HashSet<>();
+    private boolean penAll;
+    private final SparseBooleanArray isPenUid = new SparseBooleanArray();
+    private final Set<Integer> fgPen = new HashSet<>();
+    private int penWritten = -1;
+
+    /** the pen app list: the user's list, or the preset when the user never changed it */
+    static Set<String> penApps(android.content.ContentResolver cr) {
+        Set<String> m = new HashSet<>();
+        String v = Settings.Global.getString(cr, PEN_APPS);
+        if (v == null) { java.util.Collections.addAll(m, PEN_PRESET); return m; }
+        for (String p : v.split(",")) if (!p.trim().isEmpty()) m.add(p.trim());
+        return m;
+    }
+
+    private void readPen() {
+        Set<String> m = penApps(ctx.getContentResolver());
+        boolean all = Settings.Global.getInt(ctx.getContentResolver(), PEN_ALL, 0) == 1;
+        synchronized (this) {
+            penApps = m;
+            penAll = all;
+            isPenUid.clear();
+            fgPen.clear();
+            for (int uid : fgUids) if (isPen(uid)) fgPen.add(uid);
+            writePen();
+        }
+    }
+
+    private boolean isPen(int uid) {
+        int i = isPenUid.indexOfKey(uid);
+        if (i >= 0) return isPenUid.valueAt(i);
+        boolean pen = false;
+        String[] pkgs = pm.getPackagesForUid(uid);
+        if (pkgs != null) for (String p : pkgs) if (penApps.contains(p)) { pen = true; break; }
+        isPenUid.put(uid, pen);
+        return pen;
+    }
+
+    private void writePen() {
+        int v = penAll || !fgPen.isEmpty() ? 1 : 0;
+        if (v == penWritten) return;
+        try {
+            Settings.Global.putInt(ctx.getContentResolver(), PEN_NEAR, v);
+            penWritten = v;
+            Log.i(TAG, "pen near mode -> " + v);
+        } catch (SecurityException e) {
+            Log.w(TAG, "cannot write " + PEN_NEAR + ": " + e.getMessage());
+        }
+    }
 
     GameKeeper(Context ctx) {
         this.ctx = ctx;
@@ -63,10 +121,17 @@ final class GameKeeper {
     void start() {
         write(0);   // no game at start (boot, or a helper restart)
         readManual();
+        readPen();   // no app is known to be in the foreground yet: only "always" can turn it on here
+        android.os.Handler main = new android.os.Handler(android.os.Looper.getMainLooper());
         ctx.getContentResolver().registerContentObserver(Settings.Global.getUriFor(MANUAL), false,
-                new android.database.ContentObserver(new android.os.Handler(android.os.Looper.getMainLooper())) {
+                new android.database.ContentObserver(main) {
                     @Override public void onChange(boolean self) { readManual(); }
                 });
+        android.database.ContentObserver penObs = new android.database.ContentObserver(main) {
+            @Override public void onChange(boolean self) { readPen(); }
+        };
+        ctx.getContentResolver().registerContentObserver(Settings.Global.getUriFor(PEN_APPS), false, penObs);
+        ctx.getContentResolver().registerContentObserver(Settings.Global.getUriFor(PEN_ALL), false, penObs);
         try {
             ActivityManager am = ctx.getSystemService(ActivityManager.class);
             Class<?> lc = Class.forName("android.app.ActivityManager$OnUidImportanceListener");
@@ -95,6 +160,7 @@ final class GameKeeper {
         if (DEBUG && uid >= 10000) Log.d(TAG, "uid " + uid + " importance " + importance + " game " + isGame(uid));
         boolean fg = importance <= IMPORTANCE_FOREGROUND;
         if (uid >= 10000) { if (fg) fgUids.add(uid); else fgUids.remove(uid); }
+        if (isPen(uid) && (fg ? fgPen.add(uid) : fgPen.remove(uid))) writePen();
         if (!isGame(uid)) return;
         boolean changed = fg ? fgGames.add(uid) : fgGames.remove(uid);
         if (changed) write(fgGames.isEmpty() ? 0 : 1);

@@ -26,5 +26,6 @@ public final class HelperApp extends Application {
         game.start();
         logs = new LogsKeeper(this);
         logs.start();
+        UpdateJob.schedule(this);   // 3.3: daily ROM update check (no-op when already scheduled)
     }
 }

@@ -32,7 +32,9 @@ public final class TouchService extends Binder {
             // 255 = the V2 smoothness/sensitivity sliders (COSA support query only); 254 (touch rate) stays off
             // 26 = Game Space "Touch sampling rate": COSA writes the rate as hex (78 = Standard 120 Hz, f0 = Ultra
             // touch 240 Hz). The pipa panel has no rate control, so Ultra touch maps to the Xiaomi game mode.
-            case 5: case 8: case 24: case 25: case 26: case 243: case 245: case 251: case 252: case 255: return 1;
+            // 1 = double tap to wake (BUGS-TODO 174): OplusScreenOffGestureUtil.writeGestureSDFile writes "1" (on) or
+            // the close reason as an integer (off), after it reads the node and only when the value changes.
+            case 1: case 5: case 8: case 24: case 25: case 26: case 243: case 245: case 251: case 252: case 255: return 1;
             default: return -1;
         }
     }
@@ -62,6 +64,10 @@ public final class TouchService extends Binder {
         int nextEdge = edge, nextCorner = corner, nextIme = ime, nextExtreme = extreme, nextRate = rateGame;
         try {
             switch (node) {
+                // double tap to wake -> Xiaomi Touch_Doubletap_Mode (nt36xxx.c: db_wakeup bit 0; a change while the
+                // screen is off is applied at the next resume, BUGS-TODO 84). Without this node the vendor power HAL
+                // default (/sys/touchpanel/double_tap = 1) stayed on and the ColorOS switch did nothing.
+                case 1: { int t = Integer.parseInt(text.trim()); mode = 14; value = t == 1 ? 1 : 0; break; }
                 // OPPO direction 0 (0/180 deg), 1 (90), 2 (270) -> Xiaomi orientation 0, 1, 3 (2 = 180)
                 case 5: mode = 8; value = new int[] {0, 1, 3}[range(text.trim(), 2)]; break;
                 // tap sensitivity -> Touch_UP_THRESHOLD; swipe sensitivity -> Touch_Aim_Sensitivity;

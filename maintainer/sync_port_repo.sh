@@ -26,17 +26,18 @@ rsync -a --delete --delete-excluded \
     --exclude='*' \
     ./ "$R/"
 # fail closed
-if find "$R" -path "$R/.git" -prune -o \( -name '*.jks' -o -name 'keystore.pass' -o -name '*.pk8' -o -name '*.so' -o -name '*.jar' \) -print | grep -q .; then
+if find "$R" -path "$R/.git" -prune -o \( -name '*.jks' -o -name 'keystore.pass' -o -name '*.pk8' -o -name '*.key.pem' -o -name '*.so' -o -name '*.jar' \) -print | grep -q .; then
     echo "key or blob in the repo tree, aborting" >&2; exit 1
 fi
 grep -rIl 'KSPASS=[^$]' "$R/helper" >/dev/null 2>&1 && { echo "helper password in the repo, aborting" >&2; exit 1; }
 # public docs (STE100, no session history) at the repo root, incl. AGENTS.md/CLAUDE.md for a co-maintainer's AI agent and
 # BUGS.md; the internal root notes (CLAUDE.md, AGENTS.md, MAINTAINER-STATUS.md, HISTORY.md, kernel/*.md ...) stay local
 cp "$COS"/docs/*.md "$HERE/port-repo/BLOBS.md" "$R/"
+cp "$COS/docs/latest.json" "$R/latest.json"   # helper 3.3 update check reads it (raw.githubusercontent.com)
 cp "$COS/LICENSE" "$R/LICENSE"
 mkdir -p "$R/.github" && cp -r "$COS/maintainer/release/github/." "$R/.github/"   # issue forms (bug report)
-cp "$COS/RELEASE-NOTES-v9.3.md" "$R/RELEASE-NOTES.md"   # the current release (change with each release)
-cp "$COS/CHANGELOG-beta7.1-to-v9.3.md" "$R/CHANGELOG.md"
+cp "$COS/RELEASE-NOTES-v10.md" "$R/RELEASE-NOTES.md"   # the current release (change with each release)
+cp "$COS/CHANGELOG-beta7.1-to-v10.md" "$R/CHANGELOG.md"
 # bug list for co-maintainers and their agents: the maintainer's BUGS-TODO.md, with a note on links to private docs
 { printf '%s\n\n' '> Public copy of the maintainer bug list (`BUGS-TODO.md`). Links to `MAINTAINER-STATUS.md`, `HISTORY.md`, `notes/` and `kernel/*.md` point to private maintainer notes that are not in this repository.'
   sed -e 's/ Capture: `scratchpad` b8.log 22:57//' "$COS/BUGS-TODO.md"; } > "$R/BUGS.md"

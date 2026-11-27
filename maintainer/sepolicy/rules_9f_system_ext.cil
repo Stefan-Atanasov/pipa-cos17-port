@@ -1,0 +1,4 @@
+; pipa port 9f (BUGS 175): the gameopt shim (in pipa_port) binds a game's main thread to the prime cluster, as the donor
+; gameopt HAL does (GameoptIoctl::bindMainThread): fbgctl, ioctl 0xdf01 on /proc/oplus_frame_boost/sys_ctrl
+(allow pipa_port proc_frame_boost_sys_ctrl (file (ioctl read write getattr open)))
+(allowx pipa_port proc_frame_boost_sys_ctrl (ioctl file (0xdf01)))

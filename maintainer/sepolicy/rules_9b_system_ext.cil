@@ -1,0 +1,5 @@
+; pipa port 9b (BUGS 183): init copies the pstore ramoops of the previous boot into /data/misc/pipa_logs at
+; post-fs-data (pipa_port.rc), so Collect logs (pipa_port) can add it. pipa_port itself may not read pstorefs
+; (platform neverallow); init may (plat: allow init pstorefs file read).
+(allow init pipa_logs_file (dir (getattr search open read write add_name remove_name)))
+(allow init pipa_logs_file (file (create getattr setattr open read write unlink)))

@@ -154,9 +154,33 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt125)       IMG=$P/port-work/pt125/img/super.img;       MD5=33cb3d07b5029f90d4cce1ee2eac6c81 ;;   # pt124 + 7u SukiSU Nova manager (needs kernel walt-hi9)
     pt127)       IMG=$P/port-work/pt127/img/super.img;       MD5=c3b0e2ef5f6d887fdf918c9d718e0a42 ;;   # pt125 + 7v Gboard after setup + 7w helper 2.1 (MiSound flag, Dolby page)
     pt149) IMG=$P/port-work/pt149/img/super.img; MD5=acef0dfe170696832c8728344651fdce ;; # v9.2 final: pt148 + 8s helper 2.8 (no Live blur QS tile, animation style waits for Apply)
-    pt150-noenc) IMG=$P/port-work/pt150-noenc/img/super.img; MD5=e225756da0bd1bab95c8bc609841d890 ;; # v9.2-noenc: pt150 + 3x (/data not encrypted; clean flash only, cannot be dirty-flashed over an encrypted /data)
-    pt150) IMG=$P/port-work/pt150/img/super.img; MD5=005ee0e577d7228043b20e9902d97ab8 ;; # v9.2 FINAL: pt149 + helper 2.8 Rich/Smooth only, reboot note, Reset waits for Apply
+    pt150-noenc) IMG=/mnt/reference/pipa/port-work/pt150-noenc/img/super.img; MD5=e225756da0bd1bab95c8bc609841d890 ;; # v9.2-noenc: pt150 + 3x (/data not encrypted; clean flash only, cannot be dirty-flashed over an encrypted /data)
+    pt150) IMG=/mnt/reference/pipa/port-work/pt150/img/super.img; MD5=005ee0e577d7228043b20e9902d97ab8 ;; # v9.2 FINAL: pt149 + helper 2.8 Rich/Smooth only, reboot note, Reset waits for Apply
     pt151) IMG=$P/port-work/pt151/img/super.img; MD5=83d2a2c60e473c0e66a0411092613346 ;; # v9.3: 8t 32-bit Adreno set (BUGS 168), 8u helper 2.9 pen long press 500 + pen test reset (BUGS 167/169)
+    pt152) IMG=/mnt/reference/pipa/port-work/pt152/img/super.img; MD5=0a76c4759a6fb68a6803c5a7b5ff915d ;; # test: pt151 + 8v pen near mode/dt2w/helper 3.0 (BUGS 170/174), 8w libgsl (185), 8x battery health (176)
+    pt153) IMG=/mnt/reference/pipa/port-work/pt153/img/super.img; MD5=dd7b417df6df0cbaafed9bfd2cc28cb3 ;; # test: pt152 + rebuilt halshims touch (BUGS 174), 8y hotspot 5 GHz (171), 8z helper 3.1 Dolby/Hotspot tiles (172), 9a dual Wi-Fi (173)
+    pt154) IMG=$P/port-work/pt154/img/super.img; MD5=b8e87c6146e75ad9ce0c36d9e8d6c310 ;; # test: pt153 + 9b pstore in Collect logs (BUGS 183), helper 3.1.1 Dolby tile off = previous effect
+    pt155) IMG=/mnt/reference/pipa/port-work/pt155/img/super.img; MD5=792db6c54637cbe50c8a536c26de0013 ;; # test: pt154 + helper 3.2 Extra dim tile (BUGS 190)
+    pt156) IMG=/mnt/reference/pipa/port-work/pt156/img/super.img; MD5=2448d2784c2d04b72d4276c4ffeee6fe ;; # test: pt155 + helper 3.3 update check (BUGS 191)
+    pt157) IMG=/mnt/reference/pipa/port-work/pt157/img/super.img; MD5=aed5919021fc46c802c7013499901b18 ;; # test: pt156 + 9c own OTA cert (BUGS 193)
+    pt160) IMG=/mnt/reference/pipa/port-work/pt160/img/super.img; MD5=d99089d91b7f222b46c2d85344abb624 ;; # test: pt159 + service OTA fixes (payload split, slot check after restart); use with boot-walt-hi16-su.img
+    pt161) IMG=/mnt/reference/pipa/port-work/pt161/img/super.img; MD5=46f07f4a04c086edac36a8a7143cbc86 ;; # test: pt160 + OTA dual-boot guard (boot read rules); use with boot-walt-hi16-su.img
+    pt163) IMG=/mnt/reference/pipa/port-work/pt163/img/super.img; MD5=909e563848ad2a701532247369b87a1f ;; # test: pt161 + 9f gameopt bind main thread to prime (BUGS 175); use with boot-walt-hi16-su.img
+    pt164) IMG=/mnt/reference/pipa/port-work/pt164/img/super.img; MD5=80215eb5f0a9311fdad36648d26959e5 ;; # test: pt163 + 9g screen resolution switch (High/Low x0.8, SF low-res option); use with boot-walt-hi16-su.img
+    pt165) IMG=$P/port-work/pt165/img/super.img; MD5=c58a4cfb5eb5b05a8054fd2b7c076717 ;; # test: pt164 + 9g without SF trigger + helper 3.5 (Screen resolution); use with boot-walt-hi16-su.img
+    pt166) IMG=$P/port-work/pt166/img/super.img; MD5=a9b94642a20437bf3d59bd622b1549b6 ;; # test: pt165 + 9h OTA mirrors + delta (helper 3.6); use with boot-walt-hi16-su.img
+    pt167) IMG=$P/port-work/pt167/img/super.img; MD5=67edcbb2dff65f9761bde88624d3ad9f ;; # release candidate: pt166 + OTA failure texts, helper double-tap guard; use with boot-walt-hi16-su.img
+    pt168) IMG=$P/port-work/pt168/img/super.img; MD5=a512cc63ba1ea0992845e7b52589eebe ;; # v10 candidate: pt167 + 9i Google switch (BUGS 200) + 9j 4 floating windows (BUGS 201), helper 3.7; use with boot-walt-hi16-su.img
+    pt169) IMG=$P/port-work/pt169/img/super.img; MD5=c295f163560c2abaed8aa7a7629b0b71 ;; # v10 candidate: pt168 + 9l BGMI refresh, 9m persistent error log, 9n back gesture at Low resolution; use with boot-walt-hi16-su.img
+    pt170) IMG=$P/port-work/pt170/img/super.img; MD5=87a10c01868e34bc4948deac380ef1bf ;; # tester build: pt169 + pipa_port sys_nice (9m logcat priority); use with boot-walt-hi16-su.img
+    pt176) IMG=$P/port-work/pt176/img/super.img; MD5=81d2415fa73cd1c375e077d664f97b00 ;; # tester build: pt175 + 9r peak 120 also in the 120 mode (BUGS 212); use with boot-walt-hi16-su.img
+    pt177) IMG=$P/port-work/pt177/img/super.img; MD5=0f65b2e533a3183296b9c430b43f26d6 ;; # tester build: 9s lock screen refresh follows the mode, 9r defaultMaxRate 144, peak_check removed (BUGS 210/212); use with boot-walt-hi16-su.img
+    pt178) IMG=$P/port-work/pt178/img/super.img; MD5=2d14aa43d52701b7394cb48268ae0afe ;; # 9t: no panorama workstation (4 floating windows); v10 ROM
+    pt175) IMG=$P/port-work/pt175/img/super.img; MD5=5ffafe3447a04b978b2ac0682f650544 ;; # tester build: pt174 + 9r Auto refresh 120 like the Pad Mini (config + peak_check); use with boot-walt-hi16-su.img
+    pt174) IMG=$P/port-work/pt174/img/super.img; MD5=f58b3381ef302333cc1c8c885183eaa2 ;; # tester build: pt173 + 9q clears OPPO density leftovers of Low, 9n/9p to drafts (like v9.3); use with boot-walt-hi16-su.img
+    pt173) IMG=$P/port-work/pt173/img/super.img; MD5=509e51e18dcf95b39d81e6c8e8f65ce0 ;; # tester build: pt172 - 9g Low resolution (9q: back to High once) + err.log filter; use with boot-walt-hi16-su.img
+    pt172) IMG=$P/port-work/pt172/img/super.img; MD5=5638087108143febed3e2beda9be819b ;; # tester build: pt171 + 9o block_suspend rule + 9p Smart Sidebar density at Low; use with boot-walt-hi16-su.img
+    pt171) IMG=$P/port-work/pt171/img/super.img; MD5=d1464e923c6399ea9170120112cede19 ;; # tester build: pt170 + 9o charge-limit wake lock; use with boot-walt-hi16-su.img
     pt148) IMG=$P/port-work/pt148/img/super.img; MD5=05601378238518e677771d81048668bc ;; # v9.2 candidate: pt147 + 8r smooth refresh (animatingDelayTime 300, Auto 120 in apps, idle timeout 3500)
     pt147) IMG=$P/port-work/pt147/img/super.img; MD5=e43ae6bafd98a34f0af7741c4c8f11e4 ;; # v9.2 candidate: pt146 + pipa_logs label via file_contexts/init, meminfo rule, B1 rate limit by wall clock
     pt146) IMG=$P/port-work/pt146/img/super.img; MD5=b8a2857122839fb9861f0e41fa6d890e ;; # v9.2 candidate: pt144 + 8q helper 2.7 Collect logs / Wi-Fi notice / Games fix, full colour restore
@@ -209,6 +233,9 @@ if ! $FB getvar current-slot 2>&1 | grep -q '^current-slot: '; then
     until $FB devices | grep -q fastboot; do sleep 1; done
     $FB getvar current-slot 2>&1 | grep -q '^current-slot: ' || { echo "still no slot info, stopping (nothing flashed)"; exit 1; }
 fi
+# OTA (BUGS 193): an install or a merge may be pending; a super flash must not leave a Virtual A/B snapshot behind.
+# Bootloaders without this command answer with an error: ignored.
+$FB snapshot-update cancel 2>&1 | tail -1 || true
 $FB set_active b
 $FB flash super "$IMG"
 $FB set_active b

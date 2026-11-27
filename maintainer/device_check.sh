@@ -97,7 +97,8 @@ bri=$(cat $BL 2>/dev/null)
 
 echo "== build"
 slot=$(getprop ro.boot.slot_suffix)
-[ "$slot" = _b ]; chk "slot b active" $? "ro.boot.slot_suffix=${slot:-empty}"
+# since the OTA updater (BUGS 193) both slots are valid: A/B updates switch the slot each time
+case "$slot" in _a|_b) true ;; *) false ;; esac; chk "slot a or b active" $? "ro.boot.slot_suffix=${slot:-empty}"
 bc=$(getprop sys.boot_completed)
 [ "$bc" = 1 ]; chk "boot completed" $? "sys.boot_completed=${bc:-empty}"
 layer=$(getprop ro.pipa.port.layer)
@@ -262,7 +263,7 @@ sc=$(getprop dalvik.vm.systemuicompilerfilter)
 [ "$sc" = speed ]; chk "dalvik.vm.systemuicompilerfilter=speed" $? "${sc:-empty}" warn
 al=$(getprop persist.sys.oplus.anim_level)
 case $al in 1|2|3|4) pass "persist.sys.oplus.anim_level set" "$al" ;; *) warn "persist.sys.oplus.anim_level set" "'${al}' (service.sh sets it 3 at boot)" ;; esac
-ar=$(getprop persist.logd.audit.rate)$(getprop persist.logd.size)
+ar=$(getprop persist.logd.audit.rate); ls_=$(getprop persist.logd.size); [ "$ls_" = 8M ] || ar="$ar$ls_"   # 9m: 8M = ROM default
 [ -z "$ar" ]; chk "logd capture properties back to default" $? "persist.logd.audit.rate/size='${ar}'" warn
 grep -q zram0 /proc/swaps; chk "zram0 active" $?
 # 6t+: OPPO's init.oplus.nandswap.sh owns swap: zram only (no hybridswap kernel = no flash swap); stock 8 GB = 5632 MB zstd

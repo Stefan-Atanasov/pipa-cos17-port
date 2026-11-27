@@ -13,13 +13,13 @@ build. The main build is one command, `maintainer/port/port.sh`.
 |---|---|
 | Device | Xiaomi Pad 6 (`pipa`), SM8250 / SD870. Tested on one 8 GB tablet. Other models are not supported. |
 | ROM | ColorOS 17 (Android 17) |
-| Current release | **v9.3** (2026-11-21: pen buttons in StarNotes and drawing apps, press-then-bring-down counts as near, 32-bit apps start again; update from v9, v9.1 or v9.2 with "keep data"): `port.sh` default build (last step 8u, pt151) + kernel `walt-hi15` (SukiSU Nova 3.0.0), Pipa Helper 2.9. Download: https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (also on Google Drive). Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
+| Current release | **v10** (2026-11-27: updates without a PC in Pipa Helper, smoother unlock and wake, up to 4 floating windows, pen buttons in Notein and StarNote, hotspot 5 GHz and dual Wi-Fi; update from v9, v9.1, v9.2 or v9.3 with "keep data". v10 is the base for the over-the-air updates): `port.sh` default build (last step 9t, pt178) + kernel `walt-hi17` (SukiSU Nova 3.0.0), Pipa Helper 3.7. Download: https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (also Google Drive, Pixeldrain and Gofile: [DOWNLOADS.md](DOWNLOADS.md)). Notes: [RELEASE-NOTES.md](RELEASE-NOTES.md), changelog since beta7.1: [CHANGELOG.md](CHANGELOG.md). |
 | Next | No build in progress. Ideas and open items: WebRTC noise suppression for calls, dock-drag and setup-wizard layout items (see [BUGS.md](BUGS.md)). |
-| Experimental | `v9.3-noenc` (2026-11-23): v9.3 without `/data` encryption, for Linux dual boot (step 3x). Not booted by the maintainer. Clean flash only (`2`, then `ERASE`). In the Drive folder. |
-| Previous releases | v9.1 (2026-11-19, pt132 + `walt-hi9`, audio hotfix), v9 (2026-11-18, pt128 + `walt-hi9`, first stable), beta7.2 (2026-11-06, pt68 + `walt-r17`, root SukiSU-Ultra v4.3.0-r1), beta7.1 (2026-11-05), beta6 (2026-10-30). beta7 was withdrawn (grey screen after a clean flash). beta 8 was a tester zip only (pt81 + r17), never a release. |
+| Experimental | `v9.3-noenc` (2026-11-23, based on v9.3; there is no v10-noenc): v9.3 without `/data` encryption, for Linux dual boot (step 3x). Not booted by the maintainer. Clean flash only (`2`, then `ERASE`). In the Drive folder. |
+| Previous releases | v9.3 (2026-11-21, pt151 + `walt-hi15`, pen buttons in StarNotes, 32-bit apps), v9.2 (2026-11-21, pt150 + `walt-hi13`), v9.1 (2026-11-19, pt132 + `walt-hi9`, audio hotfix), v9 (2026-11-18, pt128 + `walt-hi9`, first stable), beta7.2 (2026-11-06, pt68 + `walt-r17`, root SukiSU-Ultra v4.3.0-r1), beta7.1 (2026-11-05), beta6 (2026-10-30). beta7 was withdrawn (grey screen after a clean flash). beta 8 was a tester zip only (pt81 + r17), never a release. |
 | Donor (system side) | OPPO Pad Mini OPD2515 `17.0.0.104(CN01)` (C.07, security patch 2026-09-01) |
 | Device side | pipa `vendor`, `odm` and firmware from the original beta4 release |
-| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-hi15`: SukiSU Nova 3.0.0 (builtin), susfs, OPPO memory (hybridswap), touch and display fixes (hi10: display clock for every refresh rate change, no white flash; hi11: keyboard Caps Lock LED; hi14/hi15: pen buttons in StarNotes and drawing apps). |
+| Kernel | Own kernel (Linux 4.19.325), separate repository. `walt-hi17`: SukiSU Nova 3.0.0 (builtin), susfs, OPPO memory (hybridswap), touch and display fixes (hi10: display clock for every refresh rate change, no white flash; hi11: keyboard Caps Lock LED; hi14/hi15: pen buttons in StarNotes and drawing apps; hi16: pen buttons in Notein and StarNote as on HyperOS; hi17: no short stutter after a wake). |
 | Original port | 梦归zzz (beta4) |
 | Maintainer | Stefan-Atanasov |
 
@@ -28,16 +28,17 @@ build. The main build is one command, `maintainer/port/port.sh`.
 ## Download and install
 
 - **All links in one page (to share):** [DOWNLOADS.md](DOWNLOADS.md)
-- **Builds (SourceForge, recommended):** https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (one folder per release, e.g. `v9.3/`)
-- **v9.3 on Gofile (fast, temporary):** https://gofile.io/d/D5iyheCj (Gofile deletes files after some time without downloads: if the link has expired, use SourceForge or Drive)
+- **Builds (SourceForge, recommended):** https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (one folder per release, e.g. `v10/`)
+- **v10 on Pixeldrain (fast):** https://pixeldrain.com/u/8XU13h9x
+- **v10 on Gofile (fast, temporary):** https://gofile.io/d/wV7l2C95 (Gofile deletes files after some time without downloads: if the link has expired, use SourceForge or Drive)
 - **v9.3-noenc on Gofile (experimental, no /data encryption, clean install only):** https://gofile.io/d/Fqn9Po3L
 - **Builds (Google Drive mirror):** https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing
-- **Modules: none needed.** v9.3 has everything built in: root (SukiSU Nova), the Dolby speaker EQ, pen input always on for pens without Bluetooth (Pipa Helper > Pen) and all fixes. Do not install old pipa modules or performance modules (Uperf and similar): they fight the ColorOS settings, and we cannot help with bugs that they cause. **Optional:** `pipa-susfs-v1.0.zip` (in the package `extras/` and in the Drive folder `modules/`): root hiding with the kernel susfs (hides `/data/adb`, module mounts and SELinux log traces from apps). The Drive modules `pipa-dolby-speaker-eq-module` and `pipa-pen-always-on-module` are only for beta7.x; the EQ module refuses to install on newer builds.
+- **Modules: none needed.** v10 has everything built in: root (SukiSU Nova), the Dolby speaker EQ, pen input always on for pens without Bluetooth (Pipa Helper > Pen) and all fixes. Do not install old pipa modules or performance modules (Uperf and similar): they fight the ColorOS settings, and we cannot help with bugs that they cause. **Optional:** `pipa-susfs-v1.0.zip` (in the package `extras/` and in the Drive folder `modules/`): root hiding with the kernel susfs (hides `/data/adb`, module mounts and SELinux log traces from apps). The Drive modules `pipa-dolby-speaker-eq-module` and `pipa-pen-always-on-module` are only for beta7.x; the EQ module refuses to install on newer builds.
 - **Support group:** https://t.me/cosforpipa
 
 Screenshots of the ROM and Pipa Helper (v9.2): https://drive.google.com/drive/folders/1StUhuz_dL07ydvdHJ1SriYAR-_zObTJ5
 
-The package `ColorOS17-Port-pipa-v9.3-20261121.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
+The package `ColorOS17-Port-pipa-v10-20261127.7z` has `FlashLinux.sh`, `FlashWindows.bat` and `FlashMac.sh` (macOS; a user flashed with it successfully, 2026-11-20), and `extras/pipa-susfs-v1.0.zip`. Read `RELEASE-NOTES.md` and `README-FLASH.txt` in the package
 first. The flash script asks one question:
 
 - `1` (Update): keep your apps and data. Use it for an update from an older version of this port (v9.x, beta7.2,

@@ -1,6 +1,7 @@
 #!/system/bin/sh
 # 8q (Pipa Helper > System > Collect logs): the pipa_port service runs this once per request (global pipa_logs = 1).
-# Build info, logcat (all buffers), dmesg, the port logs and the Wi-Fi failure snapshots (8p) go into
+# Build info, logcat (all buffers), dmesg, the previous boot's kernel log (pstore, 9b), the port logs and the Wi-Fi
+# failure snapshots (8p) go into
 # /data/misc/pipa_logs/pipa-logs-<time>.tar.gz after redact.sed removed emails, MAC addresses, phone numbers, IMEIs,
 # Wi-Fi names, account names and coordinates. The helper copies the file into Downloads (MediaStore) and offers to
 # share it. Type pipa_logs_file: the helper (priv_app) may read only this (maintainer/sepolicy/rules_8q_system_ext.cil).
@@ -26,9 +27,18 @@ dmesg > "$W/dmesg.txt" 2>&1
 cp /data/local/tmp/pipa_port.log "$W/pipa_port.log" 2>/dev/null
 tail -n 3000 /data/local/tmp/facehal.log > "$W/facehal.log" 2>/dev/null
 for f in /data/misc/pipa_port/b1-*.txt; do [ -f "$f" ] && cp "$f" "$W/"; done
+# 9b (BUGS 183): previous boot kernel log, copied from pstore by init at post-fs-data (pipa_port.rc)
+for f in "$D"/pstore-*.txt; do [ -f "$f" ] && cp "$f" "$W/"; done
+# 9m (BUGS 198): the persistent error log (service.sh): errors of the last hours, also from before a restart
+for f in "$D"/err.log*; do [ -f "$f" ] && cp "$f" "$W/"; done
 for f in "$W"/*; do sed -E -i -f "$SED" "$f"; done
 out=pipa-logs-$ts.tar.gz
 tar -czf "$D/$out" -C "$W" . 2>/dev/null
+# 9m: keep the bundle under 10 MB (share and upload limits): if larger, keep the newest 150000 logcat lines
+if [ "$(stat -c %s "$D/$out" 2>/dev/null || echo 0)" -gt 10485760 ]; then
+    tail -n 150000 "$W/logcat.txt" > "$W/logcat.tmp" && mv -f "$W/logcat.tmp" "$W/logcat.txt"
+    tar -czf "$D/$out" -C "$W" . 2>/dev/null
+fi
 rm -rf "$W"
 chmod 0644 "$D/$out"
 ls -t "$D"/pipa-logs-*.tar.gz 2>/dev/null | tail -n +3 | while read -r o; do rm -f "$o"; done

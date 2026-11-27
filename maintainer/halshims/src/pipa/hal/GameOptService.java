@@ -20,6 +20,11 @@ import org.json.*;
  *    a lease exists), 30 min without renewal, shim stop; a lease file lets a restarted shim undo a crash.
  *  - all other calls (per-frame SurfaceFlinger notifications, GPA inputs) return at once without allocation.
  *  - callbacks are kept (so clients see a normal HAL) but never called: their producers do not run on pipa.
+ *  - BUGS 175: the donor's GameoptIoctl::bindMainThread (TaskManager bind_main): the game's main thread gets the prime
+ *    cluster as preferred cluster (frame boost ioctl 0xc028df01, tool fbgctl). The kernel (fbg_cluster_boost) then
+ *    wakes it on cpu7 when cpu7 is idle, else as before. Main thread = engine game thread by name (UEGameThread,
+ *    GameThread, UnityMain; the cloud bind_main list is not on pipa). One process only (the kernel honours the last
+ *    one); reset with the lease (cluster -1); the lease file line has bit BIND.
  */
 final class GameOptService extends AidlService {
     private static final String UX_TASK = "/proc/oplus_scheduler/sched_assist/ux_task";
@@ -29,6 +34,9 @@ final class GameOptService extends AidlService {
     private static final int MAX_PENDING = 64, MAX_STRING = 64 * 1024, MIN_APP_UID = 10000;
     private static final Pattern UX_STATE = Pattern.compile("ux_state=0x([0-9a-fA-F]+)");
     private static final long LEASE_MS = 30 * 60 * 1000L, CHECK_MS = 10 * 1000L;
+    private static final String FBGCTL = "/system_ext/pipa_port/fbgctl";
+    private static final String[] MAIN_NAMES = { "UEGameThread", "GameThread", "UnityMain" };   // best first
+    private static final int BIND = 0x100, PRIME_CLUSTER = 2, MAX_BIND_TRIES = 18;   // 18 lease checks = 3 min
 
     private static final class Boost {
         final int tid; final long start; final int bit;
@@ -36,6 +44,7 @@ final class GameOptService extends AidlService {
     }
     private static final class Lease {
         final int pid; final long pidStart; long renewed; final List<Boost> threads = new ArrayList<>();
+        int bindTries; boolean bound;
         Lease(int pid, long pidStart) { this.pid = pid; this.pidStart = pidStart; }
     }
 
@@ -116,11 +125,15 @@ final class GameOptService extends AidlService {
                 // "secondPackage":com.android.launcher:13059} (seen 2026-11-03): read the two numbers by pattern
                 int status = intField(info, "pkgStatus", -1), pid = intField(info, "pid", 0);
                 if (status == 1) { if (pid > 0) reset(pid); else resetAll(); }        // background
-                else if (status == 3) { resetAll(); if (pid > 0) lease(pid, true); }   // new game to foreground
-                else if ((status == 11 || status == 12) && pid > 0) lease(pid, true);  // foreground: renew
+                else if (status == 3) { resetAll(); if (pid > 0) bindMain(lease(pid, true)); }   // new game to fg
+                else if ((status == 11 || status == 12) && pid > 0) bindMain(lease(pid, true));  // fg: renew
             } else if (type == 109) {                                                   // "<pid>_<tid>" GL thread
                 String[] p = info.trim().split("_");
-                if (p.length == 2) boost(Integer.parseInt(p[0]), Integer.parseInt(p[1]), LIGHT);
+                if (p.length == 2) {
+                    int pid = Integer.parseInt(p[0]);
+                    boost(pid, Integer.parseInt(p[1]), LIGHT);
+                    if (leases.containsKey(pid)) bindMain(lease(pid, false));
+                }
             } else if (type == 144) {                                                   // {"name": tid, ...}
                 JSONObject o = new JSONObject(info);
                 for (Iterator<String> it = o.keys(); it.hasNext(); ) {
@@ -197,7 +210,7 @@ final class GameOptService extends AidlService {
         Lease l = lease(pid, false);
         if (l == null) return;
         synchronized (leases) {
-            for (Boost b : l.threads) if (b.tid == tid) return;
+            for (Boost b : l.threads) if (b.tid == tid && b.bit != BIND) return;
             if (l.threads.size() >= MAX_THREADS) return;
             long start = startTime(pid, tid);
             int state = uxState(pid, tid);
@@ -207,6 +220,51 @@ final class GameOptService extends AidlService {
             l.threads.add(new Boost(tid, start, bit));
             saveLeaseFile();
         }
+    }
+
+    /** bindMainThread: preferred cluster = prime for the engine game thread (once per lease, retried by the check). */
+    private void bindMain(Lease l) {
+        if (l == null) return;
+        synchronized (leases) {
+            if (l.bound || l.bindTries >= MAX_BIND_TRIES || leases.get(l.pid) != l) return;
+            l.bindTries++;
+            File[] tasks = new File("/proc/" + l.pid + "/task").listFiles();
+            if (tasks == null) return;
+            // best name first; for the same name the busiest thread (UE4 starts short helper threads with the
+            // same name later: PUBG 2026-11-25 had 4 "UEGameThread", one with all the CPU time)
+            int best = MAIN_NAMES.length, tid = 0;
+            long busiest = -1;
+            for (File t : tasks) {
+                String comm = read(t.getPath() + "/comm");
+                for (int i = 0; comm != null && i <= best && i < MAIN_NAMES.length; i++)
+                    if (comm.equals(MAIN_NAMES[i])) {
+                        long cpu = cpuTime(t.getPath() + "/stat");
+                        if (i < best || cpu > busiest) {
+                            try { tid = Integer.parseInt(t.getName()); best = i; busiest = cpu; }
+                            catch (NumberFormatException e) { /* skip */ }
+                        }
+                        break;
+                    }
+            }
+            if (tid <= 0) return;
+            long start = startTime(l.pid, tid);
+            if (start <= 0) return;
+            for (Lease o : leases.values()) if (o != l && o.bound) unbind(o);   // the kernel honours one process
+            if (!fbg(tid, PRIME_CLUSTER)) return;
+            l.threads.add(new Boost(tid, start, BIND));
+            l.bound = true;
+            l.bindTries = MAX_BIND_TRIES;
+            saveLeaseFile();
+            Log.w("gameopt", "bind main " + l.pid + "/" + tid + " " + MAIN_NAMES[best] + " -> prime");
+        }
+    }
+    private void unbind(Lease l) {
+        for (Iterator<Boost> it = l.threads.iterator(); it.hasNext(); ) {
+            Boost b = it.next();
+            if (b.bit == BIND) { clear(l.pid, b); it.remove(); }
+        }
+        l.bound = false;
+        l.bindTries = MAX_BIND_TRIES;   // the other game keeps the bind
     }
 
     private void reset(int pid) { synchronized (leases) { Lease l = leases.get(pid); if (l != null) reset(l); } }
@@ -221,6 +279,7 @@ final class GameOptService extends AidlService {
     }
     private void clear(int pid, Boost b) {
         if (startTime(pid, b.tid) != b.start) return;      // gone or tid reused: nothing to undo
+        if (b.bit == BIND) { fbg(b.tid, -1); return; }
         int state = uxState(pid, b.tid);
         if (state >= 0 && (state & b.bit) != 0) writeUx(b.tid, b.bit);   // no SET bit: clears only our bit
     }
@@ -232,6 +291,7 @@ final class GameOptService extends AidlService {
             for (Lease l : new ArrayList<>(leases.values())) {
                 if (startTime(l.pid, l.pid) != l.pidStart) { leases.remove(l.pid); saveLeaseFile(); }  // died
                 else if (now - l.renewed > LEASE_MS) reset(l);
+                else bindMain(l);                                  // no-op once bound or after MAX_BIND_TRIES
             }
             if (!leases.isEmpty()) { checkPending = true; h.postDelayed(check, CHECK_MS); }
         }
@@ -294,12 +354,36 @@ final class GameOptService extends AidlService {
         String[] f = s.substring(p + 2).split(" ");
         try { return f.length > 19 ? Long.parseLong(f[19]) : -1; } catch (NumberFormatException e) { return -1; }
     }
+    /** utime + stime (fields 14, 15) of a stat file; -1 if unreadable */
+    private static long cpuTime(String statPath) {
+        String s = read(statPath);
+        if (s == null) return -1;
+        String[] f = s.substring(s.lastIndexOf(')') + 2).split(" ");
+        try { return f.length > 12 ? Long.parseLong(f[11]) + Long.parseLong(f[12]) : -1; }
+        catch (NumberFormatException e) { return -1; }
+    }
     private static int uxState(int pid, int tid) {
         String s = read("/proc/" + pid + "/task/" + tid + "/ux_state");   // "pid=.. ux_state=0x00000000 inherit=0(..) .."
         if (s == null) return -1;
         Matcher m = UX_STATE.matcher(s);
         if (!m.find()) return -1;
         try { return (int) Long.parseLong(m.group(1), 16); } catch (NumberFormatException e) { return -1; }
+    }
+    /** fbgctl cluster <tid> <cluster> (ioctl on /proc/oplus_frame_boost/sys_ctrl); false on any error */
+    private static boolean fbg(int tid, int cluster) {
+        java.lang.Process pr = null;
+        try {
+            pr = new ProcessBuilder(FBGCTL, "cluster", Integer.toString(tid), Integer.toString(cluster))
+                .redirectInput(new File("/dev/null")).redirectOutput(new File("/dev/null"))
+                .redirectError(new File("/dev/null")).start();
+            if (!pr.waitFor(2, java.util.concurrent.TimeUnit.SECONDS)) { pr.destroyForcibly(); return false; }
+            if (pr.exitValue() == 0) return true;
+            Log.w("gameopt", "fbgctl exit " + pr.exitValue());
+        } catch (IOException | InterruptedException e) {
+            Log.w("gameopt", "fbgctl: " + e);
+            if (pr != null) pr.destroyForcibly();
+        }
+        return false;
     }
     private static boolean writeUx(int tid, int value) {
         try (FileOutputStream o = new FileOutputStream(UX_TASK)) {

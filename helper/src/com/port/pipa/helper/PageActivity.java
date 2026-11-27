@@ -295,6 +295,50 @@ public final class PageActivity extends Activity {
         fxRefresh.add(() -> sw[0].setChecked(cur.getAsInt() == onValue));
     }
 
+    /**
+     * 3.2 Extra dim (Android's Reduce bright colors): ColorOS keeps the system feature (ColorDisplayService, works on
+     * pipa) but its Settings page is empty (catalyst screen OPPO does not show). Same Secure keys as AOSP Settings.
+     */
+    private void extraDim(LinearLayout col) {
+        Ui.header(col, getString(R.string.fx_h_dim));
+        LinearLayout k = Ui.card(col);
+        android.content.ContentResolver cr = getContentResolver();
+        Switch on = Ui.toggle(k, "◐", getString(R.string.fx_dim), getString(R.string.fx_dim_sum),
+                Settings.Secure.getInt(cr, ExtraDimTile.KEY_ON, 0) == 1, (b, v) -> {
+                    if (!ExtraDimTile.put(this, ExtraDimTile.KEY_ON, v ? 1 : 0)) b.setChecked(!v);
+                });
+        Ui.divider(k);
+        LinearLayout r = Ui.row(k, "☀", getString(R.string.fx_dim_level), "", null, null);
+        android.widget.SeekBar bar = new android.widget.SeekBar(this);
+        bar.setMax(100);
+        bar.setProgress(Settings.Secure.getInt(cr, ExtraDimTile.KEY_LEVEL, ExtraDimTile.DEFAULT_LEVEL));
+        bar.setProgressTintList(android.content.res.ColorStateList.valueOf(Ui.accent(this)));
+        bar.setThumbTintList(android.content.res.ColorStateList.valueOf(Ui.accent(this)));
+        Ui.setSummary(r, bar.getProgress() + " %");
+        bar.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(android.widget.SeekBar sb, int p, boolean user) {
+                Ui.setSummary(r, p + " %");
+                if (user) ExtraDimTile.put(PageActivity.this, ExtraDimTile.KEY_LEVEL, p); // live, as AOSP
+            }
+            @Override public void onStartTrackingTouch(android.widget.SeekBar sb) { }
+            @Override public void onStopTrackingTouch(android.widget.SeekBar sb) { }
+        });
+        LinearLayout.LayoutParams bl = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        bl.leftMargin = Ui.px(this, 16); bl.rightMargin = Ui.px(this, 16); bl.bottomMargin = Ui.px(this, 12);
+        k.addView(bar, bl);
+        Ui.divider(k);
+        Switch keep = Ui.toggle(k, "↺", getString(R.string.fx_dim_keep), getString(R.string.fx_dim_keep_sum),
+                Settings.Secure.getInt(cr, ExtraDimTile.KEY_KEEP, 0) == 1, (b, v) -> {
+                    if (!ExtraDimTile.put(this, ExtraDimTile.KEY_KEEP, v ? 1 : 0)) b.setChecked(!v);
+                });
+        fxRefresh.add(() -> {
+            on.setChecked(Settings.Secure.getInt(cr, ExtraDimTile.KEY_ON, 0) == 1);
+            keep.setChecked(Settings.Secure.getInt(cr, ExtraDimTile.KEY_KEEP, 0) == 1);
+            bar.setProgress(Settings.Secure.getInt(cr, ExtraDimTile.KEY_LEVEL, ExtraDimTile.DEFAULT_LEVEL));
+        });
+    }
+
     private void effects() {
         LinearLayout col = start(R.string.m_effects);
 
@@ -314,6 +358,13 @@ public final class PageActivity extends Activity {
         View tier = Ui.link(k, "≋", getString(R.string.fx_tier), "", v -> chooseTier());
         Ui.divider(k);
         View speed = Ui.link(k, "»", getString(R.string.fx_speed), "", v -> chooseSpeed());
+        // 9g (BUGS 196): the stock ColorOS screen resolution switch (Settings > Display > Screen resolution)
+        View res = null;
+        if (!Status.prop("ro.oplus.resolution.low").isEmpty()) {
+            Ui.divider(k);
+            res = Ui.link(k, "▦", getString(R.string.fx_res), "", v -> chooseResolution());
+        }
+        final View resRow = res;
 
         Ui.header(col, getString(R.string.fx_h_blur));
         k = Ui.card(col);
@@ -327,6 +378,8 @@ public final class PageActivity extends Activity {
         Ui.divider(k);
         fxToggle(k, "≈", R.string.fx_anim_blur, R.string.fx_anim_blur_sum, true, "animationBlurrySwitch", 1, 0, true);
 
+        extraDim(col);
+
         k = Ui.card(col);
         Ui.row(k, "⟲", getString(R.string.fx_reset), getString(R.string.fx_reset_sum), null, v -> resetFx());
         Ui.enter(col);
@@ -338,6 +391,7 @@ public final class PageActivity extends Activity {
             int best = 3;
             for (int i = 0; i < SCALES.length; i++) if (Math.abs(SCALES[i] - sc) < Math.abs(SCALES[best] - sc)) best = i;
             Ui.setSummary(speed, getString(SCALE_LABELS[best]));
+            if (resRow != null) Ui.setSummary(resRow, getString(resolution() == RES_LOW ? R.string.fx_res_low : R.string.fx_res_high));
         });
         watch(() -> { for (Runnable r : fxRefresh) r.run(); }, "pipa_anim_level", Settings.Global.ANIMATOR_DURATION_SCALE,
                 "pipa_live_blur", "disable_window_blurs");
@@ -361,6 +415,32 @@ public final class PageActivity extends Activity {
                         rebootRow.setVisibility(View.VISIBLE);   // system_server, apps and SystemUI read it at start
                     }
                     d.dismiss();
+                })
+                .setNegativeButton(android.R.string.cancel, null).show();
+    }
+
+    /** secure oplus_customize_screen_resolution_adjust (OplusResolutionSwitchImpl): 2 = low, 3 = high (1 = smart) */
+    private static final String RES_KEY = "oplus_customize_screen_resolution_adjust";
+    private static final int RES_LOW = 2, RES_HIGH = 3;
+
+    private int resolution() {
+        return Settings.Secure.getInt(getContentResolver(), RES_KEY, RES_HIGH) == RES_LOW ? RES_LOW : RES_HIGH;
+    }
+
+    private void chooseResolution() {
+        int cur = resolution();
+        String[] items = { getString(R.string.fx_res_high), getString(R.string.fx_res_low) };
+        new AlertDialog.Builder(this).setTitle(R.string.fx_res)
+                .setSingleChoiceItems(items, cur == RES_LOW ? 1 : 0, (d, w) -> {
+                    int v = w == 1 ? RES_LOW : RES_HIGH;
+                    d.dismiss();
+                    if (v == cur) return;
+                    try {
+                        // ColorOS switches at once (own animation; it restarts the launcher and some apps)
+                        Settings.Secure.putInt(getContentResolver(), RES_KEY, v);
+                    } catch (SecurityException e) {
+                        Toast.makeText(this, R.string.pen_no_perm, Toast.LENGTH_LONG).show();
+                    }
                 })
                 .setNegativeButton(android.R.string.cancel, null).show();
     }
@@ -677,8 +757,20 @@ public final class PageActivity extends Activity {
             Ui.setSummary(logs, saved == null ? getString(R.string.logs_collect_sum)
                     : getString(R.string.logs_collect_sum) + "\n" + getString(R.string.logs_last, saved));
         };
-        watch(() -> { optSum.run(); logsSum.run(); },
-                "pipa_dexopt", "pipa_dexopt_last", "pipa_logs", LogsKeeper.KEY_URI);
+
+        // 3.3: ROM update check (UpdateJob: latest.json of the public repo; daily job + Check now)
+        Ui.header(col, getString(R.string.upd_h));
+        k = Ui.card(col);
+        View upd = Ui.row(k, "↻", getString(R.string.upd_check), "", null, v -> checkNow());
+        Ui.divider(k);
+        globalToggle(k, "⏲", R.string.upd_auto, R.string.upd_auto_sum, UpdateJob.KEY_ON, 1);
+        // 3.4 (BUGS 193): A/B install through the pipa_port service (update_engine), one restart at the end
+        Ui.divider(k);
+        View inst = Ui.row(k, "⤓", getString(R.string.ota_install), "", null, v -> installRow());
+        watch(() -> { optSum.run(); logsSum.run(); Ui.setSummary(upd, updateSummary());
+                    Ui.setSummary(inst, installSummary()); },
+                "pipa_dexopt", "pipa_dexopt_last", "pipa_logs", LogsKeeper.KEY_URI, UpdateJob.KEY_LAST,
+                UpdateJob.KEY_OTA, UpdateJob.KEY_OTA_PROGRESS);
 
         Ui.header(col, getString(R.string.sys_h_about));
         k = Ui.card(col);
@@ -695,5 +787,130 @@ public final class PageActivity extends Activity {
         }
         Ui.row(k, null, getString(R.string.app_name), ver, null, null);
         Ui.enter(col);
+    }
+
+    /** 3.3: installed build, latest release of the last good check, time of that check */
+    private String updateSummary() {
+        String b = Status.build();
+        String s = getString(R.string.upd_installed, b.isEmpty() ? "–" : b);
+        UpdateJob.Info i = UpdateJob.stored(this);
+        if (i != null) s += "\n" + getString(UpdateJob.newer(i) ? R.string.upd_latest_new : R.string.upd_latest,
+                i.version, i.date);
+        long last = Settings.Global.getLong(getContentResolver(), UpdateJob.KEY_LAST, 0);
+        if (last > 0) {
+            java.util.Date d = new java.util.Date(last * 1000);
+            s += "\n" + getString(R.string.upd_last, android.text.format.DateFormat.getMediumDateFormat(this).format(d)
+                    + " " + android.text.format.DateFormat.getTimeFormat(this).format(d));
+        }
+        return s;
+    }
+
+    /** 3.3: Check now (network on a thread); a newer release opens a dialog with the downloads and the notes. */
+    private void checkNow() {
+        Toast.makeText(this, R.string.upd_checking, Toast.LENGTH_SHORT).show();
+        android.content.Context app = getApplicationContext();
+        new Thread(() -> {
+            UpdateJob.Info i = UpdateJob.check(app);
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) return;
+                if (i == null) {
+                    // 3.7: 404 = GitHub answered, but no update information is published (not an offline tablet)
+                    Toast.makeText(this, UpdateJob.lastHttp == 404 ? R.string.upd_none_online : R.string.upd_failed,
+                            Toast.LENGTH_LONG).show();
+                } else if (!UpdateJob.newer(i)) {
+                    Toast.makeText(this, R.string.upd_uptodate, Toast.LENGTH_SHORT).show();
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.upd_new_title, i.version))
+                            .setMessage(getString(R.string.upd_new_msg, i.date, Status.build()))
+                            .setPositiveButton(R.string.upd_downloads, (d, w) -> go(UpdateJob.view(i.downloads)))
+                            .setNeutralButton(R.string.upd_notes, (d, w) -> go(UpdateJob.view(i.notes)))
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .show();
+                }
+            });
+        }, "pipa-update-ui").start();
+    }
+
+    /** 3.4: update_engine status code -> text (UpdateStatus in update_engine) */
+    private String otaPhase(int st) {
+        switch (st) {
+            case 3: return getString(R.string.ota_ph_download);
+            case 4: return getString(R.string.ota_ph_verify);
+            case 5: return getString(R.string.ota_ph_finalize);
+            case 11: return getString(R.string.ota_ph_cleanup);
+            default: return getString(R.string.ota_ph_prepare);
+        }
+    }
+
+    private String installSummary() {
+        int st = Settings.Global.getInt(getContentResolver(), UpdateJob.KEY_OTA, 0);
+        if (st == 1 || st == 2) {
+            String[] p = String.valueOf(Settings.Global.getString(getContentResolver(), UpdateJob.KEY_OTA_PROGRESS))
+                    .split(" ");
+            int code = 0, pc = 0;
+            try {
+                code = Integer.parseInt(p[0]);
+                pc = Integer.parseInt(p[1]);
+            } catch (Exception ignored) {
+            }
+            return getString(R.string.ota_running, otaPhase(code), pc);
+        }
+        if (st == 3) return getString(R.string.ota_done);
+        if (st == 4) return getString(R.string.ota_failed,
+                String.valueOf(Settings.Global.getString(getContentResolver(), UpdateJob.KEY_OTA_ERROR)));
+        UpdateJob.Info i = UpdateJob.stored(this);
+        if (i != null && UpdateJob.newer(i) && i.hasOta()) return getString(R.string.ota_ready, i.version);
+        if (i != null && UpdateJob.newer(i) && !UpdateJob.encrypted() && !UpdateJob.candidates(i).isEmpty())
+            return getString(R.string.ota_noenc);
+        return getString(R.string.ota_none);
+    }
+
+    /** 3.6: a mirror probe runs (a second tap starts no second probe) */
+    private static volatile boolean otaProbing;
+
+    /** 3.4: install the newer release (confirm first), or restart after a finished install */
+    private void installRow() {
+        int st = Settings.Global.getInt(getContentResolver(), UpdateJob.KEY_OTA, 0);
+        if (st == 1 || st == 2 || otaProbing) return;
+        if (st == 3) {
+            new AlertDialog.Builder(this).setTitle(R.string.ota_restart).setMessage(R.string.ota_restart_msg)
+                    .setPositiveButton(R.string.ota_restart, (d, w) ->
+                            getSystemService(android.os.PowerManager.class).reboot(null))
+                    .setNegativeButton(android.R.string.cancel, null).show();
+            return;
+        }
+        UpdateJob.Info i = UpdateJob.stored(this);
+        if (i == null || !UpdateJob.newer(i) || !i.hasOta()) {
+            Toast.makeText(this, R.string.ota_none, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // 3.6: the delta for this build first (small), then the full payload; the size shown is the first one
+        java.util.List<UpdateJob.Payload> c = UpdateJob.candidates(i);
+        long sz = c.get(0).size;
+        String size = sz >= 1_000_000_000L ? String.format(java.util.Locale.getDefault(), "%.1f GB", sz / 1e9)
+                : Math.max(1, sz / 1_000_000) + " MB";
+        new AlertDialog.Builder(this).setTitle(getString(R.string.ota_confirm_title, i.version))
+                .setMessage(getString(R.string.ota_confirm_msg, size))
+                .setPositiveButton(R.string.ota_install, (d, w) -> {
+                    if (otaProbing) return;
+                    otaProbing = true;
+                    Toast.makeText(this, R.string.ota_probing, Toast.LENGTH_SHORT).show();
+                    android.content.Context app = getApplicationContext();
+                    new Thread(() -> {
+                        // mirror probe (network): fastest mirror first, the service falls back to the next one
+                        boolean ok;
+                        try {
+                            String v = UpdateJob.payloadSetting(c);
+                            ok = Settings.Global.putString(app.getContentResolver(), UpdateJob.KEY_OTA_PAYLOAD, v)
+                                    && Status.putGlobal(app, UpdateJob.KEY_OTA, 1);
+                        } finally {
+                            otaProbing = false;
+                        }
+                        if (!ok) runOnUiThread(() -> Toast.makeText(app, R.string.pen_no_perm, Toast.LENGTH_LONG).show());
+                    }, "pipa-ota-probe").start();
+                })
+                .setNeutralButton(R.string.upd_notes, (d, w) -> go(UpdateJob.view(i.notes)))
+                .setNegativeButton(android.R.string.cancel, null).show();
     }
 }

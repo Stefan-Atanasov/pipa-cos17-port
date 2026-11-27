@@ -17,7 +17,11 @@ die() {
 }
 
 chmod +x "$FASTBOOT" 2>/dev/null
-[[ -x "$FASTBOOT" ]] || FASTBOOT="$(command -v fastboot || true)"
+# The bundled fastboot is an x86-64 build. On an ARM host (Termux on a phone, ARM Linux) it is executable but cannot
+# run ("Exec format error"): then use the fastboot in PATH (Termux: pkg install android-tools).
+if ! [[ -x "$FASTBOOT" ]] || ! "$FASTBOOT" --version >/dev/null 2>&1; then
+    FASTBOOT="$(command -v fastboot || true)"
+fi
 [[ -n "$FASTBOOT" && -x "$FASTBOOT" ]] || die "fastboot was not found or cannot run: $FASTBOOT"
 [[ -f "$SUPER_DIR/super.img" ]] || die "Super image not found: $SUPER_DIR/super.img"
 [[ -f "$BOOT_IMAGE" ]] || die "Boot image not found: $BOOT_IMAGE"
@@ -34,6 +38,10 @@ if ! "$FASTBOOT" devices | awk '$2 == "fastboot" { found = 1 } END { exit !found
     die "No device in fastboot mode was found. Check the cable, the drivers and that the tablet shows FASTBOOT."
 fi
 echo "[*] Device found."
+# OTA updates (Pipa Helper) switch between slot A and slot B. This script always installs to slot B and replaces the
+# system of both slots (one super partition). An unfinished OTA is cancelled first.
+echo "[*] Current slot: $("$FASTBOOT" getvar current-slot 2>&1 | sed -n 's/^current-slot: //p')"
+"$FASTBOOT" snapshot-update cancel >/dev/null 2>&1 || true
 echo
 
 echo "[*] The system is on slot B. Setting the active slot to B."

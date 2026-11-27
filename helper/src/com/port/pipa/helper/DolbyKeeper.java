@@ -111,7 +111,11 @@ final class DolbyKeeper {
     private boolean userChoice; // the user picked an effect in MiSound since this process started
     private final Runnable ensureTask = this::ensure; // one instance: removeCallbacks(this::ensure) never matched
 
+    /** The keeper of the persistent process (DolbyTile runs in the same process). */
+    static volatile DolbyKeeper instance;
+
     DolbyKeeper(Context ctx) {
+        instance = this;
         this.ctx = ctx;
         am = ctx.getSystemService(AudioManager.class);
         HandlerThread t = new HandlerThread("dolby-keeper");
@@ -349,13 +353,41 @@ final class DolbyKeeper {
         boolean settled = SystemClock.elapsedRealtime() - outputChangedAt > SETTLE_MS;
         if (settled && miSoundForeground()) {
             userChoice = true;
-            effects.edit().putString(device, e).apply();
+            SharedPreferences.Editor ed = effects.edit().putString(device, e);
+            if (!"dolby".equals(e)) ed.putString(device + OFF, e); // the Dolby tile's "off" (3.1)
+            ed.apply();
             Log.i(TAG, "effect for " + device + ": " + e);
             handler.post(this::apply); // MiSound switched both effects itself; the holders follow
         } else {
             Log.i(TAG, "automatic change to " + e + " on " + device + ", back to " + want);
             applyEffect(want);
         }
+    }
+
+    /** 3.1: per output, the user's last effect other than Dolby (misound or none): what the tile's "off" restores. */
+    private static final String OFF = "#off";
+
+    /** The effect the Dolby tile turns on when Dolby is switched off: the last non-Dolby choice, else Original. */
+    String offEffect() {
+        String dev = device.isEmpty() ? deviceClass(currentPort()) : device;
+        return effects == null ? "none" : effects.getString(dev + OFF, "none");
+    }
+
+    /**
+     * 3.1 Dolby tile (BUGS 172, as the HyperOS Dolby tile): the user's choice for the current output, like a choice
+     * in MiSound. Stored for the device class and applied at once; a non-Dolby choice is also kept as the "off" effect.
+     */
+    void setUserEffect(String e) {
+        handler.post(() -> {
+            if (device.isEmpty()) device = deviceClass(currentPort());
+            userChoice = true;
+            SharedPreferences.Editor ed = effects.edit().putString(device, e);
+            if (!"dolby".equals(e)) ed.putString(device + OFF, e);
+            ed.apply();
+            Log.i(TAG, "tile: effect for " + device + ": " + e);
+            applyEffect(e);
+            apply();
+        });
     }
 
     /** Output changed: apply the effect remembered for the new device (stock onDeviceChanged). */

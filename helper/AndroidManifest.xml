@@ -4,8 +4,8 @@
      ActivityManager starts it at boot and never kills it. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.port.pipa.helper"
-    android:versionCode="29"
-    android:versionName="2.9">
+    android:versionCode="38"
+    android:versionName="3.7">
 
     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
 
@@ -14,6 +14,11 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- pen battery pop-ups (runtime permission; pre-granted in the ROM build) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 3.3 update check (UpdateJob): one small GET of latest.json; network constraint of the daily job -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 3.4 "Restart to finish" after an A/B install (privapp list, step 9d) -->
+    <uses-permission android:name="android.permission.REBOOT" />
     <!-- pen pill overlay (appop; pre-granted in the ROM build) -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- lid_behavior from the "lock with cover" switch (privapp whitelist in the ROM) -->
@@ -29,6 +34,9 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <!-- helper 2.5: Effects > Reboot to apply (privapp allowlist in the ROM, step 8h) -->
     <uses-permission android:name="android.permission.REBOOT" />
+    <!-- 3.1 Hotspot tile (BUGS 172): TetheringManager.startTethering (privileged: privapp list) and the AP state -->
+    <uses-permission android:name="android.permission.TETHER_PRIVILEGED" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".HelperApp"
@@ -46,6 +54,41 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <!-- 3.1 (BUGS 172): Dolby Atmos and Hotspot tiles as on HyperOS; long press -> TilePrefsActivity -->
+        <service android:name=".DolbyTile" android:exported="true" android:label="Dolby Atmos"
+            android:icon="@drawable/ic_dolby"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data android:name="android.service.quicksettings.TOGGLEABLE_TILE" android:value="true" />
+        </service>
+        <service android:name=".HotspotTile" android:exported="true" android:label="Hotspot"
+            android:icon="@drawable/ic_hotspot"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data android:name="android.service.quicksettings.TOGGLEABLE_TILE" android:value="true" />
+        </service>
+        <!-- 3.2: Extra dim tile (Android's Reduce bright colors; the ColorOS Settings page is empty) -->
+        <service android:name=".ExtraDimTile" android:exported="true" android:label="Extra dim"
+            android:icon="@drawable/ic_extra_dim"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data android:name="android.service.quicksettings.TOGGLEABLE_TILE" android:value="true" />
+        </service>
+        <!-- 3.3: daily ROM update check -->
+        <service android:name=".UpdateJob" android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <activity android:name=".TilePrefsActivity" android:exported="true" android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+        </activity>
         <!-- helper 2.8 (8s, BUGS 164): the Live blur Quick Settings tile is gone; the switch is in Effects (7x key pipa_live_blur) -->
         <!-- helper 2.0 assistant (7s): gesture-bar long press -> Circle to Search, corner swipe -> Gemini.
              The system binds it while the helper holds the assistant role; idle otherwise (no hotword). -->

@@ -268,3 +268,5 @@ Read the matching entry before you act. CLAUDE.md has a one-line index.
   (`drm_notifier_mi.h`, `CONFIG_DRM`). r26 does this for the hybridswapd screen-off gate.
 
 - **OplusLauncher layout follows the boot density (2026-11-17, BUGS 125).** `wm density` changes apps, not the home grid. Test launcher spacing only after a flash or reboot with a changed `ro.sf.lcd_density`.
+
+- **Port OTA (2026-11-26, BUGS 193, skill pipa-ota).** One channel: `latest.json` names only SourceForge releases; test builds go to testers by hand. update_engine trusts only `my_engineering/etc/security/otacerts.zip` (port key, step 9c); without that file it would skip the signature check. A delta applies only to the exact source build (error 20 otherwise): keep `img/` of published builds. The pipa_port loop skips checks while the screen is off: an install request starts at the next screen-on. After the Virtual A/B merge the old slot is unbootable (back = PC flash). Live service test: bind-mount a copy; to change it, `cat` as root into the same file (adb push fails on the root-owned copy); stop the service before `umount` (busy).

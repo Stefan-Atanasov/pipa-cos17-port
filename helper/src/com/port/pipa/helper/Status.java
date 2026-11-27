@@ -24,6 +24,16 @@ final class Status {
 
     static String rom() { return Build.DISPLAY; }
 
+    /** a system property (hidden android.os.SystemProperties.get by reflection, as DolbyKeeper); "" if unreadable */
+    static String prop(String key) {
+        try {
+            Object v = Class.forName("android.os.SystemProperties").getMethod("get", String.class).invoke(null, key);
+            return v == null ? "" : (String) v;
+        } catch (ReflectiveOperationException e) {
+            return "";
+        }
+    }
+
     /** the Xiaomi pen is connected over Bluetooth (pipa_port sets the OPPO pencil state, BUGS 153) */
     static boolean penConnected(Context c) {
         return Settings.Global.getInt(c.getContentResolver(), "ipe_pencil_connect_state", 0) == 2;

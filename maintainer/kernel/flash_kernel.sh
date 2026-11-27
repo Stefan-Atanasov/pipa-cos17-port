@@ -1,9 +1,9 @@
 #!/bin/bash
-# Kernel test/flash/rollback for the tablet (slot B). Only boot_b changes: our kernel keeps the device's
+# Kernel test/flash/rollback for the tablet. "flash" writes boot of the running slot (a or b, OTA); "restore" is slot b only. Only boot changes: our kernel keeps the device's
 # vendor_boot (dtb) and dtbo, exactly as in the test boots.
 #
 #   bash maintainer/kernel/flash_kernel.sh test <boot.img>     fastboot boot, nothing written (a reboot = old kernel)
-#   bash maintainer/kernel/flash_kernel.sh flash <boot.img>    write boot_b, then reboot
+#   bash maintainer/kernel/flash_kernel.sh flash <boot.img>    write boot of the running slot, then reboot
 #   bash maintainer/kernel/flash_kernel.sh restore             write the 2026-10-23 backups of boot_b, vendor_boot_b, dtbo_b
 #
 # The tablet may be in Android (adb) or already in fastboot. Ask the user before "flash" or "restore".
@@ -20,8 +20,9 @@ to_fastboot() {
 	adb -s "$SERIAL" get-state >/dev/null 2>&1 || die "tablet not found in adb or fastboot"
 	adb -s "$SERIAL" reboot bootloader
 	for _ in $(seq 1 30); do timeout 5 fastboot devices | grep -q "^$SERIAL" && break; sleep 2; done
-	timeout 15 fastboot -s "$SERIAL" getvar current-slot 2>&1 | grep -q 'current-slot: b' ||
-		die "bootloader not answering or slot is not b"
+	# since the OTA updater (BUGS 193) the tablet may run slot a or b: flash the boot partition of the running slot
+	SLOT=$(timeout 15 fastboot -s "$SERIAL" getvar current-slot 2>&1 | sed -n 's/^current-slot: \([ab]\)$/\1/p')
+	[ -n "$SLOT" ] || die "bootloader not answering with a slot (GetVar Variable Not found: reboot to Android, try again)"
 }
 
 check_img() {
@@ -43,12 +44,14 @@ flash)
 	check_img "${2:-}"
 	echo "md5 $(md5sum < "$2" | cut -c1-32)  $2"
 	to_fastboot
-	$FB flash boot_b "$2"
+	echo "current slot: $SLOT -> boot_$SLOT"
+	$FB flash "boot_$SLOT" "$2"
 	$FB reboot ;;
 restore)
 	for p in boot_b vendor_boot_b dtbo_b; do [ -f "$BK/$p.img" ] || die "missing $BK/$p.img"; done
 	(cd "$BK" && md5sum boot_b.img vendor_boot_b.img dtbo_b.img)
 	to_fastboot
+	[ "$SLOT" = b ] || die "restore writes the slot b backups, but the tablet runs slot $SLOT: flash_super.sh first (sets b)"
 	for p in boot_b vendor_boot_b dtbo_b; do $FB flash "$p" "$BK/$p.img"; done
 	$FB reboot ;;
 *)

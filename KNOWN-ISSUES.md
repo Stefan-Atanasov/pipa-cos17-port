@@ -1,14 +1,14 @@
 # Known issues
 
-This document lists the known problems of the public release **v9.3** (2026-11-21; ROM `port.sh` up to
-step 8u = pt151 + kernel walt-hi15, donor C.07; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9, v9.1 and v9.2 apply to v9.3 unless this list says they are fixed. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
+This document lists the known problems of the public release **v10** (2026-11-27; ROM `port.sh` up to
+step 9t = pt178 + kernel walt-hi17, donor C.07; v9.3 = step 8u, pt151 + walt-hi15; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 to v9.3 apply to v10 unless this list says they are fixed. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
 [RELEASE-NOTES.md](RELEASE-NOTES.md).
-GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-23.
+GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-27.
 
 **Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then open a bug report on GitHub and attach the file: https://github.com/Stefan-Atanasov/pipa-cos17-port/issues/new/choose
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
-## Known issues in v9.3 / v9.2
+## Known issues in v10 / v9.3
 
 - **Fewer effects than full ColorOS (by design, since v9).** The port uses ColorOS's "fast" animation level 3 and
   turns off the window blur and the animation blur: about 0.3 % dropped frames instead of 2.7 % on the SD870. At
@@ -39,6 +39,14 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 - **Excel and document viewer:** scrolling in the default document viewer (Excel files) feels jittery. The app is
   slow at 120 Hz; Settings and other apps are smooth.
+- **Animation style Rich** (Pipa Helper > Effects) drops about 4 times more frames than Smooth (the default) in fast
+  app open/close: the GPU of the Snapdragon 870 is at its limit. Use Smooth for the smoothest result.
+- **Face unlock in a dark room:** the camera service can restart (it comes back by itself; the face is not
+  recognised in the dark anyway).
+- **Apps with a root check** (for example some banking or streaming apps) can refuse to start: KernelSU is built
+  into the kernel. A kernel without root is planned for a later release.
+- **Time zone after a clean install:** the tablet starts on China time (UTC+8). The automatic time zone needs a SIM
+  card, so set it once: Settings > search "Date & time" > turn off the automatic time zone > choose your region.
 - **Cast to TV (Miracast):** fixed on Windows; please test with a TV and report.
 - **Location:** one tester reported that location did not work in any app on beta8. v9 fixes the provider choice
   (see above). If location still fails, send a log.
@@ -84,6 +92,10 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   rendering or "feature gone" bug, remove such modules in the SukiSU Nova manager and reboot. If an app stays
   frozen, re-enable it: `pm enable <package>`.
 
+- **Fixed in v10 (were open in v9.3):** only 2 floating windows (now 4; BUGS 201); the lock screen ran at 144 Hz and
+  each unlock animation stuttered (BUGS 210, 212); one short stutter after each wake (kernel hi17, BUGS 213); hotspot
+  without 5 GHz (BUGS 171); the charging limit did not hold with the screen off (BUGS 204); Extra dim (BUGS 190);
+  repeated prompts to turn Google on (BUGS 200).
 - **Fixed in v9.3 (were open in v9.2):** pen buttons in StarNotes and other apps that use "hold the button" (BUGS 166,
   kernel hi14/hi15); press first, then bring the pen down wrote ink and opened Quick Note (BUGS 169); pen buttons dead
   after a reboot with the Pen buttons test screen open (BUGS 167); 32-bit-only apps closing at once (BUGS 168, 32-bit

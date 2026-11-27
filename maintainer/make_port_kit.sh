@@ -32,7 +32,7 @@ mkdir -p "$K/kernel"; cp kernel/WALT-KERNEL.md kernel/KERNEL-RESEARCH.md "$K/ker
 
 tar -C "$COS" -cf - \
     --exclude='maintainer/jar-edits/venv' --exclude='__pycache__' --exclude='*.pyc' \
-    --exclude='helper/keys' --exclude='helper/out' --exclude='maintainer/*/out' --exclude='maintainer/cts/overlay/keys' \
+    --exclude='helper/keys' --exclude='helper/out' --exclude='maintainer/*/out' --exclude='maintainer/cts/overlay/keys' --exclude='maintainer/ota/keys' \
     --exclude='*.7z' --exclude='*.img' \
     --exclude='dolby-eq-module/*.png' \
     maintainer port-rom helper module port-module/src dolby-eq-module global-region-module susfs-module | tar -C "$K" -xf -
@@ -64,7 +64,7 @@ if [ "${KIT_INPUTS:-0}" = 1 ]; then
 fi
 
 # fail closed: no key material may slip in
-if find "$K" \( -name '*.jks' -o -name '*.keystore' -o -name 'keystore.pass' -o -name '*.pk8' \) | grep -q .; then
+if find "$K" \( -name '*.jks' -o -name '*.keystore' -o -name 'keystore.pass' -o -name '*.pk8' -o -name '*.key.pem' \) | grep -q .; then
     echo "signing key material found in the kit, aborting" >&2; exit 1
 fi
 if grep -rIl 'KSPASS=[^$]' "$K/helper" >/dev/null 2>&1; then echo "helper password in the kit, aborting" >&2; exit 1; fi

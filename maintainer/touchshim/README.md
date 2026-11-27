@@ -36,6 +36,7 @@ Let N mean `drivers/input/touchscreen/nt36532/nt36xxx.c`.
 
 | OPPO node | Xiaomi mode | Input mapping (TouchService.java, checked 2026-11-17) | Kernel evidence |
 |---|---|---|---|
+| 1 double tap to wake (2026-11-22, BUGS 174) | 14, Touch_Doubletap_Mode | "1" -> 1; any other integer (OPPO close reason, 0 = off) -> 0. OplusScreenOffGestureUtil.writeGestureSDFile reads node 1 first and writes only on a change; the shim read returns the last write ("" after a start, so the first write always goes through) | nt36xxx.c nvt_set_cur_value: db_wakeup bit 0 + dsi_panel_doubleclick_enable; panel off = applied at resume (gesture_command_delayed). Bit 1 (pen wake) stays |
 | 5 direction | 8, Touch_Panel_Orientation | OPPO 0/1/2 -> Xiaomi 0/1/3 | N:2284–2288 range; N:2373–2376 direction; N:2411–2430 commands |
 | 243 click (tap) sensitivity | 2, Touch_UP_THRESHOLD | 1..100 -> 0..4 (1-20 -> 0 ... 81-100 -> 4), 0 = reset -> 2 | firmware worker cmd 0x71 |
 | 25 touch (swipe) sensitivity | 4, Touch_Aim_Sensitivity | same buckets | worker cmd 0x79 (NEW_GAME_MODE=y) |

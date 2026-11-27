@@ -43,6 +43,21 @@ if [ -f "$LOG" ] && [ "$(wc -c < "$LOG" 2>/dev/null || echo 0)" -gt 262144 ]; th
     tail -n 400 "$LOG" > "$LOG.tmp" 2>/dev/null && mv -f "$LOG.tmp" "$LOG"
 fi
 
+# 9m (BUGS-TODO 198): persistent error log for Collect logs. The logd RAM buffers (8 MB each, ~25 min) are lost at
+# every restart. One logcat reader waits on logd (blocking read, no polling) and keeps priority E and up of the main,
+# system and crash buffers (Java crashes, native crash dumps, ANRs) plus Watchdog warnings in
+# /data/misc/pipa_logs/err.log (2 MB, 3 rotated copies: ~3 h of errors on a busy tablet). It survives a restart.
+# Started before boot_completed, so a crash during boot is in it too. A restart of this service stops the old reader.
+ERRLOG=/data/misc/pipa_logs/err.log
+if [ "${ERR_LOG:-1}" = 1 ]; then   # ERR_LOG=0 in /data/misc/pipa_port/config.prop turns it off
+    o=; read -r o < "$STATE/errlog.pid" 2>/dev/null
+    [ -n "$o" ] && tr '\0' ' ' < "/proc/$o/cmdline" 2>/dev/null | grep -q 'pipa_logs/err.log' && kill "$o" 2>/dev/null
+    echo "== $(date '+%Y-%m-%d %H:%M:%S') pipa_port start, boot $(cat /proc/sys/kernel/random/boot_id 2>/dev/null)" >> "$ERRLOG"
+    # SettingsState (aconfig "invalid flag name" bursts at boot and config sync) and QC2V4l2Codec (one line per frame while screen recording) filled 4 MB in 10 min on a tester boot (2026-11-27): left out
+    logcat -b main,system,crash -v threadtime -f "$ERRLOG" -r 2048 -n 3 'Watchdog:W' 'SettingsState:S' 'QC2V4l2Codec:S' '*:E' </dev/null >/dev/null 2>&1 &
+    echo $! > "$STATE/errlog.pid"
+fi
+
 until [ "$(getprop sys.boot_completed)" = 1 ]; do sleep 2; done
 log "start (build=$(getprop ro.build.display.id))"
 
@@ -307,6 +322,19 @@ if [ "${STYLUS_BUTTONS_DEFAULT:-1}" = 1 ] && [ "$(sget secure stylus_buttons_ena
     settings put secure stylus_buttons_enabled 1
     touch "$STATE/stylus_default_set"
     log "stylus_buttons_enabled default -> 1"
+fi
+# 9q (user 2026-11-27): Screen resolution Low (9g) is removed. A tablet left on Low keeps OPPO's forced size 1440x2304
+# and density x0.8 in the WindowManager settings with no switch left to undo it: back to High once, same Display size
+# (Low 272/296/328 = High 340/370/410). Runs only while OPPO's setting still says Low (2); it then says High (3).
+if [ -z "$(getprop ro.oplus.resolution.low)" ] && [ "$(sget secure oplus_customize_screen_resolution_adjust)" = 2 ]; then
+    LD=$(sget secure display_density_forced)
+    case "$LD" in 272) HD=340 ;; 296) HD=370 ;; 328) HD=410 ;; *) HD= ;; esac
+    wm size reset </dev/null >/dev/null 2>&1
+    if [ "$HD" = 370 ]; then wm density reset </dev/null >/dev/null 2>&1
+    elif [ -n "$HD" ]; then wm density "$HD" </dev/null >/dev/null 2>&1; fi
+    settings put secure oplus_customize_screen_resolution_adjust 3 </dev/null >/dev/null 2>&1
+    settings put secure oplus_customize_screen_resolution_backup 3 </dev/null >/dev/null 2>&1
+    log "screen resolution Low removed: size reset, density $LD -> ${HD:-unchanged}"
 fi
 # 7m (BUGS 93): Settings > Display size checks the radio from Settings.System display_density_index_manual, an index
 # into ro.density.screenzoom. Older builds had other lists (pt82-pt112: 310..450, Standard = index 2; before: the AOSP
@@ -730,6 +758,21 @@ pen_settings_check() {
         log "pen input: only with the Bluetooth pen"
     fi
 }
+# BUGS 170 (helper 3.0, kernel hi16): pen near mode. The helper sets global pipa_pen_near = 1 while an app of its
+# "Apps made for the Xiaomi pen" list is in the foreground (or always, "as on HyperOS"); the kernel then sends a near
+# pen press as the page key (near_mode 1), as stock HyperOS. Same gate as game_check: read only when
+# settings_global.xml changed. Kernels before hi16 have no near_mode: nothing to do.
+PEN_NEAR_STAMP=/data/misc/pipa_port/pen_near.stamp
+rm -f "$PEN_NEAR_STAMP"
+pen_near_check() {
+    [ -e "$PPB/near_mode" ] || return
+    [ -e "$PEN_NEAR_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$PEN_NEAR_STAMP" ] && return
+    n=$(sget global pipa_pen_near) || return
+    : > "$PEN_NEAR_STAMP"
+    case "$n" in 1) ;; *) n=0 ;; esac
+    [ "$(cat $PPB/near_mode)" = "$n" ] && return
+    echo "$n" > $PPB/near_mode && log "pen near mode -> $n"
+}
 # Xiaomi thermal scene (5l). mi_thermald picks its profile from thermal_message/sconfig; on HyperOS PowerKeeper sets
 # it, on ColorOS nobody does (-1 = daily profile: CPU caps from 38 C skin). The helper sets global pipa_game_fg = 1
 # while an app with appCategory "game" is in the foreground; then the game profile GAME_THERMAL_SCENE is used
@@ -758,6 +801,9 @@ game_check() {
 # sets it back to 0. No reboot.
 FX_STAMP=/data/misc/pipa_port/fx.stamp
 rm -f "$FX_STAMP"
+# 9r peak_check (pt175-pt176) removed in 9s: the 144 Hz lock screen came from OPPO's keyguard vote, now fixed in the
+# ROM config (step 9s); OPPO's own peak_refresh_rate is right in each mode.
+rm -f /data/misc/pipa_port/peak.stamp
 fx_check() {
     [ -e "$FX_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$FX_STAMP" ] && return
     v=$(sget global pipa_fx_restart) || return
@@ -819,6 +865,150 @@ logs_check() {
         settings put global pipa_logs 0 </dev/null >/dev/null 2>&1
         log "collect logs: done (${f:-failed})"
     ) &
+}
+# 9d (BUGS 193, helper 3.4 "Install update"): global pipa_ota = 1 -> update_engine_client installs the A/B payload in
+# global pipa_ota_payload ("url|offset|size|headers", ';' between the header lines) into the other slot. 2 while it runs
+# (pipa_ota_progress = "<update_engine status> <percent>"), 3 = done, the helper offers the restart, 4 = failed
+# (pipa_ota_error = the last update_engine line). update_engine checks the payload signature (step 9c: port OTA key
+# only). Only https:// URLs or files in /data/ota_package. Event driven like logs_check; the progress loop runs only
+# during an install. A 2 left by a reboot becomes 4.
+OTA_STAMP=/data/misc/pipa_port/ota.stamp
+OTA_RUN=/data/misc/pipa_port/ota.run
+OTA_LOG=/data/misc/pipa_port/ota.log
+OTA_SLOT=/data/misc/pipa_port/ota.slot   # "<slot> <boot_id>" when an install finished (3): checked after the restart
+rm -f "$OTA_STAMP" "$OTA_RUN"
+ota_set() { settings put global "$1" "$2" </dev/null >/dev/null 2>&1; }
+# Dual-boot guard: the install overwrites boot of the other slot (docs/DUALBOOT-LINUX.md keeps Linux/UEFI in boot_a).
+# OK = empty (first 4 KiB zero), a port boot image (ANDROID!, os_version bytes 3c060020 as mkboot.sh keeps them,
+# header v3) or a 4.19 port kernel. Read only (rules_9d).
+ota_boot_ok() {
+    [ -r "$1" ] || return 1
+    [ -z "$(head -c 4096 "$1" | tr -d '\000' | head -c 1)" ] && return 0
+    if [ "$(head -c 8 "$1")" = "ANDROID!" ] && [ "$(head -c 20 "$1" | tail -c 4 | od -An -tx1 | tr -d ' \n')" = 3c060020 ] &&
+        [ "$(head -c 44 "$1" | tail -c 4 | od -An -tu4 | tr -d ' \n')" = 3 ]; then
+        return 0
+    fi
+    head -c 67108864 "$1" | grep -aq 'Linux version 4\.19\.'
+}
+ota_check() {
+    [ -e "$OTA_STAMP" ] && ! [ "$GLOBAL_XML" -nt "$OTA_STAMP" ] && return
+    v=$(sget global pipa_ota) || return
+    : > "$OTA_STAMP"
+    [ -e "$OTA_RUN" ] && return
+    if [ "$v" = 2 ]; then ota_set pipa_ota_error "interrupted (restart during the install)"; ota_set pipa_ota 4; return; fi
+    if [ "$v" = 3 ] && [ -f "$OTA_SLOT" ]; then
+        read -r s0 b0 < "$OTA_SLOT"; b1=$(cat /proc/sys/kernel/random/boot_id)
+        [ "$b0" = "$b1" ] && return     # no restart yet
+        rm -f "$OTA_SLOT"
+        if [ "$s0" != "$(getprop ro.boot.slot_suffix)" ]; then
+            ota_set pipa_ota 0; log "ota: running the new system (slot $(getprop ro.boot.slot_suffix))"
+        else
+            ota_set pipa_ota_error "the new system did not start; the tablet is back on the old one"; ota_set pipa_ota 4
+            log "ota: still on slot $s0 after the restart (fallback)"
+        fi
+        return
+    fi
+    [ "$v" = 1 ] || return
+    p=$(sget global pipa_ota_payload) || return
+    # 9h (2026-11-25): one or more payloads, '^' between them, in the order to try (helper: the delta for the
+    # installed build first, then the full payload). Each "url[ url ...]|offset|size|headers": the same file on
+    # several mirrors (helper: fastest first, space between). On a failure: the next mirror, then the next payload.
+    # update_engine resumes a partly downloaded payload from another mirror (same payload hash). Each attempt is
+    # safe: update_engine writes only the other slot and switches slots only after a verified, complete install.
+    rest=$p; n=0
+    while [ -n "$rest" ]; do
+        e=${rest%%"^"*}; case $rest in *"^"*) rest=${rest#*"^"} ;; *) rest= ;; esac
+        # mksh: an unquoted | in a pattern is an alternation (empty fields, test 2026-11-25): quote it
+        us=${e%%"|"*}; r=${e#*"|"}; off=${r%%"|"*}; r=${r#*"|"}; size=${r%%"|"*}; hdr=${r#*"|"}
+        case "$off$size" in ''|*[!0-9]*) n=-1; break ;; esac
+        [ -n "$us" ] && [ -n "$hdr" ] && [ "$hdr" != "$r" ] || { n=-1; break; }
+        while [ -n "$us" ]; do
+            u=${us%%" "*}; case $us in *" "*) us=${us#*" "} ;; *) us= ;; esac
+            case "$u" in https://*|file:///data/ota_package/*) ;; *) n=-1; break 2 ;; esac
+        done
+        n=$((n + 1))
+    done
+    if [ "$n" -lt 1 ]; then
+        ota_set pipa_ota_error "bad payload data"; ota_set pipa_ota 4; log "ota: bad payload data"; return
+    fi
+    # the port payloads are built for encrypted /data: a -noenc build (step 3x, fstab without encryption) would get
+    # an fstab that wants encryption on a plain /data and would not start
+    if [ "$(getprop ro.crypto.state)" != encrypted ]; then
+        ota_set pipa_ota_error "this build has no /data encryption (noenc): update with the PC scripts"
+        ota_set pipa_ota 4; log "ota: refused, ro.crypto.state $(getprop ro.crypto.state)"; return
+    fi
+    # stock updater rule: 30 % battery, or the charger in (the install and the first start take a while)
+    cap=; read -r cap < /sys/class/power_supply/battery/capacity 2>/dev/null
+    inp=; read -r inp < /sys/class/power_supply/usb/present 2>/dev/null
+    if [ "${cap:-0}" -lt 30 ] && [ "$inp" != 1 ]; then
+        ota_set pipa_ota_error "battery below 30 %: connect the charger and try again"
+        ota_set pipa_ota 4; log "ota: refused, battery ${cap:-?} %"; return
+    fi
+    case "$(getprop ro.boot.slot_suffix)" in _a) tgt=_b ;; *) tgt=_a ;; esac
+    if ! ota_boot_ok "/dev/block/by-name/boot$tgt"; then
+        ota_set pipa_ota_error "boot slot ${tgt#_} holds another system (Linux or UEFI dual boot?); the update would replace it. Update with the PC scripts instead"
+        ota_set pipa_ota 4; log "ota: refused, boot$tgt is not a port boot image (dual boot?)"; return
+    fi
+    : > "$OTA_RUN"
+    settings delete global pipa_ota_error </dev/null >/dev/null 2>&1
+    ota_set pipa_ota_progress "0 0"
+    ota_set pipa_ota 2
+    log "ota: install started ($n payload(s))"
+    (
+        rest=$p; code=; e=; hard=; soft=
+        while [ -n "$rest" ]; do
+            x=${rest%%"^"*}; case $rest in *"^"*) rest=${rest#*"^"} ;; *) rest= ;; esac
+            us=${x%%"|"*}; r=${x#*"|"}; off=${r%%"|"*}; r=${r#*"|"}; size=${r%%"|"*}
+            hdr=$(echo "${r#*"|"}" | tr ';' '\n')
+            while [ -n "$us" ]; do
+                u=${us%%" "*}; case $us in *" "*) us=${us#*" "} ;; *) us= ;; esac
+                if ota_try "$u" "$off" "$size" "$hdr"; then
+                    echo "$(getprop ro.boot.slot_suffix) $(cat /proc/sys/kernel/random/boot_id)" > "$OTA_SLOT"
+                    ota_set pipa_ota_progress "6 100"; ota_set pipa_ota 3; log "ota: installed, restart needed"
+                    rm -f "$OTA_RUN"; exit 0
+                fi
+                e=$(grep -E 'onPayloadApplicationComplete|ERROR' "$OTA_LOG" | tail -1 | cut -c1-200)
+                code=$(grep 'onPayloadApplicationComplete' "$OTA_LOG" | tail -1 | sed -n 's/.*(\([0-9]*\)))*$/\1/p')
+                log "ota: attempt failed (${u%%\?*}): $e"
+                # report the real cause: a signature, fit or space error wins over a mirror download error
+                case "$code" in 9|10|11|21|32) soft=$code ;; *) hard=$code ;; esac
+                # no space (60) or an older build (51): no other mirror or payload helps
+                case "$code" in 60|51) break 2 ;; esac
+            done
+        done
+        code=${hard:-$soft}
+        ota_set pipa_ota_error "$(ota_why "$code") (error ${code:-?})"; ota_set pipa_ota 4; log "ota: failed: $e"
+        rm -f "$OTA_RUN"
+    ) &
+}
+# update_engine ErrorCode (common/error_code.h) -> text for Pipa Helper ("Install failed: <text> (error N)")
+ota_why() {
+    case "$1" in
+        9) echo "download failed (network or server busy); try again later" ;;
+        10|11|21|32) echo "the downloaded file is damaged or not the update; try again later" ;;
+        12|18|24|25|26|33) echo "the update failed the signature check (not from this port, or damaged): nothing installed" ;;
+        20|27|28|29) echo "the update does not fit the installed system: nothing installed" ;;
+        51) echo "the update is older than the installed system" ;;
+        60) echo "not enough free storage: free some space and try again" ;;
+        48) echo "cancelled" ;;
+        *) echo "update_engine error" ;;
+    esac
+}
+# One update_engine install attempt; progress to pipa_ota_progress while it runs. 0 = installed.
+ota_try() {
+    update_engine_client --update --follow --payload="$1" --offset="$2" --size="$3" --headers="$4" \
+        </dev/null >"$OTA_LOG" 2>&1 &
+    uec=$!
+    last=
+    while kill -0 $uec 2>/dev/null; do
+        sleep 3
+        s=$(grep 'onStatusUpdate(' "$OTA_LOG" | tail -1 | sed -n 's/.*(\([0-9]*\)), \([0-9.]*\)).*/\1 \2/p')
+        [ -n "$s" ] || continue
+        f=${s#* }; case $f in 1|1.0*) pc=100 ;; 0.*) pc=$(echo "${f#0.}00" | cut -c1-2); pc=${pc#0} ;; *) pc=0 ;; esac
+        n="${s%% *} ${pc:-0}"
+        [ "$n" = "$last" ] || { ota_set pipa_ota_progress "$n"; last=$n; }
+    done
+    wait $uec
 }
 LID_STAMP=/data/misc/pipa_port/lid.stamp
 rm -f "$LID_STAMP"
@@ -1018,6 +1208,7 @@ CHG_RI=/sys/class/qcom-battery/restrict_cur
 CHG_BYPASS_UA=100000
 # chg_held: 0 = normal, 1 = charging off (charge limit), 2 = charge current capped (bypass)
 chg_low=0   # 4w: 1 = the level was below 15 %: no bypass cap before 20 %
+chg_wl=0; echo pipa_chg > /sys/power/wake_unlock 2>/dev/null   # 9o: no wake lock left from a service restart
 chg_held=0; v=; read -r v < "$CHG_EN" 2>/dev/null; [ "$v" = 0 ] && chg_held=1
 chg_ri=; read -r chg_ri < "$CHG_RI" 2>/dev/null
 v=; read -r v < "$CHG_RC" 2>/dev/null
@@ -1060,6 +1251,17 @@ chg_hold() {
     fi
     v=; read -r v 2>/dev/null < "$CHG_IN"
     [ "$v" = 0 ] && want=1 && why=unplugged
+    # 9o (BUGS-TODO 204): this check runs only while the CPU is awake. Screen off, the tablet sleeps between the fuel
+    # gauge's 1 % wake-ups and could charge past the limit before the next check (stock OPPO checks in its kernel
+    # charger driver). In the last 4 % before the limit (charger in, no hold yet) a wake lock keeps the check running
+    # (~5-10 min, powered by the charger); once the hold is set the kernel keeps it while asleep. The lock has a 30 s
+    # timeout and is re-armed on each check, so it ends by itself if this service stops.
+    if [ "$v" != 0 ] && [ $lim -lt 100 ] && [ $want = 1 ] && [ "$c" -ge $((lim - 4)) ]; then
+        echo "pipa_chg 30000000000" > "${WL_DIR:-/sys/power}/wake_lock" 2>/dev/null
+        [ $chg_wl = 0 ] && log "charge hold: awake near the limit ($c %, limit $lim)"; chg_wl=1
+    elif [ $chg_wl = 1 ]; then
+        echo pipa_chg > "${WL_DIR:-/sys/power}/wake_unlock" 2>/dev/null; chg_wl=0; log "charge hold: wake lock released at $c %"
+    fi
     local t=$want; case $want in 1) t=0 ;; 0) t=1 ;; esac   # the chg_held value that this want gives
     [ "$t" = "$chg_held" ] && return
     case $chg_held in 1) echo 1 > "$CHG_EN" ;; 2) chg_uncap ;; esac
@@ -1081,7 +1283,9 @@ ctick=0
 while true; do
     if [ "${CHARGE_HOLD:-1}" = 1 ]; then
         if [ $((ctick % 300)) = 299 ]; then chg_par=$((1 - chg_par)); : > "${CHG_REF}$chg_par" 2>/dev/null; fi
-        [ $((ctick % 5)) = 0 ] && chg_hold
+        # 9o: every pass while the charger is in (a few builtin reads), so a short 1 % wake-up near the limit is enough
+        cin=; read -r cin 2>/dev/null < "$CHG_IN"
+        if [ "$cin" = 1 ] || [ $((ctick % 5)) = 0 ]; then chg_hold; fi
     fi
     ctick=$((ctick + 1))
     if ! screen_on; then
@@ -1110,9 +1314,11 @@ while true; do
     [ $((ctick % 300)) = 150 ] && [ ! -e "$STATE/cts_assistant_v2" ] && cts_assistant
     [ $((ctick % 10)) = 5 ] && [ -e "$STATE/gboard_pending" ] && { gboard_default || :; }
     game_check
+    pen_near_check
     fx_check
     [ "${DEXOPT_BUTTON:-1}" = 1 ] && dexopt_check
     [ "${LOGS_BUTTON:-1}" = 1 ] && logs_check
+    [ "${OTA_BUTTON:-1}" = 1 ] && ota_check
     if [ "${PEN_WATCH:-1}" = 1 ]; then
         if pen_connected; then c=1; else c=0; fi
         # At boot ColorOS's pen manager is not ready at once (an early message was sometimes ignored and

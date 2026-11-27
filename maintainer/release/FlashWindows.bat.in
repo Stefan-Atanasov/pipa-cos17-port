@@ -40,6 +40,11 @@ if errorlevel 1 (
     exit /b 1
 )
 echo [*] Device found.
+rem OTA updates (Pipa Helper) switch between slot A and slot B. This script always installs to slot B and replaces
+rem the system of both slots (one super partition). An unfinished OTA is cancelled first.
+echo [*] Current slot:
+"%FASTBOOT%" getvar current-slot 2>&1 | findstr /I "current-slot"
+"%FASTBOOT%" snapshot-update cancel >nul 2>&1
 echo.
 echo [*] The system is on slot B. Setting the active slot to B.
 "%FASTBOOT%" set_active b

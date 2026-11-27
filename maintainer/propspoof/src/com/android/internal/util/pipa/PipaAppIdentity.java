@@ -16,6 +16,9 @@ import java.lang.reflect.Field;
  * - Games (BUGS-TODO 62): a gaming device, so that the game offers its high frame rates. Many games pick the frame-rate
  *   menu from a model list (often from their server). Only BRAND, MANUFACTURER, DEVICE, PRODUCT and MODEL change; the
  *   fingerprint stays real (null = keep the real value).
+ * - Pen apps (BUGS-TODO 170): Xiaomi Pad 6, as on stock HyperOS. Apps made for the Xiaomi pen pick their pen-key map
+ *   and palm rejection from Build.MANUFACTURER / MODEL (Notein: "xiaomi" -> page down/up = primary/secondary button;
+ *   palm detector for 23043RP34C). The port keeps OPPO OPD2515 for all other apps (step 6f).
  * - User choice (helper 2.5, Pipa Helper > Games, BUGS 150): Global "pipa_app_identity" = "pkg=profile;pkg=profile";
  *   profile = a key of profile() or "real" (the real device). Read once per app start, only for apps that are not
  *   system apps (system_server and system apps start before or without SettingsProvider: never touched).
@@ -47,9 +50,15 @@ public final class PipaAppIdentity {
     private static final String[] POCO_F5 = { null, "Xiaomi", null, null, "23049PCD8G", null };
     private static final String[] BS4 = { null, "blackshark", null, null, "2SM-X706B", null };
     private static final String[] S24U = { "samsung", "samsung", null, null, "SM-S928B", null };
+    // the real hardware as HyperOS reports it (Xiaomi Pad 6 CN; Notein's palm list: 23043RP34C, 23046RP50C, 23043RP34I)
+    private static final String[] PAD6 = { "Xiaomi", "Xiaomi", "pipa", "pipa", "23043RP34C", null };
 
-    // { profile, packages... }
+    // { profile, packages... }: games and, since BUGS-TODO 170, pen apps (name kept: step 8g reads this array)
     private static final Object[][] GAMES = {
+        { PAD6, new String[] {
+            "com.orion.notein.global",       // Notein: page keys = Primary/Secondary only for MANUFACTURER xiaomi (v1.2.607.0)
+            "com.onyx.galaxy.global.note",   // StarNote: XIAOMI stylus group (Primary key) = page keys
+        } },
         { REDMAGIC_NOVA, new String[] {
             "com.netease.dfjsna",            // Racing Master: tested 2026-11-03, HFR enable nil -> true
             "com.tencent.ig",                // PUBG Mobile: tested 2026-11-03 (user), "Ultra Extreme" frame rate shows
@@ -143,6 +152,7 @@ public final class PipaAppIdentity {
             case "pocof5": return POCO_F5;
             case "bs4": return BS4;
             case "s24u": return S24U;
+            case "pad6": return PAD6;
             default: return null;
         }
     }

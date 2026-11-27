@@ -75,7 +75,18 @@ set_layer() {
         { cat "$_bp"; printf '\n# pipa port ROM layer (early.sh clears the package cache when it changes)\nro.pipa.port.layer=%s\n' "$1"; } > "$R/build.prop.new"
     fi
     cat "$R/build.prop.new" > "$_bp"        # same inode: label, owner and mode kept
-    grep "^ro.pipa.port.layer=$1\$" "$_bp" || die "ro.pipa.port.layer=$1 not in $_bp"
+    # 2026-11-25: two btrfs csum failures on this file right after the rewrite (in-place truncate + write, ~100 times
+    # per build, compress=zstd); scrub clean. fsync the file before the next rewrite.
+    sync "$_bp"
+    # 2026-11-25: the read right after this write failed 4 times in a day with a btrfs csum error (EIO), also without
+    # compression; the same file read fine later (transient read-after-write). Retry; rewrite if the content is wrong.
+    for _try in 1 2 3; do
+        grep "^ro.pipa.port.layer=$1\$" "$_bp" 2>/dev/null && return 0
+        echo "set_layer: read of $_bp failed (try $_try), retrying" >&2
+        sleep 1
+        grep -q "^ro.pipa.port.layer=$1\$" "$_bp" 2>/dev/null || { cat "$R/build.prop.new" > "$_bp"; sync "$_bp"; }
+    done
+    die "ro.pipa.port.layer=$1 not in $_bp"
 }
 
 # fingerprint <dir>: one md5 over path, type, size, mtime, owner, mode and link target of all entries.

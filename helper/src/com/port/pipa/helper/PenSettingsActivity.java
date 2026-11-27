@@ -45,6 +45,8 @@ import java.util.List;
  *   "<far_mode> <long_ms> <front long> <back long> <front short> <back short> <front double> <back double>"
  * Actions: a name from ACTIONS, or app:<package>/<activity>. While this screen is open, "pipa_pen_test" = 1:
  * pen_keys.sh sends the presses here (broadcast PEN_ACTION) instead of running them.
+ * helper 3.0 (BUGS 170, kernel hi16 near_mode): pen near the screen = stylus buttons, or page keys (HyperOS) in the
+ * apps of Global pipa_pen_apps (GameKeeper.PEN_PRESET when not set) or in all apps (Global pipa_pen_near_all = 1).
  */
 public final class PenSettingsActivity extends Activity {
     static final String KEY = "pipa_pen_buttons", TEST = "pipa_pen_test";
@@ -75,6 +77,7 @@ public final class PenSettingsActivity extends Activity {
     private long lastHover;
     private int heldButtons;
     private boolean loading;
+    private View penAppsLink;
 
     private final Runnable nearOff = () -> {
         if (System.currentTimeMillis() - lastHover >= NEAR_MS) pen.near(false);
@@ -163,6 +166,28 @@ public final class PenSettingsActivity extends Activity {
 
         root.addView(header(R.string.pen_h_near));
         root.addView(note(R.string.pen_near_note));
+        // helper 3.0 (BUGS 170): near mode. Stylus buttons in all apps (default), page keys in the Xiaomi pen apps,
+        // or page keys in all apps (stock HyperOS). GameKeeper turns the list into Global pipa_pen_near.
+        RadioGroup nearGroup = new RadioGroup(this);
+        RadioButton nearApps = new RadioButton(this), nearAll = new RadioButton(this);
+        nearApps.setId(View.generateViewId());
+        nearAll.setId(View.generateViewId());
+        nearApps.setText(R.string.pen_near_apps_mode);
+        nearAll.setText(R.string.pen_near_all_mode);
+        nearGroup.addView(nearApps);
+        nearGroup.addView(nearAll);
+        nearGroup.check(Settings.Global.getInt(getContentResolver(), GameKeeper.PEN_ALL, 0) == 1
+                ? nearAll.getId() : nearApps.getId());
+        nearGroup.setOnCheckedChangeListener((g, id) -> {
+            try {
+                Settings.Global.putInt(getContentResolver(), GameKeeper.PEN_ALL, id == nearAll.getId() ? 1 : 0);
+            } catch (SecurityException e) {
+                Toast.makeText(this, R.string.pen_no_perm, Toast.LENGTH_LONG).show();
+            }
+        });
+        root.addView(nearGroup);
+        penAppsLink = Ui.link(root, null, getString(R.string.pen_apps_h), penAppsSummary(), v -> pickPenApps());
+        root.addView(note(R.string.pen_apps_note));
 
         Button reset = new Button(this);
         reset.setText(R.string.pen_reset);
@@ -255,6 +280,66 @@ public final class PenSettingsActivity extends Activity {
                     loading = false;
                 })
                 .setOnCancelListener(d -> { loading = true; bindSpinner(s); loading = false; })
+                .show();
+    }
+
+    /** summary of the Xiaomi pen app list: the app names, or "none" */
+    private String penAppsSummary() {
+        PackageManager pm = getPackageManager();
+        List<String> names = new ArrayList<>();
+        for (String p : GameKeeper.penApps(getContentResolver())) {
+            try {
+                names.add(pm.getApplicationInfo(p, 0).loadLabel(pm).toString());
+            } catch (PackageManager.NameNotFoundException ignored) { }   // a preset app that is not installed
+        }
+        Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
+        return names.isEmpty() ? getString(R.string.pen_apps_none) : String.join(", ", names);
+    }
+
+    /** multi-choice list of the launchable user apps; the result goes to Global pipa_pen_apps */
+    private void pickPenApps() {
+        PackageManager pm = getPackageManager();
+        java.util.Set<String> cur = GameKeeper.penApps(getContentResolver());
+        java.util.TreeMap<String, String> apps = new java.util.TreeMap<>(String.CASE_INSENSITIVE_ORDER);   // label -> pkg
+        Intent main = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER);
+        for (ResolveInfo ri : pm.queryIntentActivities(main, 0)) {
+            android.content.pm.ApplicationInfo ai = ri.activityInfo.applicationInfo;
+            if ((ai.flags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0) continue;
+            apps.put(ai.loadLabel(pm) + "\u0000" + ai.packageName, ai.packageName);
+        }
+        String[] pkgs = apps.values().toArray(new String[0]);
+        String[] labels = new String[pkgs.length];
+        boolean[] on = new boolean[pkgs.length];
+        int i = 0;
+        for (String k : apps.keySet()) {
+            labels[i] = k.substring(0, k.indexOf('\u0000'));
+            on[i] = cur.contains(pkgs[i]);
+            i++;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.pen_apps_h)
+                .setMultiChoiceItems(labels, on, (d, w, c) -> on[w] = c)
+                .setPositiveButton(android.R.string.ok, (d, w) -> {
+                    // keep preset apps that are not installed (the list is the user's from now on)
+                    java.util.LinkedHashSet<String> out = new java.util.LinkedHashSet<>();
+                    for (String p : cur) if (java.util.Arrays.asList(pkgs).indexOf(p) < 0) out.add(p);
+                    for (int j = 0; j < pkgs.length; j++) if (on[j]) out.add(pkgs[j]);
+                    try {
+                        Settings.Global.putString(getContentResolver(), GameKeeper.PEN_APPS, String.join(",", out));
+                    } catch (SecurityException e) {
+                        Toast.makeText(this, R.string.pen_no_perm, Toast.LENGTH_LONG).show();
+                    }
+                    Ui.setSummary(penAppsLink, penAppsSummary());
+                })
+                .setNeutralButton(R.string.pen_apps_preset, (d, w) -> {
+                    try {
+                        Settings.Global.putString(getContentResolver(), GameKeeper.PEN_APPS, null);
+                    } catch (SecurityException e) {
+                        Toast.makeText(this, R.string.pen_no_perm, Toast.LENGTH_LONG).show();
+                    }
+                    Ui.setSummary(penAppsLink, penAppsSummary());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 

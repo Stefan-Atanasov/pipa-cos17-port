@@ -15,7 +15,6 @@ v9.3 ([RELEASE-NOTES.md](RELEASE-NOTES.md)).
 
 - Settings > System & update > Google settings: the Google Mobile Services switch is back. Off turns off Google
   Play services (and with it Quick Share); On turns them on again.
-- Floating windows: up to 4 at the same time (before: 2; the third one closed the oldest).
 - BGMI uses the same screen refresh rule as PUBG MOBILE.
 - Screen refresh rate: the lock screen now follows your setting. Auto and High run at 120 Hz on the lock screen,
   the home screen and in apps, as on the OPPO Pad Mini. Before, the lock screen ran at 144 Hz and switched to
