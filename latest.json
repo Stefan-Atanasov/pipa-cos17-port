@@ -7,6 +7,17 @@
   "ota": {
     "payloads": [
       {
+        "from": "pt178",
+        "offset": 41,
+        "size": 96766569,
+        "headers": "FILE_HASH=d2pR2BCRIMnTSODmg6x+GQOAJCFNyfCv+L6+oiSYAEQ=\nFILE_SIZE=96766569\nMETADATA_HASH=3LMatbUtXV/jSSBPgmZFcUxBjMv/gMsHFhDHjxPGsO8=\nMETADATA_SIZE=291769",
+        "urls": [
+          "https://pixeldrain.com/api/file/2huun7fy",
+          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1c6Fh5dYL1xucANv72S6UIiarbn2zAwz0",
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt178.zip"
+        ]
+      },
+      {
         "from": "pt177",
         "offset": 41,
         "size": 96767715,
