@@ -1,10 +1,28 @@
-# ColorOS 17 for Xiaomi Pad 6 (pipa) — v10
+# ColorOS 17 for Xiaomi Pad 6 (pipa) — v10.1
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt180** (`port.sh` up to step 9u), kernel **walt-hi17**. Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
+Build: ROM **pt181** (`port.sh` up to step 9v; step 9t retired), kernel **walt-hi17**. v10.1 is an update over the air
+from v10; the PC package stays v10 (ROM pt180, step 9u). Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
 pipa vendor/odm/firmware from beta4. Root: **SukiSU Nova 3.0.0** (builtin; manager `com.sukisu.nova`).
 Package date 2026-11-27.
+
+## v10.1 (2026-11-27, update over the air)
+
+v10.1 comes as an update in **Pipa Helper > System > Updates** ("Install update", about 100 MB from v10, one restart,
+apps and data stay). There is no new PC package: for a clean install, flash v10 and then install the update.
+
+- **Full OPPO tablet multi-window:** up to 5 floating windows, and the four-finger gestures work (as on OPPO's large
+  tablets):
+  - Pinch out with 4 or 5 fingers: floating windows become a split view (2 or 3 apps); one floating window goes full
+    screen.
+  - Pinch in: a split view becomes floating windows again; a full-screen app becomes a floating window.
+  - Keep the fingers about one hand wide. OPPO ignores the gesture when the fingers are spread too far apart.
+  - Open a floating window: the "•••" handle at the top of an app > Floating window, or drag from a bottom corner.
+- Why: v10 turned off OPPO's "panorama" mode to get 4 floating windows (OPPO allows only 2 on tablets with 8 GB RAM),
+  and the gestures need that mode. v10.1 keeps the mode on and lets the 8 GB Pad 6 use OPPO's full tablet version
+  (BUGS 216).
+- Build: ROM **pt181** (step 9v instead of 9t), kernel walt-hi17 (no change).
 
 ## What's new in v10 (since v9.3)
 
@@ -50,7 +68,7 @@ Update from v9, v9.1, v9.2 or v9.3 with "1) Update" in the flash script (keeps y
 **Settings and system**
 - **Floating windows:** up to 4 at the same time (before: 2; OPPO's "panorama" multi-window mode allows only 2 on
   tablets with 8 GB RAM, the port turns it off). Recents: tap the app icon above a card for Floating window or
-  Split View.
+  Split View. v10.1: up to 5, with panorama on and the four-finger gestures (see above).
 - **Battery > Battery health:** "Maximum capacity" is shown.
 - **Extra dim** (Settings > Accessibility) works.
 - **Google switch** (Settings > System & update > Google settings): Off turns off Google Play services (and with it
@@ -113,6 +131,9 @@ Update from v9, v9.1, v9.2 or v9.3 with "1) Update" in the flash script (keeps y
 - [x] OTA: pt175 -> pt176 -> pt177 by Pipa Helper on the maintainer tablet; a tester on pt172; pt177 -> pt178 (the first v10
       upload) with update_engine on the maintainer tablet
 - [x] Floating windows: 4 at the same time; split view, Recents and Pipa Helper in a floating window work
+- [x] v10.1 (pt181): OTA from pt180 with update_engine (merge completed); 5 floating windows; four-finger pinch out
+      3 floating -> 3-way split, 2 -> 2-way split, 1 -> full screen; pinch in back to floating windows; 0 crashes,
+      0 low-memory kills with 5 windows (3.8 GB free); device check 57 pass, 0 fail
 - [x] Back gesture: left edge, right edge, portrait and landscape
 - [x] Clean flash with the v10 package of pt178 (= this build without step 9u): setup wizard, first-boot installs,
       root; then pt178 -> pt179 -> pt180 as OTA deltas on the same tablet

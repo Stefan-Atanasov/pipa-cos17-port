@@ -1,4 +1,8 @@
-# Changelog: beta7.1 → v10 (Xiaomi Pad 6, ColorOS 17 port)
+# Changelog: beta7.1 → v10.1 (Xiaomi Pad 6, ColorOS 17 port)
+
+## v10.1 (2026-11-27: over-the-air update, ROM pt181 + kernel walt-hi17)
+- **Full OPPO tablet multi-window:** up to 5 floating windows and the four-finger gestures (pinch out: floating windows to split view, one floating window to full screen; pinch in: back to floating). v10 had turned off OPPO's panorama mode to get 4 windows, which also turned off the gestures; v10.1 keeps the mode and lets the 8 GB Pad 6 use OPPO's full tablet version (BUGS 216).
+- Update in Pipa Helper > System > Updates (about 100 MB from v10). No new PC package: clean installs flash v10, then update.
 
 ## v10 (2026-11-27: ROM pt180 + kernel walt-hi17)
 - **Updates without a PC:** Pipa Helper > System > Updates installs new versions into the second system slot (about 100 MB deltas, one restart, automatic fallback to the old system). Optional daily check with a notification (BUGS 191, 193). v10 is the base: every v10 install (this package or the OTA) gets the next versions this way. From v9.3 or older: flash v10 with the PC once.

@@ -1,6 +1,6 @@
 # Kernel
 
-The port uses an own kernel (Linux 4.19.325). The public release v10 (2026-11-27) has
+The port uses an own kernel (Linux 4.19.325). The public release v10.1 (2026-11-27; same kernel as v10) has
 `walt-hi17`: SukiSU Nova 3.0.0 (builtin, commit `4bec532d`, kernel version 30691; manager package `com.sukisu.nova`), susfs 2.3.0.
 The branch `oppo` of https://github.com/Stefan-Atanasov/kernel_xiaomi_pipa_cos17 has the hi17 source.
 Since `walt-hi9` (v9, v9.1): hi10 MDP clock boost on every refresh-rate change (no white flash, BUGS 48); hi11 keyboard

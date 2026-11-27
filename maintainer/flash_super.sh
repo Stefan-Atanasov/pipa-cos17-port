@@ -178,6 +178,7 @@ case ${1:?usage: flash_super.sh [-y] <name> (names: the case list below, e.g. be
     pt178) IMG=$P/port-work/pt178/img/super.img; MD5=2d14aa43d52701b7394cb48268ae0afe ;; # 9t: no panorama workstation (4 floating windows); v10 ROM
     pt179) IMG=$P/port-work/pt179/img/super.img; MD5=3cdfab131f5c187df00c19ca8edbcfd7 ;; # 9u: face folder for each user, facehal verbose off, camera 3 guard (BUGS 214, 215)
     pt180) IMG=$P/port-work/pt180/img/super.img; MD5=7b78038cfd5741ecb2424e16761118b5 ;; # = pt179, 9u face folder code for user 0 only (no vendor_de listing denial); v10 ROM
+    pt181) IMG=$P/port-work/pt181/img/super.img; MD5=0a2cbe4e2fd36b20ca5e8d0c0742a0ce ;; # = pt180, 9t out, 9v tablet panorama (RAM threshold 6 GiB: 5 floating windows + four-finger gestures); v10.1
     pt175) IMG=$P/port-work/pt175/img/super.img; MD5=5ffafe3447a04b978b2ac0682f650544 ;; # tester build: pt174 + 9r Auto refresh 120 like the Pad Mini (config + peak_check); use with boot-walt-hi16-su.img
     pt174) IMG=$P/port-work/pt174/img/super.img; MD5=f58b3381ef302333cc1c8c885183eaa2 ;; # tester build: pt173 + 9q clears OPPO density leftovers of Low, 9n/9p to drafts (like v9.3); use with boot-walt-hi16-su.img
     pt173) IMG=$P/port-work/pt173/img/super.img; MD5=509e51e18dcf95b39d81e6c8e8f65ce0 ;; # tester build: pt172 - 9g Low resolution (9q: back to High once) + err.log filter; use with boot-walt-hi16-su.img

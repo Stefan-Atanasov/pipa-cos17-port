@@ -1,6 +1,6 @@
 # Downloads
 
-All current links in one place. Updated 2026-11-27. Current release: **v10** (2026-11-27).
+All current links in one place. Updated 2026-11-27. Current release: **v10.1** (2026-11-27, over-the-air update of v10: Pipa Helper > System > Updates). PC package: **v10**.
 
 ## ROM
 
@@ -10,7 +10,7 @@ All current links in one place. Updated 2026-11-27. Current release: **v10** (20
 | v9.3 (previous) | [ColorOS17-Port-pipa-v9.3-20261121.7z](https://sourceforge.net/projects/pipa-cos17-port/files/Releases/v9.3/ColorOS17-Port-pipa-v9.3-20261121.7z/download) | [Drive folder](https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing) | https://gofile.io/d/D5iyheCj | `3428d66f4258823c3cee1c75a72ea982` |
 | **v9.3-noenc** (experimental) | [ColorOS17-Port-pipa-v9.3-noenc-20261123.7z](https://sourceforge.net/projects/pipa-cos17-port/files/Releases/v9.3/ColorOS17-Port-pipa-v9.3-noenc-20261123.7z/download) | [Drive folder](https://drive.google.com/drive/folders/1Kd7b5rWhc0WC5Io_fCQKGUZ7yncnyech?usp=sharing) | https://gofile.io/d/Fqn9Po3L | `99d9ea65a053516c2197b6b5a2157511` |
 
-- **Which build?** Take **v10**. Already on v10: Pipa Helper > System > Updates installs the next versions (no PC). Take v9.3-noenc only for dual boot with Linux: it has no `/data` encryption, it was not booted by the maintainer, and it needs a clean flash (`2`, then `ERASE`). See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md).
+- **Which build?** Take **v10**. Then open Pipa Helper > System > Updates > Install update to get v10.1 (about 100 MB; there is no v10.1 PC package). Already on v10: the same update, no PC. Take v9.3-noenc only for dual boot with Linux: it has no `/data` encryption, it was not booted by the maintainer, and it needs a clean flash (`2`, then `ERASE`). See [DUALBOOT-LINUX.md](DUALBOOT-LINUX.md).
 - **All releases:** https://sourceforge.net/projects/pipa-cos17-port/files/Releases/ (one folder per release).
 - **Gofile** deletes files after some time without downloads. If a Gofile link has expired, use SourceForge or Drive.
 - **Check the download:** compare the md5 of the `.7z` with the table. The package has a `SHA256SUMS` file for the files inside.

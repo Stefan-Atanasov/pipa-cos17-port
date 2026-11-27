@@ -2,6 +2,8 @@
  * and InputReader see a real touch (unlike `input swipe`, which is injected above the kernel).
  *   kgest tap X Y                    (display pixels, landscape rotation 90, like ktap.sh)
  *   kgest swipe X1 Y1 X2 Y2 MS       (moves every 4 ms ~ 240 Hz touch report rate, ease-out like a fling)
+ *   kgest pinch N CX CY R1 R2 MS     (N fingers 2-5 on a circle around CX CY, radius R1 -> R2: R2 < R1 = squeeze;
+ *                                     all down in one frame, rest KGEST_HOLD_MS (80) like a hand, then move)
  * Device: $KTAP_DEV, else the event node named NVTCapacitiveTouchScreen (panel 1800x2880 px, 10 units/px). The event
  * number changes: since walt-r9 the keypad devices exist only while the keypad is attached (event8 -> event4).
  * Build: maintainer/kgest/build.sh (NDK). Needs root. */
@@ -88,6 +90,41 @@ int main(int argc, char **argv)
 		up();
 		return 0;
 	}
-	fprintf(stderr, "usage: kgest tap X Y | kgest swipe X1 Y1 X2 Y2 MS\n");
+	if (argc == 8 && !strcmp(argv[1], "pinch")) {	/* multi-touch protocol B, one slot per finger */
+		int nf = atoi(argv[2]), cx = atoi(argv[3]), cy = atoi(argv[4]), r1 = atoi(argv[5]), r2 = atoi(argv[6]);
+		int ms = atoi(argv[7]), n = ms / 4 > 1 ? ms / 4 : 1, id = getpid() % 60000 + 1;
+		if (nf < 2 || nf > 5) { fprintf(stderr, "kgest: 2-5 fingers\n"); return 2; }
+		double ang[5];
+		for (int k = 0; k < nf; k++)
+			ang[k] = 0.6 + 6.2831853 * k / nf;
+		for (int k = 0; k < nf; k++) {
+			ev(EV_ABS, ABS_MT_SLOT, k);
+			ev(EV_ABS, ABS_MT_TRACKING_ID, id + k);
+			pos(cx + (int)(r1 * __builtin_cos(ang[k])), cy + (int)(r1 * __builtin_sin(ang[k])));
+			ev(EV_ABS, ABS_MT_TOUCH_MAJOR, 6);
+			ev(EV_ABS, ABS_MT_PRESSURE, 60);
+		}
+		ev(EV_KEY, BTN_TOUCH, 1);
+		ev(EV_SYN, SYN_REPORT, 0);	/* all fingers down in one frame */
+		sleep_us((getenv("KGEST_HOLD_MS") ? atoi(getenv("KGEST_HOLD_MS")) : 80) * 1000L);	/* rest, then move */
+		for (int i = 1; i <= n; i++) {
+			double t = (double)i / n, r = r1 + (r2 - r1) * t;
+			sleep_us(4000);
+			for (int k = 0; k < nf; k++) {
+				ev(EV_ABS, ABS_MT_SLOT, k);
+				pos(cx + (int)(r * __builtin_cos(ang[k])), cy + (int)(r * __builtin_sin(ang[k])));
+			}
+			ev(EV_SYN, SYN_REPORT, 0);
+		}
+		sleep_us(30000);
+		for (int k = 0; k < nf; k++) {
+			ev(EV_ABS, ABS_MT_SLOT, k);
+			ev(EV_ABS, ABS_MT_TRACKING_ID, -1);
+		}
+		ev(EV_KEY, BTN_TOUCH, 0);
+		ev(EV_SYN, SYN_REPORT, 0);
+		return 0;
+	}
+	fprintf(stderr, "usage: kgest tap X Y | kgest swipe X1 Y1 X2 Y2 MS | kgest pinch N CX CY R1 R2 MS\n");
 	return 2;
 }

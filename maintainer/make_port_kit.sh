@@ -24,7 +24,7 @@ K=$STAGE/$NAME
 mkdir -p "$K"
 
 cd "$COS"
-DOCS="BUILD-GUIDE.md MAINTAINER-STATUS.md DEVICE-STATE.md BUGS-TODO.md RELEASE-NOTES-v10.md CHANGELOG-beta7.1-to-v10.md HISTORY.md CLAUDE.md AGENTS.md NEXT-SESSION-PROMPT.md"
+DOCS="BUILD-GUIDE.md MAINTAINER-STATUS.md DEVICE-STATE.md BUGS-TODO.md RELEASE-NOTES-v10.1.md CHANGELOG-beta7.1-to-v10.1.md HISTORY.md CLAUDE.md AGENTS.md NEXT-SESSION-PROMPT.md"
 for f in $DOCS; do [ -f "$f" ] && cp "$f" "$K/"; done
 cp -r docs notes "$K/"
 mkdir -p "$K/kernel"; cp kernel/WALT-KERNEL.md kernel/KERNEL-RESEARCH.md "$K/kernel/"
@@ -84,8 +84,8 @@ Everything needed to rebuild the port's ROM layers and the kernel, without image
   for them set **`PIPA_ROOT`** and **`PIPA_OWNER`** through sudo: `sudo env PIPA_ROOT=$PWD PIPA_OWNER=$USER:$USER sh ...`.
 * Step-by-step runbook for a new PC (also for a local AI model): **`docs/HANDOFF-FROM-ZERO.md`** (Part A: rebuild;
   Part B: where every beta4 part comes from and how to make it from stock).
-* Current release: **v10** = ROM pt180 (`port.sh` default build, last step 9u, donor OPD2515 `17.0.0.104(CN01)`
-  = C.07) + kernel walt-hi17 (`boot-walt-hi17-su.img`). Release notes: `RELEASE-NOTES-v10.md`. Next work:
+* Current release: **v10.1** (over the air) = ROM pt181 (`port.sh` default build, last step 9v, donor OPD2515 `17.0.0.104(CN01)`
+  = C.07) + kernel walt-hi17 (`boot-walt-hi17-su.img`); PC package v10 = pt180 (step 9u). Release notes: `RELEASE-NOTES-v10.1.md`. Next work:
   `NEXT-SESSION-PROMPT.md`. OTA updates (Pipa Helper): skill `pipa-ota`; the next delta is made from pt180.
 * Folder layout (next to `COS17/`): `donor/OPD2515_11.C.07/img/` (images from the C.07 OTA zip, docs/REBASE.md),
   `port-inputs/apps-5u/` (step 5u), `port-inputs/dolby-5z/` (step 5z), `tools/` (smali, apktool), `port-work/` (build output, about 40 GB free needed).

@@ -1,6 +1,7 @@
 # Known issues
 
-This document lists the known problems of the public release **v10** (2026-11-27; ROM `port.sh` up to
+This document lists the known problems of the public release **v10.1** (2026-11-27, over-the-air update of v10; ROM
+pt181 = step 9v instead of 9t; the same kernel) and **v10** (ROM `port.sh` up to
 step 9u = pt180 + kernel walt-hi17, donor C.07; v9.3 = step 8u, pt151 + walt-hi15; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 to v9.3 apply to v10 unless this list says they are fixed. What changed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
 [RELEASE-NOTES.md](RELEASE-NOTES.md).
 GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-27.
@@ -82,6 +83,9 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
   processing in the app. Do not use AGC 9.6.19: V7.0 has no video (the app lacks a class), V6.0 has no video (it
   crashes on a missing camera key). On first start, allow "All files access" when GCam asks.
 - **Floating window from the dock:** hold the icon still in the middle of the screen until "Floating window" shows.
+  Other ways: the "•••" handle at the top of an app > Floating window, or drag up from a bottom corner of the app.
+- **Four-finger gestures (v10.1):** keep the 4 or 5 fingers about one hand wide. OPPO ignores the gesture when the
+  fingers are spread too far apart (stock OPPO behaviour).
 - **"Tweak" modules (for example SmoothPad):** do not use them with v9 or later. SmoothPad v3.6 locks 120 Hz, keeps the GPU
   awake, holds CPU floors, re-applies scheduler values every 12-15 s (a loop that wakes the CPU), resizes zram,
   freezes 32 OPPO apps (among them `deepthinker`, `obrain`, `appsense` and `pantanal.ums`, which live alerts and the
@@ -92,7 +96,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 - **Fixed in v10 (were open in v9.3):** a warm tablet with a second user, guest or private space (the face service
   retried without end and its log filled the storage; BUGS 215; do not use the "Thermal & Battery Fix" module with
-  v10); the camera service crashed when face unlock ran in a dark room (BUGS 214); only 2 floating windows (now 4; BUGS 201); the lock screen ran at 144 Hz and
+  v10); the camera service crashed when face unlock ran in a dark room (BUGS 214); only 2 floating windows (now 4; BUGS 201; v10.1: 5 floating windows and the four-finger gestures, BUGS 216); the lock screen ran at 144 Hz and
   each unlock animation stuttered (BUGS 210, 212); one short stutter after each wake (kernel hi17, BUGS 213); hotspot
   without 5 GHz (BUGS 171); the charging limit did not hold with the screen off (BUGS 204); Extra dim (BUGS 190);
   repeated prompts to turn Google on (BUGS 200).
