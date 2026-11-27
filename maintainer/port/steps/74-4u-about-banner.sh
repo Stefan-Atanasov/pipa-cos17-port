@@ -1,12 +1,13 @@
 #!/bin/sh
-# Phase 4u: ColorOS banner card in Settings > About device, without an update action (BUGS-TODO 61, user wish
-# 2026-11-03; system_ext only).
+# Phase 4u: ColorOS banner card in Settings > About device (BUGS-TODO 61, user wish 2026-11-03; system_ext only); a tap
+# opens the port update check (BUGS 219, user 2026-11-27, from pt183).
 #
-# * system_ext/priv-app/Settings/Settings.apk: maintainer/aboutcard/patch_settings_otacard.py (2 edits in place in the
+# * system_ext/priv-app/Settings/Settings.apk: maintainer/aboutcard/patch_settings_otacard.py (1 edit in place in the
 #   stored dex, platform signature kept). OtaUpdateController hid the card "key_ota_update" because the ROM removes
-#   com.oplus.ota. Now the card shows (ColorOS logo, ro.build.version.oplusrom.display, "Version up to date"), and a
-#   tap on it does nothing. Without the OTA app the update count is 0, so there is no "new version" button. Tested
-#   live 2026-11-03 (bind mount): card visible, taps on the card and the button open nothing.
+#   com.oplus.ota. Now the card shows (ColorOS logo, ro.build.version.oplusrom.display, "Version up to date"). The tap
+#   is stock: Intent("com.oplus.ota.MAIN") -> Pipa Helper 3.8 (activity-alias .SystemUpdate: System page + Check for
+#   updates of the port OTA). Up to pt181 a 2nd edit consumed the tap (removed). Without the OTA app the update count
+#   is 0, so there is no "new version" button. Tested live 2026-11-03 (card) and 2026-11-27 (tap -> helper check).
 # * The prebuilt oat of Settings is deleted (the dex changed).
 # * my_manifest/build.prop and my_product/build.prop: ro.build.version.oplusrom.display=17.0 (was "17.0 | by梦归zzz";
 #   the banner and Settings > Version show this text; user wish 2026-11-03: version only, no name).

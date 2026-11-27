@@ -2,7 +2,7 @@
 
 Maintainer build by Stefan-Atanasov, based on 梦归zzz's beta4 port. Tested on one device (8 GB). Back up first.
 
-Build: ROM **pt181** (`port.sh` up to step 9v; step 9t retired), kernel **walt-hi17**. v10.1 is an update over the air
+Build: ROM **pt183** (`port.sh` up to step 9w; step 9t retired), kernel **walt-hi17**. v10.1 is an update over the air
 from v10; the PC package stays v10 (ROM pt180, step 9u). Donor: OPPO OPD2515 `17.0.0.104(CN01)` (C.07);
 pipa vendor/odm/firmware from beta4. Root: **SukiSU Nova 3.0.0** (builtin; manager `com.sukisu.nova`).
 Package date 2026-11-27.
@@ -11,6 +11,9 @@ Package date 2026-11-27.
 
 v10.1 comes as an update in **Pipa Helper > System > Updates** ("Install update", about 100 MB from v10, one restart,
 apps and data stay). There is no new PC package: for a clean install, flash v10 and then install the update.
+
+The first v10.1 (build pt181, online for a few hours on 2026-11-27) is replaced by build **pt183**. If you installed
+pt181, Pipa Helper offers pt183 as an update too (about 100 MB).
 
 - **Full OPPO tablet multi-window:** up to 5 floating windows, and the four-finger gestures work (as on OPPO's large
   tablets):
@@ -22,7 +25,16 @@ apps and data stay). There is no new PC package: for a clean install, flash v10 
 - Why: v10 turned off OPPO's "panorama" mode to get 4 floating windows (OPPO allows only 2 on tablets with 8 GB RAM),
   and the gestures need that mode. v10.1 keeps the mode on and lets the 8 GB Pad 6 use OPPO's full tablet version
   (BUGS 216).
-- Build: ROM **pt181** (step 9v instead of 9t), kernel walt-hi17 (no change).
+- **Recents with floating windows (fixed in pt183):** in pt181 the floating windows stayed on top of the Recents
+  cards, and app switches could drop frames. OPPO's launcher and SystemUI have their own copy of the RAM test; pt181
+  changed only the one in the system. pt183 changes all three: Recents shows each floating window as a card next to
+  its app, as on OPPO tablets (BUGS 217).
+- **Settings > About device:** a tap on the ColorOS card opens Pipa Helper > System > Updates and checks for a new
+  version (BUGS 219). OPPO's own app updates (SOTA/SAU) keep running in the background as before.
+- **Pipa Helper 3.8:** the app fits a floating window (BUGS 218).
+- After the update, Android compiles the changed apps at night while charging. Pipa Helper > System > Optimise apps
+  does it at once (smoother Recents and app switches right away).
+- Build: ROM **pt183** (steps 9v + 9w instead of 9t), kernel walt-hi17 (no change).
 
 ## What's new in v10 (since v9.3)
 

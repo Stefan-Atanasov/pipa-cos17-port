@@ -4,8 +4,8 @@
      ActivityManager starts it at boot and never kills it. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.port.pipa.helper"
-    android:versionCode="38"
-    android:versionName="3.7">
+    android:versionCode="39"
+    android:versionName="3.8">
 
     <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37" />
 
@@ -118,6 +118,14 @@
         </activity>
         <activity android:name=".PageActivity" android:exported="false" android:process=":ui"
             android:theme="@style/PipaTheme" />
+        <!-- helper 3.8 (BUGS 219): the ColorOS card in Settings > About device starts Intent("com.oplus.ota.MAIN")
+             (step 4u; the ROM removes com.oplus.ota). It opens the System page and runs Check for updates (port OTA). -->
+        <activity-alias android:name=".SystemUpdate" android:targetActivity=".PageActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="com.oplus.ota.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity-alias>
         <activity android:name=".PenSettingsActivity" android:exported="false" android:process=":ui"
             android:theme="@style/PipaTheme" />
         <!-- helper 2.5: pen button actions that need an app API (flashlight); sent by pen_keys.sh (root) -->

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""BUGS-TODO 61 (step 4u): show the ColorOS banner card in Settings > About device, without an update action.
+"""BUGS-TODO 61 (step 4u): show the ColorOS banner card in Settings > About device; a tap opens the port update check.
 
 The ROM removes com.oplus.ota (OTA updater, see CLAUDE.md). OtaUpdateController.getAvailabilityStatus() then returns
 CONDITIONALLY_UNAVAILABLE, and Settings hides the card "key_ota_update" (AboutDeviceOtaUpdatePreference: ColorOS logo,
-model, version). Two edits in place in the stored dex (only the zip CRCs change; the platform signature block stays):
-  1. getAvailabilityStatus: the last `if-eqz p0, :cond_57` (com.oplus.ota enabled?) becomes a nop -> AVAILABLE (0).
-     The tests before it (not system user, GOTA, isOTANotSupport, isDisableOTA) stay.
-  2. handlePreferenceTreeClick: for the card's own key, the `iget-boolean v0, p0, mGotaUpdateSupport` after the key
-     test becomes `return v1` (v1 = true) + nop: the tap is consumed and starts nothing. The easter-egg test before
-     it stays.
+model, version). One edit in place in the stored dex (only the zip CRCs change; the platform signature block stays):
+  getAvailabilityStatus: the last `if-eqz p0, :cond_57` (com.oplus.ota enabled?) becomes a nop -> AVAILABLE (0).
+  The tests before it (not system user, GOTA, isOTANotSupport, isDisableOTA) stay.
+The tap stays stock (BUGS 219, user 2026-11-27): handlePreferenceTreeClick -> getTargetIntent() = implicit
+Intent("com.oplus.ota.MAIN") (no GOTA) -> startActivitySafely. Pipa Helper 3.8 answers that action (activity-alias
+.SystemUpdate): System page + "Check for updates" (port OTA, latest.json). Up to pt181 the tap was consumed (return true).
 The card's update counter comes from SettingsUtils.getOtaData() (0 without the OTA app), so the card shows the
 "no update" text and no "new version" button.
 usage: patch_settings_otacard.py <Settings.apk> <out.apk>   (needs androguard: maintainer/jar-edits/venv)"""
@@ -52,17 +52,12 @@ def patch_dex(d):
     assert ret.get_name() == 'return' and 'v1' in ret.get_output(), (ret.get_name(), ret.get_output())
     dex[o2:o2 + 4] = b'\0' * 4                                                  # nop nop
 
-    # 2. handlePreferenceTreeClick: key test, then iget-boolean mGotaUpdateSupport -> return v1 (true)
+    # tap: stock path (getTargetIntent -> com.oplus.ota.MAIN -> Pipa Helper); refuse an APK that has the old consumed tap
     m = find(parsed, 'handlePreferenceTreeClick', '(Landroidx/preference/Preference;)Z')
     ins = list(walk(m))
     hits = [i for i, (o, x) in enumerate(ins) if x.get_name() == 'iget-boolean' and 'mGotaUpdateSupport' in x.get_output()]
-    assert len(hits) == 1, f'mGotaUpdateSupport reads: {len(hits)}'
-    i = hits[0]
-    assert ins[i - 1][1].get_name() == 'if-eqz' and 'TextUtils;->equals' in ins[i - 3][1].get_output(), 'no key test'
-    assert any(x.get_name() == 'const/4' and x.get_output() == 'v1, 1' for _, x in ins[:i]), 'v1 is not true'
-    o, x = ins[i]
-    assert x.get_length() == 4 and dex[o] == 0x55, dex[o:o + 4].hex()        # iget-boolean (22c)
-    dex[o:o + 4] = bytes([0x0f, 0x01, 0, 0])                                    # return v1 ; nop
+    assert len(hits) == 1, f'mGotaUpdateSupport reads: {len(hits)} (old 4u tap patch?)'
+    assert 'getTargetIntent' in ''.join(x.get_output() for _, x in ins), 'no getTargetIntent call in the tap'
 
     dex[12:32] = hashlib.sha1(dex[32:]).digest()
     dex[8:12] = struct.pack('<I', zlib.adler32(bytes(dex[12:])))
@@ -97,7 +92,7 @@ def main(src, dst):
     else:
         raise SystemExit('central directory entry not found')
     open(dst, 'wb').write(apk)
-    print(f'{info.filename}: OtaUpdateController patched in place (card visible, tap does nothing), crc32 {crc:08x}')
+    print(f'{info.filename}: OtaUpdateController patched in place (card visible, tap -> com.oplus.ota.MAIN), crc32 {crc:08x}')
 
 
 if __name__ == '__main__':

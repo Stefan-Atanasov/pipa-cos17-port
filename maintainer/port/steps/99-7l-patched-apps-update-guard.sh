@@ -5,7 +5,7 @@
 # raise android:versionCode in place (maintainer/oshare/bump_version.py: same-size zip entry, signing block untouched),
 # so stores see no newer version and Android drops an older /data update at boot. Safety net: pipa_port service.sh
 # PATCHED_ROLLBACK removes any /data update of these packages at boot.
-# Patched by: SystemUI 3b/4e/4v, Settings 4u/6n/7m, OplusLauncher 4e/4v, OplusEyeProtect 3f, Wallpapers 5t, IPeManager 2p,
+# Patched by: SystemUI 3b/4e/4v/9w, Settings 4u/6n/7m, OplusLauncher 4e/4v/9w, OplusEyeProtect 3f, Wallpapers 5t, IPeManager 2p,
 # Battery 5v. 2026-11-17 (review): bump_version.py finds android:versionCode by its resource id, so Battery (37 = also
 # its targetSdk) is bumped too; a donor versionCode at or above the target now stops the build (pick a higher target).
 set -eu

@@ -29,6 +29,7 @@ public final class PageActivity extends Activity {
         @Override public void onChange(boolean self) { if (onChange != null) onChange.run(); }
     };
     private String[] watched = new String[0];
+    private View updRow; // 3.8: "Check for updates" row (the Settings update card scrolls to it)
 
     @Override
     protected void onCreate(Bundle b) {
@@ -41,6 +42,12 @@ public final class PageActivity extends Activity {
             case "effects": effects(); break;
             case "games": games(); break;
             default: system(); break;
+        }
+        // 3.8 (BUGS 219): opened from the Settings update card (alias .SystemUpdate, com.oplus.ota.MAIN): check at once
+        if (b == null && "com.oplus.ota.MAIN".equals(getIntent().getAction()) && updRow != null) {
+            View r = updRow;
+            r.post(() -> r.requestRectangleOnScreen(new android.graphics.Rect(0, 0, r.getWidth(), r.getHeight()), true));
+            checkNow();
         }
     }
 
@@ -762,6 +769,7 @@ public final class PageActivity extends Activity {
         Ui.header(col, getString(R.string.upd_h));
         k = Ui.card(col);
         View upd = Ui.row(k, "↻", getString(R.string.upd_check), "", null, v -> checkNow());
+        updRow = upd;
         Ui.divider(k);
         globalToggle(k, "⏲", R.string.upd_auto, R.string.upd_auto_sum, UpdateJob.KEY_ON, 1);
         // 3.4 (BUGS 193): A/B install through the pipa_port service (update_engine), one restart at the end

@@ -87,6 +87,8 @@ int main(int argc, char **argv)
 			pos(x1 + (int)((x2 - x1) * f), y1 + (int)((y2 - y1) * f));
 			ev(EV_SYN, SYN_REPORT, 0);
 		}
+		if (getenv("KGEST_END_HOLD_MS"))	/* finger rests before lift: "swipe up and hold" = Recents */
+			sleep_us(atoi(getenv("KGEST_END_HOLD_MS")) * 1000L);
 		up();
 		return 0;
 	}

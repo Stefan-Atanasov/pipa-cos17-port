@@ -1,7 +1,7 @@
 # Known issues
 
 This document lists the known problems of the public release **v10.1** (2026-11-27, over-the-air update of v10; ROM
-pt181 = step 9v instead of 9t; the same kernel) and **v10** (ROM `port.sh` up to
+pt183 = steps 9v + 9w instead of 9t; the same kernel; the first v10.1 build pt181 was replaced) and **v10** (ROM `port.sh` up to
 step 9u = pt180 + kernel walt-hi17, donor C.07; v9.3 = step 8u, pt151 + walt-hi15; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 to v9.3 apply to v10 unless this list says they are fixed. What changed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
 [RELEASE-NOTES.md](RELEASE-NOTES.md).
 GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-27.

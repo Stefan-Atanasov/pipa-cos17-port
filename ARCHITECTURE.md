@@ -3,7 +3,7 @@
 This document tells how the port is put together. It is a reference: each section gives the source files in this
 repository. For the build procedure, refer to [BUILD.md](BUILD.md).
 
-State: public release **v10.1** (2026-11-27, over the air) = `port.sh` default run (last active step 9v, build pt181; 9t retired); PC package v10 = last step 9u, build pt180 + kernel `walt-hi17`. First stable: v9 (2026-11-19, step 7x, pt128 + walt-hi9).
+State: public release **v10.1** (2026-11-27, over the air) = `port.sh` default run (last active step 9w, build pt183; 9t retired; the first v10.1 build pt181 ended at 9v); PC package v10 = last step 9u, build pt180 + kernel `walt-hi17`. First stable: v9 (2026-11-19, step 7x, pt128 + walt-hi9).
 
 ## 1. Partitions
 
@@ -53,7 +53,7 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 9v (v10.1, pt181; v10 ended at 9u, pt180; v9 ended at 7x, beta6 at 3w). The table in
+- Thus the last step that changes the default build is 9w (v10.1, pt183; the first v10.1 build pt181 ended at 9v; v10 ended at 9u, pt180; v9 ended at 7x, beta6 at 3w). The table in
   section 2.3 ends at 7x. For the later steps, read the header comment of each file in `maintainer/port/steps/`. Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.

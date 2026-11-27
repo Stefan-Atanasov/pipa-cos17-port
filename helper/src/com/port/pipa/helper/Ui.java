@@ -72,7 +72,7 @@ final class Ui {
         col.setOrientation(LinearLayout.VERTICAL);
         int side = px(a, 20);
         col.setPadding(side, 0, side, px(a, 24));
-        FrameLayout frame = new FrameLayout(a);   // the column keeps a readable width in landscape
+        FrameLayout frame = new Narrow(a);        // the column keeps a readable width in landscape
         frame.addView(col, narrow(a));
         sv.addView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -295,11 +295,26 @@ final class Ui {
         }
     }
 
-    /** a frame that centres a fixed-width column on wide screens (tablet landscape) */
+    /** the column inside a {@link Narrow} frame: full frame width, centred */
     static FrameLayout.LayoutParams narrow(Context c) {
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(Math.min(px(c, 760),
-                c.getResources().getDisplayMetrics().widthPixels), ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_HORIZONTAL;
         return lp;
+    }
+
+    /**
+     * 3.8 (BUGS 218): centres its column at up to 760 dp, never wider than the frame itself. Before, the column took
+     * min(760 dp, display width): in a floating window (or split view) the window is narrower than the display, so the
+     * column overflowed and its sides were cut off. Measuring against the frame's own width follows every resize.
+     */
+    static final class Narrow extends FrameLayout {
+        private final int max;
+        Narrow(Context c) { super(c); max = px(c, 760); }
+        @Override protected void onMeasure(int wSpec, int hSpec) {
+            int w = MeasureSpec.getSize(wSpec);
+            super.onMeasure(MeasureSpec.makeMeasureSpec(Math.min(w, max), MeasureSpec.EXACTLY), hSpec);
+            setMeasuredDimension(w, getMeasuredHeight());   // full width; onLayout centres the column
+        }
     }
 }

@@ -1,7 +1,43 @@
 {
-  "version": "v10",
-  "build": 180,
+  "version": "v10.1",
+  "build": 183,
   "date": "2026-11-27",
   "notes": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/RELEASE-NOTES.md",
-  "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md"
+  "downloads": "https://github.com/Stefan-Atanasov/pipa-cos17-port/blob/main/DOWNLOADS.md",
+  "ota": {
+    "payloads": [
+      {
+        "from": "pt181",
+        "offset": 41,
+        "size": 96804785,
+        "headers": "FILE_HASH=ePlNDq1hnuG++9viyj4QNzo9PblWUQ4JksKZPnez7kc=\nFILE_SIZE=96804785\nMETADATA_HASH=GnYT8Ml7oTDsCpBbUGUX23TkVqB/Y6EQ02y4QJL+Th0=\nMETADATA_SIZE=291945",
+        "urls": [
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10.1/ota-pt183-from-pt181.zip",
+          "https://pixeldrain.com/api/file/e2deaHeM",
+          "https://drive.usercontent.google.com/download?id=1CfMEytAkY3lMytlJakV1zgAULYuBv33n&export=download&confirm=t"
+        ]
+      },
+      {
+        "from": "pt180",
+        "offset": 41,
+        "size": 96806134,
+        "headers": "FILE_HASH=0L3zQzpvyR6+aBlSxwsKCugqWSmhSdJzmKITiLhq0mM=\nFILE_SIZE=96806134\nMETADATA_HASH=tSxuElATGhU68MHNU4twUO1R9gfKGhI+30RvRRNfH/E=\nMETADATA_SIZE=292494",
+        "urls": [
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10.1/ota-pt183-from-pt180.zip",
+          "https://pixeldrain.com/api/file/WJp5FTLq",
+          "https://drive.usercontent.google.com/download?id=1yO3t-we3CO8A0LK5U7ftWbHqNG1rauim&export=download&confirm=t"
+        ]
+      },
+      {
+        "offset": 61,
+        "size": 6049384042,
+        "headers": "FILE_HASH=i8QHMlzAeWD5TDRR3nKyGSFYM6gLFQ6JhbsecMQq4JI=\nFILE_SIZE=6049384042\nMETADATA_HASH=ZAYW1/+jPfBFmB6R5nrjb29r39ZxdKcKPb0m/Jle9lU=\nMETADATA_SIZE=202616",
+        "urls": [
+          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10.1/ota-pt183.zip",
+          "https://pixeldrain.com/api/file/sPziZwGq",
+          "https://drive.usercontent.google.com/download?id=12hBI_PReOaACzqifrQOG_mpncSZ5p_fb&export=download&confirm=t"
+        ]
+      }
+    ]
+  }
 }
