@@ -18,39 +18,6 @@
         ]
       },
       {
-        "from": "pt176",
-        "offset": 41,
-        "size": 96769842,
-        "headers": "FILE_HASH=Xtk9/OxXhVenEi+tV10e7NXhaIQ1FYvaI+rX6dUg1zQ=\nFILE_SIZE=96769842\nMETADATA_HASH=Pr2G4WNBh2n+bUgrsK2OIDebYW5akFVGgKZ5+Ta2y2Y=\nMETADATA_SIZE=292302",
-        "urls": [
-          "https://pixeldrain.com/api/file/kbvdxWwt",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1aYjHEdQ96pOiD6NZfZgnykvPgu23qc2Z",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt176.zip"
-        ]
-      },
-      {
-        "from": "pt175",
-        "offset": 41,
-        "size": 96769827,
-        "headers": "FILE_HASH=PaqLWdo2x8JnYWapGObgkcrowdfAeSwBYNJ8NuDaPZg=\nFILE_SIZE=96769827\nMETADATA_HASH=Hrdy8VAsa5iJ2ETVGW7ZBRJWKVa4h9QkMKi9XHAV9xI=\nMETADATA_SIZE=292302",
-        "urls": [
-          "https://pixeldrain.com/api/file/89gk1GR5",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1Ysxv4KYG6jyTHiBOhDgfwpbWIlsgTkUu",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt175.zip"
-        ]
-      },
-      {
-        "from": "pt172",
-        "offset": 41,
-        "size": 100759738,
-        "headers": "FILE_HASH=W4hkPZ6UnarEytXs/0ScnUtYK3KeR1XB5xN6OXFdfYw=\nFILE_SIZE=100759738\nMETADATA_HASH=vUqahCrYcK1Gh2Egx5KRjnSktLiiQxVhgUTZs13BcPU=\nMETADATA_SIZE=2217484",
-        "urls": [
-          "https://pixeldrain.com/api/file/fi4pkxYC",
-          "https://drive.usercontent.google.com/download?export=download&confirm=t&id=1MgnR6urSvWAkLJ1EByNxEAegE1yeLFvZ",
-          "https://downloads.sourceforge.net/project/pipa-cos17-port/OTA/v10/ota-v10-from-pt172.zip"
-        ]
-      },
-      {
         "offset": 61,
         "size": 6049383329,
         "headers": "FILE_HASH=8JTZMy04bwX0m7lXn3rtTsqQ0yVs1bNauLbHmSlXB7Q=\nFILE_SIZE=6049383329\nMETADATA_HASH=Imgf4gAH5Ak0qoaoN4xz1p6ct7u2lcMNc8f6RTSXqLY=\nMETADATA_SIZE=202616",
