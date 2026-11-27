@@ -67,7 +67,8 @@ write the firmware (bootloader, modem, `vbmeta`) in a dirty flash.
 
 WARNING: The first boot takes about 1 minute longer than usual. Do not reboot during this time.
 
-Release paths that are not tested yet for v9 (clean install): refer to [KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
+Release paths that are tested for v10 (clean install, update in Pipa Helper) and the paths that are not tested: refer to
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md), "For maintainers".
 
 ## Known issues and bug reports
 
@@ -84,7 +85,7 @@ For users:
 |---|---|
 | [DOWNLOADS.md](DOWNLOADS.md) | All download links in one page: ROM builds, md5, extras, help. |
 | [RELEASE-NOTES.md](RELEASE-NOTES.md) | What the current release changes, how to install it, the tests. |
-| [TEST-NOTES.md](TEST-NOTES.md) | The current test build (testers only): what is new, how to install it by OTA. |
+| [TEST-NOTES.md](TEST-NOTES.md) | Notes for testers: test builds (none at the moment), updates in Pipa Helper, how to report a problem. |
 | [KNOWN-ISSUES.md](KNOWN-ISSUES.md) | Open problems, workarounds and status. |
 | [CHANGELOG.md](CHANGELOG.md) | All changes since beta7.1, in short. |
 | [FLASH-WITHOUT-PC.md](FLASH-WITHOUT-PC.md) | Flash from a second Android phone (Bugjaeger) instead of a PC. Not tested by the maintainer. |
@@ -144,7 +145,7 @@ Refer to [KERNEL.md](KERNEL.md).
 
 ## Contributing
 
-- Report bugs in the bug report document or in the group.
+- Report bugs in GitHub Issues (section "Known issues and bug reports") or in the group.
 - For a change to the ROM, write a new step file (`maintainer/port/README.md`, "How to add a step") and update the
   documents. Write the documents in ASD-STE100 (Simplified Technical English).
 - Do not add proprietary binaries, images or keys to this repository.

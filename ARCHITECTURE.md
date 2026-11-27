@@ -53,7 +53,8 @@ to [REBASE.md](REBASE.md).
 | 3k | `PORT_ODM_C06=1` | The OPPO interconnect stack in `odm` from C.06. Built, not tested. Refer to `maintainer/port/NOTES-3k-odm-c06.md`. |
 | 3x | `PORT_NOENCRYPT=1` | `/data` without encryption, for Linux dual boot (`beta6-noenc`). Experimental. |
 
-- Thus the last step that changes the default build is 7x (beta6 ended at 3w). Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
+- Thus the last step that changes the default build is 9u (v10, pt180; v9 ended at 7x, beta6 at 3w). The table in
+  section 2.3 ends at 7x. For the later steps, read the header comment of each file in `maintainer/port/steps/`. Since pt28 (2026-11-03) the donor is C.07 (17.0.0.104).
 - `--until <step>` stops after that step. Example: `--until 3h` gives the 3h content.
 - The property `ro.pipa.port.layer` (in `system_ext/etc/build.prop`) gives the last step that called `set_layer`.
   Steps 3u, 3v and 3w do not call it. Thus beta6 shows `3t`. When this value changes, `early.sh` clears the package
@@ -303,14 +304,16 @@ Each switch is 1 (on) or 0 (off). The defaults are in `port-rom/pipa_port/config
 
 ## 4. The pipa helper app
 
-`com.port.pipa.helper` (version 2.2) is a persistent privileged system app. The source is in `helper/`.
+`com.port.pipa.helper` (version 3.7 in v10) is a persistent privileged system app. The source is in `helper/`.
 
 | Part | Function |
 |---|---|
 | `DolbyKeeper` | Keeps the Dolby and MiSound effects on the output mix (event driven, no polling). Selects the stock Dolby tuning per output and volume. Remembers the effect the user picks in MiSound per output (speaker, Bluetooth, wired, USB) and applies it when the output changes; automatic changes by MiSound are undone. |
 | `PenKeeper`, `PenPill` | Low pen battery notification (15 %). The pen pill shows only when `pipa_pen_fluid` is 0. |
 | `LidKeeper` | Sets the "lock with cover" switch (`lid_behavior`). |
-| `BlurTile`, `LogTile` | Quick Settings tiles "Live blur" (`persist.sys.oplus.systemui.dynamic_blur` through the service, default off, reboot to apply; step 7x) and "Logs". The "Animations" tile was removed in helper 1.9: animation tier 3 is fixed. Override: `ANIM_LEVEL` in `/data/misc/pipa_port/config.prop`. |
+| `LogTile`, `DolbyTile`, `HotspotTile`, `ExtraDimTile` | Quick Settings tiles "Logs", "Dolby Atmos" and "Hotspot" (helper 3.1, step 8z) and "Extra dim" (helper 3.2). The "Live blur" tile (step 7x) was removed in helper 2.8 (step 8s). The "Animations" tile was removed in helper 1.9. Pipa Helper > Effects sets the animation style; override: `ANIM_LEVEL` in `/data/misc/pipa_port/config.prop`. |
+| `UpdateJob` | Pipa Helper > System > Updates (helper 3.3 and later, steps 9c-9e and 9h): reads `latest.json` of the public repository, compares its build with the installed build, and asks the `pipa_port` service to install the A/B payload (delta first, then full) into the other slot. |
+| `LogsKeeper` | Pipa Helper > System > Collect logs (step 8q; 9b and 9m add the previous boot and a persistent error log). |
 | Assistant service | Voice interaction service: gesture bar long press starts Circle to Search, corner swipe starts Gemini (step 7s). |
 | `BootReceiver` | Starts the keepers after boot. |
 

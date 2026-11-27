@@ -14,7 +14,7 @@ install a dual boot on this port ourselves.** The methods below are from the pip
 
 - **Can Linux read the internal storage of the port?** Not with the normal build: `/data` is encrypted with keys
   that only the TEE of the tablet can use (section 4). An **experimental build without encryption** exists
-  (`v9.3-noenc`, section 4); it is not tested by the maintainer.
+  (`v9.3-noenc`, section 4; there is no `v10-noenc`); it is not tested by the maintainer.
 - **Do I need SELinux permissive?** No. SELinux does not hold encryption keys. `androidboot.selinux=permissive` on the
   kernel command line also does nothing: this is a `user` build, and the vendor boot image sets
   `androidboot.selinux=enforcing`.
@@ -79,7 +79,8 @@ The kernel:
 - AOSP says that `wrappedkey_v0` is not compatible with the upstream Linux kernel. TWRP in the port can decrypt
   `/data` because it runs the Android keymaster in the TEE.
 - **Keep `metadata` and `persist`.** If you erase `metadata`, Android cannot open `/data` again (format needed).
-- **Experimental build without encryption: `v9.3-noenc`** (2026-11-23; first `beta6-noenc`; port step 3x, `PORT_NOENCRYPT=1`). Its
+- **Experimental build without encryption: `v9.3-noenc`** (2026-11-23; first `beta6-noenc`; port step 3x, `PORT_NOENCRYPT=1`;
+  there is no `v10-noenc`, and Pipa Helper does not install updates on a `-noenc` build). Its
   `vendor/etc/fstab.qcom` has no `fileencryption=`, `metadata_encryption=`, `keydirectory=` and `inlinecrypt` on
   `/data`, so Android formats `/data` without encryption. Then Linux can read it (f2fs).
   - **Not tested.** Nobody has booted it yet.
@@ -93,21 +94,22 @@ The kernel:
 | Script | Writes |
 |---|---|
 | `FlashLinux.sh` / `FlashWindows.bat`, **clean flash** (`2`) | All firmware `_ab`, `boot_ab`, `dtbo_ab`, `vendor_boot_ab`, `vbmeta_ab`, `super`; erases `metadata` and `userdata`. **Overwrites a Linux image in `boot_a` and `dtbo_a`.** |
-| Same, **dirty flash** (Enter on Linux, `N` on Windows), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps the Linux image in `boot_a` and `dtbo_a`** (`vendor_boot_a` and `vbmeta_a` get the beta4 images again). Not tested on a device yet. |
+| Same, **dirty flash** (answer `1`), **build 6 and later** | Firmware, `vendor_boot` and `vbmeta` `_ab` (unchanged content), **`boot_b` and `dtbo_b` only**, `super`. **Slot A keeps the Linux image in `boot_a` and `dtbo_a`** (`vendor_boot_a` and `vbmeta_a` get the beta4 images again). Not tested on a device yet. |
 | Same, dirty flash, **beta5 and older** | Like a clean flash without the erase: `boot_ab` and `dtbo_ab`. Flash your Linux image to `boot_a` again after the update, and erase `dtbo_a` again. |
 
 - No script changes the partition table (GPT).
-- The port has no OTA updater. (On ROMs with A/B OTA, an update writes the inactive slot = the Linux slot. HyperOS
-  users reported Linux boot failures after updates.)
+- Before v10 the port had no OTA updater. Since v10, Pipa Helper installs updates into the other slot (next section).
+  (On ROMs with A/B OTA, an update writes the inactive slot = the Linux slot. HyperOS users reported Linux boot
+  failures after updates.)
 
-### OTA updates (Pipa Helper, next release)
+### OTA updates (Pipa Helper, v10 and later)
 
 - An OTA update installs the ROM into the other slot, kernel included, and the next update goes back. So with OTA the
   port uses slot A and slot B in turn, and `boot_a` is no longer free.
 - Before an install, the ROM checks the boot partition of the other slot. If it holds something that is not a port
   boot image (for example a Linux or UEFI image), the install stops and Pipa Helper shows why. Nothing is written.
 - If you use dual boot with `boot_a`: do not use OTA updates. Update with `FlashLinux.sh` / `FlashWindows.bat` and
-  keep the data (Enter / `N`): these write slot B only.
+  keep the data (answer `1`): these write slot B only.
 
 ## 6. Dual boot methods used on pipa
 
@@ -135,9 +137,10 @@ Switch the OS in the bootloader: `fastboot set_active a` (Linux), `fastboot set_
 
 ## 7. If something goes wrong
 
-- ColorOS does not start: in fastboot, `fastboot set_active b`. Then reboot.
+- ColorOS does not start: in fastboot, `fastboot set_active b`. Then reboot. After OTA updates, ColorOS can be in slot
+  A: check with `fastboot getvar current-slot` first.
 - TWRP: Power + Volume up **with slot B active** (TWRP is only in `boot_b`).
-- Bootloop after a port update: flash the release again with "keep data" (Enter on Linux, `N` on Windows).
+- Bootloop after a port update: flash the release again with "keep data" (answer `1`).
 - Linux does not start after a port update (beta5 or older scripts): flash your Linux boot image to `boot_a` again and
   erase `dtbo_a` again.
 

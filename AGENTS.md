@@ -45,6 +45,8 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - Never store passwords, PINs or keys in files, logs or commit messages.
 - Never commit or share `helper/keys/` (the helper signing key and `keystore.pass`). With it, a person can sign a
   helper update that the ROM accepts.
+- Never commit or share `maintainer/ota/keys/` (the OTA signing key, since v10). With it, a person can sign a system
+  update that Pipa Helper installs.
 - Do not add proprietary binaries (`*.so`, `*.jar`, `*.apk`, images) to this repository.
 - Before a large investigation, say in one line why it matters for the user. If it becomes a side task, record it
   in `BUGS.md` and ask before you continue.
@@ -57,7 +59,7 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
   through sudo: `sudo env NAME=value sh COS17/maintainer/port/port.sh ...`.
 - Without `PIPA_ROOT`, the scripts use the folder that holds `COS17/` (found from their own location). The kernel
   scripts also use `K` and `BK`. Refer to [BUILD.md](BUILD.md), section 1.4.
-- An optional step (2u, 3k, 3x) has a line `#OPTIONAL: <VAR>`. A new optional step must have this line, so that the
+- An optional step (2u, 3k, 3x, 5s) has a line `#OPTIONAL: <VAR>`. A new optional step must have this line, so that the
   preflight checks its inputs only when it runs.
 - Host tools: [BUILD.md](BUILD.md), section 1.1 (erofs-utils, android-tools, python3, JDK 21, Android SDK build-tools
   37.0.0 and platform android-37.0, smali/baksmali 2.5.2, apktool 2.12.1; NDK 30 and AOSP clang r547379 only for
@@ -231,6 +233,12 @@ Proprietary binaries, images, donor files and the helper signing key are not in 
 - **Memory values belong to OPPO's scripts.** Do not let a Qualcomm or porter script write zram, swappiness or
   `watermark_scale_factor`. They raced with OPPO's `init.oplus.nandswap.sh`. Layer 6t removes the porter `mm-sys.sh`.
 - **Live zram changes with `swapoff` distort test results.** Compare zram settings with reboots.
+- **Port OTA (since v10; Pipa Helper > System > Updates, steps 9c-9e and 9h).** `latest.json` at the repository root
+  names only public releases (SourceForge `Releases/`); test builds go to testers by hand, never by OTA. update_engine
+  accepts only payloads signed with the port key (`otacerts.zip`, step 9c). A delta installs only on the exact build
+  that it was made from (error 20 otherwise): keep `port-work/<tag>/img` of each published build, and never rebuild it
+  (each build gets new EROFS UUIDs). The release boot image must have the first-stage `snapuserd` ramdisk ("-su"
+  image). After the Virtual A/B merge the old slot does not boot: going back needs a PC flash.
 - **`flash_kernel.sh` can stop with "GetVar Variable Not found".** It writes nothing. Reboot to Android and flash again
   from adb.
 - **OPPO kernel code under `CONFIG_DRM_MSM` does not run on pipa.** `CONFIG_DRM_MSM` is unset and

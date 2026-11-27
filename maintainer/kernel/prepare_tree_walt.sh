@@ -17,7 +17,9 @@ if [ "${1:-}" = --save ]; then
 	T=${2:-$K/walt-own}
 	# only our objects: everything reachable from own/oppo but not from the upstream branches
 	# sukisu-430 = the flashed kernel since walt-r8 (worktree walt-oppo); it was not saved before 2026-11-02
-	git -C "$T" bundle create "$B.new" own oppo ksu sukisu-430 ^lineage/lineage-24.0 ^liyafe/android15-lineage22-mod
+	# audit-healthinfo = the release kernels walt-hi10.. (worktree wt-healthinfo; v10 = hi17), pub/oppo = the public
+	# GitHub branch oppo (hi17 + README); both were missing here until 2026-11-27
+	git -C "$T" bundle create "$B.new" own oppo ksu sukisu-430 audit-healthinfo pub/oppo ^lineage/lineage-24.0 ^liyafe/android15-lineage22-mod
 	git bundle verify "$B.new" >/dev/null 2>&1 || git -C "$T" bundle verify "$B.new"
 	mv "$B.new" "$B"; ls -la "$B"; exit 0
 fi

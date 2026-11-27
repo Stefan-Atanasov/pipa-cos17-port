@@ -5,8 +5,8 @@ Where each part of the port comes from. Details: [HANDOFF-FROM-ZERO.md](HANDOFF-
 
 **People**
 
-- 梦归zzz ([t.me/joeyzhu1](https://t.me/joeyzhu1)): the original ColorOS 17 port for pipa (beta4) and the `pipa_core` module (do not use `pipa_core` with v9).
-- Stefan-Atanasov: maintenance since beta5 (beta5 to v9.3), ROM fixes, kernel, pipa helper.
+- 梦归zzz ([t.me/joeyzhu1](https://t.me/joeyzhu1)): the original ColorOS 17 port for pipa (beta4) and the `pipa_core` module (do not use `pipa_core` with v9 or later).
+- Stefan-Atanasov: maintenance since beta5 (beta5 to v10), ROM fixes, kernel, pipa helper.
 
 **ROM**
 

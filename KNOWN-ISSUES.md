@@ -1,14 +1,14 @@
 # Known issues
 
 This document lists the known problems of the public release **v10** (2026-11-27; ROM `port.sh` up to
-step 9u = pt180 + kernel walt-hi17, donor C.07; v9.3 = step 8u, pt151 + walt-hi15; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 to v9.3 apply to v10 unless this list says they are fixed. What v9 fixed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
+step 9u = pt180 + kernel walt-hi17, donor C.07; v9.3 = step 8u, pt151 + walt-hi15; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 to v9.3 apply to v10 unless this list says they are fixed. What changed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
 [RELEASE-NOTES.md](RELEASE-NOTES.md).
 GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-27.
 
 **Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then open a bug report on GitHub and attach the file: https://github.com/Stefan-Atanasov/pipa-cos17-port/issues/new/choose
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
-## Known issues in v10 / v9.3
+## Known issues in v10
 
 - **Fewer effects than full ColorOS (by design, since v9).** The port uses ColorOS's "fast" animation level 3 and
   turns off the window blur and the animation blur: about 0.3 % dropped frames instead of 2.7 % on the SD870. At
@@ -226,6 +226,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 | Item | Status |
 |---|---|
+| Release paths of the v10 package | Verified: clean flash of the v10 package with pt178 (= pt180 without step 9u) by `FlashLinux.sh` (setup wizard, first-boot installs, root, device_check 58 pass / 0 fail / 1 warning), then pt178 -> pt179 -> pt180 as OTA deltas with `update_engine` (the install path of Pipa Helper). OTA test builds pt175 -> pt176 -> pt177 on the maintainer tablet, one tester on pt172. Not tested by the maintainer with v10: "keep data" from v9.x with the package, and the deltas from pt177 and pt178 to pt180. Reports welcome. |
 | Release paths of the v9 package | Verified: clean flash of the image pt128 + walt-hi9 (setup, device_check 57 pass / 0 fail / 2 warnings). `FlashMac.sh` on a real Mac: works (user report, 2026-11-20). |
 | Release paths of the beta7.1 package (old record) | Tested with the image pt61 (not as a package): clean flash (setup, installs, device_check 57 pass / 0 fail / 1 warn) and a dirty flash over beta7-based data (pt60, nearly the same code). Not tested: the package scripts, an update from beta6, "keep data" leaves `boot_a`/`dtbo_a` unchanged, night standby on beta7.1. Reports welcome. |
 | Vendor props not loaded (BUGS 83) | Closed 2026-11-11: not a bug. `getprop` shows 144 of 345 lines of `/vendor/build.prop` as empty, but boot logs show that `init` loads them (same as stock HyperOS 2). No fix is necessary. |

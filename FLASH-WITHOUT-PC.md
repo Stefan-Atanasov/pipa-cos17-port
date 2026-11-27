@@ -4,6 +4,9 @@ Status: **not tested by the maintainer** (2026-11-14). One tester flashed a beta
 fastboot shell for typed commands; its author says basic commands work but are not fully tested. Use the PC script
 `FlashLinux.sh` if you can. Report your result in the tester group.
 
+NOTE: Already on v10? You do not need a PC or a second phone for the next updates: Pipa Helper > System > Updates
+installs them.
+
 ## What you need
 
 - A second Android phone with the app **Bugjaeger** and a USB-C to USB-C OTG cable (or an OTG adapter).
@@ -91,12 +94,12 @@ you run it.
 2. Run `termux-setup-storage` and allow the storage access.
 3. Install adb and fastboot:
    `curl -s https://raw.githubusercontent.com/offici5l/termux-adb-fastboot/main/install | bash`
-4. Extract the release package on the phone (the folder is about 7.4 GB). Example folder: `/sdcard/v9.3`.
+4. Extract the release package on the phone (the folder is about 7.4 GB). Example folder: `/sdcard/v10`.
 5. Put the tablet in fastboot mode (Power + Volume down) and connect it with a USB OTG cable. Allow the USB access
    in Termux. `fastboot devices` must show the tablet.
 6. Run the flash script:
    ```
-   cd /sdcard/v9.3
+   cd /sdcard/v10
    bash FlashLinux.sh
    ```
    (`chmod +x` does not work on `/sdcard`; `bash FlashLinux.sh` does not need it.) The script uses the Termux

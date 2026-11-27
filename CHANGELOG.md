@@ -15,6 +15,7 @@
 - **Warm tablet with a second user / guest / private space fixed:** the face service retried without end (1.5 cores busy, the face log filled the storage); face log quiet; an oversized log is cut once (BUGS 215).
 - **Face unlock in a dark room** no longer crashes the camera service (BUGS 214).
 - **Note:** after a clean install the tablet starts on China time (UTC+8); set your time zone once in Settings > Date & time.
+- **Note:** do not use the KernelSU module "Thermal & Battery Fix" with v10: v10 has the face fix built in.
 - Pipa Helper 3.7.
 
 ## v9.3 (2026-11-21: ROM pt151 + kernel walt-hi15)

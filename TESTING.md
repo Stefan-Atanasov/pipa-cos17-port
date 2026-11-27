@@ -42,7 +42,8 @@ ADB="adb -s <serial>" sh maintainer/device_check.sh <tag>
 - The report is in `port-work/device-checks/<date>-<tag>.txt`.
 - If `port-work/<tag>/report/` exists (a `port.sh` build on this PC), the script also compares the file md5 values on
   the tablet with the build manifests.
-- Expected result for v9 (clean flash, pt128 + walt-hi9): 57 pass, 0 fail, 2 warnings (the `logd` capture properties are at their defaults; `sensorCCT` is 0 because adaptive colour is off by default after a clean flash). Older results, kept as a record: for beta7.2: 56-58 pass, 0 fail (pt68 dirty: 57 pass, 0 fail, 1 warning: nandswap right after boot). For beta7.1: 56-58 pass, 0 fail (clean flash of pt61: 57 pass, 0 fail, 1 warning; pt63 dirty: 56 pass, 0 fail, 2 warnings) (a warning for the IFace start burst in the first minute after a boot is normal).
+- Expected result for v10 (pt180 + walt-hi17; clean flash of the v10 package, then OTA to pt180): 58 pass, 0 fail, 1
+  warning (`sensorCCT` is 0: OPPO natural tone is off after a clean flash). Expected result for v9 (clean flash, pt128 + walt-hi9): 57 pass, 0 fail, 2 warnings (the `logd` capture properties are at their defaults; `sensorCCT` is 0 because adaptive colour is off by default after a clean flash). Older results, kept as a record: for beta7.2: 56-58 pass, 0 fail (pt68 dirty: 57 pass, 0 fail, 1 warning: nandswap right after boot). For beta7.1: 56-58 pass, 0 fail (clean flash of pt61: 57 pass, 0 fail, 1 warning; pt63 dirty: 56 pass, 0 fail, 2 warnings) (a warning for the IFace start burst in the first minute after a boot is normal).
 
 The script checks, among other items:
 
@@ -172,8 +173,9 @@ Test each path on a tablet with a backup, or on a spare install:
 | Dirty flash ("keep data") from the previous release | Root works, the SukiSU Nova manager is installed (it replaces an old SukiSU-Ultra manager), apps and settings stay. |
 | Clean flash (answer `2`, then `ERASE`) | Setup wizard (no grey screen), on-screen keyboard, root on the first boot, SukiSU Nova manager, Play Store, Gboard and Google app installed in the first minute, face enroll in portrait and landscape. A dirty flash never runs the setup wizard: test with a clean flash. |
 | "Keep data" with a second system in slot A | `boot_a` and `dtbo_a` are not changed (compare their md5 before and after). |
-| Rollback to the previous release | The tablet boots, data stays. |
-| `beta7.1-noenc` (old, experimental; v9 has no `noenc` package; only with a clean flash) | `getprop ro.crypto.state` shows `unencrypted`. |
+| Update by OTA from the previous release (v10 and later: Pipa Helper > System > Updates; the payloads are in `latest.json`) | The delta installs into the other slot, the tablet restarts one time and boots the new slot, logcat shows `MergeCompleted`, Pipa Helper shows the new build. Also test the delta from each test build that testers run. |
+| Rollback to the previous release | The tablet boots, data stays. After an OTA merge the old slot does not boot: go back with a PC flash. |
+| `-noenc` package (experimental; the newest is `v9.3-noenc`, there is no `v10-noenc`; only with a clean flash) | `getprop ro.crypto.state` shows `unencrypted`. |
 
 ### 8.4 After each boot
 

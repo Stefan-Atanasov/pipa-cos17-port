@@ -5,7 +5,7 @@ Linux PC: tools, inputs, kernel, ROM build, the first flash of a tablet, tests, 
 for a local AI model with a small context window. `PORTING-GUIDE.md` explains *why* the port is made this way; this
 file tells *what to do, in which order, and how to check each result*.
 
-Status: 2026-11-21, release v9.3 (ROM build pt151 = `port.sh` up to step 8u, kernel `walt-hi15`; v9.2 = pt150, up to step 8s; v9.1 = pt132, up to step 8c; v9 = pt128, up to step 7x).
+Status: 2026-11-27, release v10 (ROM build pt180 = `port.sh` up to step 9u, kernel `walt-hi17`; v9.3 = pt151, up to step 8u; v9.2 = pt150, up to step 8s; v9.1 = pt132, up to step 8c; v9 = pt128, up to step 7x).
 
 - **Part A** rebuilds the current port from its pinned inputs (the normal case).
 - **Part B** tells how to make the base that Part A starts from (beta4) when you do not have it, or for another
@@ -186,7 +186,7 @@ There are three sources. Use the first one you have:
 3. Never take the maintainer's `helper/keys/`. You make your own key in A5.
 
 **Done when:** `ls $C/maintainer/port/port.sh $C/maintainer/port/steps | head` works and
-`ls $C/maintainer/port/steps | wc -l` shows 144 (v9).
+`ls $C/maintainer/port/steps | wc -l` shows 187 (v10).
 
 ## A3. The inputs
 
@@ -304,13 +304,27 @@ makes `helper/keys/` the first time), `cryptoeng.jar`, the contextual-search ove
 WARNING: Back up `helper/keys/` and `maintainer/cts/overlay/keys/` to a private place (not git, not the cloud without encryption). All later ROM builds
 and helper updates must use the same key.
 
+**OTA key (since v10, step 9c).** Step 9c puts `maintainer/ota/keys/otacerts.zip` into the ROM, and
+`maintainer/ota/make_payload.sh` signs the update payloads with `maintainer/ota/keys/pipa-ota.key.pem`. These files are
+not in the repository and not in the kit. Without `otacerts.zip`, `port.sh --check` stops. Make your own pair one time
+(RSA 4096, as the maintainer's; this command was not tested on a second PC):
+
+```sh
+mkdir -p "$C/maintainer/ota/keys" && cd "$C/maintainer/ota/keys"
+openssl req -x509 -newkey rsa:4096 -nodes -keyout pipa-ota.key.pem -out pipa-ota.x509.pem -days 10000 -subj "/CN=<your name> OTA"
+zip -j otacerts.zip pipa-ota.x509.pem
+```
+
+Back up `maintainer/ota/keys/` with the other keys. A ROM trusts only payloads signed with its own key: your users get
+updates only from your `latest.json`, and the maintainer's updates do not install on your build.
+
 NOTE: Your helper has a different signature than the maintainer's. After a dirty flash of your build over the
 maintainer's release (or the reverse), Android can keep the old helper or drop its data. Use a clean flash when you
 change keys, and check `adb shell dumpsys package com.port.pipa.helper | grep versionName`.
 
 ## A6. Build the kernel
 
-**Goal:** a boot image with the `walt-hi13` kernel (Linux 4.19.325, SukiSU Nova 3.0.0 built in, susfs 2.3.0). Since hi9 it adds: hi10 display clock raised for every refresh rate change (no white flash after a 60 -> 90 Hz switch), hi11 keyboard Caps Lock LED off at screen off; hi12 pen buttons handled in the kernel (`pipa_pen_buttons.c`), hi13 keyboard Super key alone (BUGS 155).
+**Goal:** a boot image with the `walt-hi17` kernel (Linux 4.19.325, SukiSU Nova 3.0.0 built in, susfs 2.3.0). Since hi9 it adds: hi10 display clock raised for every refresh rate change (no white flash after a 60 -> 90 Hz switch), hi11 keyboard Caps Lock LED off at screen off; hi12 pen buttons handled in the kernel (`pipa_pen_buttons.c`), hi13 keyboard Super key alone (BUGS 155), hi14-hi16 pen buttons in StarNotes, Notein and other drawing apps, hi17 no short stutter after a wake (BUGS 213).
 
 **Needs:** A1 (clang), the beta4 release (for the base `boot.img` with TWRP and for `magiskboot`).
 
@@ -332,6 +346,10 @@ The beta4 `firmware/boot.img` is the correct base: it is the same image as the m
 scripts (`mkboot.sh`, `flash_kernel.sh restore`), make a folder with these three files named `boot_b.img`,
 `dtbo_b.img`, `vendor_boot_b.img` and set `BK=<that folder>`.
 
+NOTE: The release image `boot-walt-hi17-su.img` (`firmware/boot.img` in the v10 package) has a different ramdisk: it
+adds the first-stage `snapuserd` that the tablet needs to boot after an OTA install. An image on the beta4 base is
+good for PC flashes. For a build that you give out as an OTA payload, use the release `boot.img` as the base.
+
 **Done when:**
 
 ```sh
@@ -350,7 +368,7 @@ head -c 20 $K/bootimg/boot-mine.img | tail -c 4 | od -An -tx1    # 3c 06 00 20 (
 
 ## A7. Build the ROM
 
-**Goal:** `port-work/<tag>/img/super.img`, the same content as v9.3 (pt151).
+**Goal:** `port-work/<tag>/img/super.img`, the same content as v10 (pt180).
 
 **Do:**
 
@@ -360,14 +378,14 @@ sh COS17/maintainer/port/port.sh --check mybuild1 donor/OPD2515_11.C.07/img     
 sudo sh COS17/maintainer/port/port.sh mybuild1 donor/OPD2515_11.C.07/img            # about 4 min, 40 GB free needed
 ```
 
-Use a new tag for each run (the run deletes `port-work/<tag>/`). The default build applies all steps to 8s and leaves
+Use a new tag for each run (the run deletes `port-work/<tag>/`). The default build applies all steps to 9u and leaves
 out the optional steps 2u, 3k, 3x and 5s. Never publish a build with `PORT_MAINTAINER_ADB=1` (step 5s).
 
 **Done when:**
 
 - The output ends with the `super.img` path and its md5. Write the md5 down.
 - `port-work/mybuild1/report/PORT-REPORT.txt` lists every step with no error.
-- To compare with the maintainer's current build (pt150; the proof test of 2026-11-19 used pt128), compare the manifests `report/<partition>.tsv` (path, mode, owner, md5,
+- To compare with the maintainer's current build (pt180; the proof test of 2026-11-19 used pt128), compare the manifests `report/<partition>.tsv` (path, mode, owner, md5,
   label), not the image md5 (each image has a random UUID). Tested 2026-11-19 with a kit (`KIT_INPUTS=1`) in an
   empty folder: of 17991 entries only 7 differed from pt128: the 6 APKs signed with the new keys (helper, 5
   overlays) and `ro.pipa.port.apps` in `system_ext/etc/build.prop` (a hash over the APKs). All other rows must match.
@@ -388,7 +406,7 @@ scripts).
    Settings, turn on Developer options and bind the Xiaomi account in "Mi Unlock status", then use the official Mi
    Unlock tool in fastboot mode. Xiaomi sets a wait time and rules that change. All data is erased. Never relock the
    bootloader with a port on the tablet.
-2. **First flash:** use a release package: the public `ColorOS17-Port-pipa-v9-<date>.7z`, or your own package
+2. **First flash:** use a release package: the public `ColorOS17-Port-pipa-v10-<date>.7z`, or your own package
    (A11 step 2 makes it; you can run that step before this one). `flash_super.sh` (A9) cannot do the first flash: it
    writes only `super`.
    Extract it. Put the tablet in fastboot mode (Power + Volume down). Run `FlashLinux.sh` (Linux),
@@ -443,7 +461,8 @@ SERIAL=<serial> bash $C/maintainer/kernel/flash_kernel.sh flash $K/bootimg/boot-
 ADB="adb -s <serial>" sh $C/maintainer/device_check.sh mybuild1     # read-only; report in port-work/device-checks/
 ```
 
-**Done when:** 0 FAIL. The v9 reference after a clean flash: 57 pass, 0 fail, 2 warnings (`logd` capture properties at
+**Done when:** 0 FAIL. The v10 reference (clean flash of the v10 package, then OTA to pt180): 58 pass, 0 fail,
+1 warning (`sensorCCT` 0: OPPO natural tone is off after a clean flash). The v9 reference after a clean flash: 57 pass, 0 fail, 2 warnings (`logd` capture properties at
 the default; `sensorCCT` 0 because adaptive colour is off after a clean flash). After a new kernel also run
 `ADB="adb -s <serial>" sh $C/maintainer/kernel/kernel_check.sh <label>`.
 
@@ -473,6 +492,12 @@ KSU_APK=$C/kernel/sukisu-nova-3.0.0/SukiSU_Nova_v3.0.0_35000-arm64-v8a-release.a
 ```
 
 3. Clean-flash test of the package (the person runs `FlashLinux.sh`, answer `2`, then `ERASE`), then A10.
+   Since v10, also make the OTA payloads: the full payload and a delta from the previous release
+   (`[FROM=<old tag>] sh maintainer/ota/make_payload.sh <tag> <boot.img>`; the delta needs `port-work/<old tag>/img`
+   of the published build, so keep it). Upload them, then write the `ota` block of `docs/latest.json` with
+   `python3 -I maintainer/ota/latest_ota.py --into docs/latest.json --payload <name> <url> ...`, and set `version`,
+   `build` and `date`. `latest.json` names only public releases. Test the install from the previous release with
+   Pipa Helper > System > Updates before you publish.
 4. Publish (ask the person before each one; these are outward actions):
    - Public repository: `sh maintainer/sync_port_repo.sh "<message>"`. It copies the files into
      `$ROOT/port-work/port-repo` and pushes from there. One time before: `git clone <your public repo url>
@@ -545,7 +570,7 @@ maintainer for personal tests; it is **not public**. Use it only for own tests, 
 | Part | LineageOS family (PixelOS 17 build) | Xiaomi HyperOS | OPPO ColorOS | beta4 author (梦归zzz) | This port |
 |---|---|---|---|---|---|
 | Firmware (18 images) | | HyperOS 2 CN: 17 byte-identical (iqraOS 3.1 `firmware-update`) | | `abl` (changed, source unknown) | |
-| `boot` | | | | TWRP 3.7.1 ramdisk (own build) | the kernel (`walt-hi13`: LineageOS 4.19 base, liyafe pipa drivers, E404 display/touch, OPPO open-source UI First and Hans, SukiSU Nova, susfs) |
+| `boot` | | | | TWRP 3.7.1 ramdisk (own build) | the kernel (`walt-hi17`: LineageOS 4.19 base, liyafe pipa drivers, E404 display/touch, OPPO open-source UI First and Hans, SukiSU Nova, susfs) |
 | `vendor_boot`, `dtbo`, `vbmeta` | Lineage recovery ramdisk, dtb, 12 of 13 dtbo entries | | | small edits (cmdline, GPU fragment, flags 3 with the AOSP test key) | |
 | `vendor` (2161 paths) | 1683 (78 %) | 97 Xiaomi files (+3 from HyperOS 2) | 2 (donor C.06) | 367: 306 binaries of an own Lineage-family A17 build, 36 text edits, 15 binaries of unknown origin (OPPO perf/stability HALs, gralloc, turnip, ...), 9 face HAL files (`pipa_core`) | the steps change it further (fixes, SELinux) |
 | `odm` (95 paths) | 10 (SELinux files, passwd/group) | | 7 (donor C.06) | 78 (the OPPO "virtual modem" stack of donor C.05, own scripts, `precompiled_sepolicy`) | |

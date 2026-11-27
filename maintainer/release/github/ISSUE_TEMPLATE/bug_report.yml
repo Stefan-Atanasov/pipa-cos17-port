@@ -12,8 +12,8 @@ body:
     id: build
     attributes:
       label: Build
-      description: Settings > About device, or the package name (for example v9.3).
-      placeholder: v9.3
+      description: Pipa Helper > System > Updates (installed build, for example pt180), or the package name (for example v10).
+      placeholder: v10 (pt180)
     validations:
       required: true
   - type: dropdown
@@ -23,13 +23,14 @@ body:
       options:
         - Clean install (2, ERASE)
         - Update / dirty flash (1)
+        - Update in Pipa Helper (System > Updates)
     validations:
       required: true
   - type: input
     id: from
     attributes:
       label: Previous ROM or version
-      placeholder: v9.2 / HyperOS 2 / crDroid
+      placeholder: v9.3 / HyperOS 2 / crDroid
   - type: textarea
     id: steps
     attributes:

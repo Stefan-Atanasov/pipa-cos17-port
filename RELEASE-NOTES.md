@@ -110,8 +110,8 @@ Update from v9, v9.1, v9.2 or v9.3 with "1) Update" in the flash script (keeps y
 - [x] Unlock trace: no refresh switch in the unlock animation; 0 frames over 25 ms
 - [x] Wake trace (3 wakes): worst display commit 5.3-5.8 ms (walt-hi16: 20-27 ms), no DSI errors
 - [x] Fast app open/close trace: Smooth 0.6 % dropped frames; Rich about 3 %
-- [x] OTA: pt175 -> pt176 -> pt177 by Pipa Helper on the maintainer tablet; a tester on pt172; pt177 -> v10 delta
-      (update_engine) on the maintainer tablet
+- [x] OTA: pt175 -> pt176 -> pt177 by Pipa Helper on the maintainer tablet; a tester on pt172; pt177 -> pt178 (the first v10
+      upload) with update_engine on the maintainer tablet
 - [x] Floating windows: 4 at the same time; split view, Recents and Pipa Helper in a floating window work
 - [x] Back gesture: left edge, right edge, portrait and landscape
 - [x] Clean flash with the v10 package of pt178 (= this build without step 9u): setup wizard, first-boot installs,
