@@ -4,13 +4,18 @@ This document lists the known problems of the public release **v10.1** (2026-11-
 pt183 = steps 9v + 9w instead of 9t; the same kernel; the first v10.1 build pt181 was replaced) and **v10** (ROM `port.sh` up to
 step 9u = pt180 + kernel walt-hi17, donor C.07; v9.3 = step 8u, pt151 + walt-hi15; v9.2 = step 8s, pt150 + walt-hi13; v9.1 = step 8c, pt132 + walt-hi9; v9 = first stable, step 7x = pt128). The known issues of v9 to v9.3 apply to v10 unless this list says they are fixed. What changed since beta7.1: [CHANGELOG.md](CHANGELOG.md); full notes:
 [RELEASE-NOTES.md](RELEASE-NOTES.md).
-GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-27.
+GitHub Issues: [open reports](https://github.com/Stefan-Atanasov/pipa-cos17-port/issues). Updated 2026-11-28.
 
 **Found a new bug?** Right after it happens: Pipa Helper > System > **Collect logs** (v9.2 and later; the file in Download has no personal data). Then open a bug report on GitHub and attach the file: https://github.com/Stefan-Atanasov/pipa-cos17-port/issues/new/choose
 Write the build, clean or dirty flash, the steps to reproduce, what you expected and what happened. Most of this work was done with an AI assistant (Claude) and tested on one tablet.
 
 ## Known issues in v10
 
+- **Root modules and the update over the air (BUGS 221).** Before you restart into an update, turn off the KernelSU
+  modules that change the system start (Zygisk Next, NeoZygisk, LSPosed or Vector, Scene, Uperf and similar) in the
+  KernelSU manager. With these modules on, one tester got a black screen after the first start of the update: the
+  update could not finish in the background. Turn the modules on again after the first start. If the tablet is
+  already stuck: hold Power to restart; after some failed starts the tablet goes back to the old system.
 - **Fewer effects than full ColorOS (by design, since v9).** The port uses ColorOS's "fast" animation level 3 and
   turns off the window blur and the animation blur: about 0.3 % dropped frames instead of 2.7 % on the SD870. At
   level 3 ColorOS itself turns off the wallpaper zoom when apps open and close, and some glass effects. Visual blur

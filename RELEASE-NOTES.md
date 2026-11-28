@@ -12,6 +12,10 @@ Package date 2026-11-27.
 v10.1 comes as an update in **Pipa Helper > System > Updates** ("Install update", about 100 MB from v10, one restart,
 apps and data stay). There is no new PC package: for a clean install, flash v10 and then install the update.
 
+**Root users:** before you restart into the update, turn off the KernelSU modules that change the system start
+(Zygisk Next, NeoZygisk, LSPosed or Vector, Scene, Uperf and similar). Turn them on again after the first start. With
+these modules on, the first start can stay black (BUGS 221).
+
 The first v10.1 (build pt181, online for a few hours on 2026-11-27) is replaced by build **pt183**. If you installed
 pt181, Pipa Helper offers pt183 as an update too (about 100 MB).
 

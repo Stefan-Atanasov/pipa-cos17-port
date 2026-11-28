@@ -5,7 +5,7 @@ Linux PC: tools, inputs, kernel, ROM build, the first flash of a tablet, tests, 
 for a local AI model with a small context window. `PORTING-GUIDE.md` explains *why* the port is made this way; this
 file tells *what to do, in which order, and how to check each result*.
 
-Status: 2026-11-27, release v10 (ROM build pt180 = `port.sh` up to step 9u, kernel `walt-hi17`; v9.3 = pt151, up to step 8u; v9.2 = pt150, up to step 8s; v9.1 = pt132, up to step 8c; v9 = pt128, up to step 7x).
+Status: 2026-11-28, release v10.1 (OTA only; ROM build pt183 = `port.sh` up to step 9w, kernel `walt-hi17`); PC package v10 (ROM build pt180 = `port.sh` up to step 9u; v9.3 = pt151, up to step 8u; v9.2 = pt150, up to step 8s; v9.1 = pt132, up to step 8c; v9 = pt128, up to step 7x).
 
 - **Part A** rebuilds the current port from its pinned inputs (the normal case).
 - **Part B** tells how to make the base that Part A starts from (beta4) when you do not have it, or for another
