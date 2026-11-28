@@ -101,7 +101,7 @@ Write the build, clean or dirty flash, the steps to reproduce, what you expected
 
 - **Fixed in v10 (were open in v9.3):** a warm tablet with a second user, guest or private space (the face service
   retried without end and its log filled the storage; BUGS 215; do not use the "Thermal & Battery Fix" module with
-  v10); the camera service crashed when face unlock ran in a dark room (BUGS 214); only 2 floating windows (now 4; BUGS 201; v10.1: 5 floating windows and the four-finger gestures, BUGS 216); the lock screen ran at 144 Hz and
+  v10); the camera service crashed when face unlock ran in a dark room (BUGS 214); only 2 floating windows (now 4; BUGS 201; v10.1: the four-finger gestures; 4 floating windows at the default Display size, 5 with a smaller Display size, BUGS 216); the lock screen ran at 144 Hz and
   each unlock animation stuttered (BUGS 210, 212); one short stutter after each wake (kernel hi17, BUGS 213); hotspot
   without 5 GHz (BUGS 171); the charging limit did not hold with the screen off (BUGS 204); Extra dim (BUGS 190);
   repeated prompts to turn Google on (BUGS 200).

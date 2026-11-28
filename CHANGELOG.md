@@ -1,7 +1,7 @@
 # Changelog: beta7.1 → v10.1 (Xiaomi Pad 6, ColorOS 17 port)
 
 ## v10.1 (2026-11-27: over-the-air update, ROM pt183 + kernel walt-hi17)
-- **Full OPPO tablet multi-window:** up to 5 floating windows and the four-finger gestures (pinch out: floating windows to split view, one floating window to full screen; pinch in: back to floating). v10 had turned off OPPO's panorama mode to get 4 windows, which also turned off the gestures; v10.1 keeps the mode and lets the 8 GB Pad 6 use OPPO's full tablet version (BUGS 216).
+- **Full OPPO tablet multi-window:** up to 4 floating windows at the default Display size, 5 with a smaller Display size (Settings > Display; OPPO allows 5 only from 800 dp screen width) and the four-finger gestures (pinch out: floating windows to split view, one floating window to full screen; pinch in: back to floating). v10 had turned off OPPO's panorama mode to get 4 windows, which also turned off the gestures; v10.1 keeps the mode and lets the 8 GB Pad 6 use OPPO's full tablet version (BUGS 216).
 - **Recents with floating windows:** each floating window is a card next to its app; no windows on top of Recents, no frame drops on app switches (the first v10.1 build pt181 had both; BUGS 217).
 - **Settings > About device:** the ColorOS card opens the update check in Pipa Helper (BUGS 219).
 - Pipa Helper 3.8: fits a floating window (BUGS 218).

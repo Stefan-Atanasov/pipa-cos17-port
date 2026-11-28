@@ -19,7 +19,7 @@ these modules on, the first start can stay black (BUGS 221).
 The first v10.1 (build pt181, online for a few hours on 2026-11-27) is replaced by build **pt183**. If you installed
 pt181, Pipa Helper offers pt183 as an update too (about 100 MB).
 
-- **Full OPPO tablet multi-window:** up to 5 floating windows, and the four-finger gestures work (as on OPPO's large
+- **Full OPPO tablet multi-window:** up to 4 floating windows at the default Display size, 5 with a smaller Display size (Settings > Display; OPPO allows 5 only from 800 dp screen width), and the four-finger gestures work (as on OPPO's large
   tablets):
   - Pinch out with 4 or 5 fingers: floating windows become a split view (2 or 3 apps); one floating window goes full
     screen.
@@ -84,7 +84,7 @@ Update from v9, v9.1, v9.2 or v9.3 with "1) Update" in the flash script (keeps y
 **Settings and system**
 - **Floating windows:** up to 4 at the same time (before: 2; OPPO's "panorama" multi-window mode allows only 2 on
   tablets with 8 GB RAM, the port turns it off). Recents: tap the app icon above a card for Floating window or
-  Split View. v10.1: up to 5, with panorama on and the four-finger gestures (see above).
+  Split View. v10.1: 4 (5 with a smaller Display size), with panorama on and the four-finger gestures (see above).
 - **Battery > Battery health:** "Maximum capacity" is shown.
 - **Extra dim** (Settings > Accessibility) works.
 - **Google switch** (Settings > System & update > Google settings): Off turns off Google Play services (and with it
@@ -147,7 +147,7 @@ Update from v9, v9.1, v9.2 or v9.3 with "1) Update" in the flash script (keeps y
 - [x] OTA: pt175 -> pt176 -> pt177 by Pipa Helper on the maintainer tablet; a tester on pt172; pt177 -> pt178 (the first v10
       upload) with update_engine on the maintainer tablet
 - [x] Floating windows: 4 at the same time; split view, Recents and Pipa Helper in a floating window work
-- [x] v10.1 (pt181): OTA from pt180 with update_engine (merge completed); 5 floating windows; four-finger pinch out
+- [x] v10.1 (pt181): OTA from pt180 with update_engine (merge completed); 5 floating windows at a smaller Display size (4 at the default); four-finger pinch out
       3 floating -> 3-way split, 2 -> 2-way split, 1 -> full screen; pinch in back to floating windows; 0 crashes,
       0 low-memory kills with 5 windows (3.8 GB free); device check 57 pass, 0 fail
 - [x] Back gesture: left edge, right edge, portrait and landscape
